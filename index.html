@@ -1,386 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HiChat App</title>
+<title>HiChat Complete App</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0c0e1d; color: #fff; }
-button { border: 0; font-family: inherit; cursor: pointer; outline: none; background: none; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f3f8; color: #222; width: 100vw; height: 100vh; overflow: hidden; }
+button { border: 0; outline: none; cursor: pointer; font-family: inherit; background: none; }
 
-#app { width: 100%; height: 100%; position: relative; overflow: hidden; }
+#app { width: 100%; height: 100%; position: relative; }
 
-.page {
-  position: absolute; inset: 0; background: #0c0e1d; display: none;
-  overflow-y: auto; padding-bottom: 80px;
-}
-.page.show { display: block; }
+.page { position: absolute; inset: 0; background: #f4f6fa; display: none; overflow-y: auto; padding-bottom: 75px; }
+.page.active { display: block; }
 
-/* ================= 1. LOGIN SCREEN ================= */
-#loginPage {
-  background: radial-gradient(circle at top, #2b124c, #0c0e1d);
-  display: none; flex-direction: column; justify-content: space-between; padding: 50px 24px 30px; z-index: 200;
-}
-#loginPage.show { display: flex; }
-.login-brand { text-align: center; margin-top: 40px; }
-.login-logo {
-  width: 85px; height: 85px; background: linear-gradient(135deg, #a100ff, #e100ff);
-  border-radius: 24px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
-  font-size: 40px; box-shadow: 0 10px 30px rgba(161, 0, 255, 0.4);
-}
-.login-title { font-size: 30px; font-weight: 900; letter-spacing: 0.5px; }
-.login-sub { font-size: 13px; color: #a0a5c0; margin-top: 8px; }
+/* BOTTOM TAB BAR */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: #fff; display: flex; align-items: center; border-top: 1px solid #e0e5ed; z-index: 100; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #8c93a8; gap: 3px; }
+.nav-item.active { color: #8e24aa; font-weight: bold; }
+.nav-item .icon { font-size: 22px; }
+.nav-item.mic-btn .icon { width: 46px; height: 46px; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; margin-top: -20px; box-shadow: 0 4px 12px rgba(0,114,255,0.4); }
 
-.login-actions { display: flex; flex-direction: column; gap: 14px; width: 100%; }
-.btn-auth {
-  width: 100%; height: 52px; border-radius: 26px; display: flex; align-items: center;
-  justify-content: center; gap: 10px; font-size: 15px; font-weight: 700; color: #fff;
-}
-.btn-fb { background: #1877f2; box-shadow: 0 4px 18px rgba(24, 119, 242, 0.35); }
-.btn-gg { background: #ffffff; color: #222; box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15); }
-.btn-mail { background: linear-gradient(90deg, #ff4b2b, #ff416c); box-shadow: 0 4px 18px rgba(255, 75, 43, 0.35); }
-.login-foot { text-align: center; font-size: 11px; color: #626788; line-height: 1.4; }
+/* --- 1. HOME PAGE --- */
+.home-header { position: sticky; top: 0; background: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; z-index: 10; border-bottom: 1px solid #f0f0f0; }
+.home-tabs { display: flex; gap: 16px; font-size: 16px; font-weight: 600; color: #666; }
+.home-tabs .tab.active { font-size: 20px; color: #111; font-weight: 800; border-bottom: 3px solid #00c6ff; }
 
-/* ================= 2. HOME / POPULAR SCREEN ================= */
-.home-header {
-  position: sticky; top: 0; z-index: 30; background: rgba(12, 14, 29, 0.95);
-  backdrop-filter: blur(10px); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
-}
-.home-tabs { display: flex; gap: 20px; align-items: center; }
-.h-tab { font-size: 15px; font-weight: 700; color: #616788; }
-.h-tab.active { font-size: 20px; color: #fff; border-bottom: 3px solid #ff2a7a; padding-bottom: 2px; }
-.home-icons { display: flex; gap: 16px; font-size: 18px; }
+.banner-box { margin: 12px 16px; height: 110px; border-radius: 16px; background: linear-gradient(135deg, #d32f2f, #f57c00); color: #fff; padding: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 22px; }
 
-.banner-card {
-  margin: 12px 16px; height: 110px; border-radius: 18px;
-  background: linear-gradient(120deg, #8a2387, #e94057, #f27121);
-  padding: 16px; display: flex; flex-direction: column; justify-content: center;
-  box-shadow: 0 8px 20px rgba(233, 64, 87, 0.3);
-}
-.banner-card h3 { font-size: 18px; font-weight: 800; }
-.banner-card p { font-size: 11px; opacity: 0.9; margin-top: 4px; }
+.quick-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 12px; }
+.q-card { background: #fff; padding: 12px 8px; border-radius: 12px; text-align: center; font-size: 12px; font-weight: bold; color: #444; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
 
-.quick-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px; margin-bottom: 16px; }
-.q-box {
-  background: #171a36; border-radius: 16px; padding: 12px 8px; text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; align-items: center;
-}
-.q-box .icon { font-size: 26px; margin-bottom: 4px; }
-.q-box span { font-size: 12px; font-weight: 700; color: #d0d5f0; }
+.grid-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+.room-card { background: #fff; border-radius: 14px; overflow: hidden; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.room-thumb { width: 100%; height: 150px; object-fit: cover; display: block; }
+.room-info { padding: 8px 10px; }
+.room-name { font-size: 12px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.sec-title { font-size: 13px; font-weight: 800; padding: 0 16px 10px; color: #8e95b7; }
-.grid-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; }
-.room-item {
-  background: #161933; border-radius: 16px; overflow: hidden; position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-.room-cover { width: 100%; height: 150px; object-fit: cover; display: block; }
-.room-badge {
-  position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 10px; font-size: 10px;
-}
-.room-details { padding: 10px; }
-.room-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.room-host { font-size: 11px; color: #767c9f; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+/* --- 2. SQUARE PAGE --- */
+.square-header { background: #fff; padding: 14px 16px; font-size: 18px; font-weight: 800; display: flex; gap: 20px; border-bottom: 1px solid #eee; }
+.post-card { background: #fff; margin: 10px 16px; padding: 14px; border-radius: 14px; }
+.post-user { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.post-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.post-img { width: 100%; height: 200px; border-radius: 10px; object-fit: cover; margin-top: 10px; }
 
-/* ================= 3. RANKING / LEADERBOARD ================= */
-.rank-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px; background: #12152b; position: sticky; top: 0; z-index: 30;
-}
-.rank-head-title { font-size: 16px; font-weight: 800; }
-.rank-nav-tabs { display: flex; justify-content: center; gap: 24px; padding: 12px 0; background: #12152b; }
-.rn-tab { font-size: 14px; font-weight: 700; color: #5f6588; position: relative; }
-.rn-tab.active { color: #ffd700; }
-.rn-tab.active::after {
-  content: ''; position: absolute; bottom: -6px; left: 20%; right: 20%; height: 2px; background: #ffd700; border-radius: 2px;
-}
+/* --- 3. MESSAGE PAGE --- */
+.msg-item { display: flex; align-items: center; gap: 12px; background: #fff; padding: 12px 16px; border-bottom: 1px solid #f4f4f4; }
+.msg-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.msg-title { font-size: 14px; font-weight: bold; }
+.msg-desc { font-size: 12px; color: #777; margin-top: 2px; }
 
-.sub-time-tabs { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
-.st-btn { padding: 5px 16px; border-radius: 15px; background: #1a1d3b; font-size: 11px; font-weight: 700; color: #787e9f; }
-.st-btn.active { background: linear-gradient(90deg, #ff2a7a, #ff6400); color: #fff; }
+/* --- 4. PROFILE PAGE --- */
+.prof-top { background: linear-gradient(180deg, #e1f5fe 0%, #f4f6fa 100%); padding: 20px 16px 10px; }
+.prof-user { display: flex; align-items: center; gap: 12px; }
+.prof-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+.prof-stats { display: flex; gap: 24px; margin-top: 14px; font-size: 13px; color: #555; }
 
-/* TOP 3 PODIUM DESIGN */
-.podium { display: flex; justify-content: center; align-items: flex-end; gap: 10px; padding: 25px 16px 15px; }
-.pod-user { display: flex; flex-direction: column; align-items: center; position: relative; }
-.pod-avatar-box { position: relative; }
-.pod-avatar { border-radius: 50%; object-fit: cover; display: block; }
-.pod-1 .pod-avatar { width: 76px; height: 76px; border: 3px solid #ffd700; box-shadow: 0 0 18px rgba(255,215,0,0.5); }
-.pod-2 .pod-avatar { width: 60px; height: 60px; border: 3px solid #d1d5db; }
-.pod-3 .pod-avatar { width: 60px; height: 60px; border: 3px solid #d97706; }
+.prof-wallets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 16px; }
+.wallet-box { background: linear-gradient(135deg, #ff9a9e, #fecfef); padding: 14px; border-radius: 14px; color: #880e4f; font-weight: bold; }
+.store-box { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); padding: 14px; border-radius: 14px; color: #0d47a1; font-weight: bold; }
 
-.crown { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 22px; }
-.pod-name { font-size: 12px; font-weight: 700; margin-top: 6px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pod-score { font-size: 10px; color: #ffd700; font-weight: 800; margin-top: 2px; }
+.menu-list { background: #fff; margin: 10px 16px; border-radius: 14px; overflow: hidden; }
+.menu-item { padding: 14px 16px; border-bottom: 1px solid #f6f6f6; font-size: 14px; font-weight: 500; display: flex; justify-content: space-between; }
 
-.rank-rows { padding: 10px 16px; }
-.r-row {
-  display: flex; align-items: center; justify-content: space-between;
-  background: #151833; padding: 12px 14px; border-radius: 14px; margin-bottom: 8px;
-}
-.r-left { display: flex; align-items: center; gap: 12px; }
-.r-num { font-size: 14px; font-weight: 900; color: #5a6080; width: 18px; }
-.r-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-.r-name { font-size: 13px; font-weight: 700; }
-.r-score { font-size: 12px; color: #ffd700; font-weight: 800; }
+/* --- 5. VOICE ROOM OVERLAY --- */
+#roomOverlay { position: fixed; inset: 0; background: linear-gradient(180deg, #3a1c71, #d76d77, #ffaf7b); z-index: 200; display: none; flex-direction: column; color: #fff; }
+#roomOverlay.show { display: flex; }
 
-.user-bottom-rank {
-  position: fixed; bottom: 74px; left: 0; right: 0; background: #181b38;
-  border-top: 1px solid rgba(255,255,255,0.08); padding: 12px 20px;
-  display: flex; align-items: center; justify-content: space-between; z-index: 90;
-}
+.room-top { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+.mic-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 20px; margin-top: 30px; }
+.mic-seat { display: flex; flex-direction: column; align-items: center; font-size: 11px; }
+.mic-circle { width: 55px; height: 55px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 4px; border: 1px dashed rgba(255,255,255,0.5); }
 
-/* ================= 4. PROFILE SCREEN ================= */
-.prof-head { background: linear-gradient(180deg, #231942 0%, #0c0e1d 100%); padding: 30px 16px 16px; }
-.prof-user { display: flex; align-items: center; gap: 14px; }
-.prof-avatar { width: 72px; height: 72px; border-radius: 50%; border: 2px solid #ff2a7a; object-fit: cover; }
-.prof-name { font-size: 19px; font-weight: 800; }
-.prof-id { font-size: 12px; color: #727798; margin-top: 4px; }
+.room-bottom-bar { margin-top: auto; padding: 12px 16px; display: flex; gap: 10px; align-items: center; }
+.chat-input { flex: 1; height: 38px; background: rgba(0,0,0,0.3); border-radius: 19px; padding: 0 14px; color: #fff; border: 0; }
 
-.prof-stats { display: flex; gap: 32px; margin-top: 20px; }
-.st-num { font-size: 17px; font-weight: 800; }
-.st-lbl { font-size: 11px; color: #727798; margin-top: 2px; }
-
-.card-group { background: #151833; margin: 14px 16px; border-radius: 18px; overflow: hidden; }
-.c-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.c-item:last-child { border: none; }
-.c-label { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
-.c-arrow { color: #484d6e; }
-
-/* ================= BOTTOM NAVIGATION ================= */
-.bottom-bar {
-  position: fixed; left: 0; right: 0; bottom: 0; height: 74px;
-  background: rgba(18, 21, 43, 0.98); backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex; z-index: 100; padding: 6px 0;
-}
-.b-btn {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; color: #505678; gap: 4px; font-size: 10px; font-weight: 700;
-}
-.b-btn .icon { font-size: 22px; }
-.b-btn.active { color: #ff2a7a; }
-
-@media(min-width: 700px) {
-  .page, .bottom-bar, .user-bottom-rank, #loginPage { max-width: 480px; left: 50%; transform: translateX(-50%); }
-}
+/* SHEETS (GAMES & GIFTS) */
+.sheet { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 16px; color: #222; display: none; z-index: 250; max-height: 60%; overflow-y: auto; }
+.sheet.show { display: block; }
+.sheet-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; }
+.game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.game-card { background: #f0f2f5; padding: 12px; border-radius: 12px; text-align: center; font-size: 12px; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div id="app">
 
-  <!-- 1. LOGIN SCREEN -->
-  <section id="loginPage" class="page">
-    <div class="login-brand">
-      <div class="login-logo">💬</div>
-      <div class="login-title">HiChat</div>
-      <div class="login-sub">Say Hi to Global Friends</div>
-    </div>
-    <div class="login-actions">
-      <button class="btn-auth btn-fb" onclick="loginDone()">🌐 Continue with Facebook</button>
-      <button class="btn-auth btn-gg" onclick="loginDone()">🔍 Continue with Google</button>
-      <button class="btn-auth btn-mail" onclick="loginDone()">✉️ Continue with Email</button>
-    </div>
-    <div class="login-foot">
-      By continuing, you agree to Terms of service and Privacy Policy.
-    </div>
-  </section>
-
-  <!-- 2. HOME / POPULAR SCREEN -->
-  <section id="homePage" class="page show">
+  <!-- 1. HOME PAGE -->
+  <div id="homePage" class="page active">
     <div class="home-header">
       <div class="home-tabs">
-        <div class="h-tab">Following</div>
-        <div class="h-tab active">Popular</div>
-        <div class="h-tab">Recent</div>
-      </div>
-      <div class="home-icons"><span>🔍</span><span>➕</span></div>
-    </div>
-
-    <div class="banner-card">
-      <h3>Recharge Bonus Event</h3>
-      <p>Get up to 50% extra coins on your first recharge!</p>
-    </div>
-
-    <div class="quick-tabs">
-      <div class="q-box" onclick="switchPage('rankPage')">
-        <div class="icon">🏆</div>
-        <span>Contribution</span>
-      </div>
-      <div class="q-box">
-        <div class="icon">💖</div>
-        <span>Charm</span>
-      </div>
-      <div class="q-box">
-        <div class="icon">🎙️</div>
-        <span>Room</span>
+        <span class="tab">Following</span>
+        <span class="tab active">Popular</span>
+        <span class="tab">Recent</span>
       </div>
     </div>
-
-    <div class="sec-title">The brightest social star</div>
-
+    <div class="banner-box">পারিবারিক সহায়তা</div>
+    <div class="quick-cats">
+      <div class="q-card">Contribution</div>
+      <div class="q-card">Charm</div>
+      <div class="q-card">Room</div>
+    </div>
     <div class="grid-rooms">
-      <div class="room-item">
-        <img class="room-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80">
-        <div class="room-badge">🔴 1.2k</div>
-        <div class="room-details">
-          <div class="room-title">Late Night Chat ☕</div>
-          <div class="room-host">🇧🇩 Anika</div>
-        </div>
+      <div class="room-card" onclick="openRoom('BD KING')">
+        <img class="room-thumb" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80">
+        <div class="room-info"><div class="room-name">BD KING 👑</div></div>
       </div>
-      <div class="room-item">
-        <img class="room-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80">
-        <div class="room-badge">🔴 850</div>
-        <div class="room-details">
-          <div class="room-title">Music & Vibes 🎵</div>
-          <div class="room-host">🇺🇸 Alex</div>
-        </div>
+      <div class="room-card" onclick="openRoom('Unspoken Words')">
+        <img class="room-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80">
+        <div class="room-info"><div class="room-name">Unspoken Words</div></div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- 3. CELEBRITY RANKING SCREEN -->
-  <section id="rankPage" class="page">
-    <div class="rank-header">
-      <span onclick="switchPage('homePage')">❮</span>
-      <span class="rank-head-title">Celebrity Ranking</span>
-      <span>❓</span>
+  <!-- 2. SQUARE PAGE -->
+  <div id="squarePage" class="page">
+    <div class="square-header">
+      <span>Square</span>
+      <span style="color:#888">Follow</span>
     </div>
-
-    <div class="rank-nav-tabs">
-      <div class="rn-tab active">Contribution</div>
-      <div class="rn-tab">Charm</div>
-      <div class="rn-tab">Room</div>
-    </div>
-
-    <div class="sub-time-tabs">
-      <div class="st-btn">Daily</div>
-      <div class="st-btn active">Weekly</div>
-      <div class="st-btn">Monthly</div>
-    </div>
-
-    <!-- TOP 3 PODIUM -->
-    <div class="podium">
-      <!-- NO. 2 -->
-      <div class="pod-user pod-2">
-        <div class="pod-avatar-box">
-          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=32">
-        </div>
-        <div class="pod-name">Sarah</div>
-        <div class="pod-score">98.5k</div>
-      </div>
-
-      <!-- NO. 1 -->
-      <div class="pod-user pod-1">
-        <div class="pod-avatar-box">
-          <div class="crown">👑</div>
-          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=12">
-        </div>
-        <div class="pod-name">Mia_Vai</div>
-        <div class="pod-score">250.4k</div>
-      </div>
-
-      <!-- NO. 3 -->
-      <div class="pod-user pod-3">
-        <div class="pod-avatar-box">
-          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=68">
-        </div>
-        <div class="pod-name">David</div>
-        <div class="pod-score">75.1k</div>
-      </div>
-    </div>
-
-    <div class="rank-rows">
-      <div class="r-row">
-        <div class="r-left">
-          <span class="r-num">4</span>
-          <img class="r-img" src="https://i.pravatar.cc/150?img=47">
-          <span class="r-name">Emma_Rose</span>
-        </div>
-        <div class="r-score">54.2k</div>
-      </div>
-      <div class="r-row">
-        <div class="r-left">
-          <span class="r-num">5</span>
-          <img class="r-img" src="https://i.pravatar.cc/150?img=15">
-          <span class="r-name">King_Rider</span>
-        </div>
-        <div class="r-score">41.8k</div>
-      </div>
-    </div>
-
-    <div class="user-bottom-rank">
-      <span style="font-size:12px;color:#a0a5c0">My Ranking: <b>No ranking</b></span>
-      <span style="font-size:12px;color:#ffd700">0 Points</span>
-    </div>
-  </section>
-
-  <!-- 4. PROFILE SCREEN -->
-  <section id="mePage" class="page">
-    <div class="prof-head">
-      <div class="prof-user">
-        <img class="prof-avatar" src="https://i.pravatar.cc/150?img=11">
+    <div class="post-card">
+      <div class="post-user">
+        <img class="post-avatar" src="https://i.pravatar.cc/100?img=12">
         <div>
-          <div class="prof-name">Mia_Vai</div>
-          <div class="prof-id">ID: 100927248</div>
+          <div style="font-weight:bold;font-size:13px">WASHIM 🍷</div>
+          <div style="font-size:10px;color:#888">01:43</div>
+        </div>
+      </div>
+      <p style="font-size:13px">কিছু টোকাই আছে দুলাভাই ডেকে আইডি লেভেল বড় করছে...</p>
+    </div>
+  </div>
+
+  <!-- 3. MESSAGE PAGE -->
+  <div id="msgPage" class="page">
+    <div style="padding:14px 16px;font-size:18px;font-weight:bold;background:#fff">Message</div>
+    <div class="msg-item">
+      <img class="msg-avatar" src="https://i.pravatar.cc/100?img=33">
+      <div>
+        <div class="msg-title">Gift Notice</div>
+        <div class="msg-desc">You received a new gift reward!</div>
+      </div>
+    </div>
+    <div class="msg-item">
+      <img class="msg-avatar" src="https://i.pravatar.cc/100?img=11">
+      <div>
+        <div class="msg-title">HiChat Reward</div>
+        <div class="msg-desc">The 24000 gold coins presented...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PROFILE PAGE -->
+  <div id="profPage" class="page">
+    <div class="prof-top">
+      <div class="prof-user">
+        <img class="prof-img" src="https://i.pravatar.cc/100?img=11">
+        <div>
+          <div style="font-size:18px;font-weight:bold">Mia_Vai</div>
+          <div style="font-size:11px;color:#777">ID: 100927248</div>
         </div>
       </div>
       <div class="prof-stats">
-        <div><div class="st-num">15</div><div class="st-lbl">Following</div></div>
-        <div><div class="st-num">26</div><div class="st-lbl">Fans</div></div>
+        <span><b>15</b> Follow</span>
+        <span><b>26</b> Fans</span>
+      </div>
+    </div>
+    <div class="prof-wallets">
+      <div class="wallet-box">Wallet<br>🪙 8458</div>
+      <div class="store-box">Store<br>🛍️ Visit</div>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item"><span>💰 Invite get coins</span><span>›</span></div>
+      <div class="menu-item"><span>💖 Love House</span><span>›</span></div>
+      <div class="menu-item"><span>⭐ CP Level</span><span>›</span></div>
+      <div class="menu-item"><span>🎒 Prop Warehouse</span><span>›</span></div>
+      <div class="menu-item"><span>🎖️ Medal</span><span>›</span></div>
+      <div class="menu-item"><span>🛡️ Level (LV.41)</span><span>›</span></div>
+      <div class="menu-item"><span>👑 SVIP (SVIP2)</span><span>›</span></div>
+      <div class="menu-item"><span>🌐 Language</span><span>›</span></div>
+      <div class="menu-item"><span>🎧 Customer service</span><span>›</span></div>
+    </div>
+  </div>
+
+  <!-- 5. VOICE ROOM OVERLAY -->
+  <div id="roomOverlay">
+    <div class="room-top">
+      <div>
+        <b id="roomTitle">BD KING</b>
+        <div style="font-size:10px;opacity:0.8">ID: 349200</div>
+      </div>
+      <button onclick="closeRoom()" style="color:#fff;font-size:20px">✕</button>
+    </div>
+
+    <!-- 8 MIC SEATS -->
+    <div class="mic-grid">
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>1</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>2</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>3</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>4</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>5</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>6</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>7</div>
+      <div class="mic-seat"><div class="mic-circle">🎙️</div>8</div>
+    </div>
+
+    <div class="room-bottom-bar">
+      <input class="chat-input" placeholder="Say Hi...">
+      <button onclick="toggleSheet('gameSheet')" style="font-size:22px">🎮</button>
+      <button onclick="toggleSheet('giftSheet')" style="font-size:22px">🎁</button>
+    </div>
+
+    <!-- GAME SHEET OVERLAY -->
+    <div id="gameSheet" class="sheet">
+      <div class="sheet-title">Casual & Lucky Games</div>
+      <div class="game-grid">
+        <div class="game-card">🎲 Ludo</div>
+        <div class="game-card">🎯 Carrom</div>
+        <div class="game-card">🎴 UMO</div>
+        <div class="game-card">🍓 Lucky Fruit</div>
+        <div class="game-card">👑 Greedy Pro</div>
+        <div class="game-card">🎰 Jackpot</div>
       </div>
     </div>
 
-    <div class="card-group">
-      <div class="c-item"><div class="c-label"><span>👛</span> Wallet</div><div class="c-arrow">›</div></div>
-      <div class="c-item"><div class="c-label"><span>🏪</span> Store</div><div class="c-arrow">›</div></div>
-      <div class="c-item"><div class="c-label"><span>🛡️</span> Level</div><div class="c-arrow">›</div></div>
-    </div>
-
-    <div class="card-group">
-      <div class="c-item" onclick="switchPage('loginPage')">
-        <div class="c-label" style="color:#ff4b2b"><span>🚪</span> Log Out</div>
-        <div class="c-arrow">›</div>
+    <!-- GIFT SHEET OVERLAY -->
+    <div id="giftSheet" class="sheet">
+      <div class="sheet-title">Send Gift</div>
+      <div class="game-grid">
+        <div class="game-card">🏰 Castle</div>
+        <div class="game-card">☀️ Sun Goddess</div>
+        <div class="game-card">🐅 Flame Tiger</div>
+        <div class="game-card">🦅 Firehawk</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- BOTTOM BAR -->
-  <nav class="bottom-bar">
-    <button class="b-btn active" onclick="switchPage('homePage', this)">
-      <div class="icon">🏠</div><span>Home</span>
-    </button>
-    <button class="b-btn" onclick="switchPage('rankPage', this)">
-      <div class="icon">🪐</div><span>Explore</span>
-    </button>
-    <button class="b-btn">
-      <div class="icon" style="background:#ff2a7a;color:#fff;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-top:-12px">🎙️</div>
-    </button>
-    <button class="b-btn">
-      <div class="icon">💬</div><span>Messages</span>
-    </button>
-    <button class="b-btn" onclick="switchPage('mePage', this)">
-      <div class="icon">👤</div><span>Me</span>
-    </button>
-  </nav>
+  <!-- BOTTOM NAVIGATION -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="navTab('homePage', this)"><span class="icon">🏠</span><span>Home</span></div>
+    <div class="nav-item" onclick="navTab('squarePage', this)"><span class="icon">🪐</span><span>Square</span></div>
+    <div class="nav-item mic-btn" onclick="openRoom('HiChat Live')"><span class="icon">🎙️</span></div>
+    <div class="nav-item" onclick="navTab('msgPage', this)"><span class="icon">💬</span><span>Message</span></div>
+    <div class="nav-item" onclick="navTab('profPage', this)"><span class="icon">👤</span><span>Me</span></div>
+  </div>
 
 </div>
 
 <script>
-function switchPage(pageId, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.getElementById(pageId).classList.add('show');
-  
-  if (btn) {
-    document.querySelectorAll('.b-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
+function navTab(pageId, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
 }
 
-function loginDone() {
-  switchPage('homePage');
+function openRoom(title) {
+  document.getElementById('roomTitle').innerText = title;
+  document.getElementById('roomOverlay').classList.add('show');
+}
+
+function closeRoom() {
+  document.getElementById('roomOverlay').classList.remove('show');
+}
+
+function toggleSheet(id) {
+  const sheet = document.getElementById(id);
+  const isShow = sheet.classList.contains('show');
+  document.querySelectorAll('.sheet').forEach(s => s.classList.remove('show'));
+  if (!isShow) sheet.classList.add('show');
 }
 </script>
 </body>
