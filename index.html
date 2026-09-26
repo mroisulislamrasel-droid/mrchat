@@ -2,547 +2,405 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>MR Chat</title>
-
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#f6f7fb;color:#222}
-button{border:0;font-family:inherit;cursor:pointer;outline:none}
-input,textarea{font-family:inherit;outline:none}
-#app{width:100%;height:100%;position:relative;overflow:hidden}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#f6f7fb;color:#222}
+  button{border:0;font-family:inherit;cursor:pointer;outline:none}
+  
+  #app{width:100%;height:100%;position:relative;overflow:hidden}
 
-.page{
-  position:absolute;inset:0;background:#f7f8fc;display:none;
-  overflow-y:auto;padding-bottom:82px
-}
-.page.show{display:block}
+  /* PAGES */
+  .page{
+    position:absolute;inset:0;background:#f7f8fc;display:none;
+    overflow-y:auto;padding-bottom:82px
+  }
+  .page.show{display:block}
 
-.btn3d{
-  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
-  box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16),
-  inset 0 1px 1px rgba(255,255,255,.95);transition:.15s
-}
-.btn3d:active{
-  transform:translateY(4px) scale(.98);
-  box-shadow:0 1px 0 #c8cad3,0 3px 8px rgba(40,45,80,.15)
-}
-.btn3d.primary{
-  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
-  box-shadow:0 5px 0 #3824a9,0 9px 18px rgba(88,63,230,.32)
-}
+  /* HOME HEADER */
+  .home-top{
+    height:60px;background:#fff;display:flex;align-items:center;
+    padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05)
+  }
+  .home-tabs{
+    display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
+    background:#f0f0f5;border-radius:15px
+  }
+  .home-tab{
+    flex:1;height:34px;border-radius:12px;font-size:11px;font-weight:bold;
+    color:#777;background:transparent;display:flex;align-items:center;justify-content:center
+  }
+  .home-tab.active{color:#6366f1;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+  .top-btn{
+    width:38px;height:38px;border-radius:12px;background:#f0f0f5;
+    font-size:18px;display:flex;align-items:center;justify-content:center
+  }
+  .top-btn.primary{background:#6366f1;color:#fff}
 
-/* HOME TOP BAR */
-.home-top{
-  height:64px;background:rgba(255,255,255,.97);display:flex;align-items:center;
-  padding:0 9px;gap:7px;position:sticky;top:0;z-index:20;
-  border-bottom:1px solid rgba(90,67,233,.08);
-  box-shadow:0 4px 15px rgba(40,35,90,.07)
-}
-.home-tabs{
-  display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;
-  overflow:hidden;background:#f3f2f8;border-radius:17px
-}
-.home-tab{
-  height:36px;padding:0 11px;border-radius:13px;display:flex;
-  align-items:center;justify-content:center;font-size:12px;font-weight:800;
-  color:#9998a5;white-space:nowrap;background:transparent
-}
-.home-tab.active{
-  color:#5a43e9;background:#fff;
-  box-shadow:0 3px 9px rgba(70,55,150,.12)
-}
-.top-action{
-  width:42px;height:42px;min-width:42px;display:flex;align-items:center;
-  justify-content:center;border-radius:14px;font-size:20px;font-weight:800
-}
+  /* BANNER & ROOMS */
+  .banner-wrap{padding:10px}
+  .banner{
+    height:130px;border-radius:16px;background:linear-gradient(135deg,#6366f1,#a855f7);
+    color:#fff;padding:15px;display:flex;flex-direction:column;justify-content:center
+  }
+  .section-title{padding:10px 12px 5px;font-weight:bold;font-size:14px;display:flex;justify-content:space-between}
 
-/* BANNER & CATEGORIES */
-.event-slider-wrap{padding:10px 10px 4px}
-.event-slider{
-  width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
-  box-shadow:0 8px 20px rgba(60,50,120,.22)
-}
-.event-track{width:100%;height:100%;display:flex;transition:transform .5s}
-.event-slide{
-  min-width:100%;height:100%;position:relative;overflow:hidden;color:white;
-  background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover
-}
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.event-content h2{font-size:23px;margin-bottom:6px}
-.event-content p{font-size:11px;line-height:1.45;max-width:270px}
-.event-button{
-  height:33px;padding:0 16px;margin-top:11px;border-radius:17px;
-  background:white;color:#5b42df;font-weight:800;font-size:10px
-}
+  .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+  .room-card{
+    height:180px;border-radius:16px;overflow:hidden;position:relative;
+    background:#333;box-shadow:0 4px 10px rgba(0,0,0,0.1);cursor:pointer
+  }
+  .room-card img{width:100%;height:100%;object-fit:cover}
+  .room-card-info{position:absolute;bottom:0;inset-x:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,0.8));color:#fff}
+  .room-card-title{font-size:12px;font-weight:bold}
 
-.categories{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px
-}
-.category{
-  min-height:78px;border-radius:19px;padding:10px 7px;display:flex;
-  flex-direction:column;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;box-shadow:0 5px 0 rgba(40,30,100,.18),0 9px 17px rgba(40,35,100,.15)
-}
-.category .icon{font-size:28px;margin-bottom:5px}
+  /* BOTTOM NAVIGATION */
+  .bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
+    display:flex;border-top:1px solid #eee;z-index:100
+  }
+  .nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#888;font-size:10px;gap:2px;background:none
+  }
+  .nav-item.active{color:#6366f1;font-weight:bold}
+  .nav-icon{font-size:20px}
 
-.section-title{
-  padding:13px 12px 9px;display:flex;align-items:center;
-  justify-content:space-between;font-size:15px;font-weight:900
-}
-.section-title span{
-  padding:5px 9px;border-radius:10px;background:#f0eefb;
-  color:#705ce0;font-size:9px
-}
+  /* OTHER PAGES */
+  .page-title{padding:15px;text-align:center;font-weight:bold;background:#fff;border-bottom:1px solid #eee}
+  .empty-msg{text-align:center;color:#999;margin-top:50px;font-size:13px}
 
-/* ROOM GRID */
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{
-  height:205px;border-radius:19px;overflow:hidden;position:relative;
-  background:#ddd;box-shadow:0 6px 15px rgba(30,30,60,.14);cursor:pointer
-}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.78))}
-.room-info{position:absolute;bottom:9px;left:10px;right:8px;color:white}
-.room-name{font-weight:800;font-size:13px;margin-bottom:5px}
-.room-meta{font-size:10px;display:flex;justify-content:space-between}
-.live{display:inline-flex;align-items:center;gap:4px;color:#ff405d;font-weight:bold}
+  /* ========================================================
+     SCREENSHOT BASED VOICE ROOM SCREEN
+  ======================================================== */
+  #roomScreen{
+    position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
+    background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%);
+    flex-direction:column;justify-content:space-between
+  }
+  #roomScreen.active{display:flex}
 
-/* BOTTOM MAIN NAV */
-.bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;height:76px;padding:7px 8px 5px;
-  gap:4px;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
-  border-top:1px solid rgba(80,65,150,.08);display:flex;z-index:100;
-  box-shadow:0 -7px 24px rgba(35,30,80,.09)
-}
-.nav-item{
-  flex:1;position:relative;display:flex;flex-direction:column;
-  justify-content:center;align-items:center;color:#a2a1ad;background:transparent;
-  border-radius:16px;font-size:9px;font-weight:700;gap:3px
-}
-.nav-item .nav-icon{
-  width:42px;height:35px;display:flex;align-items:center;
-  justify-content:center;font-size:21px;border-radius:13px
-}
-.nav-item.active{color:#5d45df}
-.nav-item.active .nav-icon{
-  background:linear-gradient(145deg,#eeeaff,#e4defe);
-  box-shadow:inset 0 1px 2px rgba(255,255,255,.9),0 3px 8px rgba(90,65,220,.12)
-}
+  .room-header{
+    height:55px;padding:8px 10px;display:flex;align-items:center;
+    justify-content:space-between;z-index:10;background:rgba(0,0,0,0.15)
+  }
+  .room-profile-box{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px}
+  .room-avatar-img{width:34px;height:34px;border-radius:50%;border:1px solid #ffd700;object-fit:cover}
+  .room-details b{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
+  .room-details small{font-size:9px;color:#ddd}
 
-/* OTHER PAGES (PAGE HEADER, MESSAGE, PROFILE) */
-.page-header{
-  height:62px;background:white;display:flex;align-items:center;
-  justify-content:center;font-size:18px;font-weight:900;
-  position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(30,30,70,.06)
-}
-.empty-area{
-  min-height:calc(100vh - 145px);display:flex;align-items:center;
-  justify-content:center;text-align:center;color:#aaa
-}
-.empty-box b{font-size:14px;color:#999}
+  .chat-tag{
+    background:linear-gradient(90deg,#3b82f6,#ec4899);padding:3px 8px;border-radius:12px;
+    font-size:10px;font-weight:bold
+  }
+  .top-right-btns{display:flex;align-items:center;gap:6px}
+  .top-icon-btn{
+    width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);
+    border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff
+  }
 
-.profile-head{
-  padding:20px 14px 25px;color:white;
-  background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px
-}
-.profile-main{display:flex;align-items:center}
-.profile-avatar{width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover}
-.profile-info{padding-left:12px;flex:1}
+  .trophy-tag{
+    position:absolute;top:60px;left:10px;background:rgba(0,0,0,0.3);
+    padding:3px 8px;border-radius:12px;font-size:10px;color:#ffd700;font-weight:bold
+  }
 
-/* ========================================================
-   SCREENSHOT DESIGN: VOICE ROOM SCREEN (HICHAT MODEL)
-======================================================== */
-#roomScreen{
-  position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
-  background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%)
-}
-#roomScreen.show{display:flex;flex-direction:column;justify-content:space-between}
+  /* HOST & TITLE */
+  .host-section{margin-top:10px;display:flex;flex-direction:column;align-items:center}
+  .host-ring{
+    position:relative;width:70px;height:70px;display:flex;align-items:center;justify-content:center
+  }
+  .host-ring::before{
+    content:'';position:absolute;inset:-3px;border-radius:50%;
+    background:linear-gradient(45deg, #ff007f, #ffd700, #ff007f);
+    box-shadow:0 0 12px #ff007f
+  }
+  .host-ring img{width:65px;height:65px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
+  .host-name{margin-top:4px;font-size:11px;font-weight:bold;color:#60a5fa}
 
-/* ROOM TOP BAR */
-.room-top{
-  height:55px;padding:8px 10px;display:flex;align-items:center;
-  justify-content:space-between;z-index:10;background:rgba(0,0,0,0.15)
-}
-.room-profile{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px}
-.room-avatar{width:36px;height:36px;border-radius:50%;border:1px solid #ffd700;object-fit:cover}
-.room-meta b{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
-.room-meta small{font-size:9px;color:#ddd;display:flex;gap:4px}
+  .room-title-logo{
+    text-align:center;font-size:36px;font-weight:900;
+    background:linear-gradient(180deg,#ffffff,#d8b4fe,#a855f7);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin:-5px 0 5px
+  }
 
-.room-top-tag{
-  background:linear-gradient(90deg,#3b82f6,#ec4899);padding:3px 8px;border-radius:12px;
-  font-size:10px;font-weight:bold;display:flex;align-items:center;gap:4px
-}
-.room-top-right{display:flex;align-items:center;gap:8px}
-.room-circle-btn{
-  width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);
-  border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:#fff;cursor:pointer
-}
+  /* 1-8 MIC SEATS */
+  .seats-grid-8{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px 5px;
+    padding:0 20px
+  }
+  .seat-box{display:flex;flex-direction:column;align-items:center}
+  .seat-icon{
+    width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
+    justify-content:center;font-size:18px
+  }
+  .seat-num{font-size:10px;color:#ccc;margin-top:3px;font-weight:bold}
 
-.trophy-badge{
-  position:absolute;top:60px;left:10px;background:rgba(0,0,0,0.3);
-  padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold
-}
+  /* MASCOT & WIDGETS */
+  .mascot-area{
+    position:relative;height:110px;display:flex;justify-content:center;align-items:center
+  }
+  .mascot-area img{height:115px}
 
-/* ROOM HOST & LOGO */
-.room-host-wrap{margin-top:15px;display:flex;flex-direction:column;align-items:center;z-index:5}
-.host-avatar-ring{
-  position:relative;width:75px;height:75px;display:flex;align-items:center;justify-content:center
-}
-.host-avatar-ring::before{
-  content:'';position:absolute;inset:-4px;border-radius:50%;
-  background:linear-gradient(45deg, #ff007f, #ffd700, #ff007f);
-  box-shadow:0 0 15px #ff007f;z-index:1
-}
-.host-avatar-ring img{width:70px;height:70px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
-.host-title{margin-top:4px;font-size:12px;font-weight:bold;color:#60a5fa}
+  .widgets-right{
+    position:absolute;right:10px;bottom:0;display:flex;flex-direction:column;gap:6px
+  }
+  .widget-item{
+    width:50px;height:50px;border-radius:10px;
+    border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;font-size:8px;text-align:center
+  }
 
-.room-logo-title{
-  text-align:center;font-size:38px;font-weight:900;
-  background:linear-gradient(180deg,#ffffff,#d8b4fe,#a855f7);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(168,85,247,0.6);margin:-5px 0 10px
-}
+  /* CHAT & ANNOUNCEMENT */
+  .chat-box-area{
+    padding:0 12px;display:flex;flex-direction:column;gap:5px;max-height:140px;overflow-y:auto
+  }
+  .announcement-text{
+    background:rgba(0,0,0,0.25);border-radius:8px;padding:5px 8px;
+    font-size:10px;color:#a7f3d0
+  }
+  .welcome-text{
+    background:rgba(255,255,255,0.15);padding:3px 10px;border-radius:12px;
+    font-size:10px;width:max-content
+  }
+  .chat-bubble{
+    background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:10px;
+    font-size:10px;width:max-content;display:flex;align-items:center;gap:4px
+  }
 
-/* 1-8 MIC SEATS */
-.room-seats-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:15px 5px;
-  padding:0 20px;z-index:5
-}
-.room-seat{display:flex;flex-direction:column;align-items:center;position:relative}
-.seat-icon-box{
-  width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
-  justify-content:center;font-size:20px;box-shadow:inset 0 0 8px rgba(255,255,255,0.2)
-}
-.seat-num{font-size:11px;color:#ccc;margin-top:4px;font-weight:bold}
-
-/* MASCOT & SIDE WIDGETS */
-.room-center-mascot{
-  position:relative;height:120px;display:flex;justify-content:center;align-items:center
-}
-.mascot-img{height:125px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5))}
-
-.room-side-widgets{
-  position:absolute;right:10px;bottom:0;display:flex;flex-direction:column;gap:8px
-}
-.side-widget-box{
-  width:55px;height:55px;border-radius:10px;
-  border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:9px;text-align:center
-}
-
-/* ANNOUNCEMENT & CHAT AREA */
-.room-chat-area{
-  padding:0 12px;display:flex;flex-direction:column;gap:6px;max-height:160px;
-  overflow-y:auto;z-index:5
-}
-.room-notice{
-  background:rgba(0,0,0,0.25);border-radius:10px;padding:6px 10px;
-  font-size:10px;color:#a7f3d0;line-height:1.3
-}
-.room-welcome-line{
-  background:rgba(255,255,255,0.15);padding:4px 12px;border-radius:15px;
-  font-size:11px;width:max-content;color:#fff
-}
-.room-chat-line{
-  background:rgba(0,0,0,0.3);padding:5px 10px;border-radius:12px;
-  font-size:11px;width:max-content;display:flex;align-items:center;gap:6px
-}
-.badge-lvl{background:#8b5cf6;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
-.badge-vip{background:#eab308;color:#000;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
-
-/* ROOM BOTTOM CONTROLS */
-.room-bottom-controls{
-  height:60px;padding:0 10px;background:rgba(15,3,35,0.85);
-  backdrop-filter:blur(10px);display:flex;align-items:center;
-  justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);z-index:10
-}
-.say-hi-btn{
-  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
-  color:#aaa;padding:8px 12px;border-radius:20px;font-size:11px
-}
-.room-tool-btn{
-  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.12);
-  display:flex;align-items:center;justify-content:center;font-size:15px;
-  color:#fff;cursor:pointer
-}
-.room-gift-btn{
-  width:38px;height:38px;border-radius:12px;
-  background:linear-gradient(135deg,#ff007f,#00f2fe);
-  display:flex;align-items:center;justify-content:center;font-size:19px;
-  box-shadow:0 0 10px rgba(255,0,127,0.5)
-}
-
-/* TOAST */
-#toast{
-  position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
-  background:rgba(25,25,35,.92);color:white;padding:10px 16px;border-radius:14px;
-  font-size:11px;opacity:0;pointer-events:none;z-index:1000;transition:.25s
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-@media(min-width:700px){
-  .page, .bottom-nav, #roomScreen{max-width:520px;left:50%;transform:translateX(-50%)}
-}
+  /* BOTTOM CONTROLS */
+  .room-controls{
+    height:55px;padding:0 8px;background:rgba(15,3,35,0.9);
+    display:flex;align-items:center;justify-content:space-between;
+    border-top:1px solid rgba(255,255,255,0.1)
+  }
+  .say-hi{
+    background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
+    color:#aaa;padding:6px 10px;border-radius:18px;font-size:10px
+  }
+  .ctrl-btn{
+    width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);
+    display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff
+  }
+  .gift-btn{
+    width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,#ff007f,#00f2fe);
+    display:flex;align-items:center;justify-content:center;font-size:18px
+  }
 </style>
 </head>
 
 <body>
 <div id="app">
 
-<!-- 1. HOME PAGE -->
-<section id="homePage" class="page show">
-  <div class="home-top">
-    <div class="home-tabs">
-      <button class="home-tab" onclick="homeTab('following',this)">Following</button>
-      <button class="home-tab active" onclick="homeTab('popular',this)">Popular</button>
-      <button class="home-tab" onclick="homeTab('recent',this)">Recent</button>
-    </div>
-    <button class="top-action btn3d" onclick="showToast('Search')">⌕</button>
-    <button class="top-action btn3d primary" onclick="enterRoom('myRoom')">＋</button>
-  </div>
-
-  <div id="popularContent">
-    <div class="event-slider-wrap">
-      <div class="event-slider">
-        <div class="event-track">
-          <div class="event-slide">
-            <div class="event-content">
-              <h2>MR Chat Grand Opening</h2>
-              <p>Welcome to MR Chat. Meet new people and enjoy voice rooms together.</p>
-              <button class="event-button" onclick="showToast('Welcome to MR Chat!')">Join Event</button>
-            </div>
-          </div>
-        </div>
+  <!-- HOME PAGE -->
+  <section id="homePage" class="page show">
+    <div class="home-top">
+      <div class="home-tabs">
+        <button class="home-tab" onclick="setActiveTab(this)">Following</button>
+        <button class="home-tab active" onclick="setActiveTab(this)">Popular</button>
+        <button class="home-tab" onclick="setActiveTab(this)">Recent</button>
       </div>
+      <button class="top-btn" onclick="alert('Search')">⌕</button>
+      <button class="top-btn primary" onclick="openRoom('My Chat Room')">＋</button>
     </div>
 
-    <div class="categories">
-      <button class="category btn3d" onclick="showToast('Rank')"><div class="icon">🏆</div>Rank</button>
-      <button class="category btn3d" onclick="showToast('CP Zone')"><div class="icon">💜</div>CP</button>
-      <button class="category btn3d" onclick="showToast('Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+    <div class="banner-wrap">
+      <div class="banner">
+        <h2>MR Chat Grand Opening</h2>
+        <p style="font-size:11px;margin-top:4px;">Join voice rooms and chat with friends.</p>
+      </div>
     </div>
 
     <div class="section-title">
-      <b>Voice Rooms</b><span>LIVE NOW</span>
+      <span>Voice Rooms</span><small style="color:#ff405d">LIVE</small>
     </div>
 
     <div class="room-grid">
-      <div class="room-card" onclick="enterRoom('room1')">
+      <div class="room-card" onclick="openRoom('জিরো প...')">
         <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-        <div class="room-overlay"></div>
-        <div class="room-info">
-          <div class="room-name">Friendship Lounge</div>
-          <div class="room-meta"><span class="live">● Live</span><span>128</span></div>
+        <div class="room-card-info">
+          <div class="room-card-title">জিরো প...</div>
+          <small>ID: 349200</small>
         </div>
       </div>
 
-      <div class="room-card" onclick="enterRoom('room2')">
+      <div class="room-card" onclick="openRoom('Night Chat')">
         <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-        <div class="room-overlay"></div>
-        <div class="room-info">
-          <div class="room-name">Night Friends</div>
-          <div class="room-meta"><span class="live">● Live</span><span>86</span></div>
+        <div class="room-card-info">
+          <div class="room-card-title">Night Chat</div>
+          <small>ID: 885210</small>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 2. DISCOVER PAGE -->
-<section id="discoverPage" class="page">
-  <div class="page-header">Discover</div>
-  <div class="empty-area">
-    <div class="empty-box">
-      <b>Discover is Empty</b>
-      <p style="font-size:10px;margin-top:5px;color:#bbb">New content from users will appear here.</p>
-    </div>
-  </div>
-</section>
+  <!-- DISCOVER PAGE -->
+  <section id="discoverPage" class="page">
+    <div class="page-title">Discover</div>
+    <div class="empty-msg">Discover content goes here.</div>
+  </section>
 
-<!-- 3. MOMENT PAGE -->
-<section id="momentPage" class="page">
-  <div class="page-header">Moment</div>
-  <div class="empty-area">
-    <div class="empty-box">
-      <b>No Moments Yet</b>
-      <p style="font-size:10px;margin-top:5px;color:#bbb">User Moments will appear here.</p>
-    </div>
-  </div>
-</section>
+  <!-- MOMENT PAGE -->
+  <section id="momentPage" class="page">
+    <div class="page-title">Moment</div>
+    <div class="empty-msg">User moments go here.</div>
+  </section>
 
-<!-- 4. MESSAGE PAGE -->
-<section id="messagePage" class="page">
-  <div class="page-header">Message</div>
-  <div class="empty-area">
-    <div class="empty-box">
-      <b>No Messages</b>
-      <p style="font-size:10px;margin-top:5px;color:#bbb">System and user chats will appear here.</p>
-    </div>
-  </div>
-</section>
+  <!-- MESSAGE PAGE -->
+  <section id="messagePage" class="page">
+    <div class="page-title">Message</div>
+    <div class="empty-msg">No new messages.</div>
+  </section>
 
-<!-- 5. ME (PROFILE) PAGE -->
-<section id="mePage" class="page">
-  <div class="profile-head">
-    <div class="profile-main">
-      <img class="profile-avatar" src="https://i.pravatar.cc/200?img=11">
-      <div class="profile-info">
-        <h2>MR User</h2>
-        <p style="font-size:11px;opacity:.8">ID: 100001 · VIP 3</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- ME PAGE -->
+  <section id="mePage" class="page">
+    <div class="page-title">Profile</div>
+    <div class="empty-msg">User profile options go here.</div>
+  </section>
 
-<!-- MAIN BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
-  <button class="nav-item active" onclick="switchPage('homePage', this)">
-    <div class="nav-icon">🏠</div><span>Home</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('discoverPage', this)">
-    <div class="nav-icon">🧭</div><span>Discover</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('momentPage', this)">
-    <div class="nav-icon">📸</div><span>Moment</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('messagePage', this)">
-    <div class="nav-icon">💬</div><span>Message</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('mePage', this)">
-    <div class="nav-icon">👤</div><span>Me</span>
-  </button>
-</nav>
+  <!-- BOTTOM MAIN NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchNav('homePage', this)">
+      <span class="nav-icon">🏠</span><span>Home</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('discoverPage', this)">
+      <span class="nav-icon">🧭</span><span>Discover</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('momentPage', this)">
+      <span class="nav-icon">📸</span><span>Moment</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('messagePage', this)">
+      <span class="nav-icon">💬</span><span>Message</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('mePage', this)">
+      <span class="nav-icon">👤</span><span>Me</span>
+    </button>
+  </nav>
 
-<!-- ========================================================
-     VOICE ROOM SCREEN (SCREENSHOT HICHAT MODEL)
-======================================================== -->
-<div id="roomScreen">
-
-  <!-- TOP BAR -->
-  <div class="room-top">
-    <div class="room-profile">
-      <img class="room-avatar" src="https://i.pravatar.cc/100?img=33" alt="Host">
-      <div class="room-meta">
-        <b id="roomTitleText">জিরো প...</b>
-        <small>ID:349200 👤1</small>
-      </div>
-    </div>
-
-    <div class="room-top-tag">
-      <span>📞 কল...</span>
-      <span style="background:rgba(255,255,255,0.3);padding:2px 6px;border-radius:8px">Chat</span>
-    </div>
-
-    <div class="room-top-right">
-      <div class="room-circle-btn">🎯</div>
-      <div class="room-circle-btn">↗️</div>
-      <div class="room-circle-btn" style="background:#ef4444" onclick="leaveRoom()">⚡</div>
-    </div>
-  </div>
-
-  <div class="trophy-badge">🏆 548.7M &gt;</div>
-
-  <!-- HOST -->
-  <div class="room-host-wrap">
-    <div class="host-avatar-ring">
-      <img src="https://i.pravatar.cc/150?img=12" alt="Host Avatar">
-    </div>
-    <div class="host-title">༄Mia...✿Vai3</div>
-  </div>
-
-  <!-- BRAND HEADLINE -->
-  <div class="room-logo-title">MRChat</div>
-
-  <!-- 8 MIC SEATS -->
-  <div class="room-seats-grid">
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">1</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">2</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">3</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">4</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">5</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">6</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">7</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">8</span></div>
-  </div>
-
-  <!-- CENTER MASCOT & FLOATING WIDGETS -->
-  <div class="room-center-mascot">
-    <img class="mascot-img" src="https://cdni.iconscout.com/illustration/premium/thumb/cute-cat-playing-guitar-illustration-download-in-svg-png-gif-file-formats--kitten-pet-animal-character-pack-illustrations-5246731.png" alt="Mascot">
+  <!-- ========================================================
+       SCREENSHOT MODEL ROOM SCREEN
+  ======================================================== -->
+  <div id="roomScreen">
     
-    <div class="room-side-widgets">
-      <div class="side-widget-box" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
-        <b style="font-size:8px">WEEKLY</b><b>STAR</b>
+    <!-- TOP BAR -->
+    <div class="room-header">
+      <div class="room-profile-box">
+        <img class="room-avatar-img" src="https://i.pravatar.cc/100?img=33">
+        <div class="room-details">
+          <b id="activeRoomName">জিরো প...</b>
+          <small>ID:349200 👤1</small>
+        </div>
       </div>
-      <div class="side-widget-box" style="background:linear-gradient(135deg,#10b981,#059669)">
-        <span>Lucky fruit</span><b>🎰 30</b>
+
+      <div class="chat-tag">
+        <span>📞 কল...</span>
+        <span style="background:rgba(255,255,255,0.3);padding:1px 5px;border-radius:6px">Chat</span>
+      </div>
+
+      <div class="top-right-btns">
+        <div class="top-icon-btn">🎯</div>
+        <div class="top-icon-btn">↗️</div>
+        <div class="top-icon-btn" style="background:#ef4444" onclick="closeRoom()">⚡</div>
       </div>
     </div>
-  </div>
 
-  <!-- CHAT & ANNOUNCEMENT -->
-  <div class="room-chat-area">
-    <div class="room-notice">
-      <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
+    <div class="trophy-tag">🏆 548.7M &gt;</div>
+
+    <!-- HOST -->
+    <div class="host-section">
+      <div class="host-ring">
+        <img src="https://i.pravatar.cc/150?img=12">
+      </div>
+      <div class="host-name">༄Mia...✿Vai3</div>
     </div>
-    <div class="room-welcome-line">
-      Welcome <b>༄Mia...✿Vai3</b> to the room
+
+    <!-- TITLE LOGO -->
+    <div class="room-title-logo">HiChat</div>
+
+    <!-- 1-8 SEATS -->
+    <div class="seats-grid-8">
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">1</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">2</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">3</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">4</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">5</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">6</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">7</span></div>
+      <div class="seat-box"><div class="seat-icon">💺</div><span class="seat-num">8</span></div>
     </div>
-    <div class="room-chat-line">
-      <span class="badge-lvl">LV.41</span>
-      <span class="badge-vip">SVIP2</span>
-      <b style="color:#60a5fa">@Mia..Vai:</b> কেমন আছেন প্রিয়
+
+    <!-- MASCOT & WIDGETS -->
+    <div class="mascot-area">
+      <img src="https://cdni.iconscout.com/illustration/premium/thumb/cute-cat-playing-guitar-illustration-download-in-svg-png-gif-file-formats--kitten-pet-animal-character-pack-illustrations-5246731.png">
+      
+      <div class="widgets-right">
+        <div class="widget-item" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+          <b>WEEKLY</b><b>STAR</b>
+        </div>
+        <div class="widget-item" style="background:linear-gradient(135deg,#10b981,#059669)">
+          <span>Lucky fruit</span><b>🎰 30</b>
+        </div>
+      </div>
     </div>
+
+    <!-- CHAT AREA -->
+    <div class="chat-box-area">
+      <div class="announcement-text">
+        <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
+      </div>
+      <div class="welcome-text">
+        Welcome <b>༄Mia...✿Vai3</b> to the room
+      </div>
+      <div class="chat-bubble">
+        <span style="background:#8b5cf6;padding:1px 4px;border-radius:4px;font-size:8px">LV.41</span>
+        <span style="background:#eab308;color:#000;padding:1px 4px;border-radius:4px;font-size:8px">SVIP2</span>
+        <b style="color:#60a5fa">@Mia..Vai:</b> কেমন আছেন প্রিয়
+      </div>
+    </div>
+
+    <!-- CONTROLS BAR -->
+    <div class="room-controls">
+      <button class="say-hi">Say Hi</button>
+      <div class="ctrl-btn">💬</div>
+      <div class="ctrl-btn">🔊</div>
+      <div class="ctrl-btn">🎙️</div>
+      <div class="ctrl-btn">😊</div>
+      <div class="ctrl-btn">🎛️</div>
+      <div class="ctrl-btn">🎮</div>
+      <div class="gift-btn">🎁</div>
+    </div>
+
   </div>
-
-  <!-- HICHAT STYLE BOTTOM BUTTONS -->
-  <div class="room-bottom-controls">
-    <button class="say-hi-btn">Say Hi</button>
-    <div class="room-tool-btn">💬</div>
-    <div class="room-tool-btn">🔊</div>
-    <div class="room-tool-btn">🎙️</div>
-    <div class="room-tool-btn">😊</div>
-    <div class="room-tool-btn">🎛️</div>
-    <div class="room-tool-btn">🎮</div>
-    <div class="room-gift-btn" onclick="showToast('Gift Panel Opened')">🎁</div>
-  </div>
-
-</div>
-
-<div id="toast"></div>
 
 </div>
 
 <script>
-function switchPage(pageId, element) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('show'));
-  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-  
-  document.getElementById(pageId).classList.add('show');
-  element.classList.add('active');
-}
+  function switchNav(pageId, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    document.getElementById(pageId).classList.add('show');
+    btn.classList.add('active');
+  }
 
-function enterRoom(roomId) {
-  document.getElementById('roomScreen').classList.add('show');
-}
+  function setActiveTab(btn) {
+    document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
 
-function leaveRoom() {
-  document.getElementById('roomScreen').classList.remove('show');
-}
+  function openRoom(title) {
+    document.getElementById('activeRoomName').innerText = title;
+    document.getElementById('roomScreen').classList.add('active');
+  }
 
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-function homeTab(tabName, element) {
-  document.querySelectorAll('.home-tab').forEach(tab => tab.classList.remove('active'));
-  element.classList.add('active');
-}
+  function closeRoom() {
+    document.getElementById('roomScreen').classList.remove('active');
+  }
 </script>
 </body>
 </html>
