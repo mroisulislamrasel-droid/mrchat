@@ -14,22 +14,30 @@ input,textarea{font-family:inherit;outline:none}
 
 .page{
  position:absolute;inset:0;background:#f4f6fa;display:none;
- overflow-y:auto;padding-bottom:85px
+ overflow-y:auto;padding-bottom:82px
 }
 .page.show{display:block}
 
 .btn3d{
  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
- box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16);transition:.15s
+ box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16),
+ inset 0 1px 1px rgba(255,255,255,.95);transition:.15s
 }
-.btn3d:active{transform:translateY(4px) scale(.98)}
-.btn3d.primary{color:white;background:linear-gradient(145deg,#8066ff,#5036df)}
+.btn3d:active{
+ transform:translateY(4px) scale(.98);
+ box-shadow:0 1px 0 #c8cad3,0 3px 8px rgba(40,45,80,.15)
+}
+.btn3d.primary{
+ color:white;background:linear-gradient(145deg,#8066ff,#5036df);
+ box-shadow:0 5px 0 #3824a9,0 9px 18px rgba(88,63,230,.32)
+}
 
-/* HOME NAVBAR */
+/* HOME SCREEN */
 .home-top{
  height:64px;background:rgba(255,255,255,.97);display:flex;align-items:center;
  padding:0 9px;gap:7px;position:sticky;top:0;z-index:20;
- border-bottom:1px solid rgba(90,67,233,.08);box-shadow:0 4px 15px rgba(40,35,90,.07)
+ border-bottom:1px solid rgba(90,67,233,.08);
+ box-shadow:0 4px 15px rgba(40,35,90,.07)
 }
 .home-tabs{
  display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;
@@ -38,23 +46,29 @@ input,textarea{font-family:inherit;outline:none}
 .home-tab{
  height:36px;padding:0 11px;border-radius:13px;display:flex;
  align-items:center;justify-content:center;font-size:12px;font-weight:800;
- color:#9998a5;background:transparent
+ color:#9998a5;white-space:nowrap;background:transparent
 }
-.home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 3px 9px rgba(70,55,150,.12)}
+.home-tab.active{
+ color:#5a43e9;background:#fff;
+ box-shadow:0 3px 9px rgba(70,55,150,.12)
+}
 .top-action{
  width:42px;height:42px;min-width:42px;display:flex;align-items:center;
  justify-content:center;border-radius:14px;font-size:20px;font-weight:800
 }
 
-/* HOME CONTENT */
 .event-slider-wrap{padding:10px 10px 4px}
 .event-slider{
  width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
  box-shadow:0 8px 20px rgba(60,50,120,.22)
 }
 .event-track{width:100%;height:100%;display:flex;transition:transform .5s}
-.event-slide{min-width:100%;height:100%;position:relative;overflow:hidden;color:white}
+.event-slide{
+ min-width:100%;height:100%;position:relative;overflow:hidden;color:white
+}
 .event-slide:nth-child(1){background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover}
+.event-slide:nth-child(2){background:linear-gradient(110deg,rgba(235,53,125,.86),rgba(255,181,75,.45)),url("https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80") center/cover}
+.event-slide:nth-child(3){background:linear-gradient(110deg,rgba(30,90,210,.88),rgba(91,211,255,.43)),url("https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=80") center/cover}
 .event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
 .event-content h2{font-size:23px;margin-bottom:6px}
 .event-content p{font-size:11px;line-height:1.45;max-width:270px}
@@ -63,17 +77,24 @@ input,textarea{font-family:inherit;outline:none}
  background:white;color:#5b42df;font-weight:800;font-size:10px
 }
 
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px}
+.categories{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px
+}
 .category{
  min-height:78px;border-radius:19px;padding:10px 7px;display:flex;
  flex-direction:column;align-items:center;justify-content:center;
- font-size:11px;font-weight:800
+ font-size:11px;font-weight:800;box-shadow:0 5px 0 rgba(40,30,100,.18),
+ 0 9px 17px rgba(40,35,100,.15)
 }
 .category .icon{font-size:28px;margin-bottom:5px}
 
 .section-title{
  padding:13px 12px 9px;display:flex;align-items:center;
  justify-content:space-between;font-size:15px;font-weight:900
+}
+.section-title span{
+ padding:5px 9px;border-radius:10px;background:#f0eefb;
+ color:#705ce0;font-size:9px
 }
 .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
 .room-card{
@@ -84,14 +105,14 @@ input,textarea{font-family:inherit;outline:none}
 .room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.78))}
 .room-info{position:absolute;bottom:9px;left:10px;right:8px;color:white}
 .room-name{font-weight:800;font-size:13px;margin-bottom:5px}
+.room-meta{font-size:10px;display:flex;justify-content:space-between}
+.live{display:inline-flex;align-items:center;gap:4px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff405d}
 
-/* ME (PROFILE) SCREEN - SCREENSHOT DESIGN MATCH */
+/* ME (PROFILE) SCREEN - EXCITING SCREENSHOT MATCH */
 .me-header-bg {
  background: linear-gradient(180deg, #e8f4fd 0%, #f4f6fa 100%);
  padding: 25px 16px 10px;
-}
-.profile-top-bar {
- display: flex; align-items: center; justify-content: space-between;
 }
 .profile-user-info {
  display: flex; align-items: center; gap: 14px; margin-top: 10px;
@@ -100,30 +121,15 @@ input,textarea{font-family:inherit;outline:none}
  width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
  border: 2px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-.profile-user-details {
- flex: 1;
-}
-.profile-name-row {
- display: flex; align-items: center; gap: 6px;
-}
-.profile-user-name {
- font-size: 20px; font-weight: 800; color: #1a1a1a;
-}
-.profile-user-id {
- font-size: 13px; color: #9a9ea7; margin-top: 4px; font-weight: 600;
-}
+.profile-user-details { flex: 1; }
+.profile-user-name { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+.profile-user-id { font-size: 13px; color: #9a9ea7; margin-top: 4px; font-weight: 600; }
 .profile-stats-row {
  display: flex; align-items: center; margin-top: 20px; gap: 35px;
 }
-.stat-item {
- text-align: left;
-}
-.stat-value {
- font-size: 18px; font-weight: 800; color: #111;
-}
-.stat-label {
- font-size: 12px; color: #8c9099; margin-top: 2px; font-weight: 600;
-}
+.stat-item { text-align: left; }
+.stat-value { font-size: 18px; font-weight: 800; color: #111; }
+.stat-label { font-size: 12px; color: #8c9099; margin-top: 2px; font-weight: 600; }
 .family-badge {
  margin-left: auto; width: 62px; height: 50px;
  background: linear-gradient(135deg, #d8a050, #b27626);
@@ -134,11 +140,8 @@ input,textarea{font-family:inherit;outline:none}
 .family-badge .icon { font-size: 18px; }
 .family-badge span { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
 
-/* WALLET & STORE CARDS */
-.cards-container {
- display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
- padding: 10px 16px;
-}
+/* WALLET & STORE */
+.cards-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 16px; }
 .wallet-card {
  background: linear-gradient(135deg, #ff8c66, #ff6b4a);
  border-radius: 18px; padding: 16px; color: white;
@@ -160,7 +163,7 @@ input,textarea{font-family:inherit;outline:none}
 .store-title { font-size: 17px; font-weight: 700; }
 .store-icon { position: absolute; right: 8px; bottom: 8px; font-size: 42px; opacity: 0.9; }
 
-/* MENU CARDS LIST */
+/* MENU ITEMS */
 .menu-card {
  background: #ffffff; border-radius: 20px;
  margin: 12px 16px; padding: 4px 0;
@@ -168,81 +171,134 @@ input,textarea{font-family:inherit;outline:none}
 }
 .menu-item {
  display: flex; align-items: center; justify-content: space-between;
- padding: 14px 16px; transition: background 0.2s;
+ padding: 14px 16px;
 }
-.menu-item:active { background: #f9f9fb; }
 .menu-left { display: flex; align-items: center; gap: 14px; }
-.menu-icon-wrap {
- width: 32px; height: 32px; border-radius: 50%;
- display: flex; align-items: center; justify-content: center;
- font-size: 18px;
-}
+.menu-icon-wrap { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 .menu-text { font-size: 15px; font-weight: 600; color: #2c2e33; }
 .menu-right { display: flex; align-items: center; gap: 8px; }
 .arrow-icon { color: #ccc; font-size: 16px; font-weight: bold; }
 
-/* SPECIAL BADGES ON LIST */
 .level-badge {
- background: linear-gradient(90deg, #6b3fe4, #8f52f5);
- color: #fff; font-size: 10px; font-weight: 800;
- padding: 3px 8px; border-radius: 12px;
- border: 1px solid #cbb3ff; display: flex; align-items: center; gap: 2px;
+ background: linear-gradient(90deg, #6b3fe4, #8f52f5); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; border: 1px solid #cbb3ff;
 }
 .svip-badge {
- background: linear-gradient(90deg, #1b8a4f, #22b868);
- color: #fff; font-size: 9px; font-weight: 800;
- padding: 2px 7px; border-radius: 10px;
- border: 1px solid #73e6a7; display: flex; align-items: center; gap: 2px;
-}
-.aristocracy-badge {
- font-size: 18px;
+ background: linear-gradient(90deg, #1b8a4f, #22b868); color: #fff; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 10px; border: 1px solid #73e6a7;
 }
 .offline-tag {
- font-size: 11px; color: #a0a4ad; background: #f0f2f5;
- padding: 2px 8px; border-radius: 10px; display: flex; align-items: center; gap: 4px;
+ font-size: 11px; color: #a0a4ad; background: #f0f2f5; padding: 2px 8px; border-radius: 10px; display: flex; align-items: center; gap: 4px;
 }
 .offline-dot { width: 6px; height: 6px; border-radius: 50%; background: #bbb; }
 
 /* BOTTOM NAV */
 .bottom-nav{
- position:fixed;left:0;right:0;bottom:0;height:70px;padding:6px 8px;
- background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
- border-top:1px solid rgba(0,0,0,.05);display:flex;z-index:100;
- box-shadow:0 -4px 20px rgba(0,0,0,.05)
+ position:fixed;left:0;right:0;bottom:0;height:76px;padding:7px 8px 5px;
+ gap:4px;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
+ border-top:1px solid rgba(80,65,150,.08);display:flex;z-index:100;
+ box-shadow:0 -7px 24px rgba(35,30,80,.09)
 }
 .nav-item{
- flex:1;display:flex;flex-direction:column;justify-content:center;
- align-items:center;color:#a2a1ad;background:transparent;
- font-size:10px;font-weight:700;gap:3px
+ flex:1;position:relative;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;color:#a2a1ad;background:transparent;
+ border-radius:16px;font-size:9px;font-weight:700;gap:3px
 }
-.nav-item .nav-icon{font-size:22px}
-.nav-item.active{color:#1a1a1a}
+.nav-item .nav-icon{
+ width:42px;height:35px;display:flex;align-items:center;
+ justify-content:center;font-size:21px;border-radius:13px
+}
+.nav-item.active{color:#5d45df}
 .nav-item.active .nav-icon{
- background: linear-gradient(135deg, #00d2ff, #0072ff);
- -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+ background:linear-gradient(145deg,#eeeaff,#e4defe);
+ box-shadow:inset 0 1px 2px rgba(255,255,255,.9),0 3px 8px rgba(90,65,220,.12)
 }
 
-/* OTHER PAGES STYLES */
+/* ROOM SCREEN (ফুল ভয়েস রুম ডিজাইন) */
+#roomScreen{
+ position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white
+}
+#roomScreen.show{display:block}
+.room-bg{
+ position:absolute;inset:0;
+ background:radial-gradient(circle at 50% 25%,rgba(255,120,200,.35),transparent 30%),
+ radial-gradient(circle at 10% 70%,rgba(40,170,255,.28),transparent 28%),
+ linear-gradient(135deg,#26164f,#713d88 48%,#171f4a)
+}
+.room-top{
+ position:absolute;top:0;left:0;right:0;height:66px;padding:9px;
+ display:flex;align-items:center;gap:7px;z-index:5
+}
+.room-owner{display:flex;align-items:center;gap:7px;flex:1}
+.owner-avatar{width:43px;height:43px;border-radius:50%;object-fit:cover;border:2px solid white}
+.owner-name b{display:block;font-size:13px}
+.owner-name small{font-size:9px;opacity:.72}
+.room-top-btn{
+ width:39px;height:39px;border-radius:14px;display:flex;align-items:center;
+ justify-content:center;background:rgba(255,255,255,.15);
+ border:1px solid rgba(255,255,255,.23);color:white;font-size:17px
+}
+.room-welcome{
+ position:absolute;top:78px;left:12px;right:12px;text-align:center
+}
+.room-welcome span{
+ display:inline-block;background:rgba(0,0,0,.25);border-radius:20px;
+ padding:7px 13px;font-size:10px
+}
+.host-area{position:absolute;top:120px;left:0;right:0;text-align:center}
+.host-avatar{
+ width:76px;height:76px;object-fit:cover;border-radius:50%;
+ border:4px solid #ffe275
+}
+.host-name{margin-top:5px;font-size:11px;font-weight:700}
+.host-level{
+ display:inline-block;margin-top:4px;padding:3px 8px;border-radius:10px;
+ background:rgba(255,205,70,.25);font-size:8px
+}
+.seats{
+ position:absolute;top:265px;left:12px;right:12px;
+ display:grid;grid-template-columns:repeat(4,1fr);gap:17px 8px
+}
+.seat{height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.seat-circle{
+ width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.12);
+ border:2px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center
+}
+.seat-name{font-size:8px;margin-top:7px;max-width:65px;overflow:hidden}
+.room-chat{
+ position:absolute;left:10px;right:65px;bottom:120px;max-height:125px;
+ overflow:hidden;display:flex;flex-direction:column;gap:6px
+}
+.chat-line{
+ width:max-content;max-width:100%;background:rgba(0,0,0,.29);
+ border-radius:13px;padding:6px 9px;font-size:10px
+}
+.room-controls{
+ position:absolute;left:0;right:0;bottom:0;height:82px;padding:10px;
+ display:flex;align-items:center;gap:9px;
+ background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.08))
+}
+.control-btn{
+ width:45px;height:45px;border-radius:15px;color:white;
+ background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);font-size:20px
+}
+.gift-main{
+ flex:1;height:50px;border-radius:17px;background:linear-gradient(145deg,#ff74b5,#ee347f);
+ color:white;font-size:12px;font-weight:800
+}
+
+/* OTHER PAGES */
 .page-header{
  height:62px;background:white;display:flex;align-items:center;
  justify-content:center;font-size:18px;font-weight:900;
- position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(0,0,0,.04)
+ position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(30,30,70,.06)
 }
 .empty-area{
  min-height:calc(100vh - 145px);display:flex;align-items:center;
  justify-content:center;text-align:center;color:#aaa
 }
 
-/* ROOM */
-#roomScreen{
- position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
- background:linear-gradient(135deg,#26164f,#713d88 48%,#171f4a)
-}
-#roomScreen.show{display:block}
-
 /* TOAST */
 #toast{
- position:fixed;left:50%;bottom:85px;transform:translateX(-50%) translateY(20px);
+ position:fixed;left:50%;bottom:98px;transform:translateX(-50%) translateY(20px);
  background:rgba(25,25,35,.92);color:white;padding:10px 16px;border-radius:14px;
  font-size:11px;opacity:0;pointer-events:none;z-index:1000;transition:.25s
 }
@@ -258,13 +314,13 @@ input,textarea{font-family:inherit;outline:none}
 <div id="app">
 
 <!-- HOME PAGE -->
-<section id="homePage" class="page">
+<section id="homePage" class="page show">
 <div class="home-top">
  <div class="home-tabs">
   <button class="home-tab active">Popular</button>
   <button class="home-tab">Recent</button>
  </div>
- <button class="top-action btn3d primary" onclick="openCreateRoom()">＋</button>
+ <button class="top-action btn3d primary" onclick="enterRoom()">＋</button>
 </div>
 
 <div class="event-slider-wrap">
@@ -273,20 +329,39 @@ input,textarea{font-family:inherit;outline:none}
    <div class="event-slide">
     <div class="event-content">
      <h2>MR Chat Grand Opening</h2>
-     <p>Welcome to MR Chat. Meet new people and enjoy voice rooms.</p>
+     <p>Welcome to MR Chat. Meet new people and enjoy voice rooms together.</p>
+     <button class="event-button" onclick="showToast('Welcome to MR Chat!')">Join Event</button>
     </div>
    </div>
   </div>
  </div>
 </div>
 
-<div class="section-title"><b>Voice Rooms</b></div>
+<div class="categories">
+ <button class="category btn3d" onclick="showToast('Rank')"><div class="icon">🏆</div>Rank</button>
+ <button class="category btn3d" onclick="showToast('CP')"><div class="icon">💜</div>CP</button>
+ <button class="category btn3d" onclick="showToast('Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+</div>
+
+<div class="section-title">
+ <b>Voice Rooms</b><span>LIVE NOW</span>
+</div>
+
 <div class="room-grid">
  <div class="room-card" onclick="enterRoom()">
   <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
   <div class="room-overlay"></div>
   <div class="room-info">
    <div class="room-name">Friendship Lounge</div>
+   <div class="room-meta"><span class="live"><i class="live-dot"></i>Live</span><span>128</span></div>
+  </div>
+ </div>
+ <div class="room-card" onclick="enterRoom()">
+  <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
+  <div class="room-overlay"></div>
+  <div class="room-info">
+   <div class="room-name">Night Friends</div>
+   <div class="room-meta"><span class="live"><i class="live-dot"></i>Live</span><span>86</span></div>
   </div>
  </div>
 </div>
@@ -311,16 +386,14 @@ input,textarea{font-family:inherit;outline:none}
 </section>
 
 
-<!-- ME (PROFILE) PAGE - SCREENSHOT MATCHED DESIGN -->
-<section id="mePage" class="page show">
+<!-- ME (PROFILE) PAGE - EXACT MATCH WITH SCREENSHOT -->
+<section id="mePage" class="page">
 
  <div class="me-header-bg">
   <div class="profile-user-info">
    <img class="profile-user-avatar" src="https://i.pravatar.cc/200?img=11" alt="Avatar">
    <div class="profile-user-details">
-    <div class="profile-name-row">
-     <span class="profile-user-name">༄Mia༴✿Vai༻</span>
-    </div>
+    <div class="profile-user-name">༄Mia༴✿Vai༻</div>
     <div class="profile-user-id">ID:100927248</div>
    </div>
   </div>
@@ -343,19 +416,19 @@ input,textarea{font-family:inherit;outline:none}
 
  <!-- WALLET & STORE -->
  <div class="cards-container">
-  <div class="wallet-card" onclick="showToast('Wallet Clicked')">
+  <div class="wallet-card" onclick="showToast('Wallet')">
    <div class="wallet-title">Wallet</div>
    <div class="wallet-balance"><span>🪙</span> 32732</div>
    <div class="wallet-icon">👛</div>
   </div>
 
-  <div class="store-card" onclick="showToast('Store Clicked')">
+  <div class="store-card" onclick="showToast('Store')">
    <div class="store-title">Store</div>
    <div class="store-icon">🏪</div>
   </div>
  </div>
 
- <!-- FIRST MENU GROUP -->
+ <!-- FIRST MENU LIST -->
  <div class="menu-card">
 
   <div class="menu-item" onclick="showToast('Invite get coins')">
@@ -426,14 +499,14 @@ input,textarea{font-family:inherit;outline:none}
     <span class="menu-text">Aristocracy</span>
    </div>
    <div class="menu-right">
-    <div class="aristocracy-badge">🦅</div>
+    <span style="font-size:18px">🦅</span>
     <span class="arrow-icon">›</span>
    </div>
   </div>
 
  </div>
 
- <!-- SECOND MENU GROUP -->
+ <!-- SECOND MENU LIST -->
  <div class="menu-card">
 
   <div class="menu-item" onclick="showToast('Language')">
@@ -477,28 +550,71 @@ input,textarea{font-family:inherit;outline:none}
 
 <!-- BOTTOM NAVIGATION -->
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="switchPage('homePage', this)">
+  <button class="nav-item active" onclick="switchPage('homePage', this)">
     <div class="nav-icon">🏠</div>
+    <span>Home</span>
   </button>
   <button class="nav-item" onclick="switchPage('discoverPage', this)">
-    <div class="nav-icon">🪐</div>
+    <div class="nav-icon">🧭</div>
+    <span>Discover</span>
   </button>
   <button class="nav-item" onclick="switchPage('momentPage', this)">
-    <div class="nav-icon">📢</div>
+    <div class="nav-icon">📸</div>
+    <span>Moment</span>
   </button>
   <button class="nav-item" onclick="switchPage('messagePage', this)">
     <div class="nav-icon">💬</div>
+    <span>Message</span>
   </button>
-  <button class="nav-item active" onclick="switchPage('mePage', this)">
-    <div class="nav-icon">👥</div>
+  <button class="nav-item" onclick="switchPage('mePage', this)">
+    <div class="nav-icon">👤</div>
+    <span>Me</span>
   </button>
 </nav>
 
-<!-- ROOM SCREEN -->
+<!-- ROOM SCREEN MODAL -->
 <div id="roomScreen">
-  <div style="padding:20px;text-align:center">
-   <h2>Voice Room</h2>
-   <button onclick="exitRoom()" style="margin-top:20px;padding:10px 20px;border-radius:10px">Exit Room</button>
+  <div class="room-bg"></div>
+  <div class="room-top">
+    <div class="room-owner">
+      <img class="owner-avatar" src="https://i.pravatar.cc/150?img=11" alt="Owner">
+      <div class="owner-name">
+        <b>MR Chat Room</b>
+        <small>ID: 888888</small>
+      </div>
+    </div>
+    <button class="room-top-btn" onclick="exitRoom()">✕</button>
+  </div>
+
+  <div class="room-welcome">
+    <span>Welcome to the voice room! Respect others.</span>
+  </div>
+
+  <div class="host-area">
+    <img class="host-avatar" src="https://i.pravatar.cc/150?img=11" alt="Host">
+    <div class="host-name">Room Host</div>
+    <span class="host-level">LV 12</span>
+  </div>
+
+  <div class="seats">
+    <div class="seat"><div class="seat-circle">1</div><span class="seat-name">Seat 1</span></div>
+    <div class="seat"><div class="seat-circle">2</div><span class="seat-name">Seat 2</span></div>
+    <div class="seat"><div class="seat-circle">3</div><span class="seat-name">Seat 3</span></div>
+    <div class="seat"><div class="seat-circle">4</div><span class="seat-name">Seat 4</span></div>
+    <div class="seat"><div class="seat-circle">5</div><span class="seat-name">Seat 5</span></div>
+    <div class="seat"><div class="seat-circle">6</div><span class="seat-name">Seat 6</span></div>
+    <div class="seat"><div class="seat-circle">7</div><span class="seat-name">Seat 7</span></div>
+    <div class="seat"><div class="seat-circle">8</div><span class="seat-name">Seat 8</span></div>
+  </div>
+
+  <div class="room-chat">
+    <div class="chat-line">System: Welcome to MR Chat Room!</div>
+  </div>
+
+  <div class="room-controls">
+    <button class="control-btn" onclick="showToast('Mic Toggled')">🎤</button>
+    <button class="gift-main" onclick="showToast('Gift menu')">🎁 Send Gift</button>
+    <button class="control-btn" onclick="exitRoom()">🚪</button>
   </div>
 </div>
 
