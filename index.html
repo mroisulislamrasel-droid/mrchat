@@ -1,60 +1,537 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HiChat - Voice Party Room</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Agora Web SDK v4 -->
-  <script src="https://download.agora.io/sdk/release/AgoraRTC_N-4.18.2.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>MR Chat</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#f4f6fa;color:#222}
+button{border:0;font-family:inherit;cursor:pointer;outline:none}
+input,textarea{font-family:inherit;outline:none}
+#app{width:100%;height:100%;position:relative;overflow:hidden}
+
+.page{
+ position:absolute;inset:0;background:#f4f6fa;display:none;
+ overflow-y:auto;padding-bottom:85px
+}
+.page.show{display:block}
+
+.btn3d{
+ position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
+ box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16);transition:.15s
+}
+.btn3d:active{transform:translateY(4px) scale(.98)}
+.btn3d.primary{color:white;background:linear-gradient(145deg,#8066ff,#5036df)}
+
+/* HOME NAVBAR */
+.home-top{
+ height:64px;background:rgba(255,255,255,.97);display:flex;align-items:center;
+ padding:0 9px;gap:7px;position:sticky;top:0;z-index:20;
+ border-bottom:1px solid rgba(90,67,233,.08);box-shadow:0 4px 15px rgba(40,35,90,.07)
+}
+.home-tabs{
+ display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;
+ overflow:hidden;background:#f3f2f8;border-radius:17px
+}
+.home-tab{
+ height:36px;padding:0 11px;border-radius:13px;display:flex;
+ align-items:center;justify-content:center;font-size:12px;font-weight:800;
+ color:#9998a5;background:transparent
+}
+.home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 3px 9px rgba(70,55,150,.12)}
+.top-action{
+ width:42px;height:42px;min-width:42px;display:flex;align-items:center;
+ justify-content:center;border-radius:14px;font-size:20px;font-weight:800
+}
+
+/* HOME CONTENT */
+.event-slider-wrap{padding:10px 10px 4px}
+.event-slider{
+ width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
+ box-shadow:0 8px 20px rgba(60,50,120,.22)
+}
+.event-track{width:100%;height:100%;display:flex;transition:transform .5s}
+.event-slide{min-width:100%;height:100%;position:relative;overflow:hidden;color:white}
+.event-slide:nth-child(1){background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover}
+.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
+.event-content h2{font-size:23px;margin-bottom:6px}
+.event-content p{font-size:11px;line-height:1.45;max-width:270px}
+.event-button{
+ height:33px;padding:0 16px;margin-top:11px;border-radius:17px;
+ background:white;color:#5b42df;font-weight:800;font-size:10px
+}
+
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px}
+.category{
+ min-height:78px;border-radius:19px;padding:10px 7px;display:flex;
+ flex-direction:column;align-items:center;justify-content:center;
+ font-size:11px;font-weight:800
+}
+.category .icon{font-size:28px;margin-bottom:5px}
+
+.section-title{
+ padding:13px 12px 9px;display:flex;align-items:center;
+ justify-content:space-between;font-size:15px;font-weight:900
+}
+.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
+.room-card{
+ height:205px;border-radius:19px;overflow:hidden;position:relative;
+ background:#ddd;box-shadow:0 6px 15px rgba(30,30,60,.14)
+}
+.room-card img{width:100%;height:100%;object-fit:cover}
+.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.78))}
+.room-info{position:absolute;bottom:9px;left:10px;right:8px;color:white}
+.room-name{font-weight:800;font-size:13px;margin-bottom:5px}
+
+/* ME (PROFILE) SCREEN - SCREENSHOT DESIGN MATCH */
+.me-header-bg {
+ background: linear-gradient(180deg, #e8f4fd 0%, #f4f6fa 100%);
+ padding: 25px 16px 10px;
+}
+.profile-top-bar {
+ display: flex; align-items: center; justify-content: space-between;
+}
+.profile-user-info {
+ display: flex; align-items: center; gap: 14px; margin-top: 10px;
+}
+.profile-user-avatar {
+ width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+ border: 2px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.profile-user-details {
+ flex: 1;
+}
+.profile-name-row {
+ display: flex; align-items: center; gap: 6px;
+}
+.profile-user-name {
+ font-size: 20px; font-weight: 800; color: #1a1a1a;
+}
+.profile-user-id {
+ font-size: 13px; color: #9a9ea7; margin-top: 4px; font-weight: 600;
+}
+.profile-stats-row {
+ display: flex; align-items: center; margin-top: 20px; gap: 35px;
+}
+.stat-item {
+ text-align: left;
+}
+.stat-value {
+ font-size: 18px; font-weight: 800; color: #111;
+}
+.stat-label {
+ font-size: 12px; color: #8c9099; margin-top: 2px; font-weight: 600;
+}
+.family-badge {
+ margin-left: auto; width: 62px; height: 50px;
+ background: linear-gradient(135deg, #d8a050, #b27626);
+ border-radius: 12px; display: flex; flex-direction: column;
+ align-items: center; justify-content: center; color: #fff;
+ box-shadow: 0 4px 10px rgba(178,118,38,0.3);
+}
+.family-badge .icon { font-size: 18px; }
+.family-badge span { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
+
+/* WALLET & STORE CARDS */
+.cards-container {
+ display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+ padding: 10px 16px;
+}
+.wallet-card {
+ background: linear-gradient(135deg, #ff8c66, #ff6b4a);
+ border-radius: 18px; padding: 16px; color: white;
+ position: relative; overflow: hidden; height: 85px;
+ display: flex; flex-direction: column; justify-content: space-between;
+ box-shadow: 0 6px 16px rgba(255,107,74,0.25);
+}
+.wallet-title { font-size: 16px; font-weight: 700; }
+.wallet-balance { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+.wallet-icon { position: absolute; right: 8px; bottom: 8px; font-size: 38px; opacity: 0.9; }
+
+.store-card {
+ background: linear-gradient(135deg, #66b5ff, #3b9eff);
+ border-radius: 18px; padding: 16px; color: white;
+ position: relative; overflow: hidden; height: 85px;
+ display: flex; align-items: flex-start;
+ box-shadow: 0 6px 16px rgba(59,158,255,0.25);
+}
+.store-title { font-size: 17px; font-weight: 700; }
+.store-icon { position: absolute; right: 8px; bottom: 8px; font-size: 42px; opacity: 0.9; }
+
+/* MENU CARDS LIST */
+.menu-card {
+ background: #ffffff; border-radius: 20px;
+ margin: 12px 16px; padding: 4px 0;
+ box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.menu-item {
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 14px 16px; transition: background 0.2s;
+}
+.menu-item:active { background: #f9f9fb; }
+.menu-left { display: flex; align-items: center; gap: 14px; }
+.menu-icon-wrap {
+ width: 32px; height: 32px; border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ font-size: 18px;
+}
+.menu-text { font-size: 15px; font-weight: 600; color: #2c2e33; }
+.menu-right { display: flex; align-items: center; gap: 8px; }
+.arrow-icon { color: #ccc; font-size: 16px; font-weight: bold; }
+
+/* SPECIAL BADGES ON LIST */
+.level-badge {
+ background: linear-gradient(90deg, #6b3fe4, #8f52f5);
+ color: #fff; font-size: 10px; font-weight: 800;
+ padding: 3px 8px; border-radius: 12px;
+ border: 1px solid #cbb3ff; display: flex; align-items: center; gap: 2px;
+}
+.svip-badge {
+ background: linear-gradient(90deg, #1b8a4f, #22b868);
+ color: #fff; font-size: 9px; font-weight: 800;
+ padding: 2px 7px; border-radius: 10px;
+ border: 1px solid #73e6a7; display: flex; align-items: center; gap: 2px;
+}
+.aristocracy-badge {
+ font-size: 18px;
+}
+.offline-tag {
+ font-size: 11px; color: #a0a4ad; background: #f0f2f5;
+ padding: 2px 8px; border-radius: 10px; display: flex; align-items: center; gap: 4px;
+}
+.offline-dot { width: 6px; height: 6px; border-radius: 50%; background: #bbb; }
+
+/* BOTTOM NAV */
+.bottom-nav{
+ position:fixed;left:0;right:0;bottom:0;height:70px;padding:6px 8px;
+ background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
+ border-top:1px solid rgba(0,0,0,.05);display:flex;z-index:100;
+ box-shadow:0 -4px 20px rgba(0,0,0,.05)
+}
+.nav-item{
+ flex:1;display:flex;flex-direction:column;justify-content:center;
+ align-items:center;color:#a2a1ad;background:transparent;
+ font-size:10px;font-weight:700;gap:3px
+}
+.nav-item .nav-icon{font-size:22px}
+.nav-item.active{color:#1a1a1a}
+.nav-item.active .nav-icon{
+ background: linear-gradient(135deg, #00d2ff, #0072ff);
+ -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* OTHER PAGES STYLES */
+.page-header{
+ height:62px;background:white;display:flex;align-items:center;
+ justify-content:center;font-size:18px;font-weight:900;
+ position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(0,0,0,.04)
+}
+.empty-area{
+ min-height:calc(100vh - 145px);display:flex;align-items:center;
+ justify-content:center;text-align:center;color:#aaa
+}
+
+/* ROOM */
+#roomScreen{
+ position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
+ background:linear-gradient(135deg,#26164f,#713d88 48%,#171f4a)
+}
+#roomScreen.show{display:block}
+
+/* TOAST */
+#toast{
+ position:fixed;left:50%;bottom:85px;transform:translateX(-50%) translateY(20px);
+ background:rgba(25,25,35,.92);color:white;padding:10px 16px;border-radius:14px;
+ font-size:11px;opacity:0;pointer-events:none;z-index:1000;transition:.25s
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(min-width:700px){
+ .page, .bottom-nav, #roomScreen{max-width:520px;left:50%;transform:translateX(-50%)}
+}
+</style>
 </head>
+
 <body>
+<div id="app">
 
-  <div class="app-container">
-    <!-- Header -->
-    <header class="header">
-      <h2>🔥 HiChat Party Room</h2>
-      <span class="room-status" id="status">Disconnected</span>
-    </header>
+<!-- HOME PAGE -->
+<section id="homePage" class="page">
+<div class="home-top">
+ <div class="home-tabs">
+  <button class="home-tab active">Popular</button>
+  <button class="home-tab">Recent</button>
+ </div>
+ <button class="top-action btn3d primary" onclick="openCreateRoom()">＋</button>
+</div>
 
-    <!-- Join Controls -->
-    <div class="join-box" id="join-box">
-      <input type="text" id="username" placeholder="আপনার নাম লিখুন..." required>
-      <button id="join-btn" onclick="joinRoom()">রুমে যোগ দিন</button>
+<div class="event-slider-wrap">
+ <div class="event-slider">
+  <div class="event-track">
+   <div class="event-slide">
+    <div class="event-content">
+     <h2>MR Chat Grand Opening</h2>
+     <p>Welcome to MR Chat. Meet new people and enjoy voice rooms.</p>
     </div>
+   </div>
+  </div>
+ </div>
+</div>
 
-    <!-- Voice Seats (HiChat Style Lounge) -->
-    <div class="seats-grid" id="seats-container">
-      <!-- 6 Seats for Speakers -->
-      <div class="seat" id="seat-1"><div class="avatar">🎤</div><p>সিট ১</p></div>
-      <div class="seat" id="seat-2"><div class="avatar">🎤</div><p>সিট ২</p></div>
-      <div class="seat" id="seat-3"><div class="avatar">🎤</div><p>সিট ৩</p></div>
-      <div class="seat" id="seat-4"><div class="avatar">🎤</div><p>সিট ৪</p></div>
-      <div class="seat" id="seat-5"><div class="avatar">🎤</div><p>সিট ৫</p></div>
-      <div class="seat" id="seat-6"><div class="avatar">🎤</div><p>সিট ৬</p></div>
-    </div>
+<div class="section-title"><b>Voice Rooms</b></div>
+<div class="room-grid">
+ <div class="room-card" onclick="enterRoom()">
+  <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
+  <div class="room-overlay"></div>
+  <div class="room-info">
+   <div class="room-name">Friendship Lounge</div>
+  </div>
+ </div>
+</div>
+</section>
 
-    <!-- Live Chat Box -->
-    <div class="chat-section">
-      <div class="chat-messages" id="chat-messages">
-        <p class="system-msg">স্বাগতম! হাই চ্যাট রুমে জয়েন করুন।</p>
-      </div>
-      <div class="chat-input-box">
-        <input type="text" id="chat-input" placeholder="মেসেজ লিখুন...">
-        <button onclick="sendMessage()">পাঠান</button>
-      </div>
-    </div>
+<!-- DISCOVER PAGE -->
+<section id="discoverPage" class="page">
+ <div class="page-header">Discover</div>
+ <div class="empty-area"><b>Discover is Empty</b></div>
+</section>
 
-    <!-- Bottom Controls & Gifts -->
-    <div class="bottom-controls">
-      <button class="icon-btn gift-btn" onclick="sendGift('🌹 গোলাপ')">🌹</button>
-      <button class="icon-btn gift-btn" onclick="sendGift('👑 মুকুট')">👑</button>
-      <button class="icon-btn gift-btn" onclick="sendGift('🚀 রকেট')">🚀</button>
-      <button class="icon-btn mic-btn" id="mic-btn" onclick="toggleMic()" disabled>🎤 মাইক</button>
-      <button class="icon-btn leave-btn" id="leave-btn" onclick="leaveRoom()" disabled>❌ বের হন</button>
+<!-- MOMENT PAGE -->
+<section id="momentPage" class="page">
+ <div class="page-header">Moment</div>
+ <div class="empty-area"><b>No Moments Yet</b></div>
+</section>
+
+<!-- MESSAGE PAGE -->
+<section id="messagePage" class="page">
+ <div class="page-header">Message</div>
+ <div class="empty-area"><b>No Messages Yet</b></div>
+</section>
+
+
+<!-- ME (PROFILE) PAGE - SCREENSHOT MATCHED DESIGN -->
+<section id="mePage" class="page show">
+
+ <div class="me-header-bg">
+  <div class="profile-user-info">
+   <img class="profile-user-avatar" src="https://i.pravatar.cc/200?img=11" alt="Avatar">
+   <div class="profile-user-details">
+    <div class="profile-name-row">
+     <span class="profile-user-name">༄Mia༴✿Vai༻</span>
     </div>
+    <div class="profile-user-id">ID:100927248</div>
+   </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="profile-stats-row">
+   <div class="stat-item">
+    <div class="stat-value">15</div>
+    <div class="stat-label">Follow</div>
+   </div>
+   <div class="stat-item">
+    <div class="stat-value">26</div>
+    <div class="stat-label">Fans</div>
+   </div>
+   <div class="family-badge">
+    <div class="icon">⚔️</div>
+    <span>FAMILY</span>
+   </div>
+  </div>
+ </div>
+
+ <!-- WALLET & STORE -->
+ <div class="cards-container">
+  <div class="wallet-card" onclick="showToast('Wallet Clicked')">
+   <div class="wallet-title">Wallet</div>
+   <div class="wallet-balance"><span>🪙</span> 32732</div>
+   <div class="wallet-icon">👛</div>
+  </div>
+
+  <div class="store-card" onclick="showToast('Store Clicked')">
+   <div class="store-title">Store</div>
+   <div class="store-icon">🏪</div>
+  </div>
+ </div>
+
+ <!-- FIRST MENU GROUP -->
+ <div class="menu-card">
+
+  <div class="menu-item" onclick="showToast('Invite get coins')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#ffb300">💰</div>
+    <span class="menu-text">Invite get coins</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Love House')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#8c66ff">💜</div>
+    <span class="menu-text">Love House</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('CP Level')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#ff4d88">💖</div>
+    <span class="menu-text">CP Level</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Prop Warehouse')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#33b5e5">🛞</div>
+    <span class="menu-text">Prop Warehouse</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Medal')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#ff8800">🏅</div>
+    <span class="menu-text">Medal</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Level')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#00c851">🛡️</div>
+    <span class="menu-text">Level</span>
+   </div>
+   <div class="menu-right">
+    <div class="level-badge">✦ LV.41 ✦</div>
+    <span class="arrow-icon">›</span>
+   </div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('SVIP')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#7852ff">💎</div>
+    <span class="menu-text">SVIP</span>
+   </div>
+   <div class="menu-right">
+    <div class="svip-badge">👑 SVIP2</div>
+    <span class="arrow-icon">›</span>
+   </div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Aristocracy')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#ffbb33">👑</div>
+    <span class="menu-text">Aristocracy</span>
+   </div>
+   <div class="menu-right">
+    <div class="aristocracy-badge">🦅</div>
+    <span class="arrow-icon">›</span>
+   </div>
+  </div>
+
+ </div>
+
+ <!-- SECOND MENU GROUP -->
+ <div class="menu-card">
+
+  <div class="menu-item" onclick="showToast('Language')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#222">🌐</div>
+    <span class="menu-text">Language</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Customer service')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#222">🎧</div>
+    <span class="menu-text">Customer service</span>
+   </div>
+   <div class="menu-right">
+    <div class="offline-tag"><span class="offline-dot"></span> Offline</div>
+    <span class="arrow-icon">›</span>
+   </div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Feedback')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#222">💬</div>
+    <span class="menu-text">Feedback</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+  <div class="menu-item" onclick="showToast('Settings')">
+   <div class="menu-left">
+    <div class="menu-icon-wrap" style="color:#222">⚙️</div>
+    <span class="menu-text">Settings</span>
+   </div>
+   <div class="menu-right"><span class="arrow-icon">›</span></div>
+  </div>
+
+ </div>
+
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="switchPage('homePage', this)">
+    <div class="nav-icon">🏠</div>
+  </button>
+  <button class="nav-item" onclick="switchPage('discoverPage', this)">
+    <div class="nav-icon">🪐</div>
+  </button>
+  <button class="nav-item" onclick="switchPage('momentPage', this)">
+    <div class="nav-icon">📢</div>
+  </button>
+  <button class="nav-item" onclick="switchPage('messagePage', this)">
+    <div class="nav-icon">💬</div>
+  </button>
+  <button class="nav-item active" onclick="switchPage('mePage', this)">
+    <div class="nav-icon">👥</div>
+  </button>
+</nav>
+
+<!-- ROOM SCREEN -->
+<div id="roomScreen">
+  <div style="padding:20px;text-align:center">
+   <h2>Voice Room</h2>
+   <button onclick="exitRoom()" style="margin-top:20px;padding:10px 20px;border-radius:10px">Exit Room</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+</div>
+
+<script>
+function switchPage(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.getElementById(pageId).classList.add('show');
+  
+  if (btn) {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.innerText = msg;
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); }, 2000);
+}
+
+function enterRoom() {
+  document.getElementById('roomScreen').classList.add('show');
+}
+
+function exitRoom() {
+  document.getElementById('roomScreen').classList.remove('show');
+}
+</script>
 </body>
 </html>
