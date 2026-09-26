@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HiChat - Voice Party Room</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Agora Web SDK v4 -->
+  <script src="https://download.agora.io/sdk/release/AgoraRTC_N-4.18.2.js"></script>
+</head>
+<body>
 
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <h2>🔥 HiChat Party Room</h2>
+      <span class="room-status" id="status">Disconnected</span>
+    </header>
+
+    <!-- Join Controls -->
+    <div class="join-box" id="join-box">
+      <input type="text" id="username" placeholder="আপনার নাম লিখুন..." required>
+      <button id="join-btn" onclick="joinRoom()">রুমে যোগ দিন</button>
+    </div>
+
+    <!-- Voice Seats (HiChat Style Lounge) -->
+    <div class="seats-grid" id="seats-container">
+      <!-- 6 Seats for Speakers -->
+      <div class="seat" id="seat-1"><div class="avatar">🎤</div><p>সিট ১</p></div>
+      <div class="seat" id="seat-2"><div class="avatar">🎤</div><p>সিট ২</p></div>
+      <div class="seat" id="seat-3"><div class="avatar">🎤</div><p>সিট ৩</p></div>
+      <div class="seat" id="seat-4"><div class="avatar">🎤</div><p>সিট ৪</p></div>
+      <div class="seat" id="seat-5"><div class="avatar">🎤</div><p>সিট ৫</p></div>
+      <div class="seat" id="seat-6"><div class="avatar">🎤</div><p>সিট ৬</p></div>
+    </div>
+
+    <!-- Live Chat Box -->
+    <div class="chat-section">
+      <div class="chat-messages" id="chat-messages">
+        <p class="system-msg">স্বাগতম! হাই চ্যাট রুমে জয়েন করুন।</p>
+      </div>
+      <div class="chat-input-box">
+        <input type="text" id="chat-input" placeholder="মেসেজ লিখুন...">
+        <button onclick="sendMessage()">পাঠান</button>
+      </div>
+    </div>
+
+    <!-- Bottom Controls & Gifts -->
+    <div class="bottom-controls">
+      <button class="icon-btn gift-btn" onclick="sendGift('🌹 গোলাপ')">🌹</button>
+      <button class="icon-btn gift-btn" onclick="sendGift('👑 মুকুট')">👑</button>
+      <button class="icon-btn gift-btn" onclick="sendGift('🚀 রকেট')">🚀</button>
+      <button class="icon-btn mic-btn" id="mic-btn" onclick="toggleMic()" disabled>🎤 মাইক</button>
+      <button class="icon-btn leave-btn" id="leave-btn" onclick="leaveRoom()" disabled>❌ বের হন</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
