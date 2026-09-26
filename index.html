@@ -1,397 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MR Chat</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MR Chat Room</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#1a192e;color:#fff}
-button{border:0;font-family:inherit;cursor:pointer;outline:none}
-input,textarea{font-family:inherit;outline:none}
-#app{width:100%;height:100%;position:relative;overflow:hidden;background:#161527}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#0d041e;color:#fff}
 
-.page{
- position:absolute;inset:0;background:#161527;display:none;
- overflow-y:auto;padding-bottom:88px
-}
-.page.show{display:block}
-
-.btn3d{
- position:relative;border-radius:15px;background:linear-gradient(145deg,#282545,#1e1c35);
- box-shadow:0 5px 0 #121124,0 8px 16px rgba(0,0,0,.3);transition:.15s;color:#fff
-}
-.btn3d:active{
- transform:translateY(4px) scale(.98);
- box-shadow:0 1px 0 #121124,0 3px 8px rgba(0,0,0,.3)
-}
-.btn3d.primary{
- color:white;background:linear-gradient(145deg,#8066ff,#5036df);
- box-shadow:0 5px 0 #3824a9,0 9px 18px rgba(88,63,230,.32)
-}
-.btn3d.pink{
- color:white;background:linear-gradient(145deg,#ff70a8,#ed3d82);
- box-shadow:0 5px 0 #b7255e,0 9px 18px rgba(237,61,130,.3)
+#roomScreen{
+  position:relative;width:100%;height:100%;max-width:480px;margin:0 auto;
+  background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%);
+  display:flex;flex-direction:column;justify-content:space-between;overflow:hidden
 }
 
 /* TOP HEADER */
-.home-top{
- height:64px;background:#1f1d36;display:flex;align-items:center;
- padding:0 12px;gap:8px;position:sticky;top:0;z-index:20;
- border-bottom:1px solid rgba(255,255,255,.05)
+.top-bar{
+  height:55px;padding:8px 10px;display:flex;align-items:center;
+  justify-content:space-between;z-index:10;background:rgba(0,0,0,0.15)
 }
-.home-tabs{
- display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;
- overflow:hidden;background:#161527;border-radius:17px
-}
-.home-tab{
- height:36px;padding:0 12px;border-radius:13px;display:flex;
- align-items:center;justify-content:center;font-size:12px;font-weight:800;
- color:#a2a1ad;white-space:nowrap;background:transparent
-}
-.home-tab.active{
- color:#fff;background:linear-gradient(145deg,#7155ff,#ed55a2);
- box-shadow:0 3px 9px rgba(113,85,255,.3)
-}
-.top-action{
- width:42px;height:42px;min-width:42px;display:flex;align-items:center;
- justify-content:center;border-radius:14px;font-size:18px;font-weight:800
+.room-profile{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px}
+.avatar-thumb{width:36px;height:36px;border-radius:50%;border:1px solid #ffd700;object-fit:cover}
+.room-meta b{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
+.room-meta small{font-size:9px;color:#ddd;display:flex;gap:4px}
+
+.top-center-tag{
+  background:linear-gradient(90deg,#3b82f6,#ec4899);padding:3px 8px;border-radius:12px;
+  font-size:10px;font-weight:bold;display:flex;align-items:center;gap:4px
 }
 
-/* SLIDER & BANNER */
-.event-slider-wrap{padding:12px 12px 4px}
-.event-slider{
- width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
- box-shadow:0 8px 20px rgba(0,0,0,.4)
-}
-.event-track{width:100%;height:100%;display:flex;transition:transform .5s}
-.event-slide{
- min-width:100%;height:100%;position:relative;overflow:hidden;color:white
-}
-.event-slide:nth-child(1){background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover}
-.event-slide:nth-child(2){background:linear-gradient(110deg,rgba(235,53,125,.86),rgba(255,181,75,.45)),url("https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80") center/cover}
-.event-slide:nth-child(3){background:linear-gradient(110deg,rgba(30,90,210,.88),rgba(91,211,255,.43)),url("https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=80") center/cover}
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.event-content h2{font-size:22px;margin-bottom:6px}
-.event-content p{font-size:11px;line-height:1.45;max-width:270px;opacity:.8}
-.event-button{
- height:33px;padding:0 16px;margin-top:11px;border-radius:17px;
- background:white;color:#5b42df;font-weight:800;font-size:10px
+.top-right-actions{display:flex;align-items:center;gap:10px}
+.circle-btn{
+  width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#fff;cursor:pointer
 }
 
-/* CATEGORIES / FOLDERS GRID */
-.categories{
- display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px
-}
-.category{
- min-height:75px;border-radius:16px;padding:8px;display:flex;
- flex-direction:column;align-items:center;justify-content:center;
- font-size:11px;font-weight:800;background:#211f3b;border:1px solid rgba(255,255,255,.05)
-}
-.category .icon{font-size:24px;margin-bottom:4px}
-
-/* ROOM & USER CARDS */
-.section-title{
- padding:14px 12px 8px;display:flex;align-items:center;
- justify-content:space-between;font-size:15px;font-weight:900
-}
-.section-title span{
- padding:4px 8px;border-radius:8px;background:rgba(113,85,255,.2);
- color:#a28aff;font-size:9px
-}
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px}
-.room-card{
- height:190px;border-radius:18px;overflow:hidden;position:relative;
- background:#211f3b;box-shadow:0 6px 15px rgba(0,0,0,.3)
-}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(15,14,26,.9))}
-.room-info{position:absolute;bottom:10px;left:10px;right:10px;color:white}
-.room-name{font-weight:800;font-size:13px;margin-bottom:4px}
-.room-meta{font-size:10px;display:flex;justify-content:space-between;opacity:.8}
-.live{display:inline-flex;align-items:center;gap:4px;color:#ff405d;font-weight:800}
-
-/* SCREENSHOT MODEL BOTTOM NAV & FOLDERS */
-.bottom-nav{
- position:fixed;left:0;right:0;bottom:0;height:72px;padding:6px 12px;
- background:#1a182d;border-top:1px solid rgba(255,255,255,.08);
- display:flex;justify-content:space-between;align-items:center;z-index:100
-}
-.nav-item{
- flex:1;display:flex;flex-direction:column;align-items:center;
- justify-content:center;color:#817e99;background:transparent;
- font-size:10px;font-weight:700;gap:4px;height:100%;border-radius:14px
-}
-.nav-item .nav-icon{font-size:22px}
-.nav-item.active{color:#ff55a5}
-.nav-item.active .nav-icon{transform:scale(1.1);transition:.2s}
-
-/* SUB FOLDERS MENU (MODELLED FROM SCREENSHOT) */
-.sub-folders-container{
- padding:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px
-}
-.folder-card{
- background:#211f3b;border-radius:16px;padding:14px;
- border:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:12px
-}
-.folder-icon{
- width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#7155ff,#ed55a2);
- display:flex;align-items:center;justify-content:center;font-size:20px
-}
-.folder-info b{display:block;font-size:13px;color:#fff}
-.folder-info small{font-size:10px;color:#817e99}
-
-/* PAGE HEADERS */
-.page-header{
- height:60px;background:#1f1d36;display:flex;align-items:center;
- justify-content:center;font-size:18px;font-weight:900;
- position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,.05)
+.trophy-badge{
+  position:absolute;top:60px;left:10px;background:rgba(0,0,0,0.3);
+  padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold
 }
 
-/* MESSAGE LIST & CHAT */
-.message-list{padding:12px}
-.message-card{
- height:72px;background:#211f3b;border-radius:16px;margin-bottom:10px;
- display:flex;align-items:center;padding:12px;border:1px solid rgba(255,255,255,.05)
+/* HOST AREA */
+.host-container{
+  margin-top:20px;display:flex;flex-direction:column;align-items:center;z-index:5
 }
-.message-icon{
- width:48px;height:48px;border-radius:14px;display:flex;
- align-items:center;justify-content:center;font-size:22px;background:#2c284a
+.host-avatar-wrap{
+  position:relative;width:75px;height:75px;display:flex;align-items:center;justify-content:center
 }
-.message-info{flex:1;padding-left:12px;min-width:0}
-.message-info b{font-size:14px;color:#fff}
-.message-info p{font-size:11px;color:#817e99;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.host-avatar-wrap::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:linear-gradient(45deg, #ff007f, #ffd700, #ff007f);
+  box-shadow:0 0 15px #ff007f;z-index:1
+}
+.host-img{width:70px;height:70px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
+.host-title{margin-top:4px;font-size:12px;font-weight:bold;color:#60a5fa}
 
-/* PROFILE PAGE */
-.profile-head{
- padding:24px 16px;background:linear-gradient(135deg,#2c1f56,#4d1f48);
- border-radius:0 0 28px 28px;position:relative
+/* LOGO TEXT */
+.brand-title{
+  text-align:center;font-size:38px;font-weight:900;
+  background:linear-gradient(180deg,#ffffff,#d8b4fe,#a855f7);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 20px rgba(168,85,247,0.6);margin:-5px 0 10px
 }
-.profile-main{display:flex;align-items:center;gap:14px}
-.profile-avatar{width:75px;height:75px;border-radius:50%;border:3px solid #ff55a5;object-fit:cover}
-.profile-info h2{font-size:18px}
-.profile-info p{font-size:11px;color:#c0bdcc;margin-top:2px}
 
-/* TOAST */
-#toast{
- position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
- background:#fff;color:#111;padding:10px 18px;border-radius:20px;
- font-size:12px;font-weight:800;opacity:0;pointer-events:none;z-index:1000;transition:.25s
+/* SEAT GRID 1-8 */
+.seats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:15px 5px;
+  padding:0 20px;z-index:5
 }
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.seat-item{display:flex;flex-direction:column;align-items:center;position:relative}
+.seat-icon{
+  width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
+  justify-content:center;font-size:20px;box-shadow:inset 0 0 8px rgba(255,255,255,0.2)
+}
+.seat-num{font-size:11px;color:#ccc;margin-top:4px;font-weight:bold}
 
-@media(min-width:700px){
- .page,.bottom-nav{max-width:500px;left:50%;transform:translateX(-50%)}
+/* MASCOT CHARNER & FLOATING WIDGETS */
+.middle-art{
+  position:relative;height:120px;display:flex;justify-content:center;align-items:center
+}
+.mascot-img{height:130px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5))}
+
+.side-widgets{
+  position:absolute;right:10px;bottom:0;display:flex;flex-direction:column;gap:8px
+}
+.widget-box{
+  width:55px;height:55px;background:rgba(0,0,0,0.4);border-radius:10px;
+  border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-size:9px;text-align:center
+}
+
+/* ANNOUNCEMENT & CHAT AREA */
+.chat-section{
+  padding:0 12px;display:flex;flex-direction:column;gap:6px;max-height:160px;
+  overflow-y:auto;z-index:5
+}
+.notice-box{
+  background:rgba(0,0,0,0.25);border-radius:10px;padding:6px 10px;
+  font-size:10px;color:#a7f3d0;line-height:1.3
+}
+.welcome-banner{
+  background:rgba(255,255,255,0.15);padding:4px 12px;border-radius:15px;
+  font-size:11px;width:max-content;color:#fff
+}
+.chat-msg{
+  background:rgba(0,0,0,0.3);padding:5px 10px;border-radius:12px;
+  font-size:11px;width:max-content;display:flex;align-items:center;gap:6px
+}
+.badge{padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
+.badge-lvl{background:#8b5cf6;color:#fff}
+.badge-vip{background:#eab308;color:#000}
+
+/* BOTTOM CONTROL BAR */
+.bottom-controls{
+  height:60px;padding:0 10px;background:rgba(15,3,35,0.85);
+  backdrop-filter:blur(10px);display:flex;align-items:center;
+  justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);z-index:10
+}
+.say-hi-btn{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
+  color:#aaa;padding:8px 12px;border-radius:20px;font-size:11px
+}
+.tool-btn{
+  width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  color:#fff;cursor:pointer
+}
+.gift-box-btn{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,#ff007f,#00f2fe);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:0 0 10px rgba(255,0,127,0.5)
 }
 </style>
 </head>
-
 <body>
-<div id="app">
 
-<!-- 1. CHAT PAGE -->
-<section id="chatPage" class="page show">
- <div class="home-top">
-  <div class="home-tabs">
-   <button class="home-tab active" onclick="switchChatSubTab('rooms', this)">Voice Rooms</button>
-   <button class="home-tab" onclick="switchChatSubTab('messages', this)">Messages</button>
-  </div>
-  <button class="top-action btn3d" onclick="showToast('Searching...')">🔍</button>
-  <button class="top-action btn3d primary" onclick="showToast('Create Room')">＋</button>
- </div>
+<div id="roomScreen">
 
- <div id="chatRoomsTab">
-  <div class="event-slider-wrap">
-   <div class="event-slider">
-    <div class="event-track">
-     <div class="event-slide">
-      <div class="event-content">
-       <h2>MR Chat Grand Opening</h2>
-       <p>Enjoy voice rooms with friends worldwide.</p>
-       <button class="event-button" onclick="showToast('Joined!')">Join Event</button>
+  <!-- TOP HEADER BAR -->
+  <div class="top-bar">
+    <div class="room-profile">
+      <img class="avatar-thumb" src="https://i.pravatar.cc/100?img=33" alt="Host">
+      <div class="room-meta">
+        <b>জিরো প...</b>
+        <small>ID:349200 👤1</small>
       </div>
-     </div>
     </div>
-   </div>
-  </div>
 
-  <div class="categories">
-   <div class="category btn3d" onclick="showToast('Opened Rank')"><div class="icon">🏆</div>Rank</div>
-   <div class="category btn3d" onclick="showToast('Opened CP')"><div class="icon">💜</div>CP</div>
-   <div class="category btn3d" onclick="showToast('Opened Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</div>
-   <div class="category btn3d" onclick="showToast('Opened Store')"><div class="icon">🛍️</div>Store</div>
-  </div>
-
-  <div class="section-title"><b>Live Voice Rooms</b><span>LIVE NOW</span></div>
-
-  <div class="room-grid">
-   <div class="room-card" onclick="showToast('Entering Room 1...')">
-    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-    <div class="room-overlay"></div>
-    <div class="room-info">
-     <div class="room-name">Friendship Lounge</div>
-     <div class="room-meta"><span class="live">● Live</span><span>128 Users</span></div>
+    <div class="top-center-tag">
+      <span>📞 কল...</span>
+      <span style="background:rgba(255,255,255,0.3);padding:2px 6px;border-radius:8px">Chat</span>
     </div>
-   </div>
-   <div class="room-card" onclick="showToast('Entering Room 2...')">
-    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-    <div class="room-overlay"></div>
-    <div class="room-info">
-     <div class="room-name">Music & Chat</div>
-     <div class="room-meta"><span class="live">● Live</span><span>86 Users</span></div>
+
+    <div class="top-right-actions">
+      <div class="circle-btn">🎯</div>
+      <div class="circle-btn">↗️</div>
+      <div class="circle-btn" style="background:#ef4444">⚡</div>
     </div>
-   </div>
   </div>
- </div>
 
- <div id="chatMessagesTab" style="display:none;" class="message-list">
-  <div class="message-card" onclick="showToast('Opening System Chat')">
-   <div class="message-icon">💬</div>
-   <div class="message-info">
-    <b>MR System Chat</b>
-    <p>Welcome to MR Chat! Have fun chatting.</p>
-   </div>
-  </div>
-  <div class="message-card" onclick="showToast('Opening Reward Notice')">
-   <div class="message-icon">🏆</div>
-   <div class="message-info">
-    <b>Reward Notice</b>
-    <p>You received daily rewards today.</p>
-   </div>
-  </div>
- </div>
-</section>
+  <div class="trophy-badge">🏆 548.7M &gt;</div>
 
-<!-- 2. MOMENT PAGE -->
-<section id="momentPage" class="page">
- <div class="page-header">Moments & Feed</div>
- <div class="sub-folders-container">
-  <div class="folder-card" onclick="showToast('Opening Trending Moments')">
-   <div class="folder-icon">🔥</div>
-   <div class="folder-info"><b>Trending</b><small>Hot posts</small></div>
+  <!-- HOST PROFILE -->
+  <div class="host-container">
+    <div class="host-avatar-wrap">
+      <img class="host-img" src="https://i.pravatar.cc/150?img=12" alt="Host Avatar">
+    </div>
+    <div class="host-title">༄Mia...✿Vai3</div>
   </div>
-  <div class="folder-card" onclick="showToast('Opening Friends Moments')">
-   <div class="folder-icon">👥</div>
-   <div class="folder-info"><b>Friends</b><small>Latest updates</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Nearby Feed')">
-   <div class="folder-icon">📍</div>
-   <div class="folder-info"><b>Nearby</b><small>Local users</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Albums')">
-   <div class="folder-icon">🖼️</div>
-   <div class="folder-info"><b>Albums</b><small>Saved media</small></div>
-  </div>
- </div>
-</section>
 
-<!-- 3. EXPLORE PAGE -->
-<section id="explorePage" class="page">
- <div class="page-header">Explore Features</div>
- <div class="sub-folders-container">
-  <div class="folder-card" onclick="showToast('Opening Games Folder')">
-   <div class="folder-icon">🎮</div>
-   <div class="folder-info"><b>Mini Games</b><small>Play with friends</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening CP Zone Folder')">
-   <div class="folder-icon">💖</div>
-   <div class="folder-info"><b>CP Zone</b><small>Love & Intimacy</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Family Guild Folder')">
-   <div class="folder-icon">🏰</div>
-   <div class="folder-info"><b>Family Guild</b><small>Clans & Teams</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Events Folder')">
-   <div class="folder-icon">🎉</div>
-   <div class="folder-info"><b>Events Center</b><small>Win prizes</small></div>
-  </div>
- </div>
-</section>
+  <!-- BRAND HEADLINE -->
+  <div class="brand-title">MRChat</div>
 
-<!-- 4. ME (PROFILE) PAGE -->
-<section id="mePage" class="page">
- <div class="profile-head">
-  <div class="profile-main">
-   <img class="profile-avatar" src="https://i.pravatar.cc/200?img=11">
-   <div class="profile-info">
-    <h2>MR User</h2>
-    <p>ID: 100001 · Level 12</p>
-   </div>
+  <!-- 8 MIC SEATS GRID -->
+  <div class="seats-grid">
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">1</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">2</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">3</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">4</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">5</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">6</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">7</span></div>
+    <div class="seat-item"><div class="seat-icon">💺</div><span class="seat-num">8</span></div>
   </div>
- </div>
- <div class="sub-folders-container" style="margin-top:14px;">
-  <div class="folder-card" onclick="showToast('Opening Backpack Folder')">
-   <div class="folder-icon">🎒</div>
-   <div class="folder-info"><b>Backpack</b><small>Gifts & Items</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Wallet Folder')">
-   <div class="folder-icon">💰</div>
-   <div class="folder-info"><b>Wallet</b><small>Coins & Diamonds</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening VIP Folder')">
-   <div class="folder-icon">👑</div>
-   <div class="folder-info"><b>VIP Status</b><small>Privileges</small></div>
-  </div>
-  <div class="folder-card" onclick="showToast('Opening Settings Folder')">
-   <div class="folder-icon">⚙️</div>
-   <div class="folder-info"><b>Settings</b><small>App options</small></div>
-  </div>
- </div>
-</section>
 
-<!-- SCREENSHOT MODEL FULL BOTTOM NAVIGATION BAR -->
-<nav class="bottom-nav">
- <button class="nav-item active" onclick="switchMainTab('chatPage', this)">
-  <div class="nav-icon">💬</div>
-  <span>Chat</span>
- </button>
- <button class="nav-item" onclick="switchMainTab('momentPage', this)">
-  <div class="nav-icon">📸</div>
-  <span>Moment</span>
- </button>
- <button class="nav-item" onclick="switchMainTab('explorePage', this)">
-  <div class="nav-icon">🧭</div>
-  <span>Explore</span>
- </button>
- <button class="nav-item" onclick="switchMainTab('mePage', this)">
-  <div class="nav-icon">👤</div>
-  <span>Me</span>
- </button>
-</nav>
+  <!-- CENTER MASCOT & FLOATING SIDE PANELS -->
+  <div class="middle-art">
+    <img class="mascot-img" src="https://cdni.iconscout.com/illustration/premium/thumb/cute-cat-playing-guitar-illustration-download-in-svg-png-gif-file-formats--kitten-pet-animal-character-pack-illustrations-5246731.png" alt="Mascot">
+    
+    <div class="side-widgets">
+      <div class="widget-box" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+        <b style="font-size:8px">WEEKLY</b>
+        <b>STAR</b>
+      </div>
+      <div class="widget-box" style="background:linear-gradient(135deg,#10b981,#059669)">
+        <span>Lucky fruit</span>
+        <b>🎰 30</b>
+      </div>
+    </div>
+  </div>
 
-<div id="toast"></div>
+  <!-- CHAT & ANNOUNCEMENT AREA -->
+  <div class="chat-section">
+    <div class="notice-box">
+      <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
+    </div>
+    <div class="welcome-banner">
+      Welcome <b>༄Mia...✿Vai3</b> to the room
+    </div>
+    <div class="chat-msg">
+      <span class="badge badge-lvl">LV.41</span>
+      <span class="badge badge-vip">SVIP2</span>
+      <b style="color:#60a5fa">@Mia..Vai:</b> কেমন আছেন প্রিয়
+    </div>
+  </div>
+
+  <!-- BOTTOM BUTTONS BAR -->
+  <div class="bottom-controls">
+    <button class="say-hi-btn">Say Hi</button>
+    <div class="tool-btn">💬</div>
+    <div class="tool-btn">🔊</div>
+    <div class="tool-btn">🎙️</div>
+    <div class="tool-btn">😊</div>
+    <div class="tool-btn">🎛️</div>
+    <div class="tool-btn">🎮</div>
+    <div class="gift-box-btn">🎁</div>
+  </div>
 
 </div>
 
-<script>
-function switchMainTab(pageId, element) {
- document.querySelectorAll('.page').forEach(page => page.classList.remove('show'));
- document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
- 
- document.getElementById(pageId).classList.add('show');
- element.classList.add('active');
-}
-
-function switchChatSubTab(tabName, element) {
- document.querySelectorAll('.home-tab').forEach(tab => tab.classList.remove('active'));
- element.classList.add('active');
- 
- if(tabName === 'rooms'){
-  document.getElementById('chatRoomsTab').style.display = 'block';
-  document.getElementById('chatMessagesTab').style.display = 'none';
- } else {
-  document.getElementById('chatRoomsTab').style.display = 'none';
-  document.getElementById('chatMessagesTab').style.display = 'block';
- }
-}
-
-function showToast(msg) {
- const toast = document.getElementById('toast');
- toast.innerText = msg;
- toast.classList.add('show');
- setTimeout(() => toast.classList.remove('show'), 2000);
-}
-</script>
 </body>
 </html>
