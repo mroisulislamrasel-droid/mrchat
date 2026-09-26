@@ -2,424 +2,369 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>HiChat App</title>
-
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#0d0f1d;color:#fff}
-button{border:0;font-family:inherit;cursor:pointer;outline:none;background:none}
-input{font-family:inherit;outline:none}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0c0e1d; color: #fff; }
+button { border: 0; font-family: inherit; cursor: pointer; outline: none; background: none; }
 
-#app{width:100%;height:100%;position:relative;overflow:hidden}
+#app { width: 100%; height: 100%; position: relative; overflow: hidden; }
 
-.page{
- position:absolute;inset:0;background:#0d0f1d;display:none;
- overflow-y:auto;padding-bottom:82px
+.page {
+  position: absolute; inset: 0; background: #0c0e1d; display: none;
+  overflow-y: auto; padding-bottom: 80px;
 }
-.page.show{display:block}
+.page.show { display: block; }
 
-/* --- 1. LOGIN SCREEN --- */
-#loginPage{
- background: linear-gradient(rgba(10, 10, 25, 0.75), rgba(10, 10, 25, 0.95)), 
-             url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80') center/cover;
- display:none;flex-direction:column;justify-content:space-between;padding:40px 24px;z-index:200
+/* ================= 1. LOGIN SCREEN ================= */
+#loginPage {
+  background: radial-gradient(circle at top, #2b124c, #0c0e1d);
+  display: none; flex-direction: column; justify-content: space-between; padding: 50px 24px 30px; z-index: 200;
 }
-#loginPage.show{display:flex}
-.login-header{text-align:center;margin-top:50px}
-.app-logo{
- width:80px;height:80px;background:linear-gradient(135deg,#7b2cbf,#3a0ca3);
- border-radius:22px;margin:0 auto 15px;display:flex;align-items:center;
- justify-content:center;font-size:36px;box-shadow:0 10px 25px rgba(123,44,191,0.5)
+#loginPage.show { display: flex; }
+.login-brand { text-align: center; margin-top: 40px; }
+.login-logo {
+  width: 85px; height: 85px; background: linear-gradient(135deg, #a100ff, #e100ff);
+  border-radius: 24px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
+  font-size: 40px; box-shadow: 0 10px 30px rgba(161, 0, 255, 0.4);
 }
-.app-title{font-size:28px;font-weight:900;letter-spacing:1px}
-.app-subtitle{font-size:13px;color:#a0a5c0;margin-top:6px}
+.login-title { font-size: 30px; font-weight: 900; letter-spacing: 0.5px; }
+.login-sub { font-size: 13px; color: #a0a5c0; margin-top: 8px; }
 
-.login-btns{display:flex;flex-direction:column;gap:14px;width:100%}
-.btn-login{
- width:100%;height:52px;border-radius:26px;display:flex;align-items:center;
- justify-content:center;gap:12px;font-size:15px;font-weight:700;color:#fff
+.login-actions { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+.btn-auth {
+  width: 100%; height: 52px; border-radius: 26px; display: flex; align-items: center;
+  justify-content: center; gap: 10px; font-size: 15px; font-weight: 700; color: #fff;
 }
-.btn-fb{background:#1877f2;box-shadow:0 4px 15px rgba(24,119,242,0.4)}
-.btn-google{background:#fff;color:#222;box-shadow:0 4px 15px rgba(255,255,255,0.2)}
-.btn-email{background:linear-gradient(90deg,#ff4b2b,#ff416c);box-shadow:0 4px 15px rgba(255,75,43,0.4)}
-.login-footer{text-align:center;font-size:11px;color:#7a7e9d;line-height:1.4}
+.btn-fb { background: #1877f2; box-shadow: 0 4px 18px rgba(24, 119, 242, 0.35); }
+.btn-gg { background: #ffffff; color: #222; box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15); }
+.btn-mail { background: linear-gradient(90deg, #ff4b2b, #ff416c); box-shadow: 0 4px 18px rgba(255, 75, 43, 0.35); }
+.login-foot { text-align: center; font-size: 11px; color: #626788; line-height: 1.4; }
 
-/* --- 2. HOME / POPULAR SCREEN --- */
-.home-top{
- position:sticky;top:0;z-index:30;background:rgba(13,15,29,0.95);
- backdrop-filter:blur(10px);padding:12px 16px;display:flex;align-items:center;justify-content:space-between
+/* ================= 2. HOME / POPULAR SCREEN ================= */
+.home-header {
+  position: sticky; top: 0; z-index: 30; background: rgba(12, 14, 29, 0.95);
+  backdrop-filter: blur(10px); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
 }
-.top-tabs{display:flex;gap:18px;align-items:center}
-.top-tab{font-size:16px;font-weight:700;color:#6c7293;transition:0.2s}
-.top-tab.active{font-size:20px;color:#fff;border-bottom:3px solid #ff2a7a;padding-bottom:2px}
-.top-icons{display:flex;gap:14px;font-size:20px;color:#fff}
+.home-tabs { display: flex; gap: 20px; align-items: center; }
+.h-tab { font-size: 15px; font-weight: 700; color: #616788; }
+.h-tab.active { font-size: 20px; color: #fff; border-bottom: 3px solid #ff2a7a; padding-bottom: 2px; }
+.home-icons { display: flex; gap: 16px; font-size: 18px; }
 
-.banner-slider{
- margin:12px 16px;height:120px;border-radius:16px;
- background:linear-gradient(135deg,#ff2a7a,#8a2387);
- padding:18px;display:flex;flex-direction:column;justify-content:center;
- position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(255,42,122,0.3)
+.banner-card {
+  margin: 12px 16px; height: 110px; border-radius: 18px;
+  background: linear-gradient(120deg, #8a2387, #e94057, #f27121);
+  padding: 16px; display: flex; flex-direction: column; justify-content: center;
+  box-shadow: 0 8px 20px rgba(233, 64, 87, 0.3);
 }
-.banner-title{font-size:18px;font-weight:900;margin-bottom:4px}
-.banner-desc{font-size:11px;opacity:0.85}
+.banner-card h3 { font-size: 18px; font-weight: 800; }
+.banner-card p { font-size: 11px; opacity: 0.9; margin-top: 4px; }
 
-.quick-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px;margin-bottom:16px}
-.cat-card{
- background:#1a1d36;border-radius:14px;padding:12px;text-align:center;
- border:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;align-items:center
+.quick-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px; margin-bottom: 16px; }
+.q-box {
+  background: #171a36; border-radius: 16px; padding: 12px 8px; text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; align-items: center;
 }
-.cat-icon{font-size:24px;margin-bottom:6px}
-.cat-title{font-size:12px;font-weight:700}
+.q-box .icon { font-size: 26px; margin-bottom: 4px; }
+.q-box span { font-size: 12px; font-weight: 700; color: #d0d5f0; }
 
-.section-label{font-size:14px;font-weight:800;padding:0 16px 10px;color:#8f95b2}
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
-.feed-card{
- background:#181b33;border-radius:16px;overflow:hidden;position:relative;
- border:1px solid rgba(255,255,255,0.06)
+.sec-title { font-size: 13px; font-weight: 800; padding: 0 16px 10px; color: #8e95b7; }
+.grid-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; }
+.room-item {
+  background: #161933; border-radius: 16px; overflow: hidden; position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
-.feed-thumb{width:100%;height:160px;object-fit:cover;display:block}
-.feed-badge{
- position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.6);
- backdrop-filter:blur(4px);padding:3px 8px;border-radius:10px;
- font-size:10px;display:flex;align-items:center;gap:4px
+.room-cover { width: 100%; height: 150px; object-fit: cover; display: block; }
+.room-badge {
+  position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 10px; font-size: 10px;
 }
-.feed-info{padding:10px}
-.feed-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.feed-user{font-size:11px;color:#7a7e9d;margin-top:4px;display:flex;align-items:center;gap:4px}
+.room-details { padding: 10px; }
+.room-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.room-host { font-size: 11px; color: #767c9f; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
 
-/* --- 3. RANKING / LEADERBOARD SCREEN --- */
-.rank-top-bar{
- display:flex;align-items:center;justify-content:space-between;
- padding:14px 16px;background:#13162b;position:sticky;top:0;z-index:30
+/* ================= 3. RANKING / LEADERBOARD ================= */
+.rank-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; background: #12152b; position: sticky; top: 0; z-index: 30;
 }
-.rank-title{font-size:17px;font-weight:800}
-.rank-main-tabs{display:flex;justify-content:center;gap:20px;padding:12px 0;background:#13162b}
-.rank-tab{font-size:14px;font-weight:700;color:#6c7293;padding-bottom:4px}
-.rank-tab.active{color:#ffd700;border-bottom:2px solid #ffd700}
-
-.rank-sub-tabs{display:flex;justify-content:center;gap:10px;margin:10px 0}
-.sub-tab{
- padding:5px 16px;border-radius:15px;background:#1e2242;
- font-size:11px;font-weight:700;color:#8f95b2
-}
-.sub-tab.active{background:linear-gradient(90deg,#ff2a7a,#ff6400);color:#fff}
-
-/* TOP 3 PODIUM */
-.podium-container{
- display:flex;justify-content:center;align-items:flex-end;
- gap:12px;padding:20px 16px 10px;margin-top:10px
-}
-.podium-card{
- display:flex;flex-direction:column;align-items:center;position:relative
-}
-.podium-avatar-wrap{position:relative;margin-bottom:8px}
-.podium-avatar{
- border-radius:50%;object-fit:cover;border:3px solid #ffd700
-}
-.rank-1 .podium-avatar{width:75px;height:75px;border-color:#ffd700;box-shadow:0 0 15px rgba(255,215,0,0.6)}
-.rank-2 .podium-avatar{width:60px;height:60px;border-color:#c0c0c0}
-.rank-3 .podium-avatar{width:60px;height:60px;border-color:#cd7f32}
-
-.crown-icon{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:20px}
-.podium-name{font-size:12px;font-weight:700;margin-top:4px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.podium-score{font-size:10px;color:#ffd700;font-weight:800;margin-top:2px}
-
-.rank-list{padding:10px 16px}
-.rank-item{
- display:flex;align-items:center;justify-content:space-between;
- background:#181b33;padding:10px 14px;border-radius:14px;margin-bottom:8px
-}
-.rank-item-left{display:flex;align-items:center;gap:12px}
-.rank-num{font-size:14px;font-weight:900;color:#6c7293;width:18px}
-.rank-item-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover}
-.rank-item-name{font-size:13px;font-weight:700}
-.rank-item-score{font-size:12px;color:#ffd700;font-weight:800}
-
-.my-rank-bar{
- position:fixed;bottom:76px;left:0;right:0;background:#1a1d38;
- border-top:1px solid rgba(255,255,255,0.1);padding:10px 20px;
- display:flex;align-items:center;justify-content:space-between;z-index:90
+.rank-head-title { font-size: 16px; font-weight: 800; }
+.rank-nav-tabs { display: flex; justify-content: center; gap: 24px; padding: 12px 0; background: #12152b; }
+.rn-tab { font-size: 14px; font-weight: 700; color: #5f6588; position: relative; }
+.rn-tab.active { color: #ffd700; }
+.rn-tab.active::after {
+  content: ''; position: absolute; bottom: -6px; left: 20%; right: 20%; height: 2px; background: #ffd700; border-radius: 2px;
 }
 
-/* --- 4. PROFILE SCREEN --- */
-.profile-header-bg{
- background:linear-gradient(180deg,#221d47 0%,#0d0f1d 100%);
- padding:24px 16px 12px
-}
-.profile-user-row{display:flex;align-items:center;gap:14px}
-.profile-avatar{
- width:70px;height:70px;border-radius:50%;
- border:2px solid #ff2a7a;object-fit:cover
-}
-.profile-name-text{font-size:18px;font-weight:800}
-.profile-id-text{font-size:12px;color:#7a7e9d;margin-top:3px}
+.sub-time-tabs { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
+.st-btn { padding: 5px 16px; border-radius: 15px; background: #1a1d3b; font-size: 11px; font-weight: 700; color: #787e9f; }
+.st-btn.active { background: linear-gradient(90deg, #ff2a7a, #ff6400); color: #fff; }
 
-.profile-stats{display:flex;gap:30px;margin-top:18px}
-.stat-box{text-align:left}
-.stat-num{font-size:16px;font-weight:800}
-.stat-lbl{font-size:11px;color:#7a7e9d;margin-top:2px}
+/* TOP 3 PODIUM DESIGN */
+.podium { display: flex; justify-content: center; align-items: flex-end; gap: 10px; padding: 25px 16px 15px; }
+.pod-user { display: flex; flex-direction: column; align-items: center; position: relative; }
+.pod-avatar-box { position: relative; }
+.pod-avatar { border-radius: 50%; object-fit: cover; display: block; }
+.pod-1 .pod-avatar { width: 76px; height: 76px; border: 3px solid #ffd700; box-shadow: 0 0 18px rgba(255,215,0,0.5); }
+.pod-2 .pod-avatar { width: 60px; height: 60px; border: 3px solid #d1d5db; }
+.pod-3 .pod-avatar { width: 60px; height: 60px; border: 3px solid #d97706; }
 
-.menu-section{
- background:#181b33;margin:12px 16px;border-radius:16px;overflow:hidden
-}
-.menu-row{
- display:flex;align-items:center;justify-content:space-between;
- padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.03)
-}
-.menu-row:last-child{border:none}
-.menu-left-part{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
-.menu-arrow{color:#4e5270;font-weight:bold}
+.crown { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 22px; }
+.pod-name { font-size: 12px; font-weight: 700; margin-top: 6px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pod-score { font-size: 10px; color: #ffd700; font-weight: 800; margin-top: 2px; }
 
-/* --- BOTTOM NAVIGATION BAR --- */
-.bottom-nav{
- position:fixed;left:0;right:0;bottom:0;height:76px;
- background:rgba(19,22,43,0.98);backdrop-filter:blur(15px);
- border-top:1px solid rgba(255,255,255,0.06);
- display:flex;z-index:100;padding:6px 0
+.rank-rows { padding: 10px 16px; }
+.r-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #151833; padding: 12px 14px; border-radius: 14px; margin-bottom: 8px;
 }
-.nav-btn{
- flex:1;display:flex;flex-direction:column;align-items:center;
- justify-content:center;color:#5a6082;gap:3px;font-size:10px;font-weight:700
-}
-.nav-btn .icon{font-size:22px}
-.nav-btn.active{color:#ff2a7a}
+.r-left { display: flex; align-items: center; gap: 12px; }
+.r-num { font-size: 14px; font-weight: 900; color: #5a6080; width: 18px; }
+.r-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.r-name { font-size: 13px; font-weight: 700; }
+.r-score { font-size: 12px; color: #ffd700; font-weight: 800; }
 
-@media(min-width:700px){
- .page, .bottom-nav, .my-rank-bar, #loginPage{max-width:500px;left:50%;transform:translateX(-50%)}
+.user-bottom-rank {
+  position: fixed; bottom: 74px; left: 0; right: 0; background: #181b38;
+  border-top: 1px solid rgba(255,255,255,0.08); padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; z-index: 90;
+}
+
+/* ================= 4. PROFILE SCREEN ================= */
+.prof-head { background: linear-gradient(180deg, #231942 0%, #0c0e1d 100%); padding: 30px 16px 16px; }
+.prof-user { display: flex; align-items: center; gap: 14px; }
+.prof-avatar { width: 72px; height: 72px; border-radius: 50%; border: 2px solid #ff2a7a; object-fit: cover; }
+.prof-name { font-size: 19px; font-weight: 800; }
+.prof-id { font-size: 12px; color: #727798; margin-top: 4px; }
+
+.prof-stats { display: flex; gap: 32px; margin-top: 20px; }
+.st-num { font-size: 17px; font-weight: 800; }
+.st-lbl { font-size: 11px; color: #727798; margin-top: 2px; }
+
+.card-group { background: #151833; margin: 14px 16px; border-radius: 18px; overflow: hidden; }
+.c-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.c-item:last-child { border: none; }
+.c-label { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
+.c-arrow { color: #484d6e; }
+
+/* ================= BOTTOM NAVIGATION ================= */
+.bottom-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 74px;
+  background: rgba(18, 21, 43, 0.98); backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; z-index: 100; padding: 6px 0;
+}
+.b-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; color: #505678; gap: 4px; font-size: 10px; font-weight: 700;
+}
+.b-btn .icon { font-size: 22px; }
+.b-btn.active { color: #ff2a7a; }
+
+@media(min-width: 700px) {
+  .page, .bottom-bar, .user-bottom-rank, #loginPage { max-width: 480px; left: 50%; transform: translateX(-50%); }
 }
 </style>
 </head>
-
 <body>
+
 <div id="app">
 
-<!-- 1. LOGIN PAGE -->
-<section id="loginPage" class="page">
- <div class="login-header">
-  <div class="app-logo">💬</div>
-  <div class="app-title">HiChat</div>
-  <div class="app-subtitle">Say Hi to Global Friends</div>
- </div>
+  <!-- 1. LOGIN SCREEN -->
+  <section id="loginPage" class="page">
+    <div class="login-brand">
+      <div class="login-logo">💬</div>
+      <div class="login-title">HiChat</div>
+      <div class="login-sub">Say Hi to Global Friends</div>
+    </div>
+    <div class="login-actions">
+      <button class="btn-auth btn-fb" onclick="loginDone()">🌐 Continue with Facebook</button>
+      <button class="btn-auth btn-gg" onclick="loginDone()">🔍 Continue with Google</button>
+      <button class="btn-auth btn-mail" onclick="loginDone()">✉️ Continue with Email</button>
+    </div>
+    <div class="login-foot">
+      By continuing, you agree to Terms of service and Privacy Policy.
+    </div>
+  </section>
 
- <div class="login-btns">
-  <button class="btn-login btn-fb" onclick="loginSuccess()">
-   <span>🌐</span> Continue with Facebook
-  </button>
-  <button class="btn-login btn-google" onclick="loginSuccess()">
-   <span>🔍</span> Continue with Google
-  </button>
-  <button class="btn-login btn-email" onclick="loginSuccess()">
-   <span>✉️</span> Continue with Email
-  </button>
- </div>
+  <!-- 2. HOME / POPULAR SCREEN -->
+  <section id="homePage" class="page show">
+    <div class="home-header">
+      <div class="home-tabs">
+        <div class="h-tab">Following</div>
+        <div class="h-tab active">Popular</div>
+        <div class="h-tab">Recent</div>
+      </div>
+      <div class="home-icons"><span>🔍</span><span>➕</span></div>
+    </div>
 
- <div class="login-footer">
-  By continuing, you agree to our Terms of Service and Privacy Policy.
- </div>
-</section>
+    <div class="banner-card">
+      <h3>Recharge Bonus Event</h3>
+      <p>Get up to 50% extra coins on your first recharge!</p>
+    </div>
 
-<!-- 2. HOME / POPULAR PAGE -->
-<section id="homePage" class="page show">
- <div class="home-top">
-  <div class="top-tabs">
-   <div class="top-tab">Following</div>
-   <div class="top-tab active">Popular</div>
-   <div class="top-tab">Recent</div>
-  </div>
-  <div class="top-icons">
-   <span>🔍</span>
-   <span>➕</span>
-  </div>
- </div>
+    <div class="quick-tabs">
+      <div class="q-box" onclick="switchPage('rankPage')">
+        <div class="icon">🏆</div>
+        <span>Contribution</span>
+      </div>
+      <div class="q-box">
+        <div class="icon">💖</div>
+        <span>Charm</span>
+      </div>
+      <div class="q-box">
+        <div class="icon">🎙️</div>
+        <span>Room</span>
+      </div>
+    </div>
 
- <div class="banner-slider">
-  <div class="banner-title">Recharge Bonus Event</div>
-  <div class="banner-desc">Get up to 50% extra coins on your first recharge!</div>
- </div>
+    <div class="sec-title">The brightest social star</div>
 
- <div class="quick-cats">
-  <div class="cat-card" onclick="switchPage('rankPage')">
-   <div class="cat-icon">🏆</div>
-   <div class="cat-title">Ranking</div>
-  </div>
-  <div class="cat-card">
-   <div class="cat-icon">💖</div>
-   <div class="cat-title">Charm</div>
-  </div>
-  <div class="cat-card">
-   <div class="cat-icon">🎙️</div>
-   <div class="cat-title">Rooms</div>
-  </div>
- </div>
+    <div class="grid-rooms">
+      <div class="room-item">
+        <img class="room-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80">
+        <div class="room-badge">🔴 1.2k</div>
+        <div class="room-details">
+          <div class="room-title">Late Night Chat ☕</div>
+          <div class="room-host">🇧🇩 Anika</div>
+        </div>
+      </div>
+      <div class="room-item">
+        <img class="room-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80">
+        <div class="room-badge">🔴 850</div>
+        <div class="room-details">
+          <div class="room-title">Music & Vibes 🎵</div>
+          <div class="room-host">🇺🇸 Alex</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
- <div class="section-label">The Brightest Social Stars</div>
+  <!-- 3. CELEBRITY RANKING SCREEN -->
+  <section id="rankPage" class="page">
+    <div class="rank-header">
+      <span onclick="switchPage('homePage')">❮</span>
+      <span class="rank-head-title">Celebrity Ranking</span>
+      <span>❓</span>
+    </div>
 
- <div class="room-grid">
-  <div class="feed-card">
-   <img class="feed-thumb" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80">
-   <div class="feed-badge">🔴 1.2k</div>
-   <div class="feed-info">
-    <div class="feed-title">Late Night Chat ☕</div>
-    <div class="feed-user">🇧🇩 Anika</div>
-   </div>
-  </div>
-  <div class="feed-card">
-   <img class="feed-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80">
-   <div class="feed-badge">🔴 850</div>
-   <div class="feed-info">
-    <div class="feed-title">Music & Vibes 🎵</div>
-    <div class="feed-user">🇺🇸 Alex</div>
-   </div>
-  </div>
- </div>
-</section>
+    <div class="rank-nav-tabs">
+      <div class="rn-tab active">Contribution</div>
+      <div class="rn-tab">Charm</div>
+      <div class="rn-tab">Room</div>
+    </div>
 
-<!-- 3. RANKING / LEADERBOARD PAGE -->
-<section id="rankPage" class="page">
- <div class="rank-top-bar">
-  <span onclick="switchPage('homePage')">❮</span>
-  <span class="rank-title">Celebrity Ranking</span>
-  <span>❓</span>
- </div>
+    <div class="sub-time-tabs">
+      <div class="st-btn">Daily</div>
+      <div class="st-btn active">Weekly</div>
+      <div class="st-btn">Monthly</div>
+    </div>
 
- <div class="rank-main-tabs">
-  <div class="rank-tab active">Contribution</div>
-  <div class="rank-tab">Charm</div>
-  <div class="rank-tab">Room</div>
- </div>
+    <!-- TOP 3 PODIUM -->
+    <div class="podium">
+      <!-- NO. 2 -->
+      <div class="pod-user pod-2">
+        <div class="pod-avatar-box">
+          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=32">
+        </div>
+        <div class="pod-name">Sarah</div>
+        <div class="pod-score">98.5k</div>
+      </div>
 
- <div class="rank-sub-tabs">
-  <div class="sub-tab">Daily</div>
-  <div class="sub-tab active">Weekly</div>
-  <div class="sub-tab">Monthly</div>
- </div>
+      <!-- NO. 1 -->
+      <div class="pod-user pod-1">
+        <div class="pod-avatar-box">
+          <div class="crown">👑</div>
+          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=12">
+        </div>
+        <div class="pod-name">Mia_Vai</div>
+        <div class="pod-score">250.4k</div>
+      </div>
 
- <!-- TOP 3 PODIUM -->
- <div class="podium-container">
-  <!-- 2nd Place -->
-  <div class="podium-card rank-2">
-   <div class="podium-avatar-wrap">
-    <img class="podium-avatar" src="https://i.pravatar.cc/150?img=32">
-   </div>
-   <div class="podium-name">Sarah</div>
-   <div class="podium-score">98.5k</div>
-  </div>
+      <!-- NO. 3 -->
+      <div class="pod-user pod-3">
+        <div class="pod-avatar-box">
+          <img class="pod-avatar" src="https://i.pravatar.cc/150?img=68">
+        </div>
+        <div class="pod-name">David</div>
+        <div class="pod-score">75.1k</div>
+      </div>
+    </div>
 
-  <!-- 1st Place -->
-  <div class="podium-card rank-1">
-   <div class="podium-avatar-wrap">
-    <div class="crown-icon">👑</div>
-    <img class="podium-avatar" src="https://i.pravatar.cc/150?img=12">
-   </div>
-   <div class="podium-name">Mia_Vai</div>
-   <div class="podium-score">250.4k</div>
-  </div>
+    <div class="rank-rows">
+      <div class="r-row">
+        <div class="r-left">
+          <span class="r-num">4</span>
+          <img class="r-img" src="https://i.pravatar.cc/150?img=47">
+          <span class="r-name">Emma_Rose</span>
+        </div>
+        <div class="r-score">54.2k</div>
+      </div>
+      <div class="r-row">
+        <div class="r-left">
+          <span class="r-num">5</span>
+          <img class="r-img" src="https://i.pravatar.cc/150?img=15">
+          <span class="r-name">King_Rider</span>
+        </div>
+        <div class="r-score">41.8k</div>
+      </div>
+    </div>
 
-  <!-- 3rd Place -->
-  <div class="podium-card rank-3">
-   <div class="podium-avatar-wrap">
-    <img class="podium-avatar" src="https://i.pravatar.cc/150?img=68">
-   </div>
-   <div class="podium-name">David</div>
-   <div class="podium-score">75.1k</div>
-  </div>
- </div>
+    <div class="user-bottom-rank">
+      <span style="font-size:12px;color:#a0a5c0">My Ranking: <b>No ranking</b></span>
+      <span style="font-size:12px;color:#ffd700">0 Points</span>
+    </div>
+  </section>
 
- <div class="rank-list">
-  <div class="rank-item">
-   <div class="rank-item-left">
-    <span class="rank-num">4</span>
-    <img class="rank-item-avatar" src="https://i.pravatar.cc/150?img=47">
-    <span class="rank-item-name">Emma_Rose</span>
-   </div>
-   <div class="rank-item-score">54.2k</div>
-  </div>
+  <!-- 4. PROFILE SCREEN -->
+  <section id="mePage" class="page">
+    <div class="prof-head">
+      <div class="prof-user">
+        <img class="prof-avatar" src="https://i.pravatar.cc/150?img=11">
+        <div>
+          <div class="prof-name">Mia_Vai</div>
+          <div class="prof-id">ID: 100927248</div>
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div><div class="st-num">15</div><div class="st-lbl">Following</div></div>
+        <div><div class="st-num">26</div><div class="st-lbl">Fans</div></div>
+      </div>
+    </div>
 
-  <div class="rank-item">
-   <div class="rank-item-left">
-    <span class="rank-num">5</span>
-    <img class="rank-item-avatar" src="https://i.pravatar.cc/150?img=15">
-    <span class="rank-item-name">King_Rider</span>
-   </div>
-   <div class="rank-item-score">41.8k</div>
-  </div>
- </div>
+    <div class="card-group">
+      <div class="c-item"><div class="c-label"><span>👛</span> Wallet</div><div class="c-arrow">›</div></div>
+      <div class="c-item"><div class="c-label"><span>🏪</span> Store</div><div class="c-arrow">›</div></div>
+      <div class="c-item"><div class="c-label"><span>🛡️</span> Level</div><div class="c-arrow">›</div></div>
+    </div>
 
- <div class="my-rank-bar">
-  <span style="font-size:12px;color:#a0a5c0">My Ranking: <b>No ranking</b></span>
-  <span style="font-size:12px;color:#ffd700">0 Points</span>
- </div>
-</section>
+    <div class="card-group">
+      <div class="c-item" onclick="switchPage('loginPage')">
+        <div class="c-label" style="color:#ff4b2b"><span>🚪</span> Log Out</div>
+        <div class="c-arrow">›</div>
+      </div>
+    </div>
+  </section>
 
-<!-- 4. PROFILE PAGE -->
-<section id="mePage" class="page">
- <div class="profile-header-bg">
-  <div class="profile-user-row">
-   <img class="profile-avatar" src="https://i.pravatar.cc/150?img=11">
-   <div>
-    <div class="profile-name-text">Mia_Vai</div>
-    <div class="profile-id-text">ID: 100927248</div>
-   </div>
-  </div>
-
-  <div class="profile-stats">
-   <div class="stat-box">
-    <div class="stat-num">15</div>
-    <div class="stat-lbl">Following</div>
-   </div>
-   <div class="stat-box">
-    <div class="stat-num">26</div>
-    <div class="stat-lbl">Fans</div>
-   </div>
-  </div>
- </div>
-
- <div class="menu-section">
-  <div class="menu-row">
-   <div class="menu-left-part"><span>👛</span> Wallet</div>
-   <div class="menu-arrow">›</div>
-  </div>
-  <div class="menu-row">
-   <div class="menu-left-part"><span>🏪</span> Store</div>
-   <div class="menu-arrow">›</div>
-  </div>
-  <div class="menu-row">
-   <div class="menu-left-part"><span>🛡️</span> Level</div>
-   <div class="menu-arrow">›</div>
-  </div>
- </div>
-
- <div class="menu-section">
-  <div class="menu-row" onclick="switchPage('loginPage')">
-   <div class="menu-left-part" style="color:#ff4b2b"><span>🚪</span> Log Out</div>
-   <div class="menu-arrow">›</div>
-  </div>
- </div>
-</section>
-
-<!-- BOTTOM NAVIGATION BAR -->
-<nav class="bottom-nav">
- <button class="nav-btn active" onclick="switchPage('homePage', this)">
-  <div class="icon">🏠</div>
-  <span>Home</span>
- </button>
- <button class="nav-btn" onclick="switchPage('rankPage', this)">
-  <div class="icon">🪐</div>
-  <span>Explore</span>
- </button>
- <button class="nav-btn">
-  <div class="icon" style="background:#ff2a7a;color:#fff;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;margin-top:-10px">🎙️</div>
- </button>
- <button class="nav-btn">
-  <div class="icon">💬</div>
-  <span>Messages</span>
- </button>
- <button class="nav-btn" onclick="switchPage('mePage', this)">
-  <div class="icon">👤</div>
-  <span>Me</span>
- </button>
-</nav>
+  <!-- BOTTOM BAR -->
+  <nav class="bottom-bar">
+    <button class="b-btn active" onclick="switchPage('homePage', this)">
+      <div class="icon">🏠</div><span>Home</span>
+    </button>
+    <button class="b-btn" onclick="switchPage('rankPage', this)">
+      <div class="icon">🪐</div><span>Explore</span>
+    </button>
+    <button class="b-btn">
+      <div class="icon" style="background:#ff2a7a;color:#fff;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-top:-12px">🎙️</div>
+    </button>
+    <button class="b-btn">
+      <div class="icon">💬</div><span>Messages</span>
+    </button>
+    <button class="b-btn" onclick="switchPage('mePage', this)">
+      <div class="icon">👤</div><span>Me</span>
+    </button>
+  </nav>
 
 </div>
 
@@ -429,12 +374,12 @@ function switchPage(pageId, btn) {
   document.getElementById(pageId).classList.add('show');
   
   if (btn) {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.b-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
 }
 
-function loginSuccess() {
+function loginDone() {
   switchPage('homePage');
 }
 </script>
