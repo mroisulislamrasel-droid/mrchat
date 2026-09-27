@@ -208,7 +208,7 @@
             color: #fff;
         }
 
-        /* ৩. গিফ্ট বক্স এবং গেম জোন (আপডেট করা) */
+        /* ৩. গিফ্ট বক্স এবং গেম জোন */
         .gift-box-section {
             background: #202038;
             border-radius: 12px;
@@ -405,7 +405,7 @@
                     <div class="stat-label">ফলোয়ার</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-num">১Wait</div>
+                    <div class="stat-num">১k</div>
                     <div class="stat-label">ফলোয়িং</div>
                 </div>
             </div>
@@ -442,7 +442,6 @@
         <!-- ৩. গেম ও গিফ্ট বক্স ট্যাব (Game / Gift) -->
         <div id="tab-game" class="tab-content">
             <div class="gift-box-section">
-                <!-- আগের সবকটি গেমের বাটন অক্ষুণ্ণ রাখা হলো -->
                 <div class="section-header">গেম জোন ও বোর্ড গিফ্ট বক্স</div>
                 <div class="game-buttons-grid">
                     <button class="game-btn" onclick="playGame('লটারি গেম', 'আপনি ৫টি পয়েন্ট পেয়েছেন!')">লটারি গেম</button>
@@ -458,7 +457,7 @@
                     যেকোনো একটি গেমে ক্লিক করে প্লে করুন!
                 </div>
 
-                <!-- গেম হিস্ট্রি মেকানিক্স (সর্বোচ্চ ৯টি থাকবে, ১০ নম্বর থেকে পিছনের ডাটা অটো মুছে যাবে) -->
+                <!-- গেম হিস্ট্রি মেকানিক্স (সর্বোচ্চ ৯টি থাকবে) -->
                 <div class="history-section">
                     <div class="section-header" style="font-size: 12px; margin-bottom: 8px;">গেম হিস্ট্রি (সর্বশেষ ৯টি)</div>
                     <ul class="history-list" id="historyList">
@@ -527,15 +526,12 @@
 <script>
     // ১. নেভিগেশন ও ট্যাব সুইচিং মেকানিক্স
     function switchTab(tabId, titleText, element) {
-        // সবকটি ট্যাব কন্টেন্ট হাইড করা
         const contents = document.querySelectorAll('.tab-content');
         contents.forEach(content => content.classList.remove('active'));
 
-        // সবকটি নেভিগেশন আইটেম ডিঅ্যাক্টিভ করা
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => item.classList.remove('active'));
 
-        // সিলেক্ট করা ট্যাব ও নেভিগেশন চালু করা
         document.getElementById(tabId).classList.add('active');
         element.classList.add('active');
         document.getElementById('topTitle').innerText = titleText;
@@ -552,18 +548,14 @@
             timestamp: time
         };
 
-        // ডিসপ্লে আপডেট
         document.getElementById('gameDisplay').innerText = `${gameName}: ${resultText}`;
 
-        // হিস্ট্রির শুরুতে নতুন ডাটা যোগ
         gameHistory.unshift(logEntry);
 
-        // ১০ম নম্বর থেকে পেছনের ডাটা অটো মুছে ফেলার লজিক (সর্বোচ্চ ৯টি ডাটা থাকবে)
         if (gameHistory.length > 9) {
             gameHistory.pop();
         }
 
-        // হিস্ট্রি রেন্ডার
         renderHistory();
     }
 
