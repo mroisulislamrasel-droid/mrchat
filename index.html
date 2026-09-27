@@ -142,7 +142,7 @@ input,textarea{font-family:inherit;outline:none}
 }
 .empty-box b{font-size:14px;color:#999}
 
-/* MESSAGE PAGE DESIGN (FROM SCREENSHOT 5) */
+/* MESSAGE PAGE DESIGN */
 .msg-list{padding:10px}
 .msg-item{display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
 .msg-avatar{width:46px;height:46px;border-radius:50%;object-fit:cover}
@@ -189,7 +189,7 @@ input,textarea{font-family:inherit;outline:none}
 
 .trophy-badge{
   position:absolute;top:60px;left:10px;background:rgba(0,0,0,0.3);
-  padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold
+  padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold;cursor:pointer
 }
 
 .room-host-wrap{margin-top:15px;display:flex;flex-direction:column;align-items:center;z-index:5}
@@ -277,7 +277,7 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
 }
 
-/* MODALS / BOTTOM SHEETS BASED ON SCREENSHOTS */
+/* MODALS / BOTTOM SHEETS */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;
   display:none;align-items:flex-end;justify-content:center
@@ -291,7 +291,7 @@ input,textarea{font-family:inherit;outline:none}
 }
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 
-/* GIFT SHEET (SCREENSHOT 1) */
+/* GIFT SHEET */
 .gift-tabs{display:flex;gap:15px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px}
 .gift-tab{font-size:13px;color:#aaa;font-weight:bold;cursor:pointer}
 .gift-tab.active{color:#fff;border-bottom:2px solid #a855f7}
@@ -305,33 +305,275 @@ input,textarea{font-family:inherit;outline:none}
 .gift-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.1)}
 .send-btn{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#fff;padding:8px 20px;border-radius:20px;font-weight:bold}
 
-/* GAMES SHEET (SCREENSHOT 2) */
+/* GAMES SHEET */
 .games-sec-title{font-size:14px;font-weight:bold;margin:10px 0 8px;color:#fff}
 .casual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .game-card{background:rgba(255,255,255,0.08);border-radius:12px;padding:8px;text-align:center;font-size:11px}
-.game-card img{width:100%;height:60px;object-fit:cover;border-radius:8px;margin-bottom:4px}
 .lucky-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
 .lucky-card{text-align:center;font-size:10px}
-.lucky-card img{width:45px;height:45px;border-radius:50%;object-fit:cover;margin-bottom:4px}
 
-/* PROPS / PARTY SHEET (SCREENSHOT 3) */
+/* PROPS / PARTY SHEET */
 .props-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;font-size:11px}
 .props-item{background:rgba(255,255,255,0.05);padding:10px;border-radius:12px}
 .props-item .icon-lg{font-size:28px;margin-bottom:4px}
 
-/* EMOJI / EXPRESSION SHEET (SCREENSHOT 4) */
+/* EMOJI SHEET */
 .emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center;font-size:11px}
 .emoji-item{background:rgba(255,255,255,0.05);padding:8px;border-radius:10px;cursor:pointer}
 .emoji-item span{font-size:26px;display:block}
 
-/* ROOM DETAIL MODAL (SCREENSHOT 7) */
+/* ROOM DETAIL MODAL */
 .room-detail-box{background:#fff;color:#222;border-radius:20px 20px 0 0;padding:20px}
 .rd-card{background:#f3f4f6;border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px;margin-top:10px}
 .rd-card img{width:50px;height:50px;border-radius:10px;object-fit:cover}
 
-/* ROOM SETTINGS SHEET (SCREENSHOT 8 & 9) */
+/* ROOM SETTINGS SHEET */
 .setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px}
 .setting-item small{color:#888}
+
+/* RANKING PAGE CUSTOM STYLES */
+.ranking-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: radial-gradient(circle at top, #2d0b00 0%, #120300 100%);
+  color: #fff;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ranking-screen.show { display: flex; }
+
+.rank-header {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  background: rgba(0,0,0,0.4);
+}
+.rank-back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.rank-title {
+  font-weight: bold;
+  font-size: 17px;
+  color: #ffe599;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.rank-header-right { display: flex; gap: 10px; }
+.rank-icon-btn { font-size: 18px; cursor: pointer; }
+
+.rank-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px 80px;
+}
+
+.rank-type-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+  padding-bottom: 5px;
+}
+.type-tab {
+  background: none;
+  border: none;
+  color: #b3a296;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 12px;
+  position: relative;
+}
+.type-tab.active { color: #fff; }
+.type-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 20%;
+  width: 60%;
+  height: 3px;
+  background: #ffb703;
+  border-radius: 2px;
+}
+
+.time-filter-box {
+  display: flex;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 3px;
+  margin: 10px auto 20px;
+  max-width: 320px;
+  border: 1px solid rgba(255, 183, 3, 0.3);
+}
+.time-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  padding: 6px 0;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.time-tab.active {
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(251, 133, 0, 0.4);
+}
+
+.top3-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.rank-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.rank-1 { width: 100%; }
+.crown-icon {
+  font-size: 26px;
+  margin-bottom: -8px;
+  animation: float 2s infinite ease-in-out;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.avatar-frame {
+  position: relative;
+  border-radius: 50%;
+  padding: 5px;
+  display: inline-block;
+}
+.avatar-frame img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.frame-gold {
+  background: linear-gradient(135deg, #ffe066, #d4af37, #b8860b);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+}
+.frame-silver {
+  background: linear-gradient(135deg, #ffffff, #a8a8a8, #707070);
+  box-shadow: 0 0 15px rgba(168, 168, 168, 0.4);
+}
+.frame-bronze {
+  background: linear-gradient(135deg, #e59866, #b03a2e, #6e2c00);
+  box-shadow: 0 0 15px rgba(176, 58, 46, 0.4);
+}
+
+.frame-silver img, .frame-bronze img {
+  width: 65px;
+  height: 65px;
+}
+
+.badge-number {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 900;
+  color: #000;
+  white-space: nowrap;
+}
+.bg-gold { background: linear-gradient(90deg, #ffe066, #f39c12); }
+.bg-silver { background: linear-gradient(90deg, #ffffff, #bdc3c7); }
+.bg-bronze { background: linear-gradient(90deg, #f39c12, #d35400); color: #fff; }
+
+.user-name {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+}
+.score-badge {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #ffb703;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.rank-2-3-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.rank-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rank-list-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.rank-num {
+  width: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffb703;
+}
+.list-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.list-user-info { flex: 1; }
+.list-name { font-size: 13px; font-weight: bold; color: #eee; }
+.list-score { font-size: 12px; font-weight: bold; color: #ffb703; }
+
+.my-rank-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #1c0500;
+  border-top: 1px solid rgba(255, 183, 3, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+.my-rank-status { font-size: 12px; color: #aaa; font-weight: bold; }
+.my-info { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.my-info img { width: 36px; height: 36px; border-radius: 50%; }
+.my-score { font-size: 12px; color: #ffb703; font-weight: bold; }
 
 /* TOAST */
 #toast{
@@ -342,7 +584,7 @@ input,textarea{font-family:inherit;outline:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(min-width:700px){
-  .page, .bottom-nav, #roomScreen{max-width:520px;left:50%;transform:translateX(-50%)}
+  .page, .bottom-nav, #roomScreen, .ranking-screen{max-width:520px;left:50%;transform:translateX(-50%)}
 }
 </style>
 </head>
@@ -378,7 +620,7 @@ input,textarea{font-family:inherit;outline:none}
     </div>
 
     <div class="categories">
-      <button class="category btn3d" onclick="showToast('Rank')"><div class="icon">🏆</div>Rank</button>
+      <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
       <button class="category btn3d" onclick="showToast('CP Zone')"><div class="icon">💜</div>CP</button>
       <button class="category btn3d" onclick="showToast('Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
     </div>
@@ -431,7 +673,7 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </section>
 
-<!-- 4. MESSAGE PAGE (SCREENSHOT 5 INCLUDED) -->
+<!-- 4. MESSAGE PAGE -->
 <section id="messagePage" class="page">
   <div class="page-header">Message</div>
   <div class="msg-list">
@@ -508,10 +750,8 @@ input,textarea{font-family:inherit;outline:none}
   </button>
 </nav>
 
-<!-- VOICE ROOM SCREEN (SCREENSHOT HICHAT MODEL) -->
+<!-- VOICE ROOM SCREEN -->
 <div id="roomScreen">
-
-  <!-- TOP BAR -->
   <div class="room-top">
     <div class="room-profile" onclick="openModal('roomDetailModal')">
       <img class="room-avatar" src="https://i.pravatar.cc/100?img=33" alt="Host">
@@ -533,9 +773,8 @@ input,textarea{font-family:inherit;outline:none}
     </div>
   </div>
 
-  <div class="trophy-badge">🏆 548.7M &gt;</div>
+  <div class="trophy-badge" onclick="openRanking()">🏆 548.7M &gt;</div>
 
-  <!-- HOST -->
   <div class="room-host-wrap">
     <div class="host-avatar-ring">
       <img src="https://i.pravatar.cc/150?img=12" alt="Host Avatar">
@@ -543,10 +782,8 @@ input,textarea{font-family:inherit;outline:none}
     <div class="host-title">༄Mia...✿Vai3</div>
   </div>
 
-  <!-- BRAND HEADLINE -->
   <div class="room-logo-title">MRChat</div>
 
-  <!-- 8 MIC SEATS -->
   <div class="room-seats-grid">
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">1</span></div>
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">2</span></div>
@@ -558,12 +795,11 @@ input,textarea{font-family:inherit;outline:none}
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">8</span></div>
   </div>
 
-  <!-- CENTER MASCOT & FLOATING WIDGETS -->
   <div class="room-center-mascot">
     <img class="mascot-img" src="https://cdni.iconscout.com/illustration/premium/thumb/cute-cat-playing-guitar-illustration-download-in-svg-png-gif-file-formats--kitten-pet-animal-character-pack-illustrations-5246731.png" alt="Mascot">
     
     <div class="room-side-widgets">
-      <div class="side-widget-box" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+      <div class="side-widget-box" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="openRanking()">
         <b style="font-size:8px">WEEKLY</b><b>STAR</b>
       </div>
       <div class="side-widget-box" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="openModal('gamesModal')">
@@ -572,7 +808,6 @@ input,textarea{font-family:inherit;outline:none}
     </div>
   </div>
 
-  <!-- CHAT & ANNOUNCEMENT -->
   <div class="room-chat-area">
     <div class="room-notice">
       <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
@@ -587,7 +822,6 @@ input,textarea{font-family:inherit;outline:none}
     </div>
   </div>
 
-  <!-- HICHAT STYLE BOTTOM BUTTONS -->
   <div class="room-bottom-controls">
     <button class="say-hi-btn">Say Hi</button>
     <div class="room-tool-btn">💬</div>
@@ -598,10 +832,130 @@ input,textarea{font-family:inherit;outline:none}
     <div class="room-tool-btn" onclick="openModal('gamesModal')">🎮</div>
     <div class="room-gift-btn" onclick="openModal('giftModal')">🎁</div>
   </div>
-
 </div>
 
-<!-- SCREENSHOT 1: GIFT PANEL MODAL -->
+<!-- CELEBRITY RANKING PAGE MODAL -->
+<div id="rankingModal" class="ranking-screen">
+  <div class="rank-header">
+    <button class="rank-back-btn" onclick="closeRanking()">❮</button>
+    <span class="rank-title">Celebrity Ranking</span>
+    <div class="rank-header-right">
+      <span class="rank-icon-btn">🏆</span>
+      <span class="rank-icon-btn">📅</span>
+    </div>
+  </div>
+
+  <div class="rank-content">
+    <div class="rank-type-tabs">
+      <button class="type-tab active" onclick="selectTypeTab(this)">Contribution</button>
+      <button class="type-tab" onclick="selectTypeTab(this)">Charm</button>
+      <button class="type-tab" onclick="selectTypeTab(this)">Room</button>
+    </div>
+
+    <div class="time-filter-box">
+      <button class="time-tab active" onclick="selectTimeTab(this)">Daily</button>
+      <button class="time-tab" onclick="selectTimeTab(this)">Weekly</button>
+      <button class="time-tab" onclick="selectTimeTab(this)">Monthly</button>
+    </div>
+
+    <div class="top3-container">
+      <!-- Rank 1 -->
+      <div class="rank-card rank-1">
+        <div class="crown-icon">👑</div>
+        <div class="avatar-frame frame-gold">
+          <img src="https://i.pravatar.cc/150?img=33" alt="NO.1 User">
+          <div class="badge-number bg-gold">NO.1</div>
+        </div>
+        <div class="user-name">Mahim 🇧🇩</div>
+        <div class="score-badge">
+          <span>35,539,998</span> <small>🪙</small>
+        </div>
+      </div>
+
+      <div class="rank-2-3-row">
+        <!-- Rank 2 -->
+        <div class="rank-card rank-2">
+          <div class="avatar-frame frame-silver">
+            <img src="https://i.pravatar.cc/150?img=12" alt="NO.2 User">
+            <div class="badge-number bg-silver">2</div>
+          </div>
+          <div class="user-name">WASHIM 🇸🇦</div>
+          <div class="score-badge">
+            <span>13,369,000</span> <small>🪙</small>
+          </div>
+        </div>
+
+        <!-- Rank 3 -->
+        <div class="rank-card rank-3">
+          <div class="avatar-frame frame-bronze">
+            <img src="https://i.pravatar.cc/150?img=68" alt="NO.3 User">
+            <div class="badge-number bg-bronze">3</div>
+          </div>
+          <div class="user-name">SK SAGOR 🇮🇳</div>
+          <div class="score-badge">
+            <span>9,449,110</span> <small>🪙</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rank-list-container">
+      <div class="rank-list-item">
+        <div class="rank-num">4</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=60">
+        <div class="list-user-info"><div class="list-name">SAHENSA</div></div>
+        <div class="list-score">7,605,399 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">5</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=11">
+        <div class="list-user-info"><div class="list-name">ARIAN KING</div></div>
+        <div class="list-score">6,210,450 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">6</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=5">
+        <div class="list-user-info"><div class="list-name">NOOR BOSS</div></div>
+        <div class="list-score">5,890,120 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">7</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=15">
+        <div class="list-user-info"><div class="list-name">ROTON CHOWDHURY</div></div>
+        <div class="list-score">4,450,000 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">8</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=20">
+        <div class="list-user-info"><div class="list-name">RABBY AHMED</div></div>
+        <div class="list-score">3,980,100 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">9</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=47">
+        <div class="list-user-info"><div class="list-name">SHITAL ANGEL</div></div>
+        <div class="list-score">3,120,500 🪙</div>
+      </div>
+      <div class="rank-list-item">
+        <div class="rank-num">10</div>
+        <img class="list-avatar" src="https://i.pravatar.cc/100?img=32">
+        <div class="list-user-info"><div class="list-name">FARIDPUR BOY</div></div>
+        <div class="list-score">2,890,000 🪙</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-rank-footer">
+    <div class="my-rank-status">No ranking</div>
+    <div class="my-info">
+      <img src="https://i.pravatar.cc/100?img=12" alt="My Avatar">
+      <b>Mia Vai 🇧🇩</b>
+    </div>
+    <div class="my-score">0 🪙</div>
+  </div>
+</div>
+
+<!-- GIFT PANEL MODAL -->
 <div id="giftModal" class="modal-overlay" onclick="closeModalOnBg(event, 'giftModal')">
   <div class="bottom-sheet">
     <div class="gift-tabs">
@@ -631,16 +985,6 @@ input,textarea{font-family:inherit;outline:none}
         <b>Firehawk</b>
         <span class="price">🪙 10000000</span>
       </div>
-      <div class="gift-card">
-        <span style="font-size:30px">⚽</span>
-        <b>Golden Football</b>
-        <span class="price">🪙 299999</span>
-      </div>
-      <div class="gift-card">
-        <span style="font-size:30px">🏆</span>
-        <b>Championship</b>
-        <span class="price">🪙 699999</span>
-      </div>
     </div>
     <div class="gift-bottom">
       <div><b>🪙 8458</b> &gt;</div>
@@ -649,63 +993,36 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </div>
 
-<!-- SCREENSHOT 2: CASUAL & LUCKY GAMES MODAL -->
+<!-- GAMES MODAL -->
 <div id="gamesModal" class="modal-overlay" onclick="closeModalOnBg(event, 'gamesModal')">
   <div class="bottom-sheet">
     <div class="games-sec-title">Casual Games</div>
     <div class="casual-grid">
-      <div class="game-card">
-        <div style="font-size:30px">🎲</div>
-        <b>Ludo</b>
-      </div>
-      <div class="game-card">
-        <div style="font-size:30px">👑</div>
-        <b>Ludo Team</b>
-      </div>
-      <div class="game-card">
-        <div style="font-size:30px">🎯</div>
-        <b>Carrom</b>
-      </div>
-      <div class="game-card">
-        <div style="font-size:30px">🎴</div>
-        <b>UMO</b>
-      </div>
-      <div class="game-card">
-        <div style="font-size:30px">🀄</div>
-        <b>Domino</b>
-      </div>
+      <div class="game-card"><div style="font-size:30px">🎲</div><b>Ludo</b></div>
+      <div class="game-card"><div style="font-size:30px">👑</div><b>Ludo Team</b></div>
+      <div class="game-card"><div style="font-size:30px">🎯</div><b>Carrom</b></div>
     </div>
-
     <div class="games-sec-title">Lucky Game</div>
     <div class="lucky-grid">
       <div class="lucky-card"><div style="font-size:26px">🍎</div>Lucky fruit</div>
       <div class="lucky-card"><div style="font-size:26px">🧞</div>Greedy Pro</div>
       <div class="lucky-card"><div style="font-size:26px">🎰</div>Jackpot</div>
-      <div class="lucky-card"><div style="font-size:26px">🃏</div>Teen Patti</div>
     </div>
   </div>
 </div>
 
-<!-- SCREENSHOT 3: PROPS & PARTY STORE MODAL -->
+<!-- PROPS MODAL -->
 <div id="propsModal" class="modal-overlay" onclick="closeModalOnBg(event, 'propsModal')">
   <div class="bottom-sheet">
     <div style="font-size:14px;font-weight:bold;margin-bottom:10px">Props Store</div>
     <div class="props-grid" style="margin-bottom:15px">
       <div class="props-item"><div class="icon-lg">🏪</div>Store</div>
       <div class="props-item"><div class="icon-lg">💖</div>Love Store</div>
-      <div class="props-item"><div class="icon-lg">🎒</div>Prop Warehouse</div>
-    </div>
-    <div style="font-size:14px;font-weight:bold;margin-bottom:10px">Party</div>
-    <div class="props-grid">
-      <div class="props-item"><div class="icon-lg">🧧</div>Lucky bag</div>
-      <div class="props-item"><div class="icon-lg">🎙️</div>Mic pk</div>
-      <div class="props-item"><div class="icon-lg">⚔️</div>PK</div>
-      <div class="props-item"><div class="icon-lg">🎡</div>Super winner</div>
     </div>
   </div>
 </div>
 
-<!-- SCREENSHOT 4: EMOJI MODAL -->
+<!-- EMOJI MODAL -->
 <div id="emojiModal" class="modal-overlay" onclick="closeModalOnBg(event, 'emojiModal')">
   <div class="bottom-sheet" style="background:#fff;color:#222">
     <div class="emoji-grid">
@@ -714,15 +1031,11 @@ input,textarea{font-family:inherit;outline:none}
       <div class="emoji-item"><span>🎰</span>Cool</div>
       <div class="emoji-item"><span>😊</span>Smile</div>
       <div class="emoji-item"><span>😭</span>Cry</div>
-      <div class="emoji-item"><span>🙋‍♂️</span>Raise hand</div>
-      <div class="emoji-item"><span>🫰</span>Like</div>
-      <div class="emoji-item"><span>👍</span>Definite</div>
-      <div class="emoji-item"><span>👋</span>Bye</div>
     </div>
   </div>
 </div>
 
-<!-- SCREENSHOT 7: ROOM DETAIL MODAL -->
+<!-- ROOM DETAIL MODAL -->
 <div id="roomDetailModal" class="modal-overlay" onclick="closeModalOnBg(event, 'roomDetailModal')">
   <div class="bottom-sheet room-detail-box">
     <b>Room Detail</b>
@@ -733,27 +1046,15 @@ input,textarea{font-family:inherit;outline:none}
         <div style="font-size:11px;color:#666">ID: 349200</div>
       </div>
     </div>
-    <div style="margin-top:15px;font-size:12px;color:#555">
-      <b>Online room users (1)</b>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-        <img src="https://i.pravatar.cc/100?img=12" style="width:36px;height:36px;border-radius:50%">
-        <div><b>༄Mia...✿Vai3</b> <span class="badge-lvl">LV.41</span></div>
-      </div>
-    </div>
   </div>
 </div>
 
-<!-- SCREENSHOT 8 & 9: ROOM SETTINGS MODAL -->
+<!-- ROOM SETTINGS MODAL -->
 <div id="roomSettingsModal" class="modal-overlay" onclick="closeModalOnBg(event, 'roomSettingsModal')">
   <div class="bottom-sheet">
     <div style="font-size:16px;font-weight:bold;text-align:center;margin-bottom:15px">Room Setting</div>
     <div class="setting-item"><span>Room Name</span><small>জিরো পয়েন্ট &gt;</small></div>
-    <div class="setting-item"><span>Room Notice</span><small>আসসালামু আলাইকুম... &gt;</small></div>
     <div class="setting-item"><span>Join Room Owner Support Program</span><input type="checkbox" checked></div>
-    <div class="setting-item"><span>Room Welcome Message</span><small>🔴 &gt;</small></div>
-    <div class="setting-item"><span>Room Type</span><small>Chat 🔴 &gt;</small></div>
-    <div class="setting-item"><span>Mic mode</span><small>open mode &gt;</small></div>
-    <div class="setting-item"><span>Wheat mode</span><small>9 people &gt;</small></div>
   </div>
 </div>
 
@@ -797,6 +1098,25 @@ function showToast(msg) {
 
 function homeTab(tabName, element) {
   document.querySelectorAll('.home-tab').forEach(tab => tab.classList.remove('active'));
+  element.classList.add('active');
+}
+
+/* RANKING FUNCTIONS */
+function openRanking() {
+  document.getElementById('rankingModal').classList.add('show');
+}
+
+function closeRanking() {
+  document.getElementById('rankingModal').classList.remove('show');
+}
+
+function selectTypeTab(element) {
+  document.querySelectorAll('.type-tab').forEach(tab => tab.classList.remove('active'));
+  element.classList.add('active');
+}
+
+function selectTimeTab(element) {
+  document.querySelectorAll('.time-tab').forEach(tab => tab.classList.remove('active'));
   element.classList.add('active');
 }
 </script>
