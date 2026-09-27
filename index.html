@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete UI with Gift Panel</title>
+<title>MRChat Complete UI with Gift & Game Panel</title>
 
 <!-- PWA Manifest Link -->
 <link rel="manifest" href="manifest.json">
@@ -223,7 +223,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 }
 .v-bottom-icon {
   width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; cursor: pointer;
 }
 .v-gift-btn {
   width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7);
@@ -288,6 +288,63 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .gift-send-wrap { display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2px; border: 1px solid rgba(255,255,255,0.15); }
 .gift-count-select { background: transparent; border: none; color: #fff; font-size: 13px; font-weight: bold; padding: 0 12px; outline: none; }
 .gift-send-btn { background: linear-gradient(90deg, #06b6d4, #a855f7); color: #fff; font-weight: bold; font-size: 12px; padding: 8px 20px; border-radius: 18px; box-shadow: 0 2px 10px rgba(168,85,247,0.4); }
+
+/* ==================== GAME MODAL STYLES ==================== */
+#gameModal {
+  position: fixed; inset: 0; z-index: 700; display: none;
+  background: rgba(0,0,0,0.65); align-items: flex-end; justify-content: center;
+}
+#gameModal.show { display: flex; }
+
+.game-panel {
+  width: 100%; max-width: 480px; background: #18112e;
+  border-top-left-radius: 24px; border-top-right-radius: 24px;
+  padding: 18px; color: #fff; box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+  border-top: 1px solid rgba(255,255,255,0.12); max-height: 80vh; overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+.game-panel-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+}
+.game-coin-badge {
+  background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px;
+  font-size: 13px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(251,191,36,0.3);
+}
+
+.game-sec-title { font-size: 14px; font-weight: bold; color: #fff; margin: 15px 0 10px; display: flex; align-items: center; gap: 6px; }
+
+/* Casual Games (Top Big Cards) */
+.casual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.casual-card {
+  background: rgba(255,255,255,0.05); border-radius: 16px; padding: 10px;
+  display: flex; flex-direction: column; align-items: center; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08); transition: 0.2s;
+}
+.casual-card:active { transform: scale(0.95); }
+.casual-img-box {
+  width: 100%; height: 60px; border-radius: 12px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 6px;
+}
+.casual-title { font-size: 11px; font-weight: bold; color: #eee; text-align: center; }
+
+/* Lucky Games (Icon Grid) */
+.lucky-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 8px; }
+.lucky-card {
+  display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative;
+}
+.lucky-card:active { transform: scale(0.95); }
+.lucky-icon-wrap {
+  width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; font-size: 26px;
+  border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative;
+}
+.red-dot {
+  position: absolute; top: 0; right: 2px; width: 10px; height: 10px;
+  background: #ef4444; border-radius: 50%; border: 2px solid #18112e;
+}
+.lucky-title { font-size: 10px; font-weight: bold; color: #ccc; text-align: center; margin-top: 6px; line-height: 1.2; }
 
 #updateBanner { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #8066ff; color: #fff; padding: 12px 16px; border-radius: 14px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; }
 #updateBanner button { background: #fff; color: #5036df; font-weight: bold; padding: 6px 12px; border-radius: 8px; }
@@ -581,7 +638,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       <button class="v-say-hi-btn" onclick="showToast('Say Hi Sent')">Say Hi...</button>
       <div class="v-bottom-icon" onclick="showToast('Mic Toggled')">🎙️</div>
       <div class="v-bottom-icon" onclick="showToast('Emoji Panel')">😊</div>
-      <div class="v-bottom-icon" onclick="showToast('Games')">🎮</div>
+      <div class="v-bottom-icon" onclick="openGameModal()">🎮</div>
       <div class="v-gift-btn" onclick="openGiftModal()">🎁</div>
     </div>
   </div>
@@ -640,6 +697,92 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     </div>
   </div>
 
+  <!-- GAME MODAL -->
+  <div id="gameModal">
+    <div class="game-panel">
+      <div class="game-panel-header">
+        <div class="game-coin-badge">🪙 180.7K</div>
+        <span onclick="closeGameModal()" style="font-weight:bold; cursor:pointer; color:#aaa; font-size:18px">✕</span>
+      </div>
+
+      <!-- Casual Games Section -->
+      <div class="game-sec-title">Casual Games</div>
+      <div class="casual-grid">
+        <div class="casual-card" onclick="playGame('Ludo')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#0284c7,#38bdf8)">🎲</div>
+          <div class="casual-title">Ludo</div>
+        </div>
+        <div class="casual-card" onclick="playGame('Ludo Team')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#0d9488,#14b8a6)">👥</div>
+          <div class="casual-title">Ludo Team</div>
+        </div>
+        <div class="casual-card" onclick="playGame('Carrom')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#b91c1c,#ef4444)">⚪</div>
+          <div class="casual-title">Carrom</div>
+        </div>
+        <div class="casual-card" onclick="playGame('UMO')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#ea580c,#f97316)">🃏</div>
+          <div class="casual-title">UMO</div>
+        </div>
+        <div class="casual-card" onclick="playGame('Domino')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#2563eb,#60a5fa)">🀄</div>
+          <div class="casual-title">Domino</div>
+        </div>
+        <div class="casual-card" onclick="playGame('Jackaroo')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#65a30d,#84cc16)">🔮</div>
+          <div class="casual-title">Jackaroo</div>
+        </div>
+      </div>
+
+      <!-- Lucky Game Section -->
+      <div class="game-sec-title">Lucky Game</div>
+      <div class="lucky-grid">
+        <div class="lucky-card" onclick="playGame('Lucky fruit')">
+          <div class="lucky-icon-wrap">🍎</div>
+          <div class="lucky-title">Lucky fruit</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Greedy Pro')">
+          <div class="lucky-icon-wrap">🎅</div>
+          <div class="lucky-title">Greedy Pro</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Jackpot')">
+          <div class="lucky-icon-wrap">🍔</div>
+          <div class="lucky-title">Jackpot</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Teen Patti')">
+          <div class="lucky-icon-wrap">🎴</div>
+          <div class="lucky-title">Teen Patti</div>
+        </div>
+
+        <div class="lucky-card" onclick="playGame('Lucky Pro')">
+          <div class="lucky-icon-wrap">🍇</div>
+          <div class="lucky-title">Lucky Pro</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Greedy Box')">
+          <div class="lucky-icon-wrap">📦<span class="red-dot"></span></div>
+          <div class="lucky-title">Greedy Box</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Jackpot slot')">
+          <div class="lucky-icon-wrap">🎰<span class="red-dot"></span></div>
+          <div class="lucky-title">Jackpot slot</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Dragon Tiger Slot')">
+          <div class="lucky-icon-wrap">🐉<span class="red-dot"></span></div>
+          <div class="lucky-title">Dragon Tiger Slot</div>
+        </div>
+
+        <div class="lucky-card" onclick="playGame('Roulette')">
+          <div class="lucky-icon-wrap">🎡<span class="red-dot"></span></div>
+          <div class="lucky-title">Roulette</div>
+        </div>
+        <div class="lucky-card" onclick="playGame('Texas Cowboy')">
+          <div class="lucky-icon-wrap">🤠<span class="red-dot"></span></div>
+          <div class="lucky-title">Texas Cowboy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast">Message here</div>
 
@@ -690,6 +833,13 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   function sendGift() {
     showToast('উপহার পাঠানো হয়েছে! 🎁');
     closeGiftModal();
+  }
+
+  // Game Modal
+  function openGameModal() { document.getElementById('gameModal').classList.add('show'); }
+  function closeGameModal() { document.getElementById('gameModal').classList.remove('show'); }
+  function playGame(gameName) {
+    showToast(gameName + ' গেম চালু হচ্ছে... 🎮');
   }
 
   // Profile Edit Modals
