@@ -3,588 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MR Chat</title>
+<title>MR Chat - CP Zone</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#f6f7fb;color:#222}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#120323;color:#fff}
 button{border:0;font-family:inherit;cursor:pointer;outline:none}
-input,textarea{font-family:inherit;outline:none}
+
 #app{width:100%;height:100%;position:relative;overflow:hidden}
 
-.page{
-  position:absolute;inset:0;background:#f7f8fc;display:none;
-  overflow-y:auto;padding-bottom:82px
-}
+/* HOME PAGE STYLES */
+.page{position:absolute;inset:0;background:#f7f8fc;display:none;overflow-y:auto;padding-bottom:82px;color:#222}
 .page.show{display:block}
 
-.btn3d{
-  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
-  box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16),
-  inset 0 1px 1px rgba(255,255,255,.95);transition:.15s
+.home-top{height:64px;background:#fff;display:flex;align-items:center;padding:0 12px;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.home-tabs{display:flex;gap:5px;background:#f0f0f5;padding:4px;border-radius:15px;flex:1}
+.home-tab{flex:1;height:34px;border-radius:12px;font-size:12px;font-weight:bold;color:#777;background:transparent}
+.home-tab.active{background:#fff;color:#6b21a8;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:15px}
+.category{height:80px;background:#fff;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,0.06);color:#333}
+.category .icon{font-size:26px;margin-bottom:4px}
+
+/* CP RANKING SCREEN UI (MATCHING SCREENSHOTS) */
+.cp-screen {
+  position: fixed; inset: 0; z-index: 1000;
+  background: radial-gradient(circle at top, #3b0764 0%, #1a0230 60%, #0a0014 100%);
+  display: none; flex-direction: column; overflow: hidden; color: #fff;
 }
-.btn3d:active{
-  transform:translateY(4px) scale(.98);
-  box-shadow:0 1px 0 #c8cad3,0 3px 8px rgba(40,45,80,.15)
+.cp-screen.show { display: flex; }
+
+/* Header */
+.cp-header {
+  height: 50px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 15px; background: rgba(0, 0, 0, 0.3); z-index: 10;
 }
-.btn3d.primary{
-  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
-  box-shadow:0 5px 0 #3824a9,0 9px 18px rgba(88,63,230,.32)
+.cp-back { background: none; color: #fff; font-size: 22px; }
+.cp-title { font-size: 18px; font-weight: bold; letter-spacing: 0.5px; }
+.cp-header-right { display: flex; gap: 12px; font-size: 20px; }
+
+.cp-content { flex: 1; overflow-y: auto; padding: 10px 10px 70px; }
+
+/* Top Tabs */
+.cp-top-tabs { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
+.cp-tab {
+  flex: 1; height: 36px; border-radius: 18px;
+  background: linear-gradient(90deg, #d946ef, #c084fc);
+  color: #fff; font-size: 12px; font-weight: bold;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 2px 8px rgba(217, 70, 239, 0.4);
+}
+.cp-tab.active { background: linear-gradient(90deg, #ec4899, #f43f5e); border: 2px solid #fff; }
+
+/* Help & Rewards Floating */
+.cp-floating-btns { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 10px; }
+.help-btn { width: 32px; height: 32px; border-radius: 50%; background: #3b82f6; color: #fff; font-weight: bold; font-size: 16px; }
+.my-rewards-btn { background: linear-gradient(90deg, #f43f5e, #fb7185); padding: 6px 14px; border-radius: 15px; font-size: 11px; font-weight: bold; border: 1px solid #ffedd5; }
+
+/* Wheel / Podium Section */
+.cp-wheel-stage {
+  position: relative; width: 100%; height: 280px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
+}
+.wheel-bg-circle {
+  position: absolute; width: 220px; height: 220px; border-radius: 50%;
+  border: 4px dashed #f59e0b;
+  background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+}
+.wheel-center-title {
+  font-size: 28px; font-weight: 900; text-align: center;
+  background: linear-gradient(180deg, #fff, #f43f5e, #3b82f6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
-/* HOME TOP BAR */
-.home-top{
-  height:64px;background:rgba(255,255,255,.97);display:flex;align-items:center;
-  padding:0 9px;gap:7px;position:sticky;top:0;z-index:20;
-  border-bottom:1px solid rgba(90,67,233,.08);
-  box-shadow:0 4px 15px rgba(40,35,90,.07)
+/* CP Star Podium Positions */
+.cp-podium-card {
+  position: absolute; width: 75px; text-align: center;
 }
-.home-tabs{
-  display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;
-  overflow:hidden;background:#f3f2f8;border-radius:17px
+.cp-pair-frame {
+  width: 65px; height: 50px; margin: 0 auto; border-radius: 12px;
+  background: #f59e0b; padding: 2px; border: 2px solid #fff;
+  position: relative; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
-.home-tab{
-  height:36px;padding:0 11px;border-radius:13px;display:flex;
-  align-items:center;justify-content:center;font-size:12px;font-weight:800;
-  color:#9998a5;white-space:nowrap;background:transparent
-}
-.home-tab.active{
-  color:#5a43e9;background:#fff;
-  box-shadow:0 3px 9px rgba(70,55,150,.12)
-}
-.top-action{
-  width:42px;height:42px;min-width:42px;display:flex;align-items:center;
-  justify-content:center;border-radius:14px;font-size:20px;font-weight:800
+.cp-pair-frame img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.cp-pair-frame img:first-child { margin-right: -6px; z-index: 1; border: 1px solid #fff; }
+.cp-rank-tag {
+  position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+  background: #ef4444; color: #fff; font-size: 9px; font-weight: bold;
+  padding: 1px 6px; border-radius: 8px; border: 1px solid #fff;
 }
 
-/* BANNER & CATEGORIES */
-.event-slider-wrap{padding:10px 10px 4px}
-.event-slider{
-  width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
-  box-shadow:0 8px 20px rgba(60,50,120,.22)
+/* Positioning Top 1-5 around wheel */
+.pos-1 { top: 15px; left: 20px; }
+.pos-2 { top: 0px; right: 80px; }
+.pos-3 { top: 90px; right: 10px; }
+.pos-4 { bottom: 10px; right: 100px; }
+.pos-5 { bottom: 20px; left: 25px; }
+
+/* Countdown Timer Box */
+.timer-wrap {
+  background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.1);
 }
-.event-track{width:100%;height:100%;display:flex;transition:transform .5s}
-.event-slide{
-  min-width:100%;height:100%;position:relative;overflow:hidden;color:white;
-  background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover
-}
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.event-content h2{font-size:23px;margin-bottom:6px}
-.event-content p{font-size:11px;line-height:1.45;max-width:270px}
-.event-button{
-  height:33px;padding:0 16px;margin-top:11px;border-radius:17px;
-  background:white;color:#5b42df;font-weight:800;font-size:10px
+.timer-label { font-size: 11px; color: #ddd; font-weight: bold; }
+.time-box {
+  background: #3b0764; border: 1px solid #c084fc; border-radius: 6px;
+  padding: 3px 6px; font-size: 12px; font-weight: bold; color: #fff;
 }
 
-.categories{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px
+/* Middle Action Buttons */
+.cp-action-row { display: flex; gap: 8px; margin-bottom: 15px; }
+.cp-action-btn {
+  flex: 1; height: 40px; border-radius: 20px;
+  background: linear-gradient(180deg, #a855f7, #6b21a8);
+  border: 1px solid #e9d5ff; color: #fff; font-size: 11px; font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
-.category{
-  min-height:78px;border-radius:19px;padding:10px 7px;display:flex;
-  flex-direction:column;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;box-shadow:0 5px 0 rgba(40,30,100,.18),0 9px 17px rgba(40,35,100,.15)
-}
-.category .icon{font-size:28px;margin-bottom:5px}
+.cp-action-btn.active { background: linear-gradient(180deg, #ec4899, #be123c); }
 
-.section-title{
-  padding:13px 12px 9px;display:flex;align-items:center;
-  justify-content:space-between;font-size:15px;font-weight:900
+/* Weekly Ranking List Section */
+.this-week-box {
+  background: rgba(20, 5, 35, 0.7); border: 1px solid #a855f7;
+  border-radius: 16px; padding: 12px;
 }
-.section-title span{
-  padding:5px 9px;border-radius:10px;background:#f0eefb;
-  color:#705ce0;font-size:9px
-}
-
-/* ROOM GRID */
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{
-  height:205px;border-radius:19px;overflow:hidden;position:relative;
-  background:#ddd;box-shadow:0 6px 15px rgba(30,30,60,.14);cursor:pointer
-}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.78))}
-.room-info{position:absolute;bottom:9px;left:10px;right:8px;color:white}
-.room-name{font-weight:800;font-size:13px;margin-bottom:5px}
-.room-meta{font-size:10px;display:flex;justify-content:space-between}
-.live{display:inline-flex;align-items:center;gap:4px;color:#ff405d;font-weight:bold}
-
-/* BOTTOM MAIN NAV */
-.bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;height:76px;padding:7px 8px 5px;
-  gap:4px;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
-  border-top:1px solid rgba(80,65,150,.08);display:flex;z-index:100;
-  box-shadow:0 -7px 24px rgba(35,30,80,.09)
-}
-.nav-item{
-  flex:1;position:relative;display:flex;flex-direction:column;
-  justify-content:center;align-items:center;color:#a2a1ad;background:transparent;
-  border-radius:16px;font-size:9px;font-weight:700;gap:3px
-}
-.nav-item .nav-icon{
-  width:42px;height:35px;display:flex;align-items:center;
-  justify-content:center;font-size:21px;border-radius:13px
-}
-.nav-item.active{color:#5d45df}
-.nav-item.active .nav-icon{
-  background:linear-gradient(145deg,#eeeaff,#e4defe);
-  box-shadow:inset 0 1px 2px rgba(255,255,255,.9),0 3px 8px rgba(90,65,220,.12)
+.this-week-header {
+  text-align: center; font-size: 15px; font-weight: bold; color: #fde047;
+  margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 
-/* OTHER PAGES */
-.page-header{
-  height:62px;background:white;display:flex;align-items:center;
-  justify-content:center;font-size:18px;font-weight:900;
-  position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(30,30,70,.06)
+/* CP List Row */
+.cp-list-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.05); border-radius: 12px;
+  padding: 8px 10px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.08);
 }
-.empty-area{
-  min-height:calc(100vh - 145px);display:flex;align-items:center;
-  justify-content:center;text-align:center;color:#aaa
-}
-.empty-box b{font-size:14px;color:#999}
+.cp-rank-badge { font-size: 11px; font-weight: 900; color: #fde047; width: 45px; }
+.cp-couples { display: flex; align-items: center; gap: 6px; flex: 1; }
+.cp-user-img { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #f43f5e; object-fit: cover; }
+.cp-names { font-size: 11px; font-weight: bold; color: #eee; }
+.cp-points { font-size: 12px; font-weight: bold; color: #fde047; }
 
-/* MESSAGE PAGE DESIGN */
-.msg-list{padding:10px}
-.msg-item{display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
-.msg-avatar{width:46px;height:46px;border-radius:50%;object-fit:cover}
-.msg-info{flex:1}
-.msg-title{font-size:14px;font-weight:bold;color:#111;display:flex;align-items:center;gap:5px}
-.msg-sub{font-size:11px;color:#888;margin-top:2px}
-.msg-time{font-size:10px;color:#aaa}
-
-/* PROFILE PAGE */
-.profile-head{
-  padding:20px 14px 25px;color:white;
-  background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px
+/* Fixed Bottom My CP Bar */
+.my-cp-footer {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 15px; border-top: 2px solid #fff;
 }
-.profile-main{display:flex;align-items:center}
-.profile-avatar{width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover}
-.profile-info{padding-left:12px;flex:1}
-
-/* VOICE ROOM SCREEN */
-#roomScreen{
-  position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
-  background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%)
-}
-#roomScreen.show{display:flex;flex-direction:column;justify-content:space-between}
-
-.room-top{
-  height:55px;padding:8px 10px;display:flex;align-items:center;
-  justify-content:space-between;z-index:10;background:rgba(0,0,0,0.15)
-}
-.room-profile{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px;cursor:pointer}
-.room-avatar{width:36px;height:36px;border-radius:50%;border:1px solid #ffd700;object-fit:cover}
-.room-meta b{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
-.room-meta small{font-size:9px;color:#ddd;display:flex;gap:4px}
-
-.room-top-tag{
-  background:linear-gradient(90deg,#3b82f6,#ec4899);padding:3px 8px;border-radius:12px;
-  font-size:10px;font-weight:bold;display:flex;align-items:center;gap:4px
-}
-.room-top-right{display:flex;align-items:center;gap:8px}
-.room-circle-btn{
-  width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);
-  border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:#fff;cursor:pointer
-}
-
-.trophy-badge{
-  position:absolute;top:60px;left:10px;background:rgba(0,0,0,0.3);
-  padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold;cursor:pointer
-}
-
-.room-host-wrap{margin-top:15px;display:flex;flex-direction:column;align-items:center;z-index:5}
-.host-avatar-ring{
-  position:relative;width:75px;height:75px;display:flex;align-items:center;justify-content:center
-}
-.host-avatar-ring::before{
-  content:'';position:absolute;inset:-4px;border-radius:50%;
-  background:linear-gradient(45deg, #ff007f, #ffd700, #ff007f);
-  box-shadow:0 0 15px #ff007f;z-index:1
-}
-.host-avatar-ring img{width:70px;height:70px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
-.host-title{margin-top:4px;font-size:12px;font-weight:bold;color:#60a5fa}
-
-.room-logo-title{
-  text-align:center;font-size:38px;font-weight:900;
-  background:linear-gradient(180deg,#ffffff,#d8b4fe,#a855f7);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(168,85,247,0.6);margin:-5px 0 10px
-}
-
-.room-seats-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:15px 5px;
-  padding:0 20px;z-index:5
-}
-.room-seat{display:flex;flex-direction:column;align-items:center;position:relative}
-.seat-icon-box{
-  width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
-  justify-content:center;font-size:20px;box-shadow:inset 0 0 8px rgba(255,255,255,0.2)
-}
-.seat-num{font-size:11px;color:#ccc;margin-top:4px;font-weight:bold}
-
-.room-center-mascot{
-  position:relative;height:120px;display:flex;justify-content:center;align-items:center
-}
-.mascot-img{height:125px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5))}
-
-.room-side-widgets{
-  position:absolute;right:10px;bottom:0;display:flex;flex-direction:column;gap:8px
-}
-.side-widget-box{
-  width:55px;height:55px;border-radius:10px;
-  border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:9px;text-align:center;cursor:pointer
-}
-
-.room-chat-area{
-  padding:0 12px;display:flex;flex-direction:column;gap:6px;max-height:160px;
-  overflow-y:auto;z-index:5
-}
-.room-notice{
-  background:rgba(0,0,0,0.25);border-radius:10px;padding:6px 10px;
-  font-size:10px;color:#a7f3d0;line-height:1.3
-}
-.room-welcome-line{
-  background:rgba(255,255,255,0.15);padding:4px 12px;border-radius:15px;
-  font-size:11px;width:max-content;color:#fff
-}
-.room-chat-line{
-  background:rgba(0,0,0,0.3);padding:5px 10px;border-radius:12px;
-  font-size:11px;width:max-content;display:flex;align-items:center;gap:6px
-}
-.badge-lvl{background:#8b5cf6;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
-.badge-vip{background:#eab308;color:#000;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
-
-.room-bottom-controls{
-  height:60px;padding:0 10px;background:rgba(15,3,35,0.85);
-  backdrop-filter:blur(10px);display:flex;align-items:center;
-  justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);z-index:10
-}
-.say-hi-btn{
-  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
-  color:#aaa;padding:8px 12px;border-radius:20px;font-size:11px
-}
-.room-tool-btn{
-  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.12);
-  display:flex;align-items:center;justify-content:center;font-size:15px;
-  color:#fff;cursor:pointer
-}
-.room-gift-btn{
-  width:38px;height:38px;border-radius:12px;
-  background:linear-gradient(135deg,#ff007f,#00f2fe);
-  display:flex;align-items:center;justify-content:center;font-size:19px;
-  box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
-}
-
-/* MODALS / BOTTOM SHEETS */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;
-  display:none;align-items:flex-end;justify-content:center
-}
-.modal-overlay.show{display:flex}
-
-.bottom-sheet{
-  width:100%;max-width:520px;background:#18112e;color:#fff;
-  border-radius:20px 20px 0 0;padding:15px;max-height:80vh;overflow-y:auto;
-  box-shadow:0 -5px 25px rgba(0,0,0,0.5);animation:slideUp 0.3s ease-out
-}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-
-/* GIFT SHEET */
-.gift-tabs{display:flex;gap:15px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px}
-.gift-tab{font-size:13px;color:#aaa;font-weight:bold;cursor:pointer}
-.gift-tab.active{color:#fff;border-bottom:2px solid #a855f7}
-.gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
-.gift-card{
-  background:rgba(255,255,255,0.05);border-radius:12px;padding:8px;
-  display:flex;flex-direction:column;align-items:center;text-align:center;font-size:10px
-}
-.gift-card img{width:40px;height:40px;object-fit:contain;margin-bottom:4px}
-.gift-card .price{color:#f59e0b;font-weight:bold}
-.gift-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.1)}
-.send-btn{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#fff;padding:8px 20px;border-radius:20px;font-weight:bold}
-
-/* GAMES SHEET */
-.games-sec-title{font-size:14px;font-weight:bold;margin:10px 0 8px;color:#fff}
-.casual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.game-card{background:rgba(255,255,255,0.08);border-radius:12px;padding:8px;text-align:center;font-size:11px}
-.lucky-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
-.lucky-card{text-align:center;font-size:10px}
-
-/* PROPS / PARTY SHEET */
-.props-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;font-size:11px}
-.props-item{background:rgba(255,255,255,0.05);padding:10px;border-radius:12px}
-.props-item .icon-lg{font-size:28px;margin-bottom:4px}
-
-/* EMOJI SHEET */
-.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center;font-size:11px}
-.emoji-item{background:rgba(255,255,255,0.05);padding:8px;border-radius:10px;cursor:pointer}
-.emoji-item span{font-size:26px;display:block}
-
-/* ROOM DETAIL MODAL */
-.room-detail-box{background:#fff;color:#222;border-radius:20px 20px 0 0;padding:20px}
-.rd-card{background:#f3f4f6;border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px;margin-top:10px}
-.rd-card img{width:50px;height:50px;border-radius:10px;object-fit:cover}
-
-/* ROOM SETTINGS SHEET */
-.setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px}
-.setting-item small{color:#888}
-
-/* RANKING PAGE CUSTOM STYLES */
-.ranking-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: radial-gradient(circle at top, #2d0b00 0%, #120300 100%);
-  color: #fff;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-}
-.ranking-screen.show { display: flex; }
-
-.rank-header {
-  height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  background: rgba(0,0,0,0.4);
-}
-.rank-back-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-}
-.rank-title {
-  font-weight: bold;
-  font-size: 17px;
-  color: #ffe599;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.rank-header-right { display: flex; gap: 10px; }
-.rank-icon-btn { font-size: 18px; cursor: pointer; }
-
-.rank-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 12px 80px;
-}
-
-.rank-type-tabs {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 12px;
-  border-bottom: 1px solid rgba(255,215,0,0.2);
-  padding-bottom: 5px;
-}
-.type-tab {
-  background: none;
-  border: none;
-  color: #b3a296;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 6px 12px;
-  position: relative;
-}
-.type-tab.active { color: #fff; }
-.type-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 20%;
-  width: 60%;
-  height: 3px;
-  background: #ffb703;
-  border-radius: 2px;
-}
-
-.time-filter-box {
-  display: flex;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 3px;
-  margin: 10px auto 20px;
-  max-width: 320px;
-  border: 1px solid rgba(255, 183, 3, 0.3);
-}
-.time-tab {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #ccc;
-  padding: 6px 0;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-.time-tab.active {
-  background: linear-gradient(90deg, #ffb703, #fb8500);
-  color: #000;
-  box-shadow: 0 2px 8px rgba(251, 133, 0, 0.4);
-}
-
-.top3-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.rank-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.rank-1 { width: 100%; }
-.crown-icon {
-  font-size: 26px;
-  margin-bottom: -8px;
-  animation: float 2s infinite ease-in-out;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.avatar-frame {
-  position: relative;
-  border-radius: 50%;
-  padding: 5px;
-  display: inline-block;
-}
-.avatar-frame img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-}
-
-.frame-gold {
-  background: linear-gradient(135deg, #ffe066, #d4af37, #b8860b);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-}
-.frame-silver {
-  background: linear-gradient(135deg, #ffffff, #a8a8a8, #707070);
-  box-shadow: 0 0 15px rgba(168, 168, 168, 0.4);
-}
-.frame-bronze {
-  background: linear-gradient(135deg, #e59866, #b03a2e, #6e2c00);
-  box-shadow: 0 0 15px rgba(176, 58, 46, 0.4);
-}
-
-.frame-silver img, .frame-bronze img {
-  width: 65px;
-  height: 65px;
-}
-
-.badge-number {
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 900;
-  color: #000;
-  white-space: nowrap;
-}
-.bg-gold { background: linear-gradient(90deg, #ffe066, #f39c12); }
-.bg-silver { background: linear-gradient(90deg, #ffffff, #bdc3c7); }
-.bg-bronze { background: linear-gradient(90deg, #f39c12, #d35400); color: #fff; }
-
-.user-name {
-  margin-top: 10px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #fff;
-}
-.score-badge {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 12px;
-  padding: 3px 10px;
-  font-size: 11px;
-  color: #ffb703;
-  margin-top: 4px;
-  font-weight: bold;
-}
-
-.rank-2-3-row {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 5px;
-}
-
-.rank-list-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.rank-list-item {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 10px 12px;
-}
-.rank-num {
-  width: 25px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffb703;
-}
-.list-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.list-user-info { flex: 1; }
-.list-name { font-size: 13px; font-weight: bold; color: #eee; }
-.list-score { font-size: 12px; font-weight: bold; color: #ffb703; }
-
-.my-rank-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #1c0500;
-  border-top: 1px solid rgba(255, 183, 3, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-}
-.my-rank-status { font-size: 12px; color: #aaa; font-weight: bold; }
-.my-info { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.my-info img { width: 36px; height: 36px; border-radius: 50%; }
-.my-score { font-size: 12px; color: #ffb703; font-weight: bold; }
-
-/* TOAST */
-#toast{
-  position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
-  background:rgba(25,25,35,.92);color:white;padding:10px 16px;border-radius:14px;
-  font-size:11px;opacity:0;pointer-events:none;z-index:2000;transition:.25s
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.my-cp-left { display: flex; align-items: center; gap: 8px; }
+.my-cp-imgs { display: flex; align-items: center; }
+.my-cp-imgs img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #fff; }
+.my-cp-imgs img:last-child { margin-left: -8px; }
 
 @media(min-width:700px){
-  .page, .bottom-nav, #roomScreen, .ranking-screen{max-width:520px;left:50%;transform:translateX(-50%)}
+  .page, .cp-screen { max-width: 520px; left: 50%; transform: translateX(-50%); }
 }
 </style>
 </head>
@@ -596,399 +173,192 @@ input,textarea{font-family:inherit;outline:none}
 <section id="homePage" class="page show">
   <div class="home-top">
     <div class="home-tabs">
-      <button class="home-tab" onclick="homeTab('following',this)">Following</button>
-      <button class="home-tab active" onclick="homeTab('popular',this)">Popular</button>
-      <button class="home-tab" onclick="homeTab('recent',this)">Recent</button>
+      <button class="home-tab">Following</button>
+      <button class="home-tab active">Popular</button>
     </div>
-    <button class="top-action btn3d" onclick="showToast('Search')">⌕</button>
-    <button class="top-action btn3d primary" onclick="enterRoom('myRoom')">＋</button>
   </div>
 
-  <div id="popularContent">
-    <div class="event-slider-wrap">
-      <div class="event-slider">
-        <div class="event-track">
-          <div class="event-slide">
-            <div class="event-content">
-              <h2>MR Chat Grand Opening</h2>
-              <p>Welcome to MR Chat. Meet new people and enjoy voice rooms together.</p>
-              <button class="event-button" onclick="showToast('Welcome to MR Chat!')">Join Event</button>
-            </div>
-          </div>
+  <div class="categories">
+    <div class="category" onclick="alert('Rank Clicked')"><div class="icon">🏆</div>Rank</div>
+    <!-- CP BUTTON CLICK OPENS CP RANKING SCREEN -->
+    <div class="category" onclick="openCPZone()"><div class="icon">💜</div>CP</div>
+    <div class="category"><div class="icon">👨‍👩‍👧‍👦</div>Family</div>
+  </div>
+</section>
+
+<!-- 2. CP RANKING SCREEN (MATCHING SCREENSHOTS) -->
+<div id="cpZoneModal" class="cp-screen">
+  <!-- Header -->
+  <div class="cp-header">
+    <button class="cp-back" onclick="closeCPZone()">❮</button>
+    <span class="cp-title">Rankings</span>
+    <div class="cp-header-right">
+      <span>📅</span>
+    </div>
+  </div>
+
+  <div class="cp-content">
+    <!-- Top Tabs -->
+    <div class="cp-top-tabs">
+      <button class="cp-tab active">CP weekly</button>
+      <button class="cp-tab">CP Total</button>
+      <button class="cp-tab">Blessings</button>
+    </div>
+
+    <!-- Help & My Rewards Row -->
+    <div class="cp-floating-btns">
+      <button class="help-btn">?</button>
+      <button class="my-rewards-btn">My Rewards</button>
+    </div>
+
+    <!-- Wheel & Podium Stage -->
+    <div class="cp-wheel-stage">
+      <div class="wheel-bg-circle">
+        <div class="wheel-center-title">CP<br>Star</div>
+      </div>
+
+      <!-- Top 1 Position -->
+      <div class="cp-podium-card pos-1">
+        <div class="cp-pair-frame">
+          <img src="https://i.pravatar.cc/100?img=32">
+          <img src="https://i.pravatar.cc/100?img=12">
+          <div class="cp-rank-tag">💖 1</div>
+        </div>
+      </div>
+
+      <!-- Top 2 Position -->
+      <div class="cp-podium-card pos-2">
+        <div class="cp-pair-frame">
+          <img src="https://i.pravatar.cc/100?img=47">
+          <img src="https://i.pravatar.cc/100?img=68">
+          <div class="cp-rank-tag">💖 2</div>
+        </div>
+      </div>
+
+      <!-- Top 3 Position -->
+      <div class="cp-podium-card pos-3">
+        <div class="cp-pair-frame">
+          <img src="https://i.pravatar.cc/100?img=15">
+          <img src="https://i.pravatar.cc/100?img=33">
+          <div class="cp-rank-tag">💖 3</div>
+        </div>
+      </div>
+
+      <!-- Top 4 Position -->
+      <div class="cp-podium-card pos-4">
+        <div class="cp-pair-frame">
+          <img src="https://i.pravatar.cc/100?img=22">
+          <img src="https://i.pravatar.cc/100?img=11">
+          <div class="cp-rank-tag">💖 4</div>
+        </div>
+      </div>
+
+      <!-- Top 5 Position -->
+      <div class="cp-podium-card pos-5">
+        <div class="cp-pair-frame">
+          <img src="https://i.pravatar.cc/100?img=5">
+          <img src="https://i.pravatar.cc/100?img=9">
+          <div class="cp-rank-tag">💖 5</div>
         </div>
       </div>
     </div>
 
-    <!-- HOME PAGE RANK BUTTON -->
-    <div class="categories">
-      <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-      <button class="category btn3d" onclick="showToast('CP Zone')"><div class="icon">💜</div>CP</button>
-      <button class="category btn3d" onclick="showToast('Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+    <!-- Countdown Timer -->
+    <div class="timer-wrap">
+      <span class="timer-label">CountDown</span>
+      <div class="time-box">00</div> <span style="font-size:10px">Days</span>
+      <div class="time-box" id="cd-hours">16</div> :
+      <div class="time-box" id="cd-mins">56</div> :
+      <div class="time-box" id="cd-secs">30</div>
     </div>
 
-    <div class="section-title">
-      <b>Voice Rooms</b><span>LIVE NOW</span>
+    <!-- Action Buttons -->
+    <div class="cp-action-row">
+      <button class="cp-action-btn active">Ranking</button>
+      <button class="cp-action-btn">Ranking Rewards</button>
+      <button class="cp-action-btn">Weekly Reward</button>
     </div>
 
-    <div class="room-grid">
-      <div class="room-card" onclick="enterRoom('room1')">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-        <div class="room-overlay"></div>
-        <div class="room-info">
-          <div class="room-name">Friendship Lounge</div>
-          <div class="room-meta"><span class="live">● Live</span><span>128</span></div>
-        </div>
+    <!-- Weekly Rankings List -->
+    <div class="this-week-box">
+      <div class="this-week-header">
+        <span>👑</span> This Week Ranking <span>👑</span>
       </div>
 
-      <div class="room-card" onclick="enterRoom('room2')">
-        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-        <div class="room-overlay"></div>
-        <div class="room-info">
-          <div class="room-name">Night Friends</div>
-          <div class="room-meta"><span class="live">● Live</span><span>86</span></div>
-        </div>
+      <!-- Rank List Container -->
+      <div id="cpListContainer"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Fixed My CP Bar -->
+  <div class="my-cp-footer">
+    <div class="my-cp-left">
+      <span style="font-size:11px;font-weight:900;">TOP 73</span>
+      <div class="my-cp-imgs">
+        <img src="https://i.pravatar.cc/100?img=49">
+        <img src="https://i.pravatar.cc/100?img=12">
       </div>
+      <div style="font-size:11px;font-weight:bold;">শীতল 💕 Mia Vai</div>
     </div>
-  </div>
-</section>
-
-<!-- DISCOVER PAGE -->
-<section id="discoverPage" class="page">
-  <div class="page-header">Discover</div>
-  <div class="empty-area">
-    <div class="empty-box"><b>Discover is Empty</b></div>
-  </div>
-</section>
-
-<!-- MOMENT PAGE -->
-<section id="momentPage" class="page">
-  <div class="page-header">Moment</div>
-  <div class="empty-area">
-    <div class="empty-box"><b>No Moments Yet</b></div>
-  </div>
-</section>
-
-<!-- MESSAGE PAGE -->
-<section id="messagePage" class="page">
-  <div class="page-header">Message</div>
-  <div class="msg-list">
-    <div class="msg-item">
-      <div class="msg-avatar" style="background:#4ade80;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px">🎁</div>
-      <div class="msg-info">
-        <div class="msg-title">Gift Notice</div>
-        <div class="msg-sub">System updates and notifications</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ME (PROFILE) PAGE -->
-<section id="mePage" class="page">
-  <div class="profile-head">
-    <div class="profile-main">
-      <img class="profile-avatar" src="https://i.pravatar.cc/200?img=11">
-      <div class="profile-info">
-        <h2>MR User</h2>
-        <p style="font-size:11px;opacity:.8">ID: 100001 · VIP 3</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MAIN BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
-  <button class="nav-item active" onclick="switchPage('homePage', this)">
-    <div class="nav-icon">🏠</div><span>Home</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('discoverPage', this)">
-    <div class="nav-icon">🧭</div><span>Discover</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('momentPage', this)">
-    <div class="nav-icon">📸</div><span>Moment</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('messagePage', this)">
-    <div class="nav-icon">💬</div><span>Message</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('mePage', this)">
-    <div class="nav-icon">👤</div><span>Me</span>
-  </button>
-</nav>
-
-<!-- VOICE ROOM SCREEN -->
-<div id="roomScreen">
-  <div class="room-top">
-    <div class="room-profile" onclick="openModal('roomDetailModal')">
-      <img class="room-avatar" src="https://i.pravatar.cc/100?img=33" alt="Host">
-      <div class="room-meta">
-        <b>জিরো পয়েন্ট</b>
-        <small>ID:349200 👤1</small>
-      </div>
-    </div>
-    <div class="room-top-right">
-      <div class="room-circle-btn" style="background:#ef4444" onclick="leaveRoom()">⚡</div>
-    </div>
-  </div>
-
-  <div class="trophy-badge" onclick="openRanking()">🏆 548.7M &gt;</div>
-
-  <div class="room-host-wrap">
-    <div class="host-avatar-ring">
-      <img src="https://i.pravatar.cc/150?img=12" alt="Host Avatar">
-    </div>
-    <div class="host-title">Mia Vai 🇧🇩</div>
-  </div>
-
-  <div class="room-logo-title">MRChat</div>
-
-  <div class="room-seats-grid">
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">1</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">2</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">3</span></div>
-    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">4</span></div>
-  </div>
-
-  <div class="room-bottom-controls">
-    <button class="say-hi-btn">Say Hi</button>
-    <div class="room-gift-btn" onclick="openModal('giftModal')">🎁</div>
+    <div style="font-size:12px;font-weight:bold;">13.3K 💖</div>
   </div>
 </div>
-
-<!-- CELEBRITY RANKING SCREEN (DYNAMIC 1-100 LIST) -->
-<div id="rankingModal" class="ranking-screen">
-  <div class="rank-header">
-    <button class="rank-back-btn" onclick="closeRanking()">❮</button>
-    <span class="rank-title">Celebrity Ranking</span>
-    <div class="rank-header-right">
-      <span class="rank-icon-btn">🏆</span>
-      <span class="rank-icon-btn">📅</span>
-    </div>
-  </div>
-
-  <div class="rank-content">
-    <div class="rank-type-tabs">
-      <button class="type-tab active" onclick="selectTypeTab(this)">Contribution</button>
-      <button class="type-tab" onclick="selectTypeTab(this)">Charm</button>
-      <button class="type-tab" onclick="selectTypeTab(this)">Room</button>
-    </div>
-
-    <div class="time-filter-box">
-      <button class="time-tab active" onclick="selectTimeTab(this)">Daily</button>
-      <button class="time-tab" onclick="selectTimeTab(this)">Weekly</button>
-      <button class="time-tab" onclick="selectTimeTab(this)">Monthly</button>
-    </div>
-
-    <!-- DYNAMIC TOP 3 PODIUM CONTAINER -->
-    <div id="top3Container" class="top3-container"></div>
-
-    <!-- DYNAMIC 4 TO 100 LIST CONTAINER -->
-    <div id="rankListContainer" class="rank-list-container"></div>
-  </div>
-
-  <!-- BOTTOM FIXED USER STATUS -->
-  <div class="my-rank-footer">
-    <div class="my-rank-status" id="myRankStatus">No ranking</div>
-    <div class="my-info">
-      <img src="https://i.pravatar.cc/100?img=12" alt="My Avatar">
-      <b>Mia Vai 🇧🇩</b>
-    </div>
-    <div class="my-score" id="myRankScore">0 💎</div>
-  </div>
-</div>
-
-<!-- GIFT PANEL MODAL -->
-<div id="giftModal" class="modal-overlay" onclick="closeModalOnBg(event, 'giftModal')">
-  <div class="bottom-sheet">
-    <div class="gift-tabs">
-      <span class="gift-tab active">Gift</span>
-    </div>
-    <div class="gift-grid">
-      <div class="gift-card" onclick="sendGift('Mia Vai 🇧🇩', 500000)">
-        <span style="font-size:30px">🏰</span>
-        <b>Castle Guardian</b>
-        <span class="price">💎 500,000</span>
-      </div>
-      <div class="gift-card" onclick="sendGift('Mia Vai 🇧🇩', 1000000)">
-        <span style="font-size:30px">🐅</span>
-        <b>Flame Tiger</b>
-        <span class="price">💎 1,000,000</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="toast"></div>
 
 </div>
 
 <script>
-// DEMO USERS DATA FOR RANKING SYSTEM (AUTOMATICALLY SORTED BY GIFTS/GEMS)
-let usersData = [
-  { name: "Mahim 🇧🇩", gems: 35539998, avatar: "https://i.pravatar.cc/150?img=33" },
-  { name: "WASHIM 🇸🇦", gems: 13369000, avatar: "https://i.pravatar.cc/150?img=12" },
-  { name: "SK SAGOR 🇮🇳", gems: 9449110, avatar: "https://i.pravatar.cc/150?img=68" },
-  { name: "SAHENSA", gems: 7605399, avatar: "https://i.pravatar.cc/100?img=60" },
-  { name: "ARIAN KING", gems: 6210450, avatar: "https://i.pravatar.cc/100?img=11" },
-  { name: "Mia Vai 🇧🇩", gems: 0, avatar: "https://i.pravatar.cc/100?img=12" } // Logged in user
+// DEMO CP DATA LIST
+const cpRankings = [
+  { rank: "TOP 1", name1: "WASHIM", name2: "পূর্ণা", img1: "https://i.pravatar.cc/100?img=33", img2: "https://i.pravatar.cc/100?img=44", points: "529.7K" },
+  { rank: "TOP 2", name1: "AKASH", name2: "Miu", img1: "https://i.pravatar.cc/100?img=12", img2: "https://i.pravatar.cc/100?img=25", points: "433.0K" },
+  { rank: "TOP 3", name1: "Arian", name2: "Nusrat", img1: "https://i.pravatar.cc/100?img=60", img2: "https://i.pravatar.cc/100?img=5", points: "359.3K" },
+  { rank: "TOP 4", name1: "Tanvir", name2: "Saba", img1: "https://i.pravatar.cc/100?img=11", img2: "https://i.pravatar.cc/100?img=20", points: "210.5K" },
+  { rank: "TOP 5", name1: "Sagor", name2: "Riya", img1: "https://i.pravatar.cc/100?img=68", img2: "https://i.pravatar.cc/100?img=29", points: "180.2K" }
 ];
 
-// Generate 100 Demo Users dynamically if list has fewer
-const sampleNames = ["Faridpur Boy", "Rabby", "Noor Boss", "Shital", "Chowdhury", "Riyad", "Prince", "Queen"];
-for (let i = usersData.length + 1; i <= 100; i++) {
-  let randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)] + " " + i;
-  let randomGems = Math.floor(Math.random() * 5000000) + 1000;
-  usersData.push({
-    name: randomName,
-    gems: randomGems,
-    avatar: `https://i.pravatar.cc/100?img=${(i % 70) + 1}`
+// RENDER CP RANKING LIST
+function renderCPList() {
+  const container = document.getElementById('cpListContainer');
+  container.innerHTML = '';
+
+  cpRankings.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cp-list-row';
+    row.innerHTML = `
+      <div class="cp-rank-badge">${item.rank}</div>
+      <div class="cp-couples">
+        <img class="cp-user-img" src="${item.img1}">
+        <span style="color:#ec4899">💖</span>
+        <img class="cp-user-img" src="${item.img2}">
+        <div class="cp-names">${item.name1} & ${item.name2}</div>
+      </div>
+      <div class="cp-points">${item.points}</div>
+    `;
+    container.appendChild(row);
   });
 }
 
-// RENDER DYNAMIC RANKINGS BASED ON GIFTS
-function renderRankings() {
-  // Sort users descending by gifted gems
-  usersData.sort((a, b) => b.gems - a.gems);
-
-  const top3Container = document.getElementById('top3Container');
-  const rankListContainer = document.getElementById('rankListContainer');
-
-  top3Container.innerHTML = '';
-  rankListContainer.innerHTML = '';
-
-  // Render Top 3 Podium
-  if (usersData.length >= 3) {
-    top3Container.innerHTML = `
-      <div class="rank-card rank-1">
-        <div class="crown-icon">👑</div>
-        <div class="avatar-frame frame-gold">
-          <img src="${usersData[0].avatar}" alt="NO.1 User">
-          <div class="badge-number bg-gold">NO.1</div>
-        </div>
-        <div class="user-name">${usersData[0].name}</div>
-        <div class="score-badge">
-          <span>${usersData[0].gems.toLocaleString()}</span> <small>💎</small>
-        </div>
-      </div>
-
-      <div class="rank-2-3-row">
-        <div class="rank-card rank-2">
-          <div class="avatar-frame frame-silver">
-            <img src="${usersData[1].avatar}" alt="NO.2 User">
-            <div class="badge-number bg-silver">2</div>
-          </div>
-          <div class="user-name">${usersData[1].name}</div>
-          <div class="score-badge">
-            <span>${usersData[1].gems.toLocaleString()}</span> <small>💎</small>
-          </div>
-        </div>
-
-        <div class="rank-card rank-3">
-          <div class="avatar-frame frame-bronze">
-            <img src="${usersData[2].avatar}" alt="NO.3 User">
-            <div class="badge-number bg-bronze">3</div>
-          </div>
-          <div class="user-name">${usersData[2].name}</div>
-          <div class="score-badge">
-            <span>${usersData[2].gems.toLocaleString()}</span> <small>💎</small>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // Render Rank 4 to 100 List
-  for (let i = 3; i < usersData.length; i++) {
-    const user = usersData[i];
-    const listItem = document.createElement('div');
-    listItem.className = 'rank-list-item';
-    listItem.innerHTML = `
-      <div class="rank-num">${i + 1}</div>
-      <img class="list-avatar" src="${user.avatar}">
-      <div class="list-user-info"><div class="list-name">${user.name}</div></div>
-      <div class="list-score">${user.gems.toLocaleString()} 💎</div>
-    `;
-    rankListContainer.appendChild(listItem);
-  }
-
-  // Update Logged-in User Ranking status at footer
-  const myIndex = usersData.findIndex(u => u.name.includes("Mia Vai"));
-  if (myIndex !== -1 && usersData[myIndex].gems > 0) {
-    document.getElementById('myRankStatus').innerText = `Rank #${myIndex + 1}`;
-    document.getElementById('myRankScore').innerText = `${usersData[myIndex].gems.toLocaleString()} 💎`;
-  } else {
-    document.getElementById('myRankStatus').innerText = `No ranking`;
-    document.getElementById('myRankScore').innerText = `0 💎`;
-  }
+// CP ZONE SCREEN CONTROLS
+function openCPZone() {
+  renderCPList();
+  document.getElementById('cpZoneModal').classList.add('show');
 }
 
-// GIFT SENDING SYSTEM (AUTOMATICALLY UPDATES RANK)
-function sendGift(userName, giftValue) {
-  let user = usersData.find(u => u.name === userName);
-  if (user) {
-    user.gems += giftValue;
-    showToast(`Gift Sent! Added ${giftValue.toLocaleString()} Gems`);
-    renderRankings(); // Re-sort and re-render rankings instantly
-  }
+function closeCPZone() {
+  document.getElementById('cpZoneModal').classList.remove('show');
 }
 
-// NAVIGATION FUNCTIONS
-function switchPage(pageId, element) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('show'));
-  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-  document.getElementById(pageId).classList.add('show');
-  element.classList.add('active');
-}
-
-function enterRoom(roomId) {
-  document.getElementById('roomScreen').classList.add('show');
-}
-
-function leaveRoom() {
-  document.getElementById('roomScreen').classList.remove('show');
-}
-
-function openModal(modalId) {
-  document.getElementById(modalId).classList.add('show');
-}
-
-function closeModalOnBg(event, modalId) {
-  if (event.target.id === modalId) {
-    document.getElementById(modalId).classList.remove('show');
-  }
-}
-
-function openRanking() {
-  renderRankings();
-  document.getElementById('rankingModal').classList.add('show');
-}
-
-function closeRanking() {
-  document.getElementById('rankingModal').classList.remove('show');
-}
-
-function selectTypeTab(element) {
-  document.querySelectorAll('.type-tab').forEach(tab => tab.classList.remove('active'));
-  element.classList.add('active');
-}
-
-function selectTimeTab(element) {
-  document.querySelectorAll('.time-tab').forEach(tab => tab.classList.remove('active'));
-  element.classList.add('active');
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-function homeTab(tabName, element) {
-  document.querySelectorAll('.home-tab').forEach(tab => tab.classList.remove('active'));
-  element.classList.add('active');
-}
-
-// Initial render call on startup
-renderRankings();
+// LIVE COUNTDOWN TIMER SIMULATION
+let sec = 30, min = 56, hr = 16;
+setInterval(() => {
+  sec--;
+  if(sec < 0) { sec = 59; min--; }
+  if(min < 0) { min = 59; hr--; }
+  
+  document.getElementById('cd-secs').innerText = sec < 10 ? '0' + sec : sec;
+  document.getElementById('cd-mins').innerText = min < 10 ? '0' + min : min;
+  document.getElementById('cd-hours').innerText = hr < 10 ? '0' + hr : hr;
+}, 1000);
 </script>
 </body>
 </html>
