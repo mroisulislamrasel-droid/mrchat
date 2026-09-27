@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MR Chat</title>
+<title>MR Chat Complete App</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -60,7 +60,7 @@ input,textarea{font-family:inherit;outline:none}
 /* AUTO SLIDING BANNER STYLES */
 .event-slider-wrap{padding:10px 10px 4px}
 .event-slider{
-  width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
+  width:100%;height:140px;border-radius:20px;overflow:hidden;position:relative;
   box-shadow:0 8px 20px rgba(60,50,120,.22)
 }
 .slider-container{
@@ -71,11 +71,11 @@ input,textarea{font-family:inherit;outline:none}
   min-width:100%;height:100%;position:relative;overflow:hidden;color:white;
   flex-shrink:0;
 }
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.35)}
-.event-content h2{font-size:20px;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
-.event-content p{font-size:11px;line-height:1.3;max-width:270px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+.event-content{position:absolute;inset:0;padding:15px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.3)}
+.event-content h2{font-size:18px;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.event-content p{font-size:11px;line-height:1.2;max-width:250px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
 .event-button{
-  height:30px;padding:0 14px;margin-top:10px;border-radius:15px;
+  height:28px;padding:0 12px;margin-top:8px;border-radius:14px;
   background:white;color:#5b42df;font-weight:800;font-size:10px;width:fit-content;
 }
 
@@ -216,18 +216,32 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
 }
 
-/* OTHER MODALS & SCREENS */
-.ranking-screen, .cp-screen, .fam-screen { position: fixed; inset: 0; z-index: 999; display: none; flex-direction: column; overflow: hidden; }
-.ranking-screen.show, .cp-screen.show, .fam-screen.show { display: flex; }
+/* ALL MODALS & SCREENS (FULL INTEGRATION) */
+.modal-screen { position: fixed; inset: 0; z-index: 999; display: none; flex-direction: column; overflow: hidden; background: #fff; }
+.modal-screen.show { display: flex; }
 
-/* FAMILY SCREEN EXCLUSIVES */
+/* RANKING MODAL */
+.rank-header { height: 50px; background: #5b42df; color: #fff; display: flex; align-items: center; padding: 0 15px; font-weight: bold; gap: 15px; }
+.rank-list { padding: 15px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.rank-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #f3f4f6; border-radius: 12px; }
+
+/* CP MODAL */
+.cp-header { height: 50px; background: #ec4899; color: #fff; display: flex; align-items: center; padding: 0 15px; font-weight: bold; gap: 15px; }
+
+/* FAMILY SCREEN */
 .fam-screen { background: #110323; color: #fff; }
 .fam-header { height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(0,0,0,0.3); z-index: 10; }
 .fam-back { background: none; color: #fff; font-size: 22px; cursor: pointer; }
 .fam-top-tabs { display: flex; gap: 20px; font-size: 16px; font-weight: bold; }
 .fam-top-tab { color: #888; cursor: pointer; position: relative; padding-bottom: 4px; }
 .fam-top-tab.active { color: #fff; border-bottom: 3px solid #3b82f6; }
-.fam-content { flex: 1; overflow-y: auto; padding-bottom: 30px; }
+.fam-content { flex: 1; overflow-y: auto; padding: 15px; }
+
+/* ME PAGE / PROFILE */
+.profile-card { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 20px; border-radius: 0 0 20px 20px; text-align: center; }
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid white; margin-bottom: 10px; }
+.profile-menu { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+.menu-item { background: white; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
 #toast{
   position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
@@ -237,7 +251,7 @@ input,textarea{font-family:inherit;outline:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(min-width:700px){
-  .page, .bottom-nav, #roomScreen, .ranking-screen, .cp-screen, .fam-screen { max-width:520px;left:50%;transform:translateX(-50%)}
+  .page, .bottom-nav, #roomScreen, .modal-screen { max-width:520px;left:50%;transform:translateX(-50%)}
 }
 </style>
 </head>
@@ -259,7 +273,7 @@ input,textarea{font-family:inherit;outline:none}
 
   <!-- POPULAR TAB CONTENT -->
   <div id="popularContent">
-    <!-- 8-10 SLIDING EVENT BANNERS -->
+    <!-- AUTO SLIDING BANNER -->
     <div class="event-slider-wrap">
       <div class="event-slider">
         <div class="slider-container" id="eventSlider">
@@ -295,14 +309,14 @@ input,textarea{font-family:inherit;outline:none}
             <div class="event-content">
               <h2>🎤 MRChat Voice Idol</h2>
               <p>Show your singing talent in room #101 and win prizes.</p>
-              <button class="event-button" onclick="showToast('Registered for Singing Contest')">Register</button>
+              <button class="event-button" onclick="showToast('Registered!')">Register</button>
             </div>
           </div>
           <div class="event-slide" style="background:linear-gradient(110deg,#db2777,#f43f5e)">
             <div class="event-content">
               <h2>🌹 Romantic Midnight Party</h2>
               <p>Find your special one at 12:00 AM tonight!</p>
-              <button class="event-button" onclick="showToast('Party Reminder Set')">Set Alarm</button>
+              <button class="event-button" onclick="showToast('Reminder Set')">Set Alarm</button>
             </div>
           </div>
           <div class="event-slide" style="background:linear-gradient(110deg,#4b5563,#9ca3af)">
@@ -368,7 +382,6 @@ input,textarea{font-family:inherit;outline:none}
         </div>
         <button class="btn3d primary" style="padding:6px 12px;font-size:11px" onclick="enterRoom('জিরো পয়েন্ট', 'https://i.pravatar.cc/150?img=32')">Join Room</button>
       </div>
-
       <div class="follow-item">
         <div class="follow-info">
           <img class="follow-avatar" src="https://i.pravatar.cc/150?img=11">
@@ -390,12 +403,39 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </section>
 
-<!-- NAVIGATION BOTTOM -->
+<!-- 2. MESSAGE PAGE -->
+<section id="messagePage" class="page">
+  <div style="padding:15px;font-weight:bold;font-size:18px;background:#fff;border-bottom:1px solid #eee">Messages</div>
+  <div style="padding:15px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;gap:12px;align-items:center;background:#fff;padding:12px;border-radius:12px">
+      <img src="https://i.pravatar.cc/150?img=5" style="width:45px;height:45px;border-radius:50%">
+      <div>
+        <div style="font-weight:bold">Official Team</div>
+        <div style="font-size:12px;color:#777">Welcome to MRChat!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ME / PROFILE PAGE -->
+<section id="mePage" class="page">
+  <div class="profile-card">
+    <img src="https://i.pravatar.cc/150?img=12" class="profile-avatar">
+    <h2>Mia Vai 🇧🇩</h2>
+    <p style="font-size:12px;opacity:0.8">ID: 8849201 | VIP Level 3</p>
+  </div>
+  <div class="profile-menu">
+    <div class="menu-item" onclick="showToast('My Wallet')"><span>💰 Wallet</span><span>0 Diamonds &gt;</span></div>
+    <div class="menu-item" onclick="openFamilyPage()"><span>👨‍👩‍👧‍👦 My Family</span><span>Faridpur Family &gt;</span></div>
+    <div class="menu-item" onclick="showToast('Settings')"><span>⚙️ Settings</span><span>&gt;</span></div>
+  </div>
+</section>
+
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <button class="nav-item active" onclick="switchPage('homePage', this)">
     <div class="nav-icon">🏠</div><span>Home</span>
   </button>
-
   <button class="nav-item" onclick="switchPage('messagePage', this)">
     <div class="nav-icon">💬</div><span>Message</span>
   </button>
@@ -447,25 +487,45 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </div>
 
-<!-- FAMILY SCREEN (FROM SCREENSHOTS) -->
-<div id="familyModal" class="fam-screen">
+<!-- RANKING MODAL -->
+<div id="rankingModal" class="modal-screen">
+  <div class="rank-header">
+    <button onclick="closeRanking()" style="background:none;color:#fff;font-size:20px">&lt;</button>
+    <span>Leaderboard Ranking</span>
+  </div>
+  <div class="rank-list">
+    <div class="rank-item"><b>#1 Player One</b> <span>🥇 1.2M</span></div>
+    <div class="rank-item"><b>#2 Player Two</b> <span>🥈 850K</span></div>
+    <div class="rank-item"><b>#3 Player Three</b> <span>🥉 500K</span></div>
+  </div>
+</div>
+
+<!-- CP ZONE MODAL -->
+<div id="cpModal" class="modal-screen">
+  <div class="cp-header">
+    <button onclick="closeCPZone()" style="background:none;color:#fff;font-size:20px">&lt;</button>
+    <span>CP House & Ring</span>
+  </div>
+  <div style="padding:20px;text-align:center">
+    <h2>💜 Sweet CP Zone</h2>
+    <p style="color:#777;margin-top:10px">Find your best partner here!</p>
+  </div>
+</div>
+
+<!-- FAMILY MODAL -->
+<div id="familyModal" class="modal-screen fam-screen">
   <div class="fam-header">
     <button class="fam-back" onclick="closeFamilyPage()">❮</button>
     <div class="fam-top-tabs">
-      <span id="tabMyFamily" class="fam-top-tab active" onclick="switchFamTab('myFamily')">My family</span>
-      <span id="tabFamSquare" class="fam-top-tab" onclick="switchFamTab('famSquare')">Family square</span>
+      <span class="fam-top-tab active">My family</span>
+      <span class="fam-top-tab">Family square</span>
     </div>
     <div style="font-size:20px;color:#fff">❓</div>
   </div>
   <div class="fam-content">
-    <div id="myFamilyView">
-      <div style="text-align:center;padding:20px">
-        <h2>ফরিদপুর ফ্যামিলি</h2>
-        <p style="font-size:12px;color:#aaa">336 / 500 Members</p>
-      </div>
-    </div>
-    <div id="famSquareView" style="display:none;padding:20px;text-align:center">
-      <h2>Family Ranking Square</h2>
+    <div style="text-align:center;padding:20px">
+      <h2>ফরিদপুর ফ্যামিলি</h2>
+      <p style="font-size:12px;color:#aaa">336 / 500 Members</p>
     </div>
   </div>
 </div>
@@ -475,40 +535,32 @@ input,textarea{font-family:inherit;outline:none}
 </div>
 
 <script>
-// SLIDER AUTOMATION LOGIC
+// SLIDER LOGIC
 let slideIndex = 0;
 const slider = document.getElementById('eventSlider');
-const totalSlides = 8;
-
 setInterval(() => {
-  slideIndex = (slideIndex + 1) % totalSlides;
+  slideIndex = (slideIndex + 1) % 8;
   slider.style.transform = `translateX(-${slideIndex * 100}%)`;
 }, 3000);
 
 // RECENT ROOMS TRACKER LOGIC
 let recentRooms = [];
-
 function enterRoom(name, img) {
   document.getElementById('currentRoomTitle').innerText = name;
   document.getElementById('currentRoomImg').src = img;
   document.getElementById('roomScreen').classList.add('show');
 
-  // Add room to recent list if not present
   if (!recentRooms.some(r => r.name === name)) {
     recentRooms.unshift({ name, img, time: 'Just now' });
     renderRecentRooms();
   }
 }
-
-function leaveRoom() {
-  document.getElementById('roomScreen').classList.remove('show');
-}
+function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
 
 function renderRecentRooms() {
   const container = document.getElementById('recentRoomsContainer');
   if(recentRooms.length === 0) return;
   container.innerHTML = '';
-
   recentRooms.forEach(room => {
     const item = document.createElement('div');
     item.className = 'recent-item';
@@ -526,7 +578,15 @@ function renderRecentRooms() {
   });
 }
 
-// TOP HOME TAB SWITCHING (Following, Popular, Recent)
+// MAIN NAVIGATION SWITCHING
+function switchPage(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(pageId).classList.add('show');
+  btn.classList.add('active');
+}
+
+// TOP TAB SWITCHING
 function switchHomeTab(tab) {
   const tabs = document.querySelectorAll('.home-tab');
   tabs.forEach(t => t.classList.remove('active'));
@@ -546,6 +606,13 @@ function switchHomeTab(tab) {
     document.getElementById('recentContent').style.display = 'block';
   }
 }
+
+// MODAL OPEN/CLOSE FUNCTIONS
+function openRanking() { document.getElementById('rankingModal').classList.add('show'); }
+function closeRanking() { document.getElementById('rankingModal').classList.remove('show'); }
+
+function openCPZone() { document.getElementById('cpModal').classList.add('show'); }
+function closeCPZone() { document.getElementById('cpModal').classList.remove('show'); }
 
 function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
 function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
