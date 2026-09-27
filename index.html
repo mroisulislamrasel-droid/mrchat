@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete App with Lucky Fruit Game</title>
+<title>MRChat Complete App with Fixed Lucky Fruit</title>
 
 <!-- PWA Manifest Link -->
 <link rel="manifest" href="manifest.json">
@@ -95,8 +95,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 }
 .modal-screen.show { display: flex; }
 
-/* RANK SCREEN */
-.rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
 .modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
 
 /* ME / PROFILE PAGE DESIGN */
@@ -257,7 +255,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .gift-coins { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; font-weight: bold; color: #fbbf24; }
 .gift-send-btn { background: linear-gradient(90deg, #06b6d4, #a855f7); color: #fff; font-weight: bold; font-size: 12px; padding: 8px 20px; border-radius: 18px; box-shadow: 0 2px 10px rgba(168,85,247,0.4); }
 
-/* GAME PANEL MODAL */
+/* GAME PANEL MODAL WITH ALL GAMES RESTORED */
 #gameModal {
   position: fixed; inset: 0; z-index: 700; display: none;
   background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
@@ -307,7 +305,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 }
 .lucky-title { font-size: 11px; font-weight: bold; color: #d1d5db; text-align: center; margin-top: 6px; line-height: 1.2; }
 
-/* ==================== LUCKY FRUIT FULL SCREEN GAME MODAL ==================== */
+
+/* ==================== LUCKY FRUIT 8-BOX UPDATED GAME SCREEN ==================== */
 #luckyFruitScreen {
   position: fixed; inset: 0; z-index: 800; display: none; flex-direction: column;
   background: radial-gradient(circle at 50% 20%, #4c1d95 0%, #1e1b4b 50%, #0f172a 100%);
@@ -315,37 +314,52 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 }
 #luckyFruitScreen.show { display: flex; }
 
-.lf-header { display: flex; justify-content: space-between; align-items: center; padding-top: 25px; margin-bottom: 10px; }
+.lf-header { display: flex; justify-content: space-between; align-items: center; padding-top: 25px; margin-bottom: 5px; }
 .lf-round-info { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; color: #fde047; }
-.lf-timer-box { font-size: 13px; font-weight: bold; color: #38bdf8; background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(56,189,248,0.3); }
 
-/* FRUIT BOARD GRID (3x3) */
-.lf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+/* 8-BOX GRID WITH BIG CENTER TIMER */
+.lf-grid-8 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
 .lf-box {
   background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 16px;
-  padding: 12px 6px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  position: relative; cursor: pointer; transition: 0.2s;
+  padding: 10px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; cursor: pointer; transition: 0.2s; height: 85px;
 }
 .lf-box.selected { border-color: #f59e0b; background: rgba(245,158,11,0.2); box-shadow: 0 0 12px rgba(245,158,11,0.4); }
 .lf-box.winner { border-color: #22c55e; background: rgba(34,197,94,0.3); animation: pulseWin 0.6s infinite alternate; }
 
-@keyframes pulseWin {
-  from { transform: scale(1); }
-  to { transform: scale(1.05); }
-}
+@keyframes pulseWin { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-.lf-box-icon { font-size: 36px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-.lf-box-name { font-size: 11px; font-weight: bold; margin-top: 4px; color: #e2e8f0; }
-.lf-box-mult { font-size: 10px; font-weight: bold; color: #fbbf24; background: rgba(0,0,0,0.5); padding: 1px 6px; border-radius: 8px; margin-top: 2px; }
+.lf-box-icon { font-size: 30px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+.lf-box-name { font-size: 10px; font-weight: bold; margin-top: 2px; color: #e2e8f0; }
+.lf-box-mult { font-size: 9px; font-weight: bold; color: #fbbf24; background: rgba(0,0,0,0.5); padding: 1px 5px; border-radius: 8px; margin-top: 2px; }
 .lf-box-bet { position: absolute; top: 4px; right: 4px; background: #ec4899; color: #fff; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 10px; }
 
+/* BIG CENTER TIMER BOX */
+.lf-center-timer {
+  background: rgba(0,0,0,0.5); border: 2px solid rgba(56,189,248,0.4); border-radius: 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; box-shadow: inset 0 0 15px rgba(56,189,248,0.2);
+}
+.lf-timer-num { font-size: 28px; font-weight: 900; color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,0.8); line-height: 1; }
+.lf-timer-label { font-size: 9px; font-weight: bold; color: #cbd5e1; margin-top: 2px; text-transform: uppercase; }
+
 /* CHIPS SELECTOR BAR */
-.lf-chips-bar { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 5px; }
+.lf-chips-bar { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.4); padding: 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 5px; }
 .chip-btn {
-  width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: bold; color: #fff; border: 2px dashed rgba(255,255,255,0.6); box-shadow: 0 4px 8px rgba(0,0,0,0.4); cursor: pointer;
 }
 .chip-btn.active { border-style: solid; border-color: #fff; transform: scale(1.15); box-shadow: 0 0 12px #38bdf8; }
+
+/* WIN HISTORY & TOTAL WIN DISPLAY */
+.lf-stats-bar {
+  display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05);
+  padding: 8px 12px; border-radius: 12px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.08);
+}
+.lf-history-box { display: flex; align-items: center; gap: 4px; overflow-x: auto; max-width: 65%; }
+.lf-history-title { font-size: 10px; color: #aaa; font-weight: bold; margin-right: 4px; white-space: nowrap; }
+.lf-hist-icon { font-size: 16px; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
+.lf-total-win { font-size: 11px; font-weight: bold; color: #4ade80; text-align: right; }
 
 .lf-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); }
 .lf-balance { font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 4px; }
@@ -520,7 +534,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       <div class="v-welcome-txt">স্বাগতম! আনন্দদায়ক এবং শালীন চ্যাটিং উপভোগ করুন।</div>
     </div>
 
-    <!-- ROOM BOTTOM BAR - WITH ALL BUTTONS -->
+    <!-- ROOM BOTTOM BAR -->
     <div class="v-room-bottom">
       <button class="v-say-hi-btn" onclick="showToast('Say Hi Sent')">Say Hi...</button>
       <div class="v-bottom-icon" onclick="showToast('Mic Toggled')">🎙️</div>
@@ -551,7 +565,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     </div>
   </div>
 
-  <!-- GAME PANEL MODAL -->
+  <!-- ALL GAMES MODAL (RESTORED) -->
   <div id="gameModal">
     <div class="game-panel">
       <div class="game-panel-header">
@@ -559,26 +573,56 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <span onclick="closeGameModal()" style="font-weight:bold; cursor:pointer; color:#aaa; font-size:18px">✕</span>
       </div>
 
+      <!-- CASUAL GAMES LIST -->
+      <div class="game-sec-title">🎮 Casual Games</div>
+      <div class="casual-grid">
+        <div class="casual-card" onclick="showToast('Ludo Game Coming Soon!')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#ef4444,#f59e0b)">🎲</div>
+          <div class="casual-title">Ludo Star</div>
+        </div>
+        <div class="casual-card" onclick="showToast('Uno Game Coming Soon!')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#10b981,#3b82f6)">🎴</div>
+          <div class="casual-title">Uno Party</div>
+        </div>
+        <div class="casual-card" onclick="showToast('Carrom Game Coming Soon!')">
+          <div class="casual-img-box" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">⚪</div>
+          <div class="casual-title">Carrom Pro</div>
+        </div>
+      </div>
+
+      <!-- LUCKY GAMES LIST -->
       <div class="game-sec-title">🎰 Lucky Games</div>
       <div class="lucky-grid">
         <div class="lucky-card" onclick="openLuckyFruitGame()">
           <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(255,255,255,0.05))">🍎</div>
           <div class="lucky-title">Lucky fruit</div>
         </div>
+        <div class="lucky-card" onclick="showToast('Greedy Game Coming Soon!')">
+          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(255,255,255,0.05))">🍇</div>
+          <div class="lucky-title">Greedy</div>
+        </div>
+        <div class="lucky-card" onclick="showToast('Lucky Wheel Coming Soon!')">
+          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(255,255,255,0.05))">🎡</div>
+          <div class="lucky-title">Lucky Wheel</div>
+        </div>
+        <div class="lucky-card" onclick="showToast('Teen Patti Coming Soon!')">
+          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(255,255,255,0.05))">🃏</div>
+          <div class="lucky-title">Teen Patti</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== LUCKY FRUIT FULL SCREEN GAME MODAL ==================== -->
+  <!-- ==================== LUCKY FRUIT UPDATED 8-BOX GAME SCREEN ==================== -->
   <div id="luckyFruitScreen">
     <div class="lf-header">
       <span onclick="closeLuckyFruitGame()" style="font-size:18px; cursor:pointer; font-weight:bold">&lt; Back</span>
       <div class="lf-round-info">Round <span id="lfRoundNum">1</span> / 24h</div>
-      <div class="lf-timer-box" id="lfStatusText">Betting Time: 15s</div>
     </div>
 
-    <!-- 3x3 FRUIT GRID (9 BOXES) -->
-    <div class="lf-grid" id="lfGrid">
+    <!-- 8-BOX GRID WITH CENTER TIMER -->
+    <div class="lf-grid-8">
+      <!-- Top Row -->
       <div class="lf-box" onclick="placeBet(0)">
         <span class="lf-box-icon">🍎</span>
         <span class="lf-box-name">Apple</span>
@@ -597,51 +641,69 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <span class="lf-box-mult">10x</span>
         <span class="lf-box-bet" id="betBox2" style="display:none">0</span>
       </div>
+
+      <!-- Middle Row with Center Timer -->
+      <div class="lf-box" onclick="placeBet(7)">
+        <span class="lf-box-icon">💎</span>
+        <span class="lf-box-name">Diamond</span>
+        <span class="lf-box-mult">50x</span>
+        <span class="lf-box-bet" id="betBox7" style="display:none">0</span>
+      </div>
+
+      <!-- BIG CENTER TIMER -->
+      <div class="lf-center-timer">
+        <div class="lf-timer-num" id="lfTimerNum">30</div>
+        <div class="lf-timer-label" id="lfStatusLabel">BETTING</div>
+      </div>
+
       <div class="lf-box" onclick="placeBet(3)">
         <span class="lf-box-icon">🍉</span>
         <span class="lf-box-name">Melon</span>
         <span class="lf-box-mult">10x</span>
         <span class="lf-box-bet" id="betBox3" style="display:none">0</span>
       </div>
-      <div class="lf-box" onclick="placeBet(4)">
-        <span class="lf-box-icon">👑</span>
-        <span class="lf-box-name">Crown</span>
-        <span class="lf-box-mult">25x</span>
-        <span class="lf-box-bet" id="betBox4" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(5)">
-        <span class="lf-box-icon">🍓</span>
-        <span class="lf-box-name">Berry</span>
-        <span class="lf-box-mult">15x</span>
-        <span class="lf-box-bet" id="betBox5" style="display:none">0</span>
-      </div>
+
+      <!-- Bottom Row -->
       <div class="lf-box" onclick="placeBet(6)">
-        <span class="lf-box-icon">🍌</span>
-        <span class="lf-box-name">Banana</span>
-        <span class="lf-box-mult">5x</span>
-        <span class="lf-box-bet" id="betBox6" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(7)">
         <span class="lf-box-icon">🔔</span>
         <span class="lf-box-name">Bell</span>
         <span class="lf-box-mult">20x</span>
-        <span class="lf-box-bet" id="betBox7" style="display:none">0</span>
+        <span class="lf-box-bet" id="betBox6" style="display:none">0</span>
       </div>
-      <div class="lf-box" onclick="placeBet(8)">
-        <span class="lf-box-icon">💎</span>
-        <span class="lf-box-name">Diamond</span>
-        <span class="lf-box-mult">50x</span>
-        <span class="lf-box-bet" id="betBox8" style="display:none">0</span>
+      <div class="lf-box" onclick="placeBet(5)">
+        <span class="lf-box-icon">🍌</span>
+        <span class="lf-box-name">Banana</span>
+        <span class="lf-box-mult">5x</span>
+        <span class="lf-box-bet" id="betBox5" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(4)">
+        <span class="lf-box-icon">🍓</span>
+        <span class="lf-box-name">Berry</span>
+        <span class="lf-box-mult">15x</span>
+        <span class="lf-box-bet" id="betBox4" style="display:none">0</span>
       </div>
     </div>
 
     <!-- CHIP SELECTION BAR -->
-    <div style="font-size:11px; color:#aaa; margin-top:5px; text-align:center">বাজির পরিমাণ সিলেক্ট করুন (সর্বোচ্চ ৬টি ঘর):</div>
+    <div style="font-size:11px; color:#aaa; margin-top:2px; text-align:center">বাজির পরিমাণ সিলেক্ট করুন (সর্বোচ্চ ৬টি ঘর):</div>
     <div class="lf-chips-bar">
       <div class="chip-btn active" style="background:#ef4444" onclick="selectChip(100, this)">100</div>
       <div class="chip-btn" style="background:#3b82f6" onclick="selectChip(500, this)">500</div>
       <div class="chip-btn" style="background:#10b981" onclick="selectChip(1000, this)">1K</div>
       <div class="chip-btn" style="background:#f59e0b" onclick="selectChip(5000, this)">5K</div>
+    </div>
+
+    <!-- WIN HISTORY & TOTAL WIN RECORD BAR -->
+    <div class="lf-stats-bar">
+      <div class="lf-history-box">
+        <span class="lf-history-title">ইতিহাস:</span>
+        <div id="lfHistoryList" style="display:flex; gap:4px">
+          <span class="lf-hist-icon">🍎</span>
+          <span class="lf-hist-icon">🍊</span>
+          <span class="lf-hist-icon">🍇</span>
+        </div>
+      </div>
+      <div class="lf-total-win">মোট জয়: 🪙 <span id="lfTotalWinVal">0</span></div>
     </div>
 
     <!-- GAME BOTTOM BAR -->
@@ -655,7 +717,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   <div id="rechargeModal">
     <div class="recharge-card">
       <h3 style="color:#fbbf24; margin-bottom:8px">কয়েন রিচার্জ</h3>
-      <p style="font-size:12px; color:#ddd; margin-bottom:15px">আপনার অ্যাকাউন্টে পর্যালোচিত ব্যালেন্স নেই। বাজি ধরতে কয়েন রিচার্জ করুন!</p>
+      <p style="font-size:12px; color:#ddd; margin-bottom:15px">আপনার অ্যাকাউন্টে পর্যাপ্ত কয়েন নেই। রিচার্জ করুন!</p>
       <button class="lf-recharge-btn" style="width:100%; margin-bottom:8px" onclick="addDemoCoins(5000)">+ 5,000 কয়েন যুক্ত করুন (Demo)</button>
       <button style="background:transparent; color:#aaa; font-size:12px; margin-top:5px" onclick="closeRechargeModal()">বন্ধ করুন</button>
     </div>
@@ -668,16 +730,18 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 <!-- JAVASCRIPT GAME & SYSTEM LOGIC -->
 <script>
-  // GLOBAL STATE
+  // GLOBAL BALANCE STATE
   let userBalance = 8458;
   let selectedChip = 100;
-  let currentBets = [0,0,0,0,0,0,0,0,0];
-  let multipliers = [5, 5, 10, 10, 25, 15, 5, 20, 50];
-  
-  // 24H AUTOMATIC GAME CYCLE ENGINE
+  let currentBets = [0,0,0,0,0,0,0,0]; // 8 Boxes
+  let multipliers = [5, 5, 10, 10, 15, 5, 20, 50]; // 8 Fruits Multipliers
+  let fruitIcons = ["🍎", "🍊", "🍇", "🍉", "🍓", "🍌", "🔔", "💎"];
+  let totalGameWin = 0;
+
+  // 24H AUTOMATIC ENGINE (30s BET, 5s RESULT)
   let currentRound = 1;
   let timerState = "BETTING"; // BETTING, SPINNING, RESULT
-  let timeLeft = 15;
+  let timeLeft = 30; // 30 SECONDS BETTING
   let isGameLoopRunning = false;
 
   function updateGlobalBalanceUI() {
@@ -724,7 +788,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       return;
     }
 
-    // DEDUCT BALANCE AND ADD BET
+    // DEDUCT FROM MAIN BALANCE
     userBalance -= selectedChip;
     currentBets[index] += selectedChip;
     updateGlobalBalanceUI();
@@ -743,20 +807,21 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       timeLeft--;
 
       if(timerState === "BETTING") {
-        document.getElementById('lfStatusText').innerText = `Betting Time: ${timeLeft}s`;
+        document.getElementById('lfTimerNum').innerText = timeLeft;
+        document.getElementById('lfStatusLabel').innerText = "BETTING";
         if(timeLeft <= 0) {
           timerState = "SPINNING";
-          timeLeft = 5; // 5 Sec Spinning
           runLotterySpin();
         }
       } 
       else if(timerState === "SPINNING") {
-        document.getElementById('lfStatusText').innerText = `Spinning Result...`;
+        document.getElementById('lfTimerNum').innerText = "🎰";
+        document.getElementById('lfStatusLabel').innerText = "SPINNING";
       } 
       else if(timerState === "RESULT") {
-        document.getElementById('lfStatusText').innerText = `Next Round In: ${timeLeft}s`;
+        document.getElementById('lfTimerNum').innerText = timeLeft;
+        document.getElementById('lfStatusLabel').innerText = "NEXT ROUND";
         if(timeLeft <= 0) {
-          // RESET FOR NEXT ROUND
           resetRoundForNext();
         }
       }
@@ -769,23 +834,29 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     
     let spinInterval = setInterval(() => {
       boxes.forEach(b => b.classList.remove('winner'));
-      let winCandidate = spinIndex % 9;
+      let winCandidate = spinIndex % 8;
       boxes[winCandidate].classList.add('winner');
       spinIndex++;
-    }, 150);
+    }, 120);
 
     setTimeout(() => {
       clearInterval(spinInterval);
       boxes.forEach(b => b.classList.remove('winner'));
       
-      // SELECT RANDOM WINNING FRUIT (0-8)
-      let winningIndex = Math.floor(Math.random() * 9);
+      // SELECT RANDOM WINNING FRUIT (0-7)
+      let winningIndex = Math.floor(Math.random() * 8);
       boxes[winningIndex].classList.add('winner');
+
+      // ADD TO WIN HISTORY
+      addWinHistory(fruitIcons[winningIndex]);
 
       // CALCULATE WINNINGS
       let winAmount = currentBets[winningIndex] * multipliers[winningIndex];
       if(winAmount > 0) {
-        userBalance += winAmount;
+        userBalance += winAmount; // ADD WINNINGS DIRECTLY TO MAIN BALANCE
+        totalGameWin += winAmount; // ADD TO TOTAL GAME WIN STAT
+        
+        document.getElementById('lfTotalWinVal').innerText = totalGameWin.toLocaleString();
         updateGlobalBalanceUI();
         showToast(`🎉 অভিনন্দন! আপনি ${winAmount} কয়েন জিতেছেন!`);
       } else {
@@ -793,16 +864,27 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       }
 
       timerState = "RESULT";
-      timeLeft = 5;
-    }, 5000);
+      timeLeft = 5; // 5 SECONDS RESULT DISPLAY
+    }, 4000);
+  }
+
+  function addWinHistory(icon) {
+    const list = document.getElementById('lfHistoryList');
+    const span = document.createElement('span');
+    span.className = 'lf-hist-icon';
+    span.innerText = icon;
+    list.prepend(span);
+    if(list.children.length > 5) {
+      list.removeChild(list.lastChild);
+    }
   }
 
   function resetRoundForNext() {
     currentRound++;
-    if(currentRound > 1440) currentRound = 1; // 24 HOURS RESET CYCLE (1440 mins)
+    if(currentRound > 1440) currentRound = 1;
     document.getElementById('lfRoundNum').innerText = currentRound;
 
-    currentBets = [0,0,0,0,0,0,0,0,0];
+    currentBets = [0,0,0,0,0,0,0,0];
     document.querySelectorAll('.lf-box').forEach((box, i) => {
       box.classList.remove('selected', 'winner');
       document.getElementById('betBox' + i).style.display = 'none';
@@ -810,7 +892,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     });
 
     timerState = "BETTING";
-    timeLeft = 15;
+    timeLeft = 30; // RESET TO 30 SECONDS
   }
 
   // RECHARGE MODAL LOGIC
