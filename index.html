@@ -1,1178 +1,592 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete UI with Premium Game Panel & Lucky Fruit</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মোবাইল অ্যাপ - সম্পূর্ণ ইউজার ইন্টারফেস</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
 
-<!-- PWA Manifest Link -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f0823">
+        body {
+            background-color: #0f0f1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#0f0823;color:#fff}
-button{border:0;font-family:inherit;cursor:pointer;outline:none}
+        /* মোবাইল ফ্রেম সংকেত */
+        .app-frame {
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            max-height: 896px;
+            background: #161626;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
 
-#app{width:100%;height:100%;position:relative;overflow:hidden;background:#f6f7fb;color:#222}
+        @media (min-width: 450px) {
+            .app-frame {
+                border-radius: 30px;
+                border: 8px solid #2a2a40;
+                height: 92vh;
+            }
+        }
 
-/* PAGE CONTAINERS */
-.page{
-  position:absolute;inset:0;background:#f7f8fc;display:none;
-  overflow-y:auto;padding-bottom:80px;z-index:1;
-}
-.page.show{display:block}
+        /* টপ বার (Top Navigation) */
+        .top-bar {
+            height: 60px;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border-bottom: 1px solid #2a2a40;
+            z-index: 10;
+        }
 
-/* 3D BUTTONS */
-.btn3d{
-  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
-  box-shadow:0 4px 0 #c8cad3,0 6px 12px rgba(40,45,80,.12);transition:.1s
-}
-.btn3d:active{transform:translateY(3px);box-shadow:0 1px 0 #c8cad3}
-.btn3d.primary{
-  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
-  box-shadow:0 4px 0 #3824a9
-}
+        .top-bar .title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00d2ff;
+        }
 
-/* TOP BAR */
-.home-top{
-  height:60px;background:#fff;display:flex;align-items:center;
-  padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05)
-}
-.home-tabs{
-  display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
-  background:#f0eff6;border-radius:14px
-}
-.home-tab{
-  height:34px;padding:0 8px;border-radius:11px;display:flex;
-  align-items:center;justify-content:center;font-size:12px;font-weight:800;
-  color:#888;white-space:nowrap;background:transparent;flex:1;
-}
-.home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+        .top-bar .top-icons {
+            display: flex;
+            gap: 12px;
+        }
 
-.top-action{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:18px;font-weight:bold}
+        .icon-btn {
+            background: #25253e;
+            border: none;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
 
-/* SLIDER */
-.event-slider-wrap{padding:10px 10px 4px}
-.event-slider{
-  width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
-  box-shadow:0 6px 16px rgba(0,0,0,0.15)
-}
-.slider-container{display:flex;width:100%;height:100%;transition:transform 0.5s ease-in-out}
-.event-slide{min-width:100%;height:100%;position:relative;color:white;flex-shrink:0}
-.event-content{position:absolute;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.2)}
-.event-content h2{font-size:15px;margin-bottom:2px}
-.event-content p{font-size:11px;opacity:0.9}
-.event-btn{height:26px;padding:0 10px;margin-top:6px;border-radius:10px;background:#fff;color:#5b42df;font-weight:bold;font-size:10px;width:fit-content}
+        /* মূল কন্টেন্ট এরিয়া (Tab Contents) */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            padding-bottom: 70px;
+        }
 
-/* CATEGORIES */
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px}
-.category{height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
-.category .icon{font-size:24px;margin-bottom:2px}
+        .tab-content {
+            display: none;
+        }
 
-/* ROOM GRID */
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{height:160px;border-radius:16px;overflow:hidden;position:relative;background:#ccc;cursor:pointer}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.8))}
-.room-info{position:absolute;bottom:8px;left:8px;right:8px;color:#fff;font-size:11px;font-weight:bold}
+        .tab-content.active {
+            display: block;
+        }
 
-/* BOTTOM NAVIGATION */
-.bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
-  border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
-}
-.nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:transparent;font-size:10px;font-weight:bold}
-.nav-item.active{color:#8b5cf6}
-.nav-item.active .nav-icon{background:linear-gradient(135deg,#e0e7ff,#c7d2fe);width:40px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.2)}
-.nav-item .nav-icon{font-size:20px;margin-bottom:4px;transition:0.2s}
+        /* ১. প্রোফাইল স্ক্রিন CSS */
+        .profile-card {
+            background: #202038;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
 
-/* MODAL SCREENS */
-.modal-screen {
-  position: fixed; inset: 0; z-index: 500; display: none;
-  flex-direction: column; overflow: hidden; background: #0f0823; color: white;
-}
-.modal-screen.show { display: flex; }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 3px solid #00d2ff;
+        }
 
-/* RANK SCREEN */
-.rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
-.modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
 
-/* CP ZONE & FAMILY */
-.cp-bg { background: linear-gradient(180deg, #3b0029 0%, #10000b 100%); }
-.family-bg { background: linear-gradient(180deg, #0a192f 0%, #020c1b 100%); }
+        .user-id {
+            color: #8888a0;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
 
-/* ME / PROFILE PAGE DESIGN */
-.profile-bg {
-  background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
-  min-height: 100%; padding: 15px; color: #222;
-}
-.profile-header { display: flex; align-items: center; gap: 15px; position: relative; margin-top: 15px; }
-.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
-.profile-name { font-size: 20px; font-weight: bold; color: #111; letter-spacing: -0.5px; }
-.profile-id { font-size: 13px; color: #888; margin-top: 3px; }
+        .edit-btn {
+            background: #00d2ff;
+            color: #000;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+        }
 
-.profile-stats-row { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-right: 15px; }
-.stats-left { display: flex; gap: 35px; margin-left: 20px; text-align: center; }
-.stat-value { font-size: 18px; font-weight: bold; color: #111; }
-.stat-label { font-size: 13px; color: #aaa; margin-top: 2px; }
-.family-shield { text-align: center; cursor: pointer; }
-.family-shield-icon { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(255,215,0,0.4)); }
-.family-shield-text { font-size: 10px; font-weight: bold; color: #92400e; margin-top: -5px; }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            background: #202038;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
 
-.profile-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-.pr-card { border-radius: 14px; padding: 15px; color: #fff; position: relative; overflow: hidden; height: 85px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; }
-.pr-card.wallet { background: linear-gradient(135deg, #ff8a65, #ffcc80); }
-.pr-card.store { background: linear-gradient(135deg, #4fc3f7, #81d4fa); }
-.pr-card-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; z-index: 2; }
-.pr-card-sub { font-size: 14px; font-weight: bold; z-index: 2; display: flex; align-items: center; gap: 4px; }
-.pr-card-icon { position: absolute; right: -5px; bottom: -10px; font-size: 50px; opacity: 0.9; }
+        .stat-item {
+            text-align: center;
+        }
 
-.pr-list-group { background: #fff; border-radius: 16px; margin-top: 15px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); padding: 5px 0; }
-.pr-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; border-bottom: 1px solid #f6f6f6; font-size: 15px; color: #333; cursor: pointer; }
-.pr-list-item:last-child { border-bottom: none; }
-.pr-list-left { display: flex; align-items: center; gap: 15px; }
-.pr-list-icon { font-size: 20px; width: 24px; text-align: center; }
-.pr-list-right { display: flex; align-items: center; gap: 10px; color: #ccc; }
-.badge-pill { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; font-style: italic; border: 1px solid gold; display: flex; align-items: center; gap: 4px; color: #fff; }
-.badge-lv { background: linear-gradient(90deg, #6b21a8, #d946ef); }
-.badge-svip { background: linear-gradient(90deg, #065f46, #10b981); color: gold; }
+        .stat-num {
+            font-weight: bold;
+            font-size: 16px;
+            color: #00d2ff;
+        }
 
-#profileDetailModal { background: #f7f8fc; color: #222; }
-.profile-detail-card { background: #fff; margin: 15px; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; position: relative; }
-.edit-top-btn { position: absolute; right: 15px; top: 15px; background: #f0eff6; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #5036df; cursor: pointer; }
+        .stat-label {
+            font-size: 11px;
+            color: #aaa;
+        }
 
-#editProfileModal { background: #f7f8fc; color: #222; }
-.modal-header-edit { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: #fff; color: #222; border-bottom: 1px solid #eee; }
-.edit-input-group { background: #fff; padding: 12px 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-.edit-input-group input { border: none; outline: none; text-align: right; font-size: 14px; font-weight: bold; color: #555; }
+        /* ২. রুম লেআউট CSS */
+        .room-container {
+            background: #1c1c30;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
 
-/* ROOM STYLES */
-#roomScreen {
-  position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between;
-  background: radial-gradient(circle at 50% 30%, #a21caf 0%, #6b21a8 45%, #2e1065 100%);
-  color: #fff; overflow: hidden;
-}
-#roomScreen.show { display: flex; }
+        .room-screen {
+            height: 140px;
+            background: linear-gradient(180deg, #2a1b4e, #161626);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed #444466;
+            margin-bottom: 15px;
+            position: relative;
+        }
 
-.v-room-top {
-  padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between;
-  background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
-}
-.v-room-info { display: flex; align-items: center; gap: 8px; }
-.v-room-avatar { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #fff; object-fit: cover; }
-.v-room-meta { display: flex; flex-direction: column; }
-.v-room-title { font-size: 13px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; }
-.v-room-id { font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
-.v-tag-badge { background: linear-gradient(90deg, #2563eb, #3b82f6); font-size: 9px; padding: 1px 6px; border-radius: 10px; color: #fff; }
-.v-chat-btn { background: #06b6d4; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 12px; color: #fff; display: flex; align-items: center; gap: 2px; }
+        .seats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
 
-.v-top-actions { display: flex; align-items: center; gap: 8px; }
-.v-icon-circle { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; }
+        .seat-item {
+            background: #25253e;
+            border-radius: 10px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #888;
+            border: 1px solid #333355;
+        }
 
-.v-cup-pill {
-  margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 12px; width: fit-content; padding: 2px 10px;
-  font-size: 11px; font-weight: bold; color: #fde047; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.1);
-}
+        .seat-item.active {
+            border-color: #ff007f;
+            color: #fff;
+        }
 
-.v-host-center { text-align: center; margin-top: 10px; position: relative; }
-.v-host-frame {
-  width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid #f472b6; padding: 3px;
-  background: radial-gradient(circle, #f472b6 0%, transparent 80%); position: relative;
-}
-.v-host-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.v-host-name { font-size: 12px; font-weight: bold; color: #38bdf8; margin-top: 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        /* ৩. গিফ্ট বক্স এবং গেম জোন (আপডেট করা) */
+        .gift-box-section {
+            background: #202038;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
 
-.v-seats-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 20px 15px; margin-top: 10px;
-}
-.v-seat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
-.v-seat-circle {
-  width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.12);
-  border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-}
-.v-seat-icon { font-size: 18px; opacity: 0.6; }
-.v-seat-num { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; font-weight: bold; }
+        .section-header {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00d2ff;
+            border-bottom: 1px solid #333355;
+            padding-bottom: 5px;
+        }
 
-.v-floating-banners { position: absolute; right: 10px; top: 40%; display: flex; flex-direction: column; gap: 12px; z-index: 10; }
-.v-float-card {
-  width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; text-align: center; cursor: pointer;
-}
+        .game-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-.v-room-body { padding: 0 15px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; margin-top: auto; margin-bottom: 5px; }
-.v-welcome-txt { color: #38bdf8; opacity: 0.9; line-height: 1.3; }
+        .game-btn {
+            padding: 12px;
+            background: linear-gradient(45deg, #007bff, #00d2ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
 
-.v-msg-line { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 12px; width: fit-content; max-width: 90%; }
-.v-user-badges { display: flex; align-items: center; gap: 3px; }
-.v-user-tag { font-size: 8px; padding: 1px 4px; border-radius: 8px; color: #fff; font-weight: bold; }
+        .game-btn:active {
+            transform: scale(0.96);
+        }
 
-/* ROOM BOTTOM BAR */
-.v-room-bottom {
-  padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
-  display: flex; align-items: center; justify-content: space-between; gap: 6px;
-}
-.v-say-hi-btn {
-  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
-  padding: 8px 14px; font-size: 11px; color: rgba(255,255,255,0.8); flex: 1; max-width: 100px;
-  text-align: left;
-}
-.v-bottom-icon {
-  width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; cursor: pointer; transition: 0.2s;
-}
-.v-bottom-icon:active { transform: scale(0.9); }
-.v-gift-btn {
-  width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 12px rgba(168,85,247,0.6); cursor: pointer;
-}
+        .game-btn.secondary {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
 
-/* GIFT MODAL STYLES */
-#giftModal {
-  position: fixed; inset: 0; z-index: 700; display: none;
-  background: rgba(0,0,0,0.6); align-items: flex-end; justify-content: center;
-}
-#giftModal.show { display: flex; }
+        .game-display {
+            background: #12121f;
+            color: #00ffcc;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            border: 1px solid #2a2a45;
+        }
 
-.gift-panel {
-  width: 100%; max-width: 480px; background: rgba(15, 8, 35, 0.95);
-  backdrop-filter: blur(15px); border-top-left-radius: 24px; border-top-right-radius: 24px;
-  padding: 15px; color: #fff; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.1);
-  animation: slideUp 0.3s ease-out;
-}
+        /* ৯টি সীমাবদ্ধ হিস্ট্রি তালিকা */
+        .history-section {
+            background: #18182b;
+            border: 1px solid #2a2a45;
+            border-radius: 8px;
+            padding: 10px;
+        }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
+        .history-list {
+            list-style: none;
+        }
 
-.gift-tabs { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-.gift-tab-list { display: flex; gap: 15px; overflow-x: auto; }
-.gift-tab-item { font-size: 14px; font-weight: bold; color: rgba(255,255,255,0.6); position: relative; padding-bottom: 4px; cursor: pointer; }
-.gift-tab-item.active { color: #fff; }
-.gift-tab-item.active::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #a855f7, #ec4899); border-radius: 2px;
-}
+        .history-item {
+            background: #22223a;
+            border-left: 3px solid #00d2ff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            color: #ddd;
+        }
 
-.gift-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-  margin: 15px 0; max-height: 280px; overflow-y: auto; padding-right: 4px;
-}
-.gift-card {
-  background: rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 6px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  border: 1px solid rgba(255,255,255,0.05); position: relative; cursor: pointer; transition: 0.2s;
-}
-.gift-card.selected {
-  border-color: #a855f7; background: rgba(168,85,247,0.15); box-shadow: 0 0 10px rgba(168,85,247,0.3);
-}
-.gift-title { font-size: 10px; font-weight: bold; color: #fff; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.gift-price { font-size: 9px; color: #fbbf24; margin-top: 2px; display: flex; align-items: center; gap: 2px; font-weight: bold; }
+        .empty-history {
+            color: #666688;
+            font-size: 11px;
+            text-align: center;
+            padding: 8px;
+        }
 
-.gift-badge-star {
-  position: absolute; top: 4px; right: 4px; background: #3b82f6; color: #fff; font-size: 8px;
-  border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;
-}
-.gift-badge-new {
-  position: absolute; top: 4px; left: 4px; background: #ef4444; color: #fff; font-size: 8px;
-  padding: 1px 4px; border-radius: 8px; font-weight: bold;
-}
+        /* ৪. র‍্যাংকিং লিডারবোর্ড */
+        .rank-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-.gift-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-.gift-coins { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; font-weight: bold; color: #fbbf24; }
-.gift-send-wrap { display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2px; border: 1px solid rgba(255,255,255,0.15); }
-.gift-count-select { background: transparent; border: none; color: #fff; font-size: 13px; font-weight: bold; padding: 0 12px; outline: none; }
-.gift-send-btn { background: linear-gradient(90deg, #06b6d4, #a855f7); color: #fff; font-weight: bold; font-size: 12px; padding: 8px 20px; border-radius: 18px; box-shadow: 0 2px 10px rgba(168,85,247,0.4); }
+        .rank-item {
+            background: #202038;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-/* GAME PANEL MODAL STYLES */
-#gameModal {
-  position: fixed; inset: 0; z-index: 700; display: none;
-  background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(8px);
-}
-#gameModal.show { display: flex; }
+        .rank-num {
+            font-weight: bold;
+            font-size: 16px;
+            width: 25px;
+            color: #ffbd59;
+        }
 
-.game-panel {
-  width: 100%; max-width: 480px; background: linear-gradient(180deg, #241442 0%, #0d061c 100%);
-  border-top-left-radius: 28px; border-top-right-radius: 28px;
-  padding: 20px 16px 30px; color: #fff; box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-  border-top: 1px solid rgba(255,255,255,0.2); max-height: 82vh; overflow-y: auto;
-  animation: slideUp 0.3s ease-out;
-}
+        .rank-info {
+            flex: 1;
+            margin-left: 10px;
+        }
 
-.game-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.game-coin-badge {
-  background: linear-gradient(90deg, rgba(251,191,36,0.2), rgba(245,158,11,0.05)); padding: 6px 14px; border-radius: 20px;
-  font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
-  border: 1px solid rgba(251,191,36,0.4); box-shadow: 0 0 10px rgba(251,191,36,0.1);
-}
+        .rank-name {
+            font-size: 13px;
+            font-weight: bold;
+        }
 
-.game-sec-title { font-size: 15px; font-weight: bold; color: #fff; margin: 18px 0 12px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+        .rank-score {
+            font-size: 11px;
+            color: #8888a0;
+        }
 
-.casual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.casual-card {
-  background: rgba(255,255,255,0.06); border-radius: 18px; padding: 10px 8px;
-  display: flex; flex-direction: column; align-items: center; cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.1); transition: transform 0.2s, background 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-.casual-card:active { transform: scale(0.94); background: rgba(255,255,255,0.12); }
-.casual-img-box {
-  width: 100%; height: 65px; border-radius: 14px; overflow: hidden;
-  display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 8px;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.3); position: relative;
-}
-.casual-img-box::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
-}
-.casual-title { font-size: 12px; font-weight: bold; color: #f3f4f6; text-align: center; }
+        /* বটম নেভিগেশন বার (Bottom Navigation) */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #2a2a40;
+            z-index: 10;
+        }
 
-.lucky-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 10px; }
-.lucky-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
-.lucky-card:active { transform: scale(0.92); }
-.lucky-icon-wrap {
-  width: 58px; height: 58px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
-  display: flex; align-items: center; justify-content: center; font-size: 28px;
-  border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 6px 15px rgba(0,0,0,0.4); position: relative;
-}
-.red-dot {
-  position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
-  background: #ef4444; border-radius: 50%; border: 2px solid #18112e;
-}
-.lucky-title { font-size: 11px; font-weight: bold; color: #d1d5db; text-align: center; margin-top: 6px; line-height: 1.2; }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666688;
+            font-size: 11px;
+            cursor: pointer;
+            width: 20%;
+        }
 
-/* ==================== LUCKY FRUIT GAME MODAL ==================== */
-#luckyFruitModal {
-  position: fixed; inset: 0; z-index: 850; display: none;
-  background: rgba(0,0,0,0.8); align-items: center; justify-content: center;
-  backdrop-filter: blur(8px);
-}
-#luckyFruitModal.show { display: flex; }
+        .nav-item.active {
+            color: #00d2ff;
+        }
 
-.lf-panel {
-  width: 95%; max-width: 420px; background: linear-gradient(180deg, #2b1204 0%, #130701 100%);
-  border-radius: 24px; border: 2px solid #fbbf24; padding: 15px; color: #fff;
-  box-shadow: 0 0 30px rgba(251,191,36,0.3); position: relative; display: flex;
-  flex-direction: column; align-items: center; overflow: hidden;
-}
-
-.lf-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.lf-title-box { text-align: center; }
-.lf-title { font-size: 18px; font-weight: 900; color: #fbbf24; text-shadow: 0 2px 4px #000; }
-.lf-round { font-size: 11px; color: #fef08a; }
-
-.lf-timer-title { font-size: 12px; font-weight: bold; color: #fde047; margin-bottom: 4px; }
-
-.lf-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  width: 100%; background: #261106; padding: 10px; border-radius: 18px;
-  border: 1px solid rgba(251,191,36,0.3); box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-}
-
-.lf-cell {
-  background: linear-gradient(145deg, #421e0b, #210d03); border-radius: 14px;
-  padding: 8px 4px; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; border: 1.5px solid #854d0e; cursor: pointer;
-  position: relative; transition: all 0.15s ease; min-height: 80px;
-}
-.lf-cell.active-bet { border-color: #facc15; background: rgba(234,179,8,0.25); }
-.lf-cell.highlight { border-color: #38bdf8; background: #0284c7; box-shadow: 0 0 15px #38bdf8; transform: scale(1.03); }
-
-.lf-icon { font-size: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
-.lf-rate { font-size: 9px; font-weight: bold; color: #fef08a; margin-top: 2px; }
-.lf-my-bet {
-  position: absolute; top: 3px; right: 4px; background: #ef4444; color: #fff;
-  font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 10px;
-}
-
-.lf-center-timer {
-  background: radial-gradient(circle, #451a03 0%, #1a0801 100%);
-  border-radius: 14px; border: 2px solid #eab308; display: flex;
-  flex-direction: column; align-items: center; justify-content: center;
-}
-.lf-timer-num { font-size: 28px; font-weight: 900; color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,0.8); }
-
-.lf-chips-sec { display: flex; gap: 8px; margin: 12px 0 8px; justify-content: center; width: 100%; }
-.lf-chip {
-  width: 50px; height: 32px; border-radius: 16px; background: linear-gradient(135deg, #374151, #1f2937);
-  border: 1.5px solid #6b7280; display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: bold; color: #fff; cursor: pointer; transition: 0.2s;
-}
-.lf-chip.selected {
-  background: linear-gradient(135deg, #a855f7, #6366f1); border-color: #f472b6;
-  box-shadow: 0 0 10px rgba(168,85,247,0.6); transform: scale(1.05);
-}
-
-.lf-bottom-bar { display: flex; justify-content: space-between; width: 100%; font-size: 11px; font-weight: bold; padding: 6px 10px; background: rgba(0,0,0,0.4); border-radius: 12px; }
-.lf-history-row { display: flex; align-items: center; gap: 6px; width: 100%; margin-top: 8px; overflow-x: auto; padding-bottom: 2px; }
-.lf-hist-item { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-
-#updateBanner { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #8066ff; color: #fff; padding: 12px 16px; border-radius: 14px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; }
-#updateBanner button { background: #fff; color: #5036df; font-weight: bold; padding: 6px 12px; border-radius: 8px; }
-
-#toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
-#toast.show { opacity: 1; }
-@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
-</style>
+        .nav-icon {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+    </style>
 </head>
-
 <body>
-<div id="app">
 
-  <!-- AUTO UPDATE NOTIFICATION -->
-  <div id="updateBanner">
-    <span style="font-size:12px; font-weight:bold">🚀 নতুন আপডেট পাওয়া গেছে!</span>
-    <button onclick="applyUpdate()">Update</button>
-  </div>
-
-  <!-- HOME PAGE -->
-  <section id="homePage" class="page show">
-    <div class="home-top">
-      <div class="home-tabs">
-        <button class="home-tab" onclick="switchHomeTab('following')">Following</button>
-        <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
-        <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
-      </div>
-      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
-      <button class="top-action btn3d primary" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
+<div class="app-frame">
+    <!-- টপ বার -->
+    <div class="top-bar">
+        <div class="title" id="topTitle">মোমেন্ট</div>
+        <div class="top-icons">
+            <button class="icon-btn">🔔</button>
+            <button class="icon-btn">⚙️</button>
+        </div>
     </div>
 
-    <div id="popularContent">
-      <div class="event-slider-wrap">
-        <div class="event-slider">
-          <div class="slider-container" id="eventSlider">
-            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
-          </div>
+    <!-- মূল কন্টেন্ট স্ক্রিনসমূহ -->
+    <div class="content-area">
+
+        <!-- ১. মোমেন্ট ট্যাব (Moment) -->
+        <div id="tab-moment" class="tab-content active">
+            <div class="profile-card">
+                <div class="avatar">👤</div>
+                <div class="user-name">ইউজার নেম</div>
+                <div class="user-id">ID: 987654321</div>
+                <button class="edit-btn">প্রোফাইল এডিট</button>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-num">১২</div>
+                    <div class="stat-label">পোস্ট</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">৪৫০</div>
+                    <div class="stat-label">ফলোয়ার</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">১Wait</div>
+                    <div class="stat-label">ফলোয়িং</div>
+                </div>
+            </div>
+
+            <div class="room-container">
+                <div class="section-header">মোমেন্ট ফিড</div>
+                <p style="font-size: 12px; color: #aaa; text-align: center; padding: 20px 0;">
+                    এখানে ইউজারদের সাম্প্রতিক পোস্ট ও মোমেন্টগুলো দেখা যাবে।
+                </p>
+            </div>
         </div>
-      </div>
 
-      <div class="categories">
-        <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💖</div>CP</button>
-        <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
-      </div>
-
-      <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
-      <div class="room-grid">
-        <div class="room-card" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">জিরো প... 🇧🇩</div>
+        <!-- ২. ডিসকভার ট্যাব (Discover) -->
+        <div id="tab-discover" class="tab-content">
+            <div class="room-container">
+                <div class="section-header">জনপ্রিয় রুম মডেল</div>
+                <div class="room-screen">
+                    <span style="font-size: 24px;">🎙️</span>
+                    <span style="font-size: 12px; margin-top: 5px; color: #00d2ff;">লাইভ ভয়েস রুম</span>
+                </div>
+                <div class="seats-grid">
+                    <div class="seat-item active">👑 হোস্ট</div>
+                    <div class="seat-item">সিট ১</div>
+                    <div class="seat-item">সিট ২</div>
+                    <div class="seat-item">সিট ৩</div>
+                    <div class="seat-item">সিট ৪</div>
+                    <div class="seat-item">সিট ৫</div>
+                    <div class="seat-item">সিট ৬</div>
+                    <div class="seat-item">সিট ৭</div>
+                </div>
+            </div>
         </div>
-        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">Music & Songs 🎵</div>
+
+        <!-- ৩. গেম ও গিফ্ট বক্স ট্যাব (Game / Gift) -->
+        <div id="tab-game" class="tab-content">
+            <div class="gift-box-section">
+                <!-- আগের সবকটি গেমের বাটন অক্ষুণ্ণ রাখা হলো -->
+                <div class="section-header">গেম জোন ও বোর্ড গিফ্ট বক্স</div>
+                <div class="game-buttons-grid">
+                    <button class="game-btn" onclick="playGame('লটারি গেম', 'আপনি ৫টি পয়েন্ট পেয়েছেন!')">লটারি গেম</button>
+                    <button class="game-btn" onclick="playGame('স্পিন উইন', 'আপনি ৫০ কয়েন জিতেছেন!')">স্পিন উইন</button>
+                    <button class="game-btn secondary" onclick="playGame('কার্ড ফ্লিপ', 'আপনি জ্যাকপট পেয়েছেন!')">কার্ড ফ্লিপ</button>
+                    <button class="game-btn secondary" onclick="playGame('ডাইস রোল', 'আপনার ছক্কা পড়েছে!')">ডাইস রোল</button>
+                    <button class="game-btn" onclick="playGame('লুকানো উপহার', 'আপনি একটি বিশেষ বক্সে গিফট পেয়েছেন!')">লুকানো উপহার</button>
+                    <button class="game-btn secondary" onclick="playGame('কুইজ চ্যালেঞ্জ', 'সঠিক উত্তর! +১০ স্কোয়ার')">কুইজ চ্যালেঞ্জ</button>
+                </div>
+
+                <!-- গেম আউটপুট মেকানিক্স -->
+                <div class="game-display" id="gameDisplay">
+                    যেকোনো একটি গেমে ক্লিক করে প্লে করুন!
+                </div>
+
+                <!-- গেম হিস্ট্রি মেকানিক্স (সর্বোচ্চ ৯টি থাকবে, ১০ নম্বর থেকে পিছনের ডাটা অটো মুছে যাবে) -->
+                <div class="history-section">
+                    <div class="section-header" style="font-size: 12px; margin-bottom: 8px;">গেম হিস্ট্রি (সর্বশেষ ৯টি)</div>
+                    <ul class="history-list" id="historyList">
+                        <li class="empty-history">এখনও কোনো হিস্ট্রি নেই</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div id="followingContent" style="display:none; padding:15px">
-      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
-        <div style="display:flex; gap:10px; align-items:center">
-          <img src="https://i.pravatar.cc/150?img=32" style="width:40px; height:40px; border-radius:50%">
-          <div><b>সাদিয়া রহমান</b><br><small style="color:#777">ID: 100823</small></div>
+
+        <!-- ৪. র‍্যাংকিং ট্যাব (Rankings) -->
+        <div id="tab-rank" class="tab-content">
+            <div class="room-container">
+                <div class="section-header">টপ লিডারবোর্ড</div>
+                <div class="rank-list">
+                    <div class="rank-item">
+                        <div class="rank-num">১</div>
+                        <div class="rank-info">
+                            <div class="rank-name">প্লেয়ার ALPHA</div>
+                            <div class="rank-score">২৫,৪০০ পয়েন্ট</div>
+                        </div>
+                        <div>🏆</div>
+                    </div>
+                    <div class="rank-item">
+                        <div class="rank-num">২</div>
+                        <div class="rank-info">
+                            <div class="rank-name">প্লেয়ার BETA</div>
+                            <div class="rank-score">২১,২০০ পয়েন্ট</div>
+                        </div>
+                        <div>🥈</div>
+                    </div>
+                    <div class="rank-item">
+                        <div class="rank-num">৩</div>
+                        <div class="rank-info">
+                            <div class="rank-name">প্লেয়ার GAMMA</div>
+                            <div class="rank-score">১৮,৯০০ পয়েন্ট</div>
+                        </div>
+                        <div>🥉</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('সাদিয়ার রুম', 'https://i.pravatar.cc/150?img=32')">Enter</button>
-      </div>
-    </div>
-    <div id="recentContent" style="display:none; padding:15px"><div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div></div>
-  </section>
 
-  <!-- DISCOVER, MOMENTS, MESSAGES -->
-  <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div></section>
-  <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div></section>
-  <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div></section>
-
-  <!-- ME / PROFILE PAGE -->
-  <section id="mePage" class="page">
-    <div class="profile-bg">
-      <div class="profile-header">
-        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openProfileDetail()">
-        <div onclick="openProfileDetail()" style="cursor:pointer">
-          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
-          <div class="profile-id">ID:100927248</div>
-        </div>
-      </div>
-
-      <div class="profile-stats-row">
-        <div class="stats-left">
-          <div onclick="showToast('Followers')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div onclick="showToast('Fans')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
-        </div>
-        <div class="family-shield" onclick="openFamilyPage()">
-          <div class="family-shield-icon">🏰</div>
-          <div class="family-shield-text">FAMILY</div>
-        </div>
-      </div>
-
-      <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet: 8,458 Coins')">
-          <div class="pr-card-title">Wallet</div>
-          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> <span id="profileCoinVal">8458</span></div>
-          <div class="pr-card-icon">👛</div>
-        </div>
-        <div class="pr-card store" onclick="showToast('Store')">
-          <div class="pr-card-title">Store</div>
-          <div class="pr-card-icon">🏪</div>
-        </div>
-      </div>
-
-      <div class="pr-list-group">
-        <div class="pr-list-item" onclick="showToast('Invite get coins')"><div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Love House')"><div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="openCPZone()"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Prop Warehouse')"><div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Medal')"><div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('SVIP2')"><div class="pr-list-left"><span class="pr-list-icon">💎</span> SVIP</div><div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP2</div><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Aristocracy')"><div class="pr-list-left"><span class="pr-list-icon">👑</span> Aristocracy</div><div class="pr-list-right"><span style="font-size:22px">🐺</span><i>&gt;</i></div></div>
-      </div>
-
-      <div class="pr-list-group" style="margin-bottom: 30px;">
-        <div class="pr-list-item" onclick="showToast('Language')"><div class="pr-list-left"><span class="pr-list-icon">🌐</span> Language</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Customer service Offline')"><div class="pr-list-left"><span class="pr-list-icon">🎧</span> Customer service</div><div class="pr-list-right"><span style="font-size:12px"><span style="color:#aaa">●</span> Offline</span><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Feedback')"><div class="pr-list-left"><span class="pr-list-icon">💬</span> Feedback</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="openProfileDetail()"><div class="pr-list-left"><span class="pr-list-icon">⚙️</span> Settings</div><div class="pr-list-right"><i>&gt;</i></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchPage('homePage', this)"><div class="nav-icon">🏠</div><span>Home</span></button>
-    <button class="nav-item" onclick="switchPage('discoverPage', this)"><div class="nav-icon">🪐</div><span>Discover</span></button>
-    <button class="nav-item" onclick="switchPage('momentPage', this)"><div class="nav-icon">📢</div><span>Moment</span></button>
-    <button class="nav-item" onclick="switchPage('messagePage', this)"><div class="nav-icon">💬</div><span>Message</span></button>
-    <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">😊</div><span>Me</span></button>
-  </nav>
-
-  <!-- PROFILE INNER SCREEN -->
-  <div id="profileDetailModal" class="modal-screen">
-    <div class="modal-header" style="background:#fff; color:#222; border-bottom:1px solid #eee">
-      <span onclick="closeProfileDetail()" style="color:#666; cursor:pointer">&lt; Back</span>
-      <span>Profile View</span>
-      <span style="opacity:0">Back</span>
-    </div>
-    <div class="profile-detail-card">
-      <div class="edit-top-btn" onclick="openEditProfile()">Edit ✎</div>
-      <img id="detailAvatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:90px; height:90px; border-radius:50%; border:3px solid #5036df; object-fit:cover; margin-bottom:10px">
-      <h2 id="detailName" style="font-size:18px; color:#111">༄Mia༆✿Vai༊</h2>
-      <p style="font-size:12px; color:#888; margin-top:2px">ID: 100927248</p>
-      
-      <div style="display:flex; justify-content:center; gap:10px; margin-top:15px">
-        <div style="background:#f0eff6; padding:8px 16px; border-radius:12px; text-align:center">
-          <div style="font-size:14px; font-weight:bold; color:#111">Male ♂</div>
-          <div style="font-size:10px; color:#888">Gender</div>
-        </div>
-        <div style="background:#f0eff6; padding:8px 16px; border-radius:12px; text-align:center">
-          <div style="font-size:14px; font-weight:bold; color:#111">Bangladesh 🇧🇩</div>
-          <div style="font-size:10px; color:#888">Country</div>
-        </div>
-      </div>
-      <div style="margin-top:20px; text-align:left; font-size:13px; color:#555; background:#fafafa; padding:12px; border-radius:12px">
-        <b>Bio:</b> <span id="detailBio">Welcome to my profile! Let's connect and chat in room.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT PROFILE MODAL -->
-  <div id="editProfileModal" class="modal-screen">
-    <div class="modal-header-edit">
-      <span onclick="closeEditProfile()" style="color:#666; cursor:pointer">Cancel</span>
-      <span>Edit Profile</span>
-      <span onclick="saveProfile()" style="color:#5036df; font-weight:bold; cursor:pointer">Save</span>
-    </div>
-    <div style="padding:15px">
-      <div style="text-align:center; margin-bottom:20px">
-        <img id="editAvatarPreview" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #5036df">
-        <div onclick="changeAvatar()" style="font-size:12px; color:#5036df; font-weight:bold; margin-top:8px; cursor:pointer">Change Photo</div>
-      </div>
-      <div class="edit-input-group">
-        <span>Nickname</span>
-        <input type="text" id="editNameInput" value="༄Mia༆✿Vai༊">
-      </div>
-      <div class="edit-input-group">
-        <span>Bio</span>
-        <input type="text" id="editBioInput" value="Welcome to my profile! Let's connect and chat in room.">
-      </div>
-    </div>
-  </div>
-
-  <!-- RANKING MODAL -->
-  <div id="rankModal" class="modal-screen rank-bg">
-    <div class="modal-header">
-      <span onclick="closeModal('rankModal')">&lt; Back</span>
-      <span>Leaderboard Ranking</span>
-      <span style="opacity:0">Back</span>
-    </div>
-    <div style="padding:20px; text-align:center">
-      <div style="font-size:40px; margin-bottom:10px">🏆</div>
-      <h3>Top Contributor Ranking</h3>
-      <p style="font-size:12px; color:#aaa; margin-top:5px">Updated real-time based on daily gifting</p>
-    </div>
-  </div>
-
-  <!-- CP ZONE MODAL -->
-  <div id="cpModal" class="modal-screen cp-bg">
-    <div class="modal-header">
-      <span onclick="closeModal('cpModal')">&lt; Back</span>
-      <span>CP Love Zone</span>
-      <span style="opacity:0">Back</span>
-    </div>
-    <div style="padding:20px; text-align:center">
-      <div style="font-size:40px; margin-bottom:10px">💖</div>
-      <h3>Couples Space</h3>
-      <p style="font-size:12px; color:#aaa; margin-top:5px">Bind CP and upgrade your love ring</p>
-    </div>
-  </div>
-
-  <!-- FAMILY MODAL -->
-  <div id="familyModal" class="modal-screen family-bg">
-    <div class="modal-header">
-      <span onclick="closeModal('familyModal')">&lt; Back</span>
-      <span>Family Castle</span>
-      <span style="opacity:0">Back</span>
-    </div>
-    <div style="padding:20px; text-align:center">
-      <div style="font-size:40px; margin-bottom:10px">🏰</div>
-      <h3>Family Hall</h3>
-      <p style="font-size:12px; color:#aaa; margin-top:5px">Join a family to unlock exclusive group perks</p>
-    </div>
-  </div>
-
-  <!-- VOICE ROOM SCREEN -->
-  <div id="roomScreen">
-    <div class="v-room-top">
-      <div class="v-room-info">
-        <img id="roomHostAvatar" class="v-room-avatar" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=150&q=80">
-        <div class="v-room-meta">
-          <div id="roomTitleText" class="v-room-title">জিরো প... <span class="v-tag-badge">Party</span></div>
-          <div class="v-room-id">ID: 558192 <span class="v-chat-btn">💬 Chat</span></div>
-        </div>
-      </div>
-      <div class="v-top-actions">
-        <div class="v-icon-circle" onclick="showToast('Room Shared')">🔗</div>
-        <div class="v-icon-circle" onclick="leaveRoom()">✕</div>
-      </div>
     </div>
 
-    <div class="v-cup-pill">🏆 Room Rank #1</div>
-
-    <div class="v-host-center">
-      <div class="v-host-frame">
-        <img id="roomCenterImg" class="v-host-img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=150&q=80">
-      </div>
-      <div class="v-host-name">Host Master</div>
+    <!-- বটম নেভিগেশন (মোমেন্ট, ডিসকভার, গেম, র‍্যাংক) -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tab-moment', 'মোমেন্ট', this)">
+            <span class="nav-icon">📸</span>
+            <span>মোমেন্ট</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tab-discover', 'ডিসকভার', this)">
+            <span class="nav-icon">🔍</span>
+            <span>ডিসকভার</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tab-game', 'গেম জোন', this)">
+            <span class="nav-icon">🎮</span>
+            <span>গেম</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tab-rank', 'র‍্যাংকিং', this)">
+            <span class="nav-icon">👑</span>
+            <span>র‍্যাংক</span>
+        </div>
     </div>
-
-    <div class="v-seats-grid">
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">1</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">2</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">3</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">4</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">5</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">6</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">7</span></div>
-      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><span class="v-seat-num">8</span></div>
-    </div>
-
-    <div class="v-floating-banners">
-      <div class="v-float-card" onclick="openGameModal()">🎮<br>GAMES</div>
-      <div class="v-float-card" onclick="openGiftModal()">🎁<br>GIFTS</div>
-    </div>
-
-    <div class="v-room-body">
-      <div class="v-welcome-txt">Welcome to the room! Keep the environment friendly and follow community guidelines.</div>
-      <div class="v-msg-line">
-        <div class="v-user-badges"><span class="v-user-tag" style="background:#ec4899">LV.41</span></div>
-        <span style="font-weight:bold; color:#fbbf24">System:</span> Room active.
-      </div>
-    </div>
-
-    <!-- ROOM BOTTOM CONTROL BAR (5 BUTTONS) -->
-    <div class="v-room-bottom">
-      <button class="v-say-hi-btn" onclick="showToast('Open Chat Input')">Say Hi...</button>
-      <div class="v-bottom-icon" onclick="toggleMic(this)">🎙️</div>
-      <div class="v-bottom-icon" onclick="openGameModal()">🎮</div>
-      <div class="v-bottom-icon" onclick="showToast('Emoji Panel')">😀</div>
-      <div class="v-gift-btn" onclick="openGiftModal()">🎁</div>
-    </div>
-  </div>
-
-  <!-- GIFT MODAL -->
-  <div id="giftModal" onclick="closeGiftModalBg(event)">
-    <div class="gift-panel" onclick="event.stopPropagation()">
-      <div class="gift-tabs">
-        <div class="gift-tab-list">
-          <div class="gift-tab-item active">Popular</div>
-          <div class="gift-tab-item">Luxury</div>
-          <div class="gift-tab-item">Special</div>
-          <div class="gift-tab-item">Backpack</div>
-        </div>
-      </div>
-      <div class="gift-grid">
-        <div class="gift-card selected">
-          <span class="gift-badge-star">★</span>
-          <div style="font-size:30px">🌹</div>
-          <div class="gift-title">Red Rose</div>
-          <div class="gift-price">🪙 10</div>
-        </div>
-        <div class="gift-card">
-          <span class="gift-badge-new">NEW</span>
-          <div style="font-size:30px">🚀</div>
-          <div class="gift-title">Rocket</div>
-          <div class="gift-price">🪙 999</div>
-        </div>
-        <div class="gift-card">
-          <div style="font-size:30px">🏎️</div>
-          <div class="gift-title">Supercar</div>
-          <div class="gift-price">🪙 5200</div>
-        </div>
-        <div class="gift-card">
-          <div style="font-size:30px">👑</div>
-          <div class="gift-title">Crown</div>
-          <div class="gift-price">🪙 2999</div>
-        </div>
-      </div>
-      <div class="gift-footer">
-        <div class="gift-coins">🪙 <span class="global-coin-badge">8458</span></div>
-        <div class="gift-send-wrap">
-          <select class="gift-count-select">
-            <option>1</option>
-            <option>10</option>
-            <option>66</option>
-            <option>99</option>
-          </select>
-          <button class="gift-send-btn" onclick="sendGift()">Send</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GAME MODAL -->
-  <div id="gameModal" onclick="closeGameModalBg(event)">
-    <div class="game-panel" onclick="event.stopPropagation()">
-      <div class="game-panel-header">
-        <div class="game-coin-badge">🪙 <span class="global-coin-badge">8458</span></div>
-        <span onclick="closeGameModal()" style="font-size:18px; cursor:pointer; color:#aaa">✕</span>
-      </div>
-
-      <div class="game-sec-title">🎯 Casual Games</div>
-      <div class="casual-grid">
-        <div class="casual-card" onclick="launchGame('Ludo Star')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg, #ef4444, #f59e0b)">🎲</div>
-          <div class="casual-title">Ludo Star</div>
-        </div>
-        <div class="casual-card" onclick="launchGame('Carrom Board')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg, #10b981, #06b6d4)">⚪</div>
-          <div class="casual-title">Carrom</div>
-        </div>
-        <div class="casual-card" onclick="launchGame('Greedy Baby')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg, #8b5cf6, #ec4899)">👶</div>
-          <div class="casual-title">Greedy Baby</div>
-        </div>
-      </div>
-
-      <div class="game-sec-title">🎰 Lucky Draw & Mini Games</div>
-      <div class="lucky-grid">
-        <div class="lucky-card" onclick="launchGame('Fruit Slot')">
-          <div class="lucky-icon-wrap">🍉<div class="red-dot"></div></div>
-          <div class="lucky-title">Fruit Slot</div>
-        </div>
-        <div class="lucky-card" onclick="launchGame('Lucky Wheel')">
-          <div class="lucky-icon-wrap">🎡</div>
-          <div class="lucky-title">Lucky Wheel</div>
-        </div>
-        <div class="lucky-card" onclick="launchGame('Treasure Box')">
-          <div class="lucky-icon-wrap">💎</div>
-          <div class="lucky-title">Treasure</div>
-        </div>
-        <div class="lucky-card" onclick="launchGame('Teen Patti')">
-          <div class="lucky-icon-wrap">🃏</div>
-          <div class="lucky-title">Teen Patti</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LUCKY FRUIT GAME MODAL -->
-  <div id="luckyFruitModal" onclick="closeLuckyFruitBg(event)">
-    <div class="lf-panel" onclick="event.stopPropagation()">
-      <div class="lf-header">
-        <div class="lf-title-box">
-          <div class="lf-title">🍒 Lucky Fruit 🍊</div>
-          <div class="lf-round" id="lfRoundText">Round 1 of today</div>
-        </div>
-        <span onclick="closeLuckyFruit()" style="font-size:20px; cursor:pointer; color:#aaa">✕</span>
-      </div>
-
-      <div class="lf-timer-title" id="lfStateTitle">Select Time: <span id="lfStateSec">30</span>s</div>
-
-      <!-- 8 CELLS INNER GRID WITH CENTER TIMER -->
-      <div class="lf-grid">
-        <!-- Row 1 -->
-        <div class="lf-cell" id="cell-0" onclick="placeBet(0)">
-          <div class="lf-icon">🍊</div>
-          <div class="lf-rate">Win 5x</div>
-          <div class="lf-my-bet" id="bet-0" style="display:none">0</div>
-        </div>
-        <div class="lf-cell" id="cell-1" onclick="placeBet(1)">
-          <div class="lf-icon">🍋</div>
-          <div class="lf-rate">Win 5x</div>
-          <div class="lf-my-bet" id="bet-1" style="display:none">0</div>
-        </div>
-        <div class="lf-cell" id="cell-2" onclick="placeBet(2)">
-          <div class="lf-icon">🍇</div>
-          <div class="lf-rate">Win 5x</div>
-          <div class="lf-my-bet" id="bet-2" style="display:none">0</div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="lf-cell" id="cell-7" onclick="placeBet(7)">
-          <div class="lf-icon">🍒</div>
-          <div class="lf-rate">Win 5x</div>
-          <div class="lf-my-bet" id="bet-7" style="display:none">0</div>
-        </div>
-        <div class="lf-center-timer">
-          <div class="lf-timer-num" id="lfCenterNum">30</div>
-        </div>
-        <div class="lf-cell" id="cell-3" onclick="placeBet(3)">
-          <div class="lf-icon">🍏</div>
-          <div class="lf-rate">Win 10x</div>
-          <div class="lf-my-bet" id="bet-3" style="display:none">0</div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="lf-cell" id="cell-6" onclick="placeBet(6)">
-          <div class="lf-icon">🍉</div>
-          <div class="lf-rate">Win 15x</div>
-          <div class="lf-my-bet" id="bet-6" style="display:none">0</div>
-        </div>
-        <div class="lf-cell" id="cell-5" onclick="placeBet(5)">
-          <div class="lf-icon">🪅</div>
-          <div class="lf-rate">Win 25x</div>
-          <div class="lf-my-bet" id="bet-5" style="display:none">0</div>
-        </div>
-        <div class="lf-cell" id="cell-4" onclick="placeBet(4)">
-          <div class="lf-icon">🥭</div>
-          <div class="lf-rate">Win 45x</div>
-          <div class="lf-my-bet" id="bet-4" style="display:none">0</div>
-        </div>
-      </div>
-
-      <!-- CHIPS SELECTION -->
-      <div class="lf-chips-sec">
-        <div class="lf-chip selected" onclick="selectChip(100, this)">🪙 100</div>
-        <div class="lf-chip" onclick="selectChip(1000, this)">🪙 1K</div>
-        <div class="lf-chip" onclick="selectChip(10000, this)">🪙 10K</div>
-        <div class="lf-chip" onclick="selectChip(50000, this)">🪙 50K</div>
-      </div>
-
-      <!-- BALANCE AND WINNINGS -->
-      <div class="lf-bottom-bar">
-        <span>Balance: <span style="color:#fbbf24" id="lfBalance">8458</span></span>
-        <span>Today's Win: <span style="color:#4ade80" id="lfWinToday">0</span></span>
-      </div>
-
-      <!-- HISTORY -->
-      <div class="lf-history-row" id="lfHistoryList">
-        <span style="font-size:10px; color:#aaa">Results:</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast"></div>
-
 </div>
 
 <script>
-/* NAVIGATION & PAGE SWITCHING */
-function switchPage(pageId, btnEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.getElementById(pageId).classList.add('show');
-  if(btnEl) {
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    btnEl.classList.add('active');
-  }
-}
+    // ১. নেভিগেশন ও ট্যাব সুইচিং মেকানিক্স
+    function switchTab(tabId, titleText, element) {
+        // সবকটি ট্যাব কন্টেন্ট হাইড করা
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
 
-function switchHomeTab(tabName) {
-  document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('popularContent').style.display = tabName === 'popular' ? 'block' : 'none';
-  document.getElementById('followingContent').style.display = tabName === 'following' ? 'block' : 'none';
-  document.getElementById('recentContent').style.display = tabName === 'recent' ? 'block' : 'none';
-}
+        // সবকটি নেভিগেশন আইটেম ডিঅ্যাক্টিভ করা
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => item.classList.remove('active'));
 
-/* MODAL HELPERS */
-function openRanking(){ document.getElementById('rankModal').classList.add('show'); }
-function openCPZone(){ document.getElementById('cpModal').classList.add('show'); }
-function openFamilyPage(){ document.getElementById('familyModal').classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-
-/* PROFILE EDITING LOGIC */
-function openProfileDetail() { document.getElementById('profileDetailModal').classList.add('show'); }
-function closeProfileDetail() { document.getElementById('profileDetailModal').classList.remove('show'); }
-
-function openEditProfile() {
-  document.getElementById('editNameInput').value = document.getElementById('userNameMain').innerText;
-  document.getElementById('editBioInput').value = document.getElementById('detailBio').innerText;
-  document.getElementById('editProfileModal').classList.add('show');
-}
-function closeEditProfile() { document.getElementById('editProfileModal').classList.remove('show'); }
-
-function saveProfile() {
-  const newName = document.getElementById('editNameInput').value;
-  const newBio = document.getElementById('editBioInput').value;
-  if(newName.trim()){
-    document.getElementById('userNameMain').innerText = newName;
-    document.getElementById('detailName').innerText = newName;
-  }
-  if(newBio.trim()){
-    document.getElementById('detailBio').innerText = newBio;
-  }
-  closeEditProfile();
-  showToast('Profile Updated Successfully!');
-}
-
-function changeAvatar() {
-  const sampleAvatars = [
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
-    'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80',
-    'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80'
-  ];
-  const randomImg = sampleAvatars[Math.floor(Math.random() * sampleAvatars.length)];
-  document.getElementById('editAvatarPreview').src = randomImg;
-  document.getElementById('userAvatarMain').src = randomImg;
-  document.getElementById('detailAvatar').src = randomImg;
-  showToast('Avatar Changed!');
-}
-
-/* VOICE ROOM LOGIC */
-function enterRoom(title, avatar) {
-  document.getElementById('roomTitleText').innerHTML = title + ' <span class="v-tag-badge">Party</span>';
-  document.getElementById('roomHostAvatar').src = avatar;
-  document.getElementById('roomCenterImg').src = avatar;
-  document.getElementById('roomScreen').classList.add('show');
-}
-function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
-
-function toggleMic(btn) {
-  if(btn.innerText === '🎙️') {
-    btn.innerText = '🔇';
-    btn.style.background = 'rgba(239, 68, 68, 0.6)';
-    showToast('Microphone Muted');
-  } else {
-    btn.innerText = '🎙️';
-    btn.style.background = 'rgba(0,0,0,0.4)';
-    showToast('Microphone Unmuted');
-  }
-}
-
-/* GIFT MODAL CONTROLS */
-function openGiftModal() { document.getElementById('giftModal').classList.add('show'); }
-function closeGiftModal() { document.getElementById('giftModal').classList.remove('show'); }
-function closeGiftModalBg(e) { if(e.target.id === 'giftModal') closeGiftModal(); }
-function sendGift() { showToast('Gift Sent Successfully! 🎁'); closeGiftModal(); }
-
-/* GAME MODAL CONTROLS */
-function openGameModal() { document.getElementById('gameModal').classList.add('show'); }
-function closeGameModal() { document.getElementById('gameModal').classList.remove('show'); }
-function closeGameModalBg(e) { if(e.target.id === 'gameModal') closeGameModal(); }
-
-function launchGame(gameName) {
-  closeGameModal();
-  if (gameName === 'Fruit Slot' || gameName === 'Lucky Fruit') {
-    openLuckyFruit();
-  } else {
-    showToast('Launching ' + gameName + '...');
-  }
-}
-
-/* PWA UPDATE SIMULATION */
-function applyUpdate() {
-  document.getElementById('updateBanner').style.display = 'none';
-  showToast('App Updated Successfully!');
-}
-
-/* TOAST MESSAGE SYSTEM */
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-/* ==================== LUCKY FRUIT LOGIC ==================== */
-const FRUITS = [
-  { name: "Orange", icon: "🍊", rate: 5 },
-  { name: "Lemon", icon: "🍋", rate: 5 },
-  { name: "Grapes", icon: "🍇", rate: 5 },
-  { name: "Apple", icon: "🍏", rate: 10 },
-  { name: "Mango", icon: "🥭", rate: 45 },
-  { name: "Papaya", icon: "🪅", rate: 25 },
-  { name: "Watermelon", icon: "🍉", rate: 15 },
-  { name: "Cherry", icon: "🍒", rate: 5 }
-];
-
-let userBalance = 8458;
-let todayWinnings = 0;
-let currentSelectedChip = 100;
-let myBets = [0, 0, 0, 0, 0, 0, 0, 0];
-let currentRound = 1;
-let gameState = 'SELECT'; // SELECT, LOTTERY, RESULT
-let timerSeconds = 30;
-let gameLoopInterval = null;
-let animInterval = null;
-
-function openLuckyFruit() {
-  document.getElementById('luckyFruitModal').classList.add('show');
-  updateLFUI();
-}
-function closeLuckyFruit() {
-  document.getElementById('luckyFruitModal').classList.remove('show');
-}
-function closeLuckyFruitBg(e) {
-  if (e.target.id === 'luckyFruitModal') closeLuckyFruit();
-}
-
-function selectChip(amount, el) {
-  currentSelectedChip = amount;
-  document.querySelectorAll('.lf-chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function placeBet(index) {
-  if (gameState !== 'SELECT') {
-    showToast('Wait for the next round!');
-    return;
-  }
-
-  const activeBetsCount = myBets.filter(b => b > 0).length;
-  if (myBets[index] === 0 && activeBetsCount >= 6) {
-    showToast('Maximum 6 fruit bets allowed!');
-    return;
-  }
-
-  if (userBalance < currentSelectedChip) {
-    showToast('Not enough coins!');
-    return;
-  }
-
-  userBalance -= currentSelectedChip;
-  myBets[index] += currentSelectedChip;
-  updateLFUI();
-}
-
-function updateLFUI() {
-  document.getElementById('lfBalance').innerText = userBalance;
-  document.getElementById('profileCoinVal').innerText = userBalance;
-  document.querySelectorAll('.global-coin-badge').forEach(el => el.innerText = userBalance);
-  document.getElementById('lfWinToday').innerText = todayWinnings;
-  document.getElementById('lfRoundText').innerText = `Round ${currentRound} of today`;
-
-  myBets.forEach((amount, i) => {
-    const betTag = document.getElementById(`bet-${i}`);
-    const cell = document.getElementById(`cell-${i}`);
-    if (amount > 0) {
-      betTag.innerText = amount >= 1000 ? (amount / 1000) + 'K' : amount;
-      betTag.style.display = 'block';
-      cell.classList.add('active-bet');
-    } else {
-      betTag.style.display = 'none';
-      cell.classList.remove('active-bet');
+        // সিলেক্ট করা ট্যাব ও নেভিগেশন চালু করা
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+        document.getElementById('topTitle').innerText = titleText;
     }
-  });
-}
 
-function startFruitGameEngine() {
-  if (gameLoopInterval) clearInterval(gameLoopInterval);
+    // ২. গেম ইন্টারঅ্যাকশন ও হিস্ট্রি লজিক
+    let gameHistory = [];
 
-  gameLoopInterval = setInterval(() => {
-    timerSeconds--;
+    function playGame(gameName, resultText) {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const logEntry = {
+            game: gameName,
+            result: resultText,
+            timestamp: time
+        };
 
-    if (gameState === 'SELECT') {
-      document.getElementById('lfStateTitle').innerText = `Select Time: ${timerSeconds}s`;
-      document.getElementById('lfCenterNum').innerText = timerSeconds;
+        // ডিসপ্লে আপডেট
+        document.getElementById('gameDisplay').innerText = `${gameName}: ${resultText}`;
 
-      if (timerSeconds <= 0) {
-        gameState = 'LOTTERY';
-        timerSeconds = 10;
-        startLotteryAnimation();
-      }
-    } else if (gameState === 'LOTTERY') {
-      document.getElementById('lfStateTitle').innerText = `Lottery Time: ${timerSeconds}s`;
-      document.getElementById('lfCenterNum').innerText = timerSeconds;
+        // হিস্ট্রির শুরুতে নতুন ডাটা যোগ
+        gameHistory.unshift(logEntry);
 
-      if (timerSeconds <= 0) {
-        gameState = 'RESULT';
-        timerSeconds = 5;
-        calculateFruitResult();
-      }
-    } else if (gameState === 'RESULT') {
-      document.getElementById('lfStateTitle').innerText = `Result Time: ${timerSeconds}s`;
-      document.getElementById('lfCenterNum').innerText = timerSeconds;
+        // ১০ম নম্বর থেকে পেছনের ডাটা অটো মুছে ফেলার লজিক (সর্বোচ্চ ৯টি ডাটা থাকবে)
+        if (gameHistory.length > 9) {
+            gameHistory.pop();
+        }
 
-      if (timerSeconds <= 0) {
-        gameState = 'SELECT';
-        timerSeconds = 30;
-        currentRound++;
-        myBets = [0, 0, 0, 0, 0, 0, 0, 0];
-        document.querySelectorAll('.lf-cell').forEach(c => c.classList.remove('highlight'));
-        updateLFUI();
-      }
+        // হিস্ট্রি রেন্ডার
+        renderHistory();
     }
-  }, 1000);
-}
 
-function startLotteryAnimation() {
-  let currIndex = 0;
-  if (animInterval) clearInterval(animInterval);
+    function renderHistory() {
+        const historyListEl = document.getElementById('historyList');
+        historyListEl.innerHTML = '';
 
-  animInterval = setInterval(() => {
-    document.querySelectorAll('.lf-cell').forEach(c => c.classList.remove('highlight'));
-    document.getElementById(`cell-${currIndex}`).classList.add('highlight');
-    currIndex = (currIndex + 1) % 8;
-  }, 120);
-}
+        if (gameHistory.length === 0) {
+            historyListEl.innerHTML = '<li class="empty-history">এখনও কোনো হিস্ট্রি নেই</li>';
+            return;
+        }
 
-function calculateFruitResult() {
-  if (animInterval) clearInterval(animInterval);
-  document.querySelectorAll('.lf-cell').forEach(c => c.classList.remove('highlight'));
-
-  const winningIndex = Math.floor(Math.random() * 8);
-  const winFruit = FRUITS[winningIndex];
-
-  document.getElementById(`cell-${winningIndex}`).classList.add('highlight');
-
-  const betOnWin = myBets[winningIndex];
-  if (betOnWin > 0) {
-    const totalWon = betOnWin * winFruit.rate;
-    userBalance += totalWon;
-    todayWinnings += totalWon;
-    showToast(`🎉 You Won ${totalWon} Coins on ${winFruit.name}!`);
-  } else if (myBets.reduce((a, b) => a + b, 0) > 0) {
-    showToast(`Oh! Result: ${winFruit.name}`);
-  }
-
-  const histRow = document.getElementById('lfHistoryList');
-  const item = document.createElement('div');
-  item.className = 'lf-hist-item';
-  item.innerText = winFruit.icon;
-  histRow.insertBefore(item, histRow.children[1]);
-
-  updateLFUI();
-}
-
-// গেম লুপ সিস্টেম শুরু
-startFruitGameEngine();
+        gameHistory.forEach((item) => {
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            li.innerHTML = `
+                <span><strong>${item.game}:</strong> ${item.result}</span>
+                <span style="color:#8888a0;">${item.timestamp}</span>
+            `;
+            historyListEl.appendChild(li);
+        });
+    }
 </script>
+
 </body>
 </html>
