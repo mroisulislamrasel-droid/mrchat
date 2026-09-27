@@ -57,24 +57,29 @@ input,textarea{font-family:inherit;outline:none}
   justify-content:center;border-radius:14px;font-size:20px;font-weight:800
 }
 
-/* BANNER & CATEGORIES */
+/* AUTO SLIDING BANNER STYLES */
 .event-slider-wrap{padding:10px 10px 4px}
 .event-slider{
   width:100%;height:145px;border-radius:20px;overflow:hidden;position:relative;
   box-shadow:0 8px 20px rgba(60,50,120,.22)
 }
-.event-slide{
-  width:100%;height:100%;position:relative;overflow:hidden;color:white;
-  background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover
+.slider-container{
+  display:flex;width:100%;height:100%;
+  transition:transform 0.5s ease-in-out;
 }
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.event-content h2{font-size:23px;margin-bottom:6px}
-.event-content p{font-size:11px;line-height:1.45;max-width:270px}
+.event-slide{
+  min-width:100%;height:100%;position:relative;overflow:hidden;color:white;
+  flex-shrink:0;
+}
+.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.35)}
+.event-content h2{font-size:20px;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.event-content p{font-size:11px;line-height:1.3;max-width:270px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
 .event-button{
-  height:33px;padding:0 16px;margin-top:11px;border-radius:17px;
-  background:white;color:#5b42df;font-weight:800;font-size:10px
+  height:30px;padding:0 14px;margin-top:10px;border-radius:15px;
+  background:white;color:#5b42df;font-weight:800;font-size:10px;width:fit-content;
 }
 
+/* CATEGORIES */
 .categories{
   display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px
 }
@@ -94,7 +99,7 @@ input,textarea{font-family:inherit;outline:none}
   color:#705ce0;font-size:9px
 }
 
-/* ROOM GRID */
+/* ROOM GRID & LISTS */
 .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
 .room-card{
   height:205px;border-radius:19px;overflow:hidden;position:relative;
@@ -106,6 +111,14 @@ input,textarea{font-family:inherit;outline:none}
 .room-name{font-weight:800;font-size:13px;margin-bottom:5px}
 .room-meta{font-size:10px;display:flex;justify-content:space-between}
 .live{display:inline-flex;align-items:center;gap:4px;color:#ff405d;font-weight:bold}
+
+.following-list, .recent-list{display:flex;flex-direction:column;gap:10px;padding:10px}
+.follow-item, .recent-item{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;padding:12px;border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+.follow-info, .recent-info{display:flex;align-items:center;gap:12px}
+.follow-avatar, .recent-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover}
 
 /* BOTTOM MAIN NAV */
 .bottom-nav{
@@ -129,18 +142,7 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:inset 0 1px 2px rgba(255,255,255,.9),0 3px 8px rgba(90,65,220,.12)
 }
 
-/* OTHER PAGES */
-.page-header{
-  height:62px;background:white;display:flex;align-items:center;
-  justify-content:center;font-size:18px;font-weight:900;
-  position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(30,30,70,.06)
-}
-.empty-area{
-  min-height:calc(100vh - 145px);display:flex;align-items:center;
-  justify-content:center;text-align:center;color:#aaa
-}
-
-/* VOICE ROOM SCREEN (WITH 10 SEATS) */
+/* VOICE ROOM SCREEN */
 #roomScreen{
   position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
   background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%)
@@ -186,7 +188,6 @@ input,textarea{font-family:inherit;outline:none}
   text-shadow:0 0 15px rgba(168,85,247,0.6);margin:2px 0 8px
 }
 
-/* 10 SEATS LAYOUT */
 .room-seats-grid{
   display:grid;grid-template-columns:repeat(5,1fr);gap:10px 4px;
   padding:0 10px;z-index:5
@@ -215,283 +216,18 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
 }
 
-/* CELEBRITY RANKING PAGE */
-.ranking-screen {
-  position: fixed; inset: 0; z-index: 999;
-  background: radial-gradient(circle at top, #2d0b00 0%, #120300 100%);
-  color: #fff; display: none; flex-direction: column; overflow: hidden;
-}
-.ranking-screen.show { display: flex; }
+/* OTHER MODALS & SCREENS */
+.ranking-screen, .cp-screen, .fam-screen { position: fixed; inset: 0; z-index: 999; display: none; flex-direction: column; overflow: hidden; }
+.ranking-screen.show, .cp-screen.show, .fam-screen.show { display: flex; }
 
-.rank-header {
-  height: 55px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 15px; background: rgba(0,0,0,0.4);
-}
-.rank-back-btn { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
-.rank-title { font-weight: bold; font-size: 17px; color: #ffe599; text-transform: uppercase; }
-
-.rank-content { flex: 1; overflow-y: auto; padding: 10px 12px 80px; }
-.rank-type-tabs { display: flex; justify-content: space-around; margin-bottom: 12px; border-bottom: 1px solid rgba(255,215,0,0.2); padding-bottom: 5px; }
-.type-tab { background: none; border: none; color: #b3a296; font-weight: bold; font-size: 14px; padding: 6px 12px; }
-.type-tab.active { color: #fff; border-bottom: 3px solid #ffb703; }
-
-.top3-container { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px; }
-.rank-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.crown-icon { font-size: 26px; margin-bottom: -8px; }
-.avatar-frame { position: relative; border-radius: 50%; padding: 5px; display: inline-block; }
-.avatar-frame img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; }
-.frame-gold { background: linear-gradient(135deg, #ffe066, #d4af37); box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
-.badge-number { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 900; color: #000; background: #ffe066; }
-.user-name { margin-top: 8px; font-size: 12px; font-weight: bold; }
-.score-badge { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; padding: 2px 8px; font-size: 10px; color: #ffb703; margin-top: 3px; }
-
-.rank-list-container { display: flex; flex-direction: column; gap: 8px; }
-.rank-list-item { display: flex; align-items: center; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px 12px; }
-.rank-num { width: 25px; font-size: 13px; font-weight: bold; color: #ffb703; }
-.list-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px; }
-.list-user-info { flex: 1; font-size: 12px; font-weight: bold; color: #eee; }
-.list-score { font-size: 12px; font-weight: bold; color: #ffb703; }
-
-/* CP SCREEN */
-.cp-screen {
-  position: fixed; inset: 0; z-index: 1000;
-  background: radial-gradient(circle at top, #3b0764 0%, #1a0230 60%, #0a0014 100%);
-  display: none; flex-direction: column; overflow: hidden; color: #fff;
-}
-.cp-screen.show { display: flex; }
-
-.cp-header {
-  height: 50px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 15px; background: rgba(0, 0, 0, 0.3); z-index: 10;
-}
-.cp-back { background: none; color: #fff; font-size: 22px; cursor: pointer; }
-.cp-title { font-size: 18px; font-weight: bold; letter-spacing: 0.5px; }
-
-.cp-content { flex: 1; overflow-y: auto; padding: 10px 10px 70px; }
-
-.cp-top-tabs { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
-.cp-tab {
-  flex: 1; height: 36px; border-radius: 18px;
-  background: linear-gradient(90deg, #d946ef, #c084fc);
-  color: #fff; font-size: 12px; font-weight: bold;
-  border: 1px solid rgba(255,255,255,0.4);
-  box-shadow: 0 2px 8px rgba(217, 70, 239, 0.4);
-  cursor: pointer;
-}
-.cp-tab.active { background: linear-gradient(90deg, #ec4899, #f43f5e); border: 2px solid #fff; }
-
-.cp-floating-btns { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 10px; }
-.help-btn { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; color: #fff; font-weight: bold; font-size: 16px; border:none; }
-.my-rewards-btn { background: linear-gradient(90deg, #f43f5e, #fb7185); padding: 6px 14px; border-radius: 15px; font-size: 11px; font-weight: bold; border: 1px solid #ffedd5; }
-
-.cp-wheel-stage {
-  position: relative; width: 100%; height: 270px;
-  display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
-}
-.wheel-bg-circle {
-  position: absolute; width: 210px; height: 210px; border-radius: 50%;
-  border: 4px dashed #f59e0b;
-  background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
-}
-.wheel-center-title {
-  font-size: 28px; font-weight: 900; text-align: center;
-  background: linear-gradient(180deg, #fff, #f43f5e, #3b82f6);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-.cp-podium-card { position: absolute; width: 75px; text-align: center; }
-.cp-pair-frame {
-  width: 65px; height: 50px; margin: 0 auto; border-radius: 12px;
-  background: #f59e0b; padding: 2px; border: 2px solid #fff;
-  position: relative; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-.cp-pair-frame img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
-.cp-pair-frame img:first-child { margin-right: -6px; z-index: 1; border: 1px solid #fff; }
-.cp-rank-tag {
-  position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-  background: #ef4444; color: #fff; font-size: 9px; font-weight: bold;
-  padding: 1px 6px; border-radius: 8px; border: 1px solid #fff;
-}
-
-.pos-1 { top: 10px; left: 20px; }
-.pos-2 { top: 0px; right: 75px; }
-.pos-3 { top: 85px; right: 10px; }
-.pos-4 { bottom: 10px; right: 95px; }
-.pos-5 { bottom: 15px; left: 20px; }
-
-.timer-wrap {
-  background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 8px;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.1);
-}
-.timer-label { font-size: 11px; color: #ddd; font-weight: bold; }
-.time-box {
-  background: #3b0764; border: 1px solid #c084fc; border-radius: 6px;
-  padding: 3px 6px; font-size: 12px; font-weight: bold; color: #fff;
-}
-
-.cp-action-row { display: flex; gap: 8px; margin-bottom: 15px; }
-.cp-action-btn {
-  flex: 1; height: 40px; border-radius: 20px;
-  background: linear-gradient(180deg, #a855f7, #6b21a8);
-  border: 1px solid #e9d5ff; color: #fff; font-size: 11px; font-weight: bold;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3); cursor: pointer;
-}
-.cp-action-btn.active { background: linear-gradient(180deg, #ec4899, #be123c); }
-
-.this-week-box {
-  background: rgba(20, 5, 35, 0.7); border: 1px solid #a855f7;
-  border-radius: 16px; padding: 12px;
-}
-.this-week-header {
-  text-align: center; font-size: 15px; font-weight: bold; color: #fde047;
-  margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-
-.cp-list-row {
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255,255,255,0.05); border-radius: 12px;
-  padding: 8px 10px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.08);
-}
-.cp-rank-badge { font-size: 11px; font-weight: 900; color: #fde047; width: 45px; }
-.cp-couples { display: flex; align-items: center; gap: 6px; flex: 1; }
-.cp-user-img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #f43f5e; object-fit: cover; }
-.cp-names { font-size: 11px; font-weight: bold; color: #eee; }
-.cp-points { font-size: 12px; font-weight: bold; color: #fde047; }
-
-.my-cp-footer {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-  background: linear-gradient(90deg, #ec4899, #8b5cf6);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 15px; border-top: 2px solid #fff;
-}
-.my-cp-left { display: flex; align-items: center; gap: 8px; }
-.my-cp-imgs { display: flex; align-items: center; }
-.my-cp-imgs img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #fff; }
-.my-cp-imgs img:last-child { margin-left: -8px; }
-
-/* ------------------------------------------------------------- */
-/* FAMILY PAGE DESIGN (EXACTLY MATCHING SCREENSHOTS) */
-/* ------------------------------------------------------------- */
-.fam-screen {
-  position: fixed; inset: 0; z-index: 1000;
-  background: #110323; display: none; flex-direction: column; overflow: hidden; color: #fff;
-}
-.fam-screen.show { display: flex; }
-
-.fam-header {
-  height: 55px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 15px; background: rgba(0,0,0,0.3); z-index: 10;
-}
+/* FAMILY SCREEN EXCLUSIVES */
+.fam-screen { background: #110323; color: #fff; }
+.fam-header { height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(0,0,0,0.3); z-index: 10; }
 .fam-back { background: none; color: #fff; font-size: 22px; cursor: pointer; }
 .fam-top-tabs { display: flex; gap: 20px; font-size: 16px; font-weight: bold; }
 .fam-top-tab { color: #888; cursor: pointer; position: relative; padding-bottom: 4px; }
 .fam-top-tab.active { color: #fff; border-bottom: 3px solid #3b82f6; }
-
 .fam-content { flex: 1; overflow-y: auto; padding-bottom: 30px; }
-
-/* MY FAMILY SECTION */
-.my-fam-hero {
-  position: relative; width: 100%; min-height: 280px;
-  background: linear-gradient(180deg, rgba(20,5,30,0.4) 0%, #110323 100%), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80') center/cover;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 10px 10px;
-}
-.fam-wings-frame {
-  position: relative; width: 130px; height: 130px; display: flex;
-  align-items: center; justify-content: center; margin-bottom: 5px;
-}
-.fam-wings-frame img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #ffd700; object-fit: cover; }
-.fam-wings-icon { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.fam-title-text { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; }
-.fam-badge-btn {
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8); padding: 4px 14px;
-  border-radius: 15px; font-size: 11px; font-weight: bold; display: flex; align-items: center; gap: 5px;
-}
-
-.top-fam-bar {
-  background: linear-gradient(90deg, #f59e0b, #d97706);
-  margin: 10px 12px; padding: 10px 14px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: space-between; font-weight: bold; font-size: 13px;
-}
-.top-fam-badges { display: flex; gap: 6px; }
-.top-fam-badge { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 10px; font-size: 10px; }
-
-.exp-box {
-  background: linear-gradient(135deg, #0284c7, #0369a1);
-  margin: 0 12px 12px; padding: 14px; border-radius: 16px; position: relative;
-}
-.exp-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.exp-bar-bg { background: rgba(0,0,0,0.3); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
-.exp-bar-fill { width: 95%; height: 100%; background: #f59e0b; border-radius: 4px; }
-.exp-task-btn { background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 10px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
-
-.owner-card {
-  background: #1e1135; margin: 0 12px 15px; padding: 12px; border-radius: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.owner-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-.owner-info { flex: 1; }
-.owner-name-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; }
-.owner-tag { background: #3b82f6; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
-
-.fam-stars-sec { padding: 0 12px 15px; }
-.fam-stars-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; }
-.fam-stars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.fam-star-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-  border-radius: 12px; padding: 10px 5px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
-}
-.star-card-header { font-size: 11px; font-weight: bold; padding: 3px; border-radius: 6px; margin-bottom: 8px; }
-.star-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #f59e0b; margin-bottom: 4px; }
-
-.fam-sub-tabs { display: flex; gap: 20px; padding: 0 15px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.fam-sub-tab { padding-bottom: 8px; color: #aaa; font-weight: bold; font-size: 13px; }
-.fam-sub-tab.active { color: #fff; border-bottom: 2px solid #fff; }
-
-/* FAMILY SQUARE SECTION */
-.square-hero {
-  background: linear-gradient(180deg, #78350f 0%, #110323 100%);
-  padding: 20px 12px; text-align: center; position: relative;
-}
-.square-title { font-size: 24px; font-weight: 900; color: #fde047; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-.square-time-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-.square-time-btn {
-  background: linear-gradient(180deg, #f59e0b, #b45309); border: 1px solid #fde047;
-  padding: 6px 20px; border-radius: 15px; color: #fff; font-size: 12px; font-weight: bold;
-}
-.square-time-btn.active { background: linear-gradient(180deg, #ef4444, #991b1b); }
-
-.sq-rank-list { padding: 0 12px; display: flex; flex-direction: column; gap: 10px; }
-.sq-rank-item {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.sq-rank-item.top1 { background: linear-gradient(90deg, #78350f, #451a03); border: 1px solid #f59e0b; }
-.sq-rank-item.top2 { background: linear-gradient(90deg, #1e3a8a, #172554); border: 1px solid #3b82f6; }
-.sq-rank-item.top3 { background: linear-gradient(90deg, #064e3b, #022c22); border: 1px solid #10b981; }
-
-.sq-rank-badge { font-size: 16px; font-weight: 900; width: 30px; text-align: center; }
-.sq-fam-info { flex: 1; display: flex; align-items: center; gap: 10px; margin-left: 5px; }
-.sq-fam-logo { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
-.sq-fam-name { font-size: 13px; font-weight: bold; }
-.sq-members-imgs { display: flex; gap: 3px; margin-top: 3px; }
-.sq-members-imgs img { width: 18px; height: 18px; border-radius: 50%; }
-.sq-score { font-size: 12px; font-weight: bold; color: #fde047; }
-
-/* MODALS & TOAST */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;
-  display:none;align-items:flex-end;justify-content:center
-}
-.modal-overlay.show{display:flex}
-.bottom-sheet{
-  width:100%;max-width:520px;background:#18112e;color:#fff;
-  border-radius:20px 20px 0 0;padding:15px;max-height:80vh;overflow-y:auto
-}
 
 #toast{
   position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
@@ -513,22 +249,75 @@ input,textarea{font-family:inherit;outline:none}
 <section id="homePage" class="page show">
   <div class="home-top">
     <div class="home-tabs">
-      <button class="home-tab">Following</button>
-      <button class="home-tab active">Popular</button>
-      <button class="home-tab">Recent</button>
+      <button class="home-tab" onclick="switchHomeTab('following')">Following</button>
+      <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
+      <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
     </div>
     <button class="top-action btn3d" onclick="showToast('Search')">⌕</button>
-    <button class="top-action btn3d primary" onclick="enterRoom('myRoom')">＋</button>
+    <button class="top-action btn3d primary" onclick="enterRoom('My Personal Room', 'https://i.pravatar.cc/150?img=12')">＋</button>
   </div>
 
+  <!-- POPULAR TAB CONTENT -->
   <div id="popularContent">
+    <!-- 8-10 SLIDING EVENT BANNERS -->
     <div class="event-slider-wrap">
       <div class="event-slider">
-        <div class="event-slide">
-          <div class="event-content">
-            <h2>MR Chat Grand Opening</h2>
-            <p>Welcome to MR Chat. Meet new people and enjoy voice rooms together.</p>
-            <button class="event-button" onclick="showToast('Welcome!')">Join Event</button>
+        <div class="slider-container" id="eventSlider">
+          <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)">
+            <div class="event-content">
+              <h2>🎉 MRChat Grand Opening</h2>
+              <p>Welcome to MRChat! Enjoy voice rooms, gifting and meet new friends.</p>
+              <button class="event-button" onclick="showToast('Event Joined!')">Join Event</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)">
+            <div class="event-content">
+              <h2>👑 CP Star Battle</h2>
+              <p>Win 1,000,000 Diamonds with your best partner this week!</p>
+              <button class="event-button" onclick="openCPZone()">View CP</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)">
+            <div class="event-content">
+              <h2>🏆 Family Season Stars</h2>
+              <p>Represent your family and reach TOP 1 ranking for rewards.</p>
+              <button class="event-button" onclick="openFamilyPage()">Family Page</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#2563eb,#3b82f6)">
+            <div class="event-content">
+              <h2>💎 Diamond Gifting Carnival</h2>
+              <p>Get 20% Extra bonus diamonds on top-up today!</p>
+              <button class="event-button" onclick="showToast('Recharge Bonus Active')">Top Up</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#7c3aed,#a855f7)">
+            <div class="event-content">
+              <h2>🎤 MRChat Voice Idol</h2>
+              <p>Show your singing talent in room #101 and win prizes.</p>
+              <button class="event-button" onclick="showToast('Registered for Singing Contest')">Register</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#db2777,#f43f5e)">
+            <div class="event-content">
+              <h2>🌹 Romantic Midnight Party</h2>
+              <p>Find your special one at 12:00 AM tonight!</p>
+              <button class="event-button" onclick="showToast('Party Reminder Set')">Set Alarm</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#4b5563,#9ca3af)">
+            <div class="event-content">
+              <h2>🛡️ VIP Privilege Upgrade</h2>
+              <p>Unlock custom avatar frames and exclusive room entrance.</p>
+              <button class="event-button" onclick="showToast('VIP Info')">Upgrade</button>
+            </div>
+          </div>
+          <div class="event-slide" style="background:linear-gradient(110deg,#0284c7,#06b6d4)">
+            <div class="event-content">
+              <h2>🎁 Weekend Lucky Wheel</h2>
+              <p>Spin the wheel and win rare virtual cars and crowns.</p>
+              <button class="event-button" onclick="showToast('Spinning Wheel...')">Spin Now</button>
+            </div>
           </div>
         </div>
       </div>
@@ -538,7 +327,6 @@ input,textarea{font-family:inherit;outline:none}
     <div class="categories">
       <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
       <button class="category btn3d" onclick="openCPZone()"><div class="icon">💜</div>CP</button>
-      <!-- FAMILY BUTTON OPENS FAMILY PAGE -->
       <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
     </div>
 
@@ -547,7 +335,7 @@ input,textarea{font-family:inherit;outline:none}
     </div>
 
     <div class="room-grid">
-      <div class="room-card" onclick="enterRoom('room1')">
+      <div class="room-card" onclick="enterRoom('Friendship Lounge', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
         <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
         <div class="room-overlay"></div>
         <div class="room-info">
@@ -556,68 +344,58 @@ input,textarea{font-family:inherit;outline:none}
         </div>
       </div>
 
-      <div class="room-card" onclick="enterRoom('room2')">
+      <div class="room-card" onclick="enterRoom('Night Friends Board', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
         <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
         <div class="room-overlay"></div>
         <div class="room-info">
-          <div class="room-name">Night Friends</div>
+          <div class="room-name">Night Friends Board</div>
           <div class="room-meta"><span class="live">● Live</span><span>86</span></div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- 2. DISCOVER PAGE -->
-<section id="discoverPage" class="page">
-  <div class="page-header">Discover</div>
-  <div class="empty-area"><b>Discover Page</b></div>
-</section>
-
-<!-- 3. MOMENT PAGE -->
-<section id="momentPage" class="page">
-  <div class="page-header">Moment</div>
-  <div class="empty-area"><b>No Moments Yet</b></div>
-</section>
-
-<!-- 4. MESSAGE PAGE -->
-<section id="messagePage" class="page">
-  <div class="page-header">Message</div>
-  <div style="padding:10px">
-    <div style="display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.03)">
-      <div style="font-size:24px">🎁</div>
-      <div>
-        <div style="font-size:14px;font-weight:bold;color:#111">Gift Notifications</div>
-        <div style="font-size:11px;color:#888;margin-top:2px">System updates and rewards</div>
+  <!-- FOLLOWING TAB CONTENT -->
+  <div id="followingContent" style="display:none">
+    <div class="following-list">
+      <div class="follow-item">
+        <div class="follow-info">
+          <img class="follow-avatar" src="https://i.pravatar.cc/150?img=32">
+          <div>
+            <div style="font-weight:bold;font-size:14px">সাদিয়া রহমান 🇧🇩</div>
+            <div style="font-size:11px;color:#888">ID: 100823 · In Room: <b style="color:#5b42df">জিরো পয়েন্ট</b></div>
+          </div>
+        </div>
+        <button class="btn3d primary" style="padding:6px 12px;font-size:11px" onclick="enterRoom('জিরো পয়েন্ট', 'https://i.pravatar.cc/150?img=32')">Join Room</button>
       </div>
+
+      <div class="follow-item">
+        <div class="follow-info">
+          <img class="follow-avatar" src="https://i.pravatar.cc/150?img=11">
+          <div>
+            <div style="font-weight:bold;font-size:14px">Arif Hossain</div>
+            <div style="font-size:11px;color:#888">ID: 994820 · Offline</div>
+          </div>
+        </div>
+        <button class="btn3d" style="padding:6px 12px;font-size:11px;color:#666">Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT TAB CONTENT -->
+  <div id="recentContent" style="display:none">
+    <div class="recent-list" id="recentRoomsContainer">
+      <div style="text-align:center;color:#aaa;padding:30px 0">আপনি সম্প্রতি কোনো বোর্ডে যাননি।</div>
     </div>
   </div>
 </section>
 
-<!-- 5. ME PAGE -->
-<section id="mePage" class="page">
-  <div style="padding:20px 14px 25px;color:white;background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px">
-    <div style="display:flex;align-items:center">
-      <img style="width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover" src="https://i.pravatar.cc/200?img=12">
-      <div style="padding-left:12px;flex:1">
-        <h2>Mia Vai 🇧🇩</h2>
-        <p style="font-size:11px;opacity:.8">ID: 349200 · VIP 3</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MAIN NAVIGATION -->
+<!-- NAVIGATION BOTTOM -->
 <nav class="bottom-nav">
   <button class="nav-item active" onclick="switchPage('homePage', this)">
     <div class="nav-icon">🏠</div><span>Home</span>
   </button>
-  <button class="nav-item" onclick="switchPage('discoverPage', this)">
-    <div class="nav-icon">🧭</div><span>Discover</span>
-  </button>
-  <button class="nav-item" onclick="switchPage('momentPage', this)">
-    <div class="nav-icon">📸</div><span>Moment</span>
-  </button>
+
   <button class="nav-item" onclick="switchPage('messagePage', this)">
     <div class="nav-icon">💬</div><span>Message</span>
   </button>
@@ -630,9 +408,9 @@ input,textarea{font-family:inherit;outline:none}
 <div id="roomScreen">
   <div class="room-top">
     <div class="room-profile">
-      <img class="room-avatar" src="https://i.pravatar.cc/100?img=33">
+      <img id="currentRoomImg" class="room-avatar" src="https://i.pravatar.cc/100?img=33">
       <div class="room-meta">
-        <b>জিরো পয়েন্ট</b>
+        <b id="currentRoomTitle">জিরো পয়েন্ট</b>
         <small>ID:349200 👤1</small>
       </div>
     </div>
@@ -665,125 +443,11 @@ input,textarea{font-family:inherit;outline:none}
 
   <div class="room-bottom-controls">
     <button class="say-hi-btn">Say Hi</button>
-    <div class="room-gift-btn" onclick="openModal('giftModal')">🎁</div>
+    <div class="room-gift-btn" onclick="showToast('Sending Gift...')">🎁</div>
   </div>
 </div>
 
-<!-- CELEBRITY RANKING SCREEN -->
-<div id="rankingModal" class="ranking-screen">
-  <div class="rank-header">
-    <button class="rank-back-btn" onclick="closeRanking()">❮</button>
-    <span class="rank-title">Celebrity Ranking</span>
-    <span style="font-size:18px">🏆</span>
-  </div>
-
-  <div class="rank-content">
-    <div class="rank-type-tabs">
-      <button class="type-tab active">Contribution</button>
-      <button class="type-tab">Charm</button>
-      <button class="type-tab">Room</button>
-    </div>
-
-    <div id="top3Container" class="top3-container"></div>
-    <div id="rankListContainer" class="rank-list-container"></div>
-  </div>
-</div>
-
-<!-- CP RANKING SCREEN -->
-<div id="cpZoneModal" class="cp-screen">
-  <div class="cp-header">
-    <button class="cp-back" onclick="closeCPZone()">❮</button>
-    <span class="cp-title">Rankings</span>
-    <div style="font-size:20px">📅</div>
-  </div>
-
-  <div class="cp-content">
-    <div class="cp-top-tabs">
-      <button class="cp-tab active">CP weekly</button>
-      <button class="cp-tab">CP Total</button>
-      <button class="cp-tab">Blessings</button>
-    </div>
-
-    <div class="cp-floating-btns">
-      <button class="help-btn">?</button>
-      <button class="my-rewards-btn">My Rewards</button>
-    </div>
-
-    <div class="cp-wheel-stage">
-      <div class="wheel-bg-circle">
-        <div class="wheel-center-title">CP<br>Star</div>
-      </div>
-
-      <div class="cp-podium-card pos-1">
-        <div class="cp-pair-frame">
-          <img src="https://i.pravatar.cc/100?img=33"><img src="https://i.pravatar.cc/100?img=44">
-          <div class="cp-rank-tag">💖 1</div>
-        </div>
-      </div>
-      <div class="cp-podium-card pos-2">
-        <div class="cp-pair-frame">
-          <img src="https://i.pravatar.cc/100?img=12"><img src="https://i.pravatar.cc/100?img=25">
-          <div class="cp-rank-tag">💖 2</div>
-        </div>
-      </div>
-      <div class="cp-podium-card pos-3">
-        <div class="cp-pair-frame">
-          <img src="https://i.pravatar.cc/100?img=60"><img src="https://i.pravatar.cc/100?img=5">
-          <div class="cp-rank-tag">💖 3</div>
-        </div>
-      </div>
-      <div class="cp-podium-card pos-4">
-        <div class="cp-pair-frame">
-          <img src="https://i.pravatar.cc/100?img=11"><img src="https://i.pravatar.cc/100?img=20">
-          <div class="cp-rank-tag">💖 4</div>
-        </div>
-      </div>
-      <div class="cp-podium-card pos-5">
-        <div class="cp-pair-frame">
-          <img src="https://i.pravatar.cc/100?img=68"><img src="https://i.pravatar.cc/100?img=29">
-          <div class="cp-rank-tag">💖 5</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="timer-wrap">
-      <span class="timer-label">CountDown</span>
-      <div class="time-box">00</div> <span style="font-size:10px">Days</span>
-      <div class="time-box" id="cd-hours">16</div> :
-      <div class="time-box" id="cd-mins">56</div> :
-      <div class="time-box" id="cd-secs">30</div>
-    </div>
-
-    <div class="cp-action-row">
-      <button class="cp-action-btn active">Ranking</button>
-      <button class="cp-action-btn">Ranking Rewards</button>
-      <button class="cp-action-btn">Weekly Reward</button>
-    </div>
-
-    <div class="this-week-box">
-      <div class="this-week-header">
-        <span>👑</span> This Week Ranking <span>👑</span>
-      </div>
-      <div id="cpListContainer"></div>
-    </div>
-  </div>
-
-  <div class="my-cp-footer">
-    <div class="my-cp-left">
-      <span style="font-size:11px;font-weight:900;">TOP 73</span>
-      <div class="my-cp-imgs">
-        <img src="https://i.pravatar.cc/100?img=49">
-        <img src="https://i.pravatar.cc/100?img=12">
-      </div>
-      <div style="font-size:11px;font-weight:bold;">শীতল 💕 Mia Vai</div>
-    </div>
-    <div style="font-size:12px;font-weight:bold;">13.3K 💖</div>
-  </div>
-</div>
-
-<!-- ------------------------------------------------------------- -->
-/* FAMILY SCREEN (NEW FEATURE BASED ON SCREENSHOTS) */
-<!-- ------------------------------------------------------------- -->
+<!-- FAMILY SCREEN (FROM SCREENSHOTS) -->
 <div id="familyModal" class="fam-screen">
   <div class="fam-header">
     <button class="fam-back" onclick="closeFamilyPage()">❮</button>
@@ -793,180 +457,16 @@ input,textarea{font-family:inherit;outline:none}
     </div>
     <div style="font-size:20px;color:#fff">❓</div>
   </div>
-
   <div class="fam-content">
-    <!-- MY FAMILY VIEW -->
     <div id="myFamilyView">
-      <div class="my-fam-hero">
-        <div class="fam-wings-frame">
-          <img src="https://i.pravatar.cc/150?img=33">
-        </div>
-        <div class="fam-title-text">ফরিদপুর</div>
-        <div class="fam-badge-btn">
-          <span>👥 336/500</span> ❯
-        </div>
-      </div>
-
-      <div class="top-fam-bar">
-        <span>★ TOP Family</span>
-        <div class="top-fam-badges">
-          <span class="top-fam-badge">TOP 1</span>
-          <span class="top-fam-badge">TOP 2</span>
-          <span class="top-fam-badge">TOP 3</span>
-        </div>
-      </div>
-
-      <div class="exp-box">
-        <div class="exp-row">
-          <span style="font-weight:bold;font-size:13px">Family level exp <b style="color:#fde047">76442/80000</b></span>
-          <span style="font-size:11px;color:#ddd">Next family level process</span>
-        </div>
-        <div class="exp-bar-bg">
-          <div class="exp-bar-fill"></div>
-        </div>
-        <div class="exp-task-btn">
-          <span>My monthly task: <b>Get EXP and Gift</b></span>
-          <span style="color:#fde047">EXP *2894 ❯</span>
-        </div>
-      </div>
-
-      <div class="owner-card">
-        <img class="owner-avatar" src="https://i.pravatar.cc/100?img=12">
-        <div class="owner-info">
-          <div class="owner-name-row">
-            <span>বর্তমান</span>
-            <span class="owner-tag">Owner</span>
-          </div>
-          <div style="font-size:11px;color:#aaa;margin-top:2px">ID:100095059 | 🇧🇩 Bangladesh</div>
-        </div>
-      </div>
-
-      <div class="fam-stars-sec">
-        <div class="fam-stars-title">
-          <span>Family season stars</span>
-          <span style="font-size:12px;color:#aaa">Ranking ❯</span>
-        </div>
-        <div class="fam-stars-grid">
-          <div class="fam-star-card">
-            <div class="star-card-header" style="background:#f59e0b;color:#000">Gift Giving</div>
-            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
-            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
-            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
-          </div>
-          <div class="fam-star-card">
-            <div class="star-card-header" style="background:#ec4899;color:#fff">Receiving Gifts</div>
-            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
-            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
-            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
-          </div>
-          <div class="fam-star-card">
-            <div class="star-card-header" style="background:#3b82f6;color:#fff">Room</div>
-            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
-            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
-            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fam-sub-tabs">
-        <span class="fam-sub-tab active">Room</span>
-        <span class="fam-sub-tab">Contribution</span>
-        <span class="fam-sub-tab">Activity</span>
+      <div style="text-align:center;padding:20px">
+        <h2>ফরিদপুর ফ্যামিলি</h2>
+        <p style="font-size:12px;color:#aaa">336 / 500 Members</p>
       </div>
     </div>
-
-    <!-- FAMILY SQUARE VIEW -->
-    <div id="famSquareView" style="display:none">
-      <div class="square-hero">
-        <div class="square-title">Family Ranking</div>
-        <div class="square-time-tabs">
-          <button class="square-time-btn active">Daily</button>
-          <button class="square-time-btn">Weekly</button>
-          <button class="square-time-btn">Season</button>
-        </div>
-        <div style="font-size:12px;color:#ccc;margin-bottom:10px">2026-09-27</div>
-      </div>
-
-      <div class="sq-rank-list">
-        <div class="sq-rank-item top1">
-          <div class="sq-rank-badge" style="color:#fde047">1</div>
-          <div class="sq-fam-info">
-            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=33">
-            <div>
-              <div class="sq-fam-name">BD King ♔</div>
-              <div class="sq-members-imgs">
-                <img src="https://i.pravatar.cc/100?img=1"><img src="https://i.pravatar.cc/100?img=2"><img src="https://i.pravatar.cc/100?img=3">
-              </div>
-            </div>
-          </div>
-          <div class="sq-score">👑 x4645</div>
-        </div>
-
-        <div class="sq-rank-item top2">
-          <div class="sq-rank-badge" style="color:#93c5fd">2</div>
-          <div class="sq-fam-info">
-            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=44">
-            <div>
-              <div class="sq-fam-name">Friends & Family</div>
-              <div class="sq-members-imgs">
-                <img src="https://i.pravatar.cc/100?img=4"><img src="https://i.pravatar.cc/100?img=5"><img src="https://i.pravatar.cc/100?img=6">
-              </div>
-            </div>
-          </div>
-          <div class="sq-score">👑 x3809</div>
-        </div>
-
-        <div class="sq-rank-item top3">
-          <div class="sq-rank-badge" style="color:#6ee7b7">3</div>
-          <div class="sq-fam-info">
-            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=55">
-            <div>
-              <div class="sq-fam-name">Sk Sagor...</div>
-              <div class="sq-members-imgs">
-                <img src="https://i.pravatar.cc/100?img=7"><img src="https://i.pravatar.cc/100?img=8"><img src="https://i.pravatar.cc/100?img=9">
-              </div>
-            </div>
-          </div>
-          <div class="sq-score">👑 x1394</div>
-        </div>
-
-        <div class="sq-rank-item">
-          <div class="sq-rank-badge">04</div>
-          <div class="sq-fam-info">
-            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=60">
-            <div>
-              <div class="sq-fam-name">BAND OF BROTHERS</div>
-              <div class="sq-members-imgs">
-                <img src="https://i.pravatar.cc/100?img=10"><img src="https://i.pravatar.cc/100?img=11"><img src="https://i.pravatar.cc/100?img=12">
-              </div>
-            </div>
-          </div>
-          <div class="sq-score">👑 x1301</div>
-        </div>
-
-        <div class="sq-rank-item">
-          <div class="sq-rank-badge">05</div>
-          <div class="sq-fam-info">
-            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=65">
-            <div>
-              <div class="sq-fam-name">কুঁড়েঘর ফ্যামিলি</div>
-              <div class="sq-members-imgs">
-                <img src="https://i.pravatar.cc/100?img=13"><img src="https://i.pravatar.cc/100?img=14"><img src="https://i.pravatar.cc/100?img=15">
-              </div>
-            </div>
-          </div>
-          <div class="sq-score">👑 x776</div>
-        </div>
-      </div>
+    <div id="famSquareView" style="display:none;padding:20px;text-align:center">
+      <h2>Family Ranking Square</h2>
     </div>
-  </div>
-</div>
-
-<!-- GIFT MODAL -->
-<div id="giftModal" class="modal-overlay" onclick="closeModalOnBg(event, 'giftModal')">
-  <div class="bottom-sheet">
-    <h3 style="margin-bottom:10px">Send Gift</h3>
-    <button style="background:#8066ff;color:#fff;padding:8px 15px;border-radius:10px" onclick="sendGift('Mia Vai 🇧🇩', 50000)">Send Castle 🏰 (50k)</button>
   </div>
 </div>
 
@@ -975,136 +475,80 @@ input,textarea{font-family:inherit;outline:none}
 </div>
 
 <script>
-// DEMO DATA FOR CELEBRITY RANKING
-let usersData = [
-  { name: "Mahim 🇧🇩", gems: 35539998, avatar: "https://i.pravatar.cc/150?img=33" },
-  { name: "WASHIM 🇸🇦", gems: 13369000, avatar: "https://i.pravatar.cc/150?img=12" },
-  { name: "SK SAGOR 🇮🇳", gems: 9449110, avatar: "https://i.pravatar.cc/150?img=68" }
-];
-for (let i = 4; i <= 100; i++) {
-  usersData.push({
-    name: "User " + i,
-    gems: Math.floor(Math.random() * 5000000) + 1000,
-    avatar: `https://i.pravatar.cc/100?img=${i % 70}`
-  });
-}
+// SLIDER AUTOMATION LOGIC
+let slideIndex = 0;
+const slider = document.getElementById('eventSlider');
+const totalSlides = 8;
 
-// DEMO DATA FOR CP RANKING
-let cpRankingsData = [
-  { rank: "TOP 1", name1: "WASHIM", name2: "পূর্ণা", img1: "https://i.pravatar.cc/100?img=33", img2: "https://i.pravatar.cc/100?img=44", points: 529700 },
-  { rank: "TOP 2", name1: "AKASH", name2: "Miu", img1: "https://i.pravatar.cc/100?img=12", img2: "https://i.pravatar.cc/100?img=25", points: 433000 },
-  { rank: "TOP 3", name1: "Arian", name2: "Nusrat", img1: "https://i.pravatar.cc/100?img=60", img2: "https://i.pravatar.cc/100?img=5", points: 359300 }
-];
-for (let i = 4; i <= 100; i++) {
-  cpRankingsData.push({
-    rank: "TOP " + i,
-    name1: "Boy " + i,
-    name2: "Girl " + i,
-    img1: `https://i.pravatar.cc/100?img=${(i*2) % 70}`,
-    img2: `https://i.pravatar.cc/100?img=${(i*2+1) % 70}`,
-    points: Math.floor(Math.random() * 300000) + 5000
-  });
-}
+setInterval(() => {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+}, 3000);
 
-// RENDER CELEBRITY RANKINGS
-function renderRankings() {
-  usersData.sort((a, b) => b.gems - a.gems);
-  const top3Container = document.getElementById('top3Container');
-  const rankListContainer = document.getElementById('rankListContainer');
-  top3Container.innerHTML = '';
-  rankListContainer.innerHTML = '';
+// RECENT ROOMS TRACKER LOGIC
+let recentRooms = [];
 
-  if (usersData.length >= 1) {
-    top3Container.innerHTML = `
-      <div class="rank-card">
-        <div class="crown-icon">👑</div>
-        <div class="avatar-frame frame-gold">
-          <img src="${usersData[0].avatar}">
-          <div class="badge-number">NO.1</div>
-        </div>
-        <div class="user-name">${usersData[0].name}</div>
-        <div class="score-badge">${usersData[0].gems.toLocaleString()} 💎</div>
-      </div>
-    `;
-  }
+function enterRoom(name, img) {
+  document.getElementById('currentRoomTitle').innerText = name;
+  document.getElementById('currentRoomImg').src = img;
+  document.getElementById('roomScreen').classList.add('show');
 
-  for (let i = 1; i < usersData.length; i++) {
-    const item = document.createElement('div');
-    item.className = 'rank-list-item';
-    item.innerHTML = `
-      <div class="rank-num">${i + 1}</div>
-      <img class="list-avatar" src="${usersData[i].avatar}">
-      <div class="list-user-info">${usersData[i].name}</div>
-      <div class="list-score">${usersData[i].gems.toLocaleString()} 💎</div>
-    `;
-    rankListContainer.appendChild(item);
+  // Add room to recent list if not present
+  if (!recentRooms.some(r => r.name === name)) {
+    recentRooms.unshift({ name, img, time: 'Just now' });
+    renderRecentRooms();
   }
 }
 
-// RENDER CP 1-100 LIST
-function renderCPList() {
-  cpRankingsData.sort((a, b) => b.points - a.points);
-  const container = document.getElementById('cpListContainer');
+function leaveRoom() {
+  document.getElementById('roomScreen').classList.remove('show');
+}
+
+function renderRecentRooms() {
+  const container = document.getElementById('recentRoomsContainer');
+  if(recentRooms.length === 0) return;
   container.innerHTML = '';
 
-  cpRankingsData.forEach((item, index) => {
-    const row = document.createElement('div');
-    row.className = 'cp-list-row';
-    row.innerHTML = `
-      <div class="cp-rank-badge">TOP ${index + 1}</div>
-      <div class="cp-couples">
-        <img class="cp-user-img" src="${item.img1}">
-        <span style="color:#ec4899">💖</span>
-        <img class="cp-user-img" src="${item.img2}">
-        <div class="cp-names">${item.name1} & ${item.name2}</div>
+  recentRooms.forEach(room => {
+    const item = document.createElement('div');
+    item.className = 'recent-item';
+    item.innerHTML = `
+      <div class="recent-info">
+        <img class="recent-avatar" src="${room.img}">
+        <div>
+          <div style="font-weight:bold;font-size:14px">${room.name}</div>
+          <div style="font-size:11px;color:#888">Visited: ${room.time}</div>
+        </div>
       </div>
-      <div class="cp-points">${(item.points / 1000).toFixed(1)}K 💖</div>
+      <button class="btn3d primary" style="padding:6px 12px;font-size:11px" onclick="enterRoom('${room.name}', '${room.img}')">Re-enter</button>
     `;
-    container.appendChild(row);
+    container.appendChild(item);
   });
 }
 
-// UI NAVIGATION LOGIC
-function switchPage(pageId, element) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('show'));
-  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-  document.getElementById(pageId).classList.add('show');
-  element.classList.add('active');
-}
+// TOP HOME TAB SWITCHING (Following, Popular, Recent)
+function switchHomeTab(tab) {
+  const tabs = document.querySelectorAll('.home-tab');
+  tabs.forEach(t => t.classList.remove('active'));
 
-function enterRoom(roomId) { document.getElementById('roomScreen').classList.add('show'); }
-function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
-function openModal(modalId) { document.getElementById(modalId).classList.add('show'); }
-function closeModalOnBg(e, id) { if(e.target.id === id) document.getElementById(id).classList.remove('show'); }
+  document.getElementById('popularContent').style.display = 'none';
+  document.getElementById('followingContent').style.display = 'none';
+  document.getElementById('recentContent').style.display = 'none';
 
-function openRanking() { renderRankings(); document.getElementById('rankingModal').classList.add('show'); }
-function closeRanking() { document.getElementById('rankingModal').classList.remove('show'); }
-
-function openCPZone() { renderCPList(); document.getElementById('cpZoneModal').classList.add('show'); }
-function closeCPZone() { document.getElementById('cpZoneModal').classList.remove('show'); }
-
-/* FAMILY PAGE FUNCTIONS */
-function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
-function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
-function switchFamTab(tab) {
-  document.getElementById('tabMyFamily').classList.remove('active');
-  document.getElementById('tabFamSquare').classList.remove('active');
-  
-  if(tab === 'myFamily') {
-    document.getElementById('tabMyFamily').classList.add('active');
-    document.getElementById('myFamilyView').style.display = 'block';
-    document.getElementById('famSquareView').style.display = 'none';
-  } else {
-    document.getElementById('tabFamSquare').classList.add('active');
-    document.getElementById('myFamilyView').style.display = 'none';
-    document.getElementById('famSquareView').style.display = 'block';
+  if (tab === 'popular') {
+    tabs[1].classList.add('active');
+    document.getElementById('popularContent').style.display = 'block';
+  } else if (tab === 'following') {
+    tabs[0].classList.add('active');
+    document.getElementById('followingContent').style.display = 'block';
+  } else if (tab === 'recent') {
+    tabs[2].classList.add('active');
+    document.getElementById('recentContent').style.display = 'block';
   }
 }
 
-function sendGift(name, val) {
-  showToast('Gift Sent Successfully!');
-  closeModalOnBg({target:{id:'giftModal'}}, 'giftModal');
-}
+function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
+function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
 
 function showToast(msg) {
   const toast = document.getElementById('toast');
@@ -1112,20 +556,6 @@ function showToast(msg) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
-
-// TIMER SIMULATION
-let sec = 30, min = 56, hr = 16;
-setInterval(() => {
-  sec--;
-  if(sec < 0) { sec = 59; min--; }
-  if(min < 0) { min = 59; hr--; }
-  document.getElementById('cd-secs').innerText = sec < 10 ? '0' + sec : sec;
-  document.getElementById('cd-mins').innerText = min < 10 ? '0' + min : min;
-  document.getElementById('cd-hours').innerText = hr < 10 ? '0' + hr : hr;
-}, 1000);
-
-// Init
-renderRankings();
 </script>
 </body>
 </html>
