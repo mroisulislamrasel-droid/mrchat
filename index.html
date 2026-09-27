@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete Fixed UI</title>
+<title>MRChat Complete UI with Premium Game Panel</title>
+
+<!-- PWA Manifest Link -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f0823">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -13,7 +17,10 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 #app{width:100%;height:100%;position:relative;overflow:hidden;background:#f6f7fb;color:#222}
 
 /* PAGE CONTAINERS */
-.page{position:absolute;inset:0;background:#f7f8fc;display:none;overflow-y:auto;padding-bottom:80px;z-index:1}
+.page{
+  position:absolute;inset:0;background:#f7f8fc;display:none;
+  overflow-y:auto;padding-bottom:80px;z-index:1;
+}
 .page.show{display:block}
 
 /* 3D BUTTONS */
@@ -22,18 +29,36 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   box-shadow:0 4px 0 #c8cad3,0 6px 12px rgba(40,45,80,.12);transition:.1s
 }
 .btn3d:active{transform:translateY(3px);box-shadow:0 1px 0 #c8cad3}
-.btn3d.primary{color:white;background:linear-gradient(145deg,#8066ff,#5036df);box-shadow:0 4px 0 #3824a9}
+.btn3d.primary{
+  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
+  box-shadow:0 4px 0 #3824a9
+}
 
 /* TOP BAR */
-.home-top{height:60px;background:#fff;display:flex;align-items:center;padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.home-tabs{display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;background:#f0eff6;border-radius:14px}
-.home-tab{height:34px;padding:0 8px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#888;background:transparent;flex:1}
+.home-top{
+  height:60px;background:#fff;display:flex;align-items:center;
+  padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05)
+}
+.home-tabs{
+  display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
+  background:#f0eff6;border-radius:14px
+}
+.home-tab{
+  height:34px;padding:0 8px;border-radius:11px;display:flex;
+  align-items:center;justify-content:center;font-size:12px;font-weight:800;
+  color:#888;white-space:nowrap;background:transparent;flex:1;
+}
 .home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+
 .top-action{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:18px;font-weight:bold}
 
 /* SLIDER */
 .event-slider-wrap{padding:10px 10px 4px}
-.event-slider{width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;box-shadow:0 6px 16px rgba(0,0,0,0.15)}
+.event-slider{
+  width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15)
+}
 .slider-container{display:flex;width:100%;height:100%;transition:transform 0.5s ease-in-out}
 .event-slide{min-width:100%;height:100%;position:relative;color:white;flex-shrink:0}
 .event-content{position:absolute;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.2)}
@@ -41,7 +66,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .event-content p{font-size:11px;opacity:0.9}
 .event-btn{height:26px;padding:0 10px;margin-top:6px;border-radius:10px;background:#fff;color:#5b42df;font-weight:bold;font-size:10px;width:fit-content}
 
-/* CATEGORIES (RANK, CP, FAMILY) */
+/* CATEGORIES */
 .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px}
 .category{height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
 .category .icon{font-size:24px;margin-bottom:2px}
@@ -54,38 +79,39 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .room-info{position:absolute;bottom:8px;left:8px;right:8px;color:#fff;font-size:11px;font-weight:bold}
 
 /* BOTTOM NAVIGATION */
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)}
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
+  border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
+}
 .nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:transparent;font-size:10px;font-weight:bold}
 .nav-item.active{color:#8b5cf6}
 .nav-item.active .nav-icon{background:linear-gradient(135deg,#e0e7ff,#c7d2fe);width:40px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.2)}
-.nav-item .nav-icon{font-size:20px;margin-bottom:4px}
+.nav-item .nav-icon{font-size:20px;margin-bottom:4px;transition:0.2s}
 
-/* POPUP MODAL GENERAL */
-.popup-modal {
-  position: fixed; inset: 0; z-index: 900; display: none;
-  background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-  align-items: center; justify-content: center;
+/* MODAL SCREENS */
+.modal-screen {
+  position: fixed; inset: 0; z-index: 500; display: none;
+  flex-direction: column; overflow: hidden; background: #0f0823; color: white;
 }
-.popup-modal.show { display: flex; }
-.popup-content {
-  background: #fff; width: 90%; max-width: 380px; border-radius: 20px; padding: 20px;
-  color: #222; position: relative; max-height: 80vh; overflow-y: auto;
-}
-.popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; font-weight: bold; font-size: 16px; }
+.modal-screen.show { display: flex; }
 
 /* ME / PROFILE PAGE DESIGN */
-.profile-bg { background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%); min-height: 100%; padding: 15px; color: #222; }
-.profile-header { display: flex; align-items: center; gap: 15px; margin-top: 15px; position: relative; }
-.profile-avatar-wrap { position: relative; cursor: pointer; }
-.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.edit-badge { position: absolute; bottom: 0; right: 0; background: #5036df; color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; border: 2px solid #fff; }
-.profile-name { font-size: 20px; font-weight: bold; color: #111; }
+.profile-bg {
+  background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
+  min-height: 100%; padding: 15px; color: #222;
+}
+.profile-header { display: flex; align-items: center; gap: 15px; position: relative; margin-top: 15px; }
+.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
+.profile-name { font-size: 20px; font-weight: bold; color: #111; letter-spacing: -0.5px; }
 .profile-id { font-size: 13px; color: #888; margin-top: 3px; }
 
 .profile-stats-row { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-right: 15px; }
 .stats-left { display: flex; gap: 35px; margin-left: 20px; text-align: center; }
 .stat-value { font-size: 18px; font-weight: bold; color: #111; }
 .stat-label { font-size: 13px; color: #aaa; margin-top: 2px; }
+.family-shield { text-align: center; cursor: pointer; }
+.family-shield-icon { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(255,215,0,0.4)); }
+.family-shield-text { font-size: 10px; font-weight: bold; color: #92400e; margin-top: -5px; }
 
 .profile-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
 .pr-card { border-radius: 14px; padding: 15px; color: #fff; position: relative; overflow: hidden; height: 85px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; }
@@ -96,11 +122,20 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .pr-card-icon { position: absolute; right: -5px; bottom: -10px; font-size: 50px; opacity: 0.9; }
 
 .pr-list-group { background: #fff; border-radius: 16px; margin-top: 15px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); padding: 5px 0; }
-.pr-list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #f6f6f6; font-size: 14px; color: #333; cursor: pointer; }
+.pr-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; border-bottom: 1px solid #f6f6f6; font-size: 15px; color: #333; cursor: pointer; }
 .pr-list-item:last-child { border-bottom: none; }
-.pr-list-left { display: flex; align-items: center; gap: 12px; }
+.pr-list-left { display: flex; align-items: center; gap: 15px; }
+.pr-list-icon { font-size: 20px; width: 24px; text-align: center; }
+.pr-list-right { display: flex; align-items: center; gap: 10px; color: #ccc; }
+.badge-pill { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; font-style: italic; border: 1px solid gold; display: flex; align-items: center; gap: 4px; color: #fff; }
+.badge-lv { background: linear-gradient(90deg, #6b21a8, #d946ef); }
+.badge-svip { background: linear-gradient(90deg, #065f46, #10b981); color: gold; }
 
-/* VOICE ROOM STYLES WITH 7 BOTTOM BUTTONS */
+#profileDetailModal { background: #f7f8fc; color: #222; }
+.profile-detail-card { background: #fff; margin: 15px; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; position: relative; }
+.edit-top-btn { position: absolute; right: 15px; top: 15px; background: #f0eff6; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #5036df; cursor: pointer; }
+
+/* ROOM STYLES */
 #roomScreen {
   position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between;
   background: radial-gradient(circle at 50% 30%, #a21caf 0%, #6b21a8 45%, #2e1065 100%);
@@ -108,79 +143,101 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 }
 #roomScreen.show { display: flex; }
 
-.v-room-top { padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent); }
+.v-room-top {
+  padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
+}
 .v-room-info { display: flex; align-items: center; gap: 8px; }
 .v-room-avatar { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #fff; object-fit: cover; }
-.v-room-title { font-size: 13px; font-weight: bold; color: #fff; }
+.v-room-meta { display: flex; flex-direction: column; }
+.v-room-title { font-size: 13px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; }
+.v-room-id { font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
+.v-top-actions { display: flex; align-items: center; gap: 8px; }
+.v-icon-circle { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; }
 
-.v-host-center { text-align: center; margin-top: 10px; }
-.v-host-frame { width: 65px; height: 65px; margin: 0 auto; border-radius: 50%; border: 2px solid #f472b6; padding: 2px; }
-.v-host-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.v-seats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 20px 15px; margin-top: 10px; }
+.v-seat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+.v-seat-circle { width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; }
 
-.v-seats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 15px; }
-.v-seat-circle { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
-
-/* ROOM BOTTOM BAR - 7 BUTTONS */
 .v-room-bottom {
-  padding: 10px 8px 25px; background: rgba(0,0,0,0.6);
-  display: flex; align-items: center; justify-content: space-between; gap: 4px;
+  padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
 }
-.v-say-hi-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 8px; font-size: 10px; color: #fff; flex: 1; max-width: 75px; text-align: center; white-space: nowrap; }
-.v-bottom-icon { width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; cursor: pointer; flex-shrink: 0; }
-.v-gift-btn { width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+.v-bottom-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; cursor: pointer; }
 
-/* ALL GAMES MODAL */
-#gameModal { position: fixed; inset: 0; z-index: 700; display: none; background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center; backdrop-filter: blur(8px); }
+/* ==================== LUCKY FRUIT GAME MODAL ==================== */
+#gameModal {
+  position: fixed; inset: 0; z-index: 700; display: none;
+  background: rgba(0,0,0,0.8); align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(8px);
+}
 #gameModal.show { display: flex; }
-.game-panel { width: 100%; max-width: 480px; background: linear-gradient(180deg, #241442 0%, #0d061c 100%); border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 20px 16px 30px; color: #fff; max-height: 80vh; overflow-y: auto; }
-.game-sec-title { font-size: 14px; font-weight: bold; margin: 15px 0 10px; }
-.lucky-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.lucky-card { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
 
-/* ==================== LUCKY FRUIT STRICTLY ORDERED GAME ==================== */
-#luckyFruitScreen {
-  position: fixed; inset: 0; z-index: 800; display: none; flex-direction: column;
-  background: radial-gradient(circle at 50% 20%, #4c1d95 0%, #1e1b4b 50%, #0f172a 100%);
-  color: #fff; overflow-y: auto; padding: 12px;
+.game-panel {
+  width: 100%; max-width: 480px; background: linear-gradient(180deg, #2c1108 0%, #0d061c 100%);
+  border-top-left-radius: 28px; border-top-right-radius: 28px;
+  padding: 15px; color: #fff; box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+  border-top: 1px solid rgba(251,191,36,0.3); max-height: 85vh; overflow-y: auto;
 }
-#luckyFruitScreen.show { display: flex; }
-.lf-header { display: flex; justify-content: space-between; align-items: center; padding-top: 25px; margin-bottom: 5px; }
 
-/* GAME BOARD ORDERED: TOP 4 (5x), CENTER TIMER, BOTTOM 4 (10x, 15x, 25x, 45x) */
-.lf-row-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
-.lf-center-area { display: flex; align-items: center; justify-content: center; height: 90px; background: rgba(0,0,0,0.4); border: 2px solid rgba(56,189,248,0.3); border-radius: 16px; margin-bottom: 8px; flex-direction: column; text-align: center; }
-.lf-row-bottom { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
-
-.lf-box {
-  background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 14px;
-  padding: 8px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  position: relative; cursor: pointer; transition: 0.2s; height: 75px;
+.game-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
 }
-.lf-box.selected { border-color: #f59e0b; background: rgba(245,158,11,0.2); }
-.lf-box.winner { border-color: #22c55e; background: rgba(34,197,94,0.3); animation: pulseWin 0.6s infinite alternate; }
+.game-coin-badge {
+  background: rgba(251,191,36,0.15); padding: 5px 12px; border-radius: 20px;
+  font-size: 13px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(251,191,36,0.4);
+}
 
-@keyframes pulseWin { from { transform: scale(1); } to { transform: scale(1.05); } }
+.fruit-timer-box {
+  background: #180d08; border: 1.5px solid #d97706; border-radius: 12px;
+  padding: 8px; text-align: center; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+}
+.fruit-timer-txt { font-size: 12px; color: #fbbf24; font-weight: bold; }
+.fruit-timer-val { font-size: 20px; font-weight: bold; color: #ef4444; }
 
-.lf-box-icon { font-size: 24px; }
-.lf-box-name { font-size: 9px; font-weight: bold; margin-top: 2px; }
-.lf-box-mult { font-size: 9px; font-weight: bold; color: #fbbf24; background: rgba(0,0,0,0.5); padding: 1px 4px; border-radius: 6px; margin-top: 2px; }
-.lf-box-bet { position: absolute; top: 2px; right: 2px; background: #ec4899; color: #fff; font-size: 8px; font-weight: bold; padding: 1px 4px; border-radius: 8px; }
+/* 3x3 FRUIT GRID */
+.fruit-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;
+}
+.fruit-card {
+  background: rgba(255,255,255,0.06); border-radius: 14px; padding: 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 2px solid rgba(255,255,255,0.1); cursor: pointer; position: relative; transition: 0.2s;
+}
+.fruit-card.selected { border-color: #22c55e; background: rgba(34,197,94,0.15); }
+.fruit-card.winner { border-color: #eab308; background: rgba(234,179,8,0.3); box-shadow: 0 0 15px #eab308; }
+.fruit-icon { font-size: 30px; }
+.fruit-rate { font-size: 10px; color: #fbbf24; font-weight: bold; margin-top: 2px; }
+.fruit-bet-val { font-size: 11px; color: #4ade80; font-weight: bold; background: rgba(0,0,0,0.5); padding: 1px 6px; border-radius: 8px; margin-top: 4px; }
 
-.lf-timer-num { font-size: 28px; font-weight: 900; color: #38bdf8; }
+/* CHIP SELECTOR */
+.chip-bar {
+  display: flex; justify-content: space-around; background: rgba(0,0,0,0.4);
+  padding: 6px; border-radius: 20px; margin-bottom: 12px;
+}
+.chip-btn {
+  width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+  border: 2px solid #fff; cursor: pointer;
+}
+.chip-btn.active { border-color: #22c55e; transform: scale(1.1); box-shadow: 0 0 10px #22c55e; }
 
-.lf-chips-bar { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.4); padding: 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 5px; }
-.chip-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #fff; border: 2px dashed rgba(255,255,255,0.6); cursor: pointer; }
-.chip-btn.active { border-style: solid; border-color: #fff; transform: scale(1.15); box-shadow: 0 0 10px #38bdf8; }
+/* STATS BAR */
+.fruit-stats {
+  display: flex; justify-content: space-between; background: rgba(0,0,0,0.5);
+  padding: 8px 12px; border-radius: 10px; font-size: 12px; margin-bottom: 10px;
+}
 
-.lf-stats-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 12px; margin-top: 8px; }
-.lf-history-box { display: flex; align-items: center; gap: 4px; }
-.lf-hist-icon { font-size: 16px; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 6px; }
-
-.lf-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+/* HISTORY BAR */
+.history-wrap { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; }
+.history-title { font-size: 11px; color: #aaa; margin-bottom: 4px; }
+.history-items { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.history-badge { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 6px; font-size: 14px; }
 
 #toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
 #toast.show { opacity: 1; }
-@media(min-width: 700px) { .page, .bottom-nav, #roomScreen, #luckyFruitScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
+@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
 </style>
 </head>
 
@@ -204,16 +261,14 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <div class="event-slider">
           <div class="slider-container" id="eventSlider">
             <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn">Open CP</button></div></div>
           </div>
         </div>
       </div>
 
-      <!-- RANK, CP, FAMILY OPTIONS -->
       <div class="categories">
-        <button class="category btn3d" onclick="openRankModal()"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openCPModal()"><div class="icon">💖</div>CP Zone</button>
-        <button class="category btn3d" onclick="openFamilyModal()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+        <button class="category btn3d" onclick="showToast('Rank')"><div class="icon">🏆</div>Rank</button>
+        <button class="category btn3d" onclick="showToast('CP')"><div class="icon">💖</div>CP</button>
+        <button class="category btn3d" onclick="showToast('Family')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
       </div>
 
       <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
@@ -223,11 +278,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
           <div class="room-overlay"></div>
           <div class="room-info">জিরো প... 🇧🇩</div>
         </div>
-        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">Music & Songs 🎵</div>
-        </div>
       </div>
     </div>
   </section>
@@ -236,414 +286,298 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   <section id="mePage" class="page">
     <div class="profile-bg">
       <div class="profile-header">
-        <div class="profile-avatar-wrap" onclick="openEditProfileModal()">
-          <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar">
-          <div class="edit-badge">✏️</div>
-        </div>
-        <div onclick="openEditProfileModal()" style="cursor:pointer">
-          <div id="userNameMain" class="profile-name">Mia Vai</div>
-          <div class="profile-id">ID: 100927248</div>
-        </div>
-      </div>
-
-      <div class="profile-stats-row">
-        <div class="stats-left">
-          <div onclick="showToast('Followers: 15')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div onclick="showToast('Fans: 26')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
+        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar">
+        <div>
+          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
+          <div class="profile-id">ID:100927248</div>
         </div>
       </div>
 
       <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet Coins: ' + userBalance)">
+        <div class="pr-card wallet" onclick="showToast('Wallet Coins')">
           <div class="pr-card-title">Wallet</div>
-          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">🪙</span> <span class="global-coin-val">8458</span></div>
+          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> <span id="meWalletCoins">8458</span></div>
           <div class="pr-card-icon">👛</div>
         </div>
-        <div class="pr-card store" onclick="showToast('Store')">
-          <div class="pr-card-title">Store</div>
-          <div class="pr-card-icon">🏪</div>
-        </div>
-      </div>
-
-      <!-- FULL PROFILE SETTINGS LIST -->
-      <div class="pr-list-group">
-        <div class="pr-list-item" onclick="showToast('Invite Friends & Get Coins')"><div class="pr-list-left"><span>💰</span> Invite & Earn</div><i>&gt;</i></div>
-        <div class="pr-list-item" onclick="openCPModal()"><div class="pr-list-left"><span>💖</span> CP Level</div><i>&gt;</i></div>
-        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span>🛡️</span> Level LV.41</div><i>&gt;</i></div>
-        <div class="pr-list-item" onclick="showToast('SVIP2 Active')"><div class="pr-list-left"><span>💎</span> SVIP Status</div><i>&gt;</i></div>
-        <div class="pr-list-item" onclick="openSettingsModal()"><div class="pr-list-left"><span>⚙️</span> All Settings & Privacy</div><i>&gt;</i></div>
       </div>
     </div>
   </section>
 
-  <!-- OTHER PAGES -->
-  <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold">Discover</div></section>
-  <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold">Moments</div></section>
-  <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold">Messages</div></section>
-
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="switchPage('homePage', this)"><div class="nav-icon">🏠</div><span>Home</span></button>
-    <button class="nav-item" onclick="switchPage('discoverPage', this)"><div class="nav-icon">🪐</div><span>Discover</span></button>
-    <button class="nav-item" onclick="switchPage('momentPage', this)"><div class="nav-icon">📢</div><span>Moment</span></button>
-    <button class="nav-item" onclick="switchPage('messagePage', this)"><div class="nav-icon">💬</div><span>Message</span></button>
     <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">😊</div><span>Me</span></button>
   </nav>
 
-  <!-- VOICE ROOM SCREEN (7 BUTTONS AT BOTTOM) -->
+  <!-- ROOM SCREEN -->
   <div id="roomScreen">
     <div class="v-room-top">
       <div class="v-room-info">
-        <img id="currentRoomImg" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=150&q=80" class="v-room-avatar">
-        <div class="v-room-title"><span id="currentRoomTitle">জিরো প...</span> 👥1</div>
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" class="v-room-avatar">
+        <div class="v-room-meta">
+          <div class="v-room-title">জিরো প... 🇧🇩</div>
+          <div class="v-room-id">ID: 987654</div>
+        </div>
       </div>
-      <div class="v-bottom-icon" onclick="leaveRoom()" style="background:rgba(220,38,38,0.6)">⏻</div>
-    </div>
-
-    <div class="v-host-center">
-      <div class="v-host-frame">
-        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="v-host-img">
+      <div class="v-top-actions">
+        <div class="v-icon-circle" onclick="closeRoom()">✕</div>
       </div>
-      <div style="font-size:12px; font-weight:bold; color:#38bdf8; margin-top:4px">Host Master 👑</div>
     </div>
 
     <div class="v-seats-grid">
-      <div class="v-seat-circle">🎙️</div><div class="v-seat-circle">🎙️</div>
-      <div class="v-seat-circle">🎙️</div><div class="v-seat-circle">🎙️</div>
-      <div class="v-seat-circle">🎙️</div><div class="v-seat-circle">🎙️</div>
-      <div class="v-seat-circle">🎙️</div><div class="v-seat-circle">🎙️</div>
+      <div class="v-seat-item"><div class="v-seat-circle">🎙️</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle">🎙️</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle">🎙️</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle">🎙️</div></div>
     </div>
 
-    <div style="padding:10px 15px; font-size:11px; color:#38bdf8; margin-top:auto">স্বাগতম! আনন্দদায়ক এবং শালীন চ্যাটিং উপভোগ করুন।</div>
-
-    <!-- ROOM BOTTOM BAR (7 BUTTONS) -->
     <div class="v-room-bottom">
-      <button class="v-say-hi-btn" onclick="showToast('Say Hi Sent!')">Say Hi...</button>
-      <div class="v-bottom-icon" onclick="showToast('Mic Toggled')">🎙️</div>
-      <div class="v-bottom-icon" onclick="showToast('Emoji Panel')">😊</div>
       <div class="v-bottom-icon" onclick="openGameModal()">🎮</div>
-      <div class="v-gift-btn" onclick="showToast('Gift Panel')">🎁</div>
-      <div class="v-bottom-icon" onclick="showToast('Room Announcement')">📢</div>
-      <div class="v-bottom-icon" onclick="showToast('Room Settings')">⚙️</div>
+      <div class="v-bottom-icon">🎁</div>
     </div>
   </div>
 
-  <!-- ALL GAMES MODAL -->
+  <!-- LUCKY FRUIT GAME MODAL -->
   <div id="gameModal">
     <div class="game-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center">
-        <div style="color:#fbbf24; font-weight:bold">🪙 <span class="global-coin-val">8458</span></div>
-        <span onclick="closeGameModal()" style="cursor:pointer">✕</span>
-      </div>
-      <div class="game-sec-title">🎰 Lucky Games</div>
-      <div class="lucky-grid">
-        <div class="lucky-card" onclick="openLuckyFruitGame()">
-          <div style="font-size:28px">🍎</div>
-          <div style="font-size:11px; margin-top:4px">Lucky fruit</div>
+      <div class="game-header">
+        <div style="font-weight:bold; font-size:16px; color:#fbbf24">🍋 Lucky Fruit</div>
+        <div class="game-coin-badge">
+          <span>🟡</span>
+          <span id="gameUserCoins">8458</span>
         </div>
+        <div onclick="closeGameModal()" style="cursor:pointer; font-size:18px; font-weight:bold">✕</div>
       </div>
-    </div>
-  </div>
 
-  <!-- ==================== LUCKY FRUIT STRICTLY ORDERED GAME ==================== -->
-  <div id="luckyFruitScreen">
-    <div class="lf-header">
-      <span onclick="closeLuckyFruitGame()" style="font-size:16px; cursor:pointer">&lt; Back</span>
-      <div style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px; font-size:11px; color:#fde047">Round <span id="lfRoundNum">1</span></div>
-    </div>
-
-    <!-- TOP LINE: ALL 4 5x MULTIPLIERS (🍎 Apple, 🍊 Orange, 🍌 Banana, 🍍 Pineapple) -->
-    <div class="lf-row-top">
-      <div class="lf-box" onclick="placeBet(0)">
-        <span class="lf-box-icon">🍎</span>
-        <span class="lf-box-name">Apple</span>
-        <span class="lf-box-mult">5x</span>
-        <span class="lf-box-bet" id="betBox0" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(1)">
-        <span class="lf-box-icon">🍊</span>
-        <span class="lf-box-name">Orange</span>
-        <span class="lf-box-mult">5x</span>
-        <span class="lf-box-bet" id="betBox1" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(2)">
-        <span class="lf-box-icon">🍌</span>
-        <span class="lf-box-name">Banana</span>
-        <span class="lf-box-mult">5x</span>
-        <span class="lf-box-bet" id="betBox2" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(3)">
-        <span class="lf-box-icon">🍍</span>
-        <span class="lf-box-name">Pineapple</span>
-        <span class="lf-box-mult">5x</span>
-        <span class="lf-box-bet" id="betBox3" style="display:none">0</span>
-      </div>
-    </div>
-
-    <!-- CENTER TIMER AREA -->
-    <div class="lf-center-area">
-      <div class="lf-timer-num" id="lfTimerNum">30</div>
-      <div style="font-size:10px; color:#cbd5e1" id="lfStatusLabel">BETTING TIME</div>
-    </div>
-
-    <!-- BOTTOM LINE: HIGH MULTIPLIERS ORDERED (10x, 15x, 25x, 45x) -->
-    <div class="lf-row-bottom">
-      <div class="lf-box" onclick="placeBet(4)">
-        <span class="lf-box-icon">🍇</span>
-        <span class="lf-box-name">Grapes</span>
-        <span class="lf-box-mult">10x</span>
-        <span class="lf-box-bet" id="betBox4" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(5)">
-        <span class="lf-box-icon">🍓</span>
-        <span class="lf-box-name">Berry</span>
-        <span class="lf-box-mult">15x</span>
-        <span class="lf-box-bet" id="betBox5" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(6)">
-        <span class="lf-box-icon">🔔</span>
-        <span class="lf-box-name">Bell</span>
-        <span class="lf-box-mult">25x</span>
-        <span class="lf-box-bet" id="betBox6" style="display:none">0</span>
-      </div>
-      <div class="lf-box" onclick="placeBet(7)">
-        <span class="lf-box-icon">💎</span>
-        <span class="lf-box-name">Diamond</span>
-        <span class="lf-box-mult">45x</span>
-        <span class="lf-box-bet" id="betBox7" style="display:none">0</span>
-      </div>
-    </div>
-
-    <!-- CHIP SELECTION -->
-    <div class="lf-chips-bar">
-      <div class="chip-btn active" style="background:#ef4444" onclick="selectChip(100, this)">100</div>
-      <div class="chip-btn" style="background:#3b82f6" onclick="selectChip(500, this)">500</div>
-      <div class="chip-btn" style="background:#10b981" onclick="selectChip(1000, this)">1K</div>
-      <div class="chip-btn" style="background:#f59e0b" onclick="selectChip(5000, this)">5K</div>
-    </div>
-
-    <!-- WIN HISTORY & STATS -->
-    <div class="lf-stats-bar">
-      <div class="lf-history-box">
-        <span style="font-size:10px; color:#aaa">ইতিহাস:</span>
-        <div id="lfHistoryList" style="display:flex; gap:4px">
-          <span class="lf-hist-icon">🍎</span>
-          <span class="lf-hist-icon">🍊</span>
+      <!-- TIMER DISPLAY -->
+      <div class="fruit-timer-box">
+        <div>
+          <div class="fruit-timer-txt" id="gamePhaseText">BETTING TIME</div>
+          <div style="font-size:10px; color:#aaa" id="gameRoundText">Round 1</div>
         </div>
+        <div class="fruit-timer-val" id="gameTimer">30s</div>
       </div>
-      <div style="font-size:11px; font-weight:bold; color:#4ade80">মোট জয়: 🪙 <span id="lfTotalWinVal">0</span></div>
-    </div>
 
-    <div class="lf-bottom-bar">
-      <div style="font-weight:bold; color:#fbbf24">🪙 <span class="global-coin-val">8458</span></div>
-      <button style="background:linear-gradient(90deg, #ec4899, #8b5cf6); color:#fff; font-weight:bold; padding:8px 16px; border-radius:20px" onclick="addDemoCoins(5000)">রিচার্জ +</button>
-    </div>
-  </div>
+      <!-- 3x3 GRID -->
+      <div class="fruit-grid" id="fruitGrid"></div>
 
-  <!-- POPUP MODALS FOR RANK, CP, FAMILY & PROFILE EDIT -->
-  <div id="rankModal" class="popup-modal">
-    <div class="popup-content">
-      <div class="popup-header"><span>🏆 Ranking Board</span><span onclick="closePopups()" style="cursor:pointer">✕</span></div>
-      <div style="display:flex; gap:10px; margin-bottom:15px"><button style="flex:1; padding:6px; background:#5036df; color:#fff; border-radius:8px">Daily</button><button style="flex:1; padding:6px; background:#eee; color:#333; border-radius:8px">Weekly</button></div>
-      <div style="font-size:13px; color:#555">1. User_9901 - 50,000 Exp<br>2. Mia Vai - 32,400 Exp<br>3. King_BD - 28,100 Exp</div>
-    </div>
-  </div>
+      <!-- CHIP SELECTOR -->
+      <div class="chip-bar">
+        <div class="chip-btn active" onclick="selectChip(100, this)">100</div>
+        <div class="chip-btn" onclick="selectChip(500, this)">500</div>
+        <div class="chip-btn" onclick="selectChip(1000, this)">1K</div>
+        <div class="chip-btn" onclick="selectChip(5000, this)">5K</div>
+      </div>
 
-  <div id="cpModal" class="popup-modal">
-    <div class="popup-content">
-      <div class="popup-header"><span>💖 CP Zone</span><span onclick="closePopups()" style="cursor:pointer">✕</span></div>
-      <div style="text-align:center; padding:10px"><div style="font-size:35px">💑</div><b>CP Level 5</b><p style="font-size:12px; color:#777; margin-top:5px">Sweet Sweet Couple Badge</p></div>
-    </div>
-  </div>
+      <!-- STATS -->
+      <div class="fruit-stats">
+        <div>Total Win: <span style="color:#4ade80; font-weight:bold" id="totalWinVal">0</span></div>
+        <div>My Bets: <span style="color:#fbbf24; font-weight:bold" id="totalBetVal">0</span></div>
+      </div>
 
-  <div id="familyModal" class="popup-modal">
-    <div class="popup-content">
-      <div class="popup-header"><span>👨‍👩‍👧‍👦 Family Info</span><span onclick="closePopups()" style="cursor:pointer">✕</span></div>
-      <p style="font-size:13px; color:#444"><b>Family Name:</b> Royal Stars BD<br><b>Level:</b> 12<br><b>Members:</b> 48/50</p>
-    </div>
-  </div>
-
-  <!-- PROFILE EDIT MODAL -->
-  <div id="editProfileModal" class="popup-modal">
-    <div class="popup-content">
-      <div class="popup-header"><span>✏️ Edit Profile</span><span onclick="closePopups()" style="cursor:pointer">✕</span></div>
-      <div style="margin-bottom:12px"><label style="font-size:11px; color:#777">Name:</label><input id="editNameInput" type="text" value="Mia Vai" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; margin-top:4px"></div>
-      <div style="margin-bottom:15px"><label style="font-size:11px; color:#777">Avatar Image URL:</label><input id="editImgInput" type="text" value="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; margin-top:4px"></div>
-      <button onclick="saveProfileEdit()" style="width:100%; background:#5036df; color:#fff; padding:10px; border-radius:10px; font-weight:bold">Save Changes</button>
-    </div>
-  </div>
-
-  <!-- SETTINGS MODAL -->
-  <div id="settingsModal" class="popup-modal">
-    <div class="popup-content">
-      <div class="popup-header"><span>⚙️ Settings & Privacy</span><span onclick="closePopups()" style="cursor:pointer">✕</span></div>
-      <div style="display:flex; flex-direction:column; gap:10px; font-size:13px">
-        <div style="padding:8px; background:#f0eff6; border-radius:8px" onclick="showToast('Account Security OK')">🔒 Account & Security</div>
-        <div style="padding:8px; background:#f0eff6; border-radius:8px" onclick="showToast('Privacy Settings')">👁️ Privacy Settings</div>
-        <div style="padding:8px; background:#f0eff6; border-radius:8px" onclick="showToast('Cache Cleared!')">🧹 Clear Cache</div>
+      <!-- WIN HISTORY -->
+      <div class="history-wrap">
+        <div class="history-title">Recent Winning History:</div>
+        <div class="history-items" id="historyList"></div>
       </div>
     </div>
   </div>
 
-  <div id="toast">Message here</div>
-
+  <div id="toast"></div>
 </div>
 
-<!-- JAVASCRIPT LOGIC -->
 <script>
-  let userBalance = 8458;
-  let selectedChip = 100;
-  let currentBets = [0,0,0,0,0,0,0,0]; // 8 Boxes
-  
-  // ACCURATE ORDERED MULTIPLIERS
-  // 0: Apple(5x), 1: Orange(5x), 2: Banana(5x), 3: Pineapple(5x)
-  // 4: Grapes(10x), 5: Berry(15x), 6: Bell(25x), 7: Diamond(45x)
-  let multipliers = [5, 5, 5, 5, 10, 15, 25, 45];
-  let fruitIcons = ["🍎", "🍊", "🍌", "🍍", "🍇", "🍓", "🔔", "💎"];
-  let totalGameWin = 0;
+// ---------- GLOBAL DATA & STATE ----------
+let userCoins = 8458;
+let selectedChip = 100;
+let userBets = {}; // { boxId: totalCoins }
+let activePhase = 'BETTING'; // 'BETTING' or 'RESULT'
+let timerVal = 30;
+let currentRound = 1;
+let totalSessionWin = 0;
 
-  let timerState = "BETTING"; 
-  let timeLeft = 30;
-  let isGameLoopRunning = false;
+const fruitData = [
+  { id: 0, name: 'Apple', icon: '🍎', rate: 5 },
+  { id: 1, name: 'Orange', icon: '🍊', rate: 5 },
+  { id: 2, name: 'Lemon', icon: '🍋', rate: 5 },
+  { id: 3, name: 'Watermelon', icon: '🍉', rate: 10 },
+  { id: 4, name: 'Grapes', icon: '🍇', rate: 10 },
+  { id: 5, name: 'Strawberry', icon: '🍓', rate: 15 },
+  { id: 6, name: 'Mango', icon: '🥭', rate: 20 },
+  { id: 7, name: 'Pineapple', icon: '🍍', rate: 25 },
+  { id: 8, name: 'Crown', icon: '👑', rate: 50 }
+];
 
-  function updateGlobalBalanceUI() {
-    document.querySelectorAll('.global-coin-val').forEach(el => el.innerText = userBalance.toLocaleString());
+// ---------- NAVIGATION & MODALS ----------
+function switchPage(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.getElementById(pageId).classList.add('show');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+function enterRoom(title, bgImg) {
+  document.getElementById('roomScreen').classList.add('show');
+}
+
+function closeRoom() {
+  document.getElementById('roomScreen').classList.remove('show');
+}
+
+function openGameModal() {
+  document.getElementById('gameModal').classList.add('show');
+}
+
+function closeGameModal() {
+  document.getElementById('gameModal').classList.remove('show');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function updateCoinDisplays() {
+  document.getElementById('gameUserCoins').innerText = userCoins;
+  document.getElementById('meWalletCoins').innerText = userCoins;
+}
+
+// ---------- LUCKY FRUIT GAME LOGIC ----------
+function initFruitGrid() {
+  const grid = document.getElementById('fruitGrid');
+  grid.innerHTML = '';
+  fruitData.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'fruit-card';
+    card.id = `fruit-card-${item.id}`;
+    card.onclick = () => placeBetOnFruit(item.id);
+    card.innerHTML = `
+      <div class="fruit-icon">${item.icon}</div>
+      <div class="fruit-rate">x${item.rate}</div>
+      <div class="fruit-bet-val" id="bet-val-${item.id}">0</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function selectChip(val, btn) {
+  selectedChip = val;
+  document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function placeBetOnFruit(id) {
+  if (activePhase !== 'BETTING') {
+    showToast('এখন বাজি ধরা বন্ধ আছে!');
+    return;
   }
 
-  function openLuckyFruitGame() { closeGameModal(); document.getElementById('luckyFruitScreen').classList.add('show'); if(!isGameLoopRunning) start24HourGameEngine(); }
-  function closeLuckyFruitGame() { document.getElementById('luckyFruitScreen').classList.remove('show'); }
-
-  function selectChip(val, btn) {
-    selectedChip = val;
-    document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  // Check total distinct boxes selected (Max 6)
+  const currentSelectedBoxes = Object.keys(userBets).filter(k => userBets[k] > 0);
+  if (!userBets[id] && currentSelectedBoxes.length >= 6) {
+    showToast('আপনি সর্বোচ্চ ৬টি ঘরে বাজি ধরতে পারবেন!');
+    return;
   }
 
-  function placeBet(index) {
-    if(timerState !== "BETTING") { showToast("বাজি ধরার সময় শেষ!"); return; }
-    if(userBalance < selectedChip) { showToast("পর্যাপ্ত কয়েন নেই!"); return; }
-
-    userBalance -= selectedChip;
-    currentBets[index] += selectedChip;
-    updateGlobalBalanceUI();
-
-    const betTag = document.getElementById('betBox' + index);
-    betTag.innerText = currentBets[index];
-    betTag.style.display = 'block';
-    betTag.parentElement.classList.add('selected');
+  if (userCoins < selectedChip) {
+    showToast('কয়েন না থাকলে রিচার্জ করো!');
+    return;
   }
 
-  function start24HourGameEngine() {
-    isGameLoopRunning = true;
-    setInterval(() => {
-      timeLeft--;
-      if(timerState === "BETTING") {
-        document.getElementById('lfTimerNum').innerText = timeLeft;
-        document.getElementById('lfStatusLabel').innerText = "BETTING TIME";
-        if(timeLeft <= 0) { timerState = "SPINNING"; runLotterySpin(); }
-      } else if(timerState === "RESULT") {
-        document.getElementById('lfTimerNum').innerText = timeLeft;
-        document.getElementById('lfStatusLabel').innerText = "NEXT ROUND";
-        if(timeLeft <= 0) resetRoundForNext();
+  // Deduct balance
+  userCoins -= selectedChip;
+  userBets[id] = (userBets[id] || 0) + selectedChip;
+
+  // Update UI
+  updateCoinDisplays();
+  document.getElementById(`bet-val-${id}`).innerText = userBets[id];
+  document.getElementById(`fruit-card-${id}`).classList.add('selected');
+
+  let currentTotalBet = 0;
+  Object.values(userBets).forEach(v => currentTotalBet += v);
+  document.getElementById('totalBetVal').innerText = currentTotalBet;
+}
+
+// Game Timer Loop
+function startGameLoop() {
+  setInterval(() => {
+    timerVal--;
+
+    if (activePhase === 'BETTING') {
+      document.getElementById('gamePhaseText').innerText = 'BETTING TIME';
+      document.getElementById('gameTimer').innerText = `${timerVal}s`;
+
+      if (timerVal <= 0) {
+        activePhase = 'RESULT';
+        timerVal = 5; // 5 Seconds Result Phase
+        calculateGameResult();
       }
-    }, 1000);
-  }
+    } else if (activePhase === 'RESULT') {
+      document.getElementById('gamePhaseText').innerText = 'WINNING RESULT';
+      document.getElementById('gameTimer').innerText = `${timerVal}s`;
 
-  function runLotterySpin() {
-    let boxes = document.querySelectorAll('.lf-box');
-    let spinIndex = 0;
-    let spinInterval = setInterval(() => {
-      boxes.forEach(b => b.classList.remove('winner'));
-      boxes[spinIndex % 8].classList.add('winner');
-      spinIndex++;
-    }, 120);
-
-    setTimeout(() => {
-      clearInterval(spinInterval);
-      boxes.forEach(b => b.classList.remove('winner'));
-      
-      let winningIndex = Math.floor(Math.random() * 8);
-      boxes[winningIndex].classList.add('winner');
-
-      // EXACT MATCH HISTORY SYNC
-      addWinHistory(fruitIcons[winningIndex]);
-
-      let winAmount = currentBets[winningIndex] * multipliers[winningIndex];
-      if(winAmount > 0) {
-        userBalance += winAmount;
-        totalGameWin += winAmount;
-        document.getElementById('lfTotalWinVal').innerText = totalGameWin.toLocaleString();
-        updateGlobalBalanceUI();
-        showToast(`🎉 আপনি ${winAmount} কয়েন জিতেছেন!`);
-      } else {
-        showToast("পরবর্তী রাউন্ডে আবার চেষ্টা করুন!");
+      if (timerVal <= 0) {
+        resetGameRound();
       }
+    }
+  }, 1000);
+}
 
-      timerState = "RESULT";
-      timeLeft = 5;
-    }, 3500);
+function calculateGameResult() {
+  const winIndex = Math.floor(Math.random() * fruitData.length);
+  const winningItem = fruitData[winIndex];
+
+  // Highlight Winning Box
+  document.getElementById(`fruit-card-${winIndex}`).classList.add('winner');
+
+  let roundWin = 0;
+  if (userBets[winIndex]) {
+    roundWin = userBets[winIndex] * winningItem.rate;
+    userCoins += roundWin;
+    totalSessionWin += roundWin;
+
+    updateCoinDisplays();
+    document.getElementById('totalWinVal').innerText = totalSessionWin;
+    showToast(`🎉 অভিনন্দন! জিতেছেন ${roundWin} কয়েন!`);
   }
 
-  function addWinHistory(icon) {
-    const list = document.getElementById('lfHistoryList');
-    const span = document.createElement('span');
-    span.className = 'lf-hist-icon';
-    span.innerText = icon;
-    list.prepend(span);
-    if(list.children.length > 5) list.removeChild(list.lastChild);
-  }
+  // Append History
+  const historyList = document.getElementById('historyList');
+  const badge = document.createElement('div');
+  badge.className = 'history-badge';
+  badge.innerText = winningItem.icon;
+  historyList.prepend(badge);
+}
 
-  function resetRoundForNext() {
-    currentBets = [0,0,0,0,0,0,0,0];
-    document.querySelectorAll('.lf-box').forEach((box, i) => {
-      box.classList.remove('selected', 'winner');
-      document.getElementById('betBox' + i).style.display = 'none';
-    });
-    timerState = "BETTING";
-    timeLeft = 30;
-  }
+function resetGameRound() {
+  activePhase = 'BETTING';
+  timerVal = 30;
+  userBets = {};
+  currentRound++;
 
-  function addDemoCoins(amt) { userBalance += amt; updateGlobalBalanceUI(); showToast(`${amt} কয়েন রিচার্জ করা হয়েছে!`); }
+  document.getElementById('gameRoundText').innerText = `Round ${currentRound}`;
+  document.getElementById('totalBetVal').innerText = '0';
 
-  // POPUP CONTROLLERS
-  function openRankModal() { document.getElementById('rankModal').classList.add('show'); }
-  function openCPModal() { document.getElementById('cpModal').classList.add('show'); }
-  function openFamilyModal() { document.getElementById('familyModal').classList.add('show'); }
-  function openEditProfileModal() { document.getElementById('editProfileModal').classList.add('show'); }
-  function openSettingsModal() { document.getElementById('settingsModal').classList.add('show'); }
-  function closePopups() { document.querySelectorAll('.popup-modal').forEach(p => p.classList.remove('show')); }
+  // Clear UI states
+  fruitData.forEach(item => {
+    const card = document.getElementById(`fruit-card-${item.id}`);
+    card.classList.remove('selected', 'winner');
+    document.getElementById(`bet-val-${item.id}`).innerText = '0';
+  });
+}
 
-  function saveProfileEdit() {
-    const name = document.getElementById('editNameInput').value;
-    const img = document.getElementById('editImgInput').value;
-    if(name) document.getElementById('userNameMain').innerText = name;
-    if(img) document.getElementById('userAvatarMain').src = img;
-    closePopups();
-    showToast("প্রোফাইল সফলভাবে আপডেট হয়েছে!");
-  }
+// Reset round counter daily (24 hours)
+setInterval(() => {
+  currentRound = 1;
+}, 24 * 60 * 60 * 1000);
 
-  function switchPage(pageId, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-    document.getElementById(pageId).classList.add('show');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-  }
-
-  function enterRoom(title, img) {
-    if(title) document.getElementById('currentRoomTitle').innerText = title;
-    if(img) document.getElementById('currentRoomImg').src = img;
-    document.getElementById('roomScreen').classList.add('show');
-  }
-  function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
-  function openGameModal() { document.getElementById('gameModal').classList.add('show'); }
-  function closeGameModal() { document.getElementById('gameModal').classList.remove('show'); }
-
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.innerText = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
+// Initialize Game on Load
+window.onload = function() {
+  initFruitGrid();
+  startGameLoop();
+};
 </script>
 </body>
 </html>
