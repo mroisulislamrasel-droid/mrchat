@@ -130,7 +130,7 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:inset 0 1px 2px rgba(255,255,255,.9),0 3px 8px rgba(90,65,220,.12)
 }
 
-/* OTHER PAGES (PAGE HEADER, MESSAGE, PROFILE) */
+/* OTHER PAGES */
 .page-header{
   height:62px;background:white;display:flex;align-items:center;
   justify-content:center;font-size:18px;font-weight:900;
@@ -142,6 +142,16 @@ input,textarea{font-family:inherit;outline:none}
 }
 .empty-box b{font-size:14px;color:#999}
 
+/* MESSAGE PAGE DESIGN (FROM SCREENSHOT 5) */
+.msg-list{padding:10px}
+.msg-item{display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+.msg-avatar{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.msg-info{flex:1}
+.msg-title{font-size:14px;font-weight:bold;color:#111;display:flex;align-items:center;gap:5px}
+.msg-sub{font-size:11px;color:#888;margin-top:2px}
+.msg-time{font-size:10px;color:#aaa}
+
+/* PROFILE PAGE */
 .profile-head{
   padding:20px 14px 25px;color:white;
   background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px
@@ -150,21 +160,18 @@ input,textarea{font-family:inherit;outline:none}
 .profile-avatar{width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover}
 .profile-info{padding-left:12px;flex:1}
 
-/* ========================================================
-   SCREENSHOT DESIGN: VOICE ROOM SCREEN (HICHAT MODEL)
-======================================================== */
+/* VOICE ROOM SCREEN */
 #roomScreen{
   position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
   background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%)
 }
 #roomScreen.show{display:flex;flex-direction:column;justify-content:space-between}
 
-/* ROOM TOP BAR */
 .room-top{
   height:55px;padding:8px 10px;display:flex;align-items:center;
   justify-content:space-between;z-index:10;background:rgba(0,0,0,0.15)
 }
-.room-profile{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px}
+.room-profile{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px;cursor:pointer}
 .room-avatar{width:36px;height:36px;border-radius:50%;border:1px solid #ffd700;object-fit:cover}
 .room-meta b{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
 .room-meta small{font-size:9px;color:#ddd;display:flex;gap:4px}
@@ -185,7 +192,6 @@ input,textarea{font-family:inherit;outline:none}
   padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold
 }
 
-/* ROOM HOST & LOGO */
 .room-host-wrap{margin-top:15px;display:flex;flex-direction:column;align-items:center;z-index:5}
 .host-avatar-ring{
   position:relative;width:75px;height:75px;display:flex;align-items:center;justify-content:center
@@ -205,7 +211,6 @@ input,textarea{font-family:inherit;outline:none}
   text-shadow:0 0 20px rgba(168,85,247,0.6);margin:-5px 0 10px
 }
 
-/* 1-8 MIC SEATS */
 .room-seats-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:15px 5px;
   padding:0 20px;z-index:5
@@ -218,7 +223,6 @@ input,textarea{font-family:inherit;outline:none}
 }
 .seat-num{font-size:11px;color:#ccc;margin-top:4px;font-weight:bold}
 
-/* MASCOT & SIDE WIDGETS */
 .room-center-mascot{
   position:relative;height:120px;display:flex;justify-content:center;align-items:center
 }
@@ -230,10 +234,9 @@ input,textarea{font-family:inherit;outline:none}
 .side-widget-box{
   width:55px;height:55px;border-radius:10px;
   border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:9px;text-align:center
+  align-items:center;justify-content:center;font-size:9px;text-align:center;cursor:pointer
 }
 
-/* ANNOUNCEMENT & CHAT AREA */
 .room-chat-area{
   padding:0 12px;display:flex;flex-direction:column;gap:6px;max-height:160px;
   overflow-y:auto;z-index:5
@@ -253,7 +256,6 @@ input,textarea{font-family:inherit;outline:none}
 .badge-lvl{background:#8b5cf6;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
 .badge-vip{background:#eab308;color:#000;padding:1px 5px;border-radius:6px;font-size:8px;font-weight:bold}
 
-/* ROOM BOTTOM CONTROLS */
 .room-bottom-controls{
   height:60px;padding:0 10px;background:rgba(15,3,35,0.85);
   backdrop-filter:blur(10px);display:flex;align-items:center;
@@ -272,14 +274,70 @@ input,textarea{font-family:inherit;outline:none}
   width:38px;height:38px;border-radius:12px;
   background:linear-gradient(135deg,#ff007f,#00f2fe);
   display:flex;align-items:center;justify-content:center;font-size:19px;
-  box-shadow:0 0 10px rgba(255,0,127,0.5)
+  box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
 }
+
+/* MODALS / BOTTOM SHEETS BASED ON SCREENSHOTS */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;
+  display:none;align-items:flex-end;justify-content:center
+}
+.modal-overlay.show{display:flex}
+
+.bottom-sheet{
+  width:100%;max-width:520px;background:#18112e;color:#fff;
+  border-radius:20px 20px 0 0;padding:15px;max-height:80vh;overflow-y:auto;
+  box-shadow:0 -5px 25px rgba(0,0,0,0.5);animation:slideUp 0.3s ease-out
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* GIFT SHEET (SCREENSHOT 1) */
+.gift-tabs{display:flex;gap:15px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px}
+.gift-tab{font-size:13px;color:#aaa;font-weight:bold;cursor:pointer}
+.gift-tab.active{color:#fff;border-bottom:2px solid #a855f7}
+.gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
+.gift-card{
+  background:rgba(255,255,255,0.05);border-radius:12px;padding:8px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;font-size:10px
+}
+.gift-card img{width:40px;height:40px;object-fit:contain;margin-bottom:4px}
+.gift-card .price{color:#f59e0b;font-weight:bold}
+.gift-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.1)}
+.send-btn{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#fff;padding:8px 20px;border-radius:20px;font-weight:bold}
+
+/* GAMES SHEET (SCREENSHOT 2) */
+.games-sec-title{font-size:14px;font-weight:bold;margin:10px 0 8px;color:#fff}
+.casual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.game-card{background:rgba(255,255,255,0.08);border-radius:12px;padding:8px;text-align:center;font-size:11px}
+.game-card img{width:100%;height:60px;object-fit:cover;border-radius:8px;margin-bottom:4px}
+.lucky-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.lucky-card{text-align:center;font-size:10px}
+.lucky-card img{width:45px;height:45px;border-radius:50%;object-fit:cover;margin-bottom:4px}
+
+/* PROPS / PARTY SHEET (SCREENSHOT 3) */
+.props-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;font-size:11px}
+.props-item{background:rgba(255,255,255,0.05);padding:10px;border-radius:12px}
+.props-item .icon-lg{font-size:28px;margin-bottom:4px}
+
+/* EMOJI / EXPRESSION SHEET (SCREENSHOT 4) */
+.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center;font-size:11px}
+.emoji-item{background:rgba(255,255,255,0.05);padding:8px;border-radius:10px;cursor:pointer}
+.emoji-item span{font-size:26px;display:block}
+
+/* ROOM DETAIL MODAL (SCREENSHOT 7) */
+.room-detail-box{background:#fff;color:#222;border-radius:20px 20px 0 0;padding:20px}
+.rd-card{background:#f3f4f6;border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px;margin-top:10px}
+.rd-card img{width:50px;height:50px;border-radius:10px;object-fit:cover}
+
+/* ROOM SETTINGS SHEET (SCREENSHOT 8 & 9) */
+.setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px}
+.setting-item small{color:#888}
 
 /* TOAST */
 #toast{
   position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
   background:rgba(25,25,35,.92);color:white;padding:10px 16px;border-radius:14px;
-  font-size:11px;opacity:0;pointer-events:none;z-index:1000;transition:.25s
+  font-size:11px;opacity:0;pointer-events:none;z-index:2000;transition:.25s
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -373,13 +431,47 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </section>
 
-<!-- 4. MESSAGE PAGE -->
+<!-- 4. MESSAGE PAGE (SCREENSHOT 5 INCLUDED) -->
 <section id="messagePage" class="page">
   <div class="page-header">Message</div>
-  <div class="empty-area">
-    <div class="empty-box">
-      <b>No Messages</b>
-      <p style="font-size:10px;margin-top:5px;color:#bbb">System and user chats will appear here.</p>
+  <div class="msg-list">
+    <div class="msg-item">
+      <div class="msg-avatar" style="background:#4ade80;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px">🎁</div>
+      <div class="msg-info">
+        <div class="msg-title">Gift Notice</div>
+        <div class="msg-sub">System updates and notifications</div>
+      </div>
+    </div>
+    <div class="msg-item">
+      <div class="msg-avatar" style="background:#f43f5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px">⭐</div>
+      <div class="msg-info">
+        <div class="msg-title">HiChat Reward</div>
+        <div class="msg-sub">09-24</div>
+      </div>
+    </div>
+    <div class="msg-item">
+      <img class="msg-avatar" src="https://i.pravatar.cc/100?img=12">
+      <div class="msg-info">
+        <div class="msg-title">ফরিদপুর কলিজা</div>
+        <div class="msg-sub">রাব্বি leave the group chat</div>
+      </div>
+      <div class="msg-time">01:24</div>
+    </div>
+    <div class="msg-item">
+      <img class="msg-avatar" src="https://i.pravatar.cc/100?img=33">
+      <div class="msg-info">
+        <div class="msg-title">মহা,,রাজ</div>
+        <div class="msg-sub">[Photo]</div>
+      </div>
+      <div class="msg-time">23:34</div>
+    </div>
+    <div class="msg-item">
+      <img class="msg-avatar" src="https://i.pravatar.cc/100?img=47">
+      <div class="msg-info">
+        <div class="msg-title">❤️ শীতল ❤️</div>
+        <div class="msg-sub">হুম কি করো</div>
+      </div>
+      <div class="msg-time">22:06</div>
     </div>
   </div>
 </section>
@@ -416,14 +508,12 @@ input,textarea{font-family:inherit;outline:none}
   </button>
 </nav>
 
-<!-- ========================================================
-     VOICE ROOM SCREEN (SCREENSHOT HICHAT MODEL)
-======================================================== -->
+<!-- VOICE ROOM SCREEN (SCREENSHOT HICHAT MODEL) -->
 <div id="roomScreen">
 
   <!-- TOP BAR -->
   <div class="room-top">
-    <div class="room-profile">
+    <div class="room-profile" onclick="openModal('roomDetailModal')">
       <img class="room-avatar" src="https://i.pravatar.cc/100?img=33" alt="Host">
       <div class="room-meta">
         <b id="roomTitleText">জিরো প...</b>
@@ -438,7 +528,7 @@ input,textarea{font-family:inherit;outline:none}
 
     <div class="room-top-right">
       <div class="room-circle-btn">🎯</div>
-      <div class="room-circle-btn">↗️</div>
+      <div class="room-circle-btn" onclick="openModal('roomSettingsModal')">⚙️</div>
       <div class="room-circle-btn" style="background:#ef4444" onclick="leaveRoom()">⚡</div>
     </div>
   </div>
@@ -476,7 +566,7 @@ input,textarea{font-family:inherit;outline:none}
       <div class="side-widget-box" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
         <b style="font-size:8px">WEEKLY</b><b>STAR</b>
       </div>
-      <div class="side-widget-box" style="background:linear-gradient(135deg,#10b981,#059669)">
+      <div class="side-widget-box" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="openModal('gamesModal')">
         <span>Lucky fruit</span><b>🎰 30</b>
       </div>
     </div>
@@ -485,7 +575,7 @@ input,textarea{font-family:inherit;outline:none}
   <!-- CHAT & ANNOUNCEMENT -->
   <div class="room-chat-area">
     <div class="room-notice">
-      <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
+      <b>Announcement:</b> আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ।
     </div>
     <div class="room-welcome-line">
       Welcome <b>༄Mia...✿Vai3</b> to the room
@@ -493,7 +583,7 @@ input,textarea{font-family:inherit;outline:none}
     <div class="room-chat-line">
       <span class="badge-lvl">LV.41</span>
       <span class="badge-vip">SVIP2</span>
-      <b style="color:#60a5fa">@Mia..Vai:</b> কেমন আছেন প্রিয়
+      <b style="color:#60a5fa">@Mia..Vai:</b> কেমন আছেন প্রিয়
     </div>
   </div>
 
@@ -503,12 +593,168 @@ input,textarea{font-family:inherit;outline:none}
     <div class="room-tool-btn">💬</div>
     <div class="room-tool-btn">🔊</div>
     <div class="room-tool-btn">🎙️</div>
-    <div class="room-tool-btn">😊</div>
-    <div class="room-tool-btn">🎛️</div>
-    <div class="room-tool-btn">🎮</div>
-    <div class="room-gift-btn" onclick="showToast('Gift Panel Opened')">🎁</div>
+    <div class="room-tool-btn" onclick="openModal('emojiModal')">😊</div>
+    <div class="room-tool-btn" onclick="openModal('propsModal')">🎛️</div>
+    <div class="room-tool-btn" onclick="openModal('gamesModal')">🎮</div>
+    <div class="room-gift-btn" onclick="openModal('giftModal')">🎁</div>
   </div>
 
+</div>
+
+<!-- SCREENSHOT 1: GIFT PANEL MODAL -->
+<div id="giftModal" class="modal-overlay" onclick="closeModalOnBg(event, 'giftModal')">
+  <div class="bottom-sheet">
+    <div class="gift-tabs">
+      <span class="gift-tab active">Gift</span>
+      <span class="gift-tab">Aristocracy</span>
+      <span class="gift-tab">Exclusive</span>
+      <span class="gift-tab">Customize</span>
+    </div>
+    <div class="gift-grid">
+      <div class="gift-card">
+        <span style="font-size:30px">🏰</span>
+        <b>Castle Guardian</b>
+        <span class="price">🪙 10000000</span>
+      </div>
+      <div class="gift-card">
+        <span style="font-size:30px">👸</span>
+        <b>Sun Goddess</b>
+        <span class="price">🪙 10000000</span>
+      </div>
+      <div class="gift-card">
+        <span style="font-size:30px">🐅</span>
+        <b>Flame Tiger</b>
+        <span class="price">🪙 20000000</span>
+      </div>
+      <div class="gift-card">
+        <span style="font-size:30px">🦅</span>
+        <b>Firehawk</b>
+        <span class="price">🪙 10000000</span>
+      </div>
+      <div class="gift-card">
+        <span style="font-size:30px">⚽</span>
+        <b>Golden Football</b>
+        <span class="price">🪙 299999</span>
+      </div>
+      <div class="gift-card">
+        <span style="font-size:30px">🏆</span>
+        <b>Championship</b>
+        <span class="price">🪙 699999</span>
+      </div>
+    </div>
+    <div class="gift-bottom">
+      <div><b>🪙 8458</b> &gt;</div>
+      <button class="send-btn" onclick="showToast('Gift Sent!')">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOT 2: CASUAL & LUCKY GAMES MODAL -->
+<div id="gamesModal" class="modal-overlay" onclick="closeModalOnBg(event, 'gamesModal')">
+  <div class="bottom-sheet">
+    <div class="games-sec-title">Casual Games</div>
+    <div class="casual-grid">
+      <div class="game-card">
+        <div style="font-size:30px">🎲</div>
+        <b>Ludo</b>
+      </div>
+      <div class="game-card">
+        <div style="font-size:30px">👑</div>
+        <b>Ludo Team</b>
+      </div>
+      <div class="game-card">
+        <div style="font-size:30px">🎯</div>
+        <b>Carrom</b>
+      </div>
+      <div class="game-card">
+        <div style="font-size:30px">🎴</div>
+        <b>UMO</b>
+      </div>
+      <div class="game-card">
+        <div style="font-size:30px">🀄</div>
+        <b>Domino</b>
+      </div>
+    </div>
+
+    <div class="games-sec-title">Lucky Game</div>
+    <div class="lucky-grid">
+      <div class="lucky-card"><div style="font-size:26px">🍎</div>Lucky fruit</div>
+      <div class="lucky-card"><div style="font-size:26px">🧞</div>Greedy Pro</div>
+      <div class="lucky-card"><div style="font-size:26px">🎰</div>Jackpot</div>
+      <div class="lucky-card"><div style="font-size:26px">🃏</div>Teen Patti</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOT 3: PROPS & PARTY STORE MODAL -->
+<div id="propsModal" class="modal-overlay" onclick="closeModalOnBg(event, 'propsModal')">
+  <div class="bottom-sheet">
+    <div style="font-size:14px;font-weight:bold;margin-bottom:10px">Props Store</div>
+    <div class="props-grid" style="margin-bottom:15px">
+      <div class="props-item"><div class="icon-lg">🏪</div>Store</div>
+      <div class="props-item"><div class="icon-lg">💖</div>Love Store</div>
+      <div class="props-item"><div class="icon-lg">🎒</div>Prop Warehouse</div>
+    </div>
+    <div style="font-size:14px;font-weight:bold;margin-bottom:10px">Party</div>
+    <div class="props-grid">
+      <div class="props-item"><div class="icon-lg">🧧</div>Lucky bag</div>
+      <div class="props-item"><div class="icon-lg">🎙️</div>Mic pk</div>
+      <div class="props-item"><div class="icon-lg">⚔️</div>PK</div>
+      <div class="props-item"><div class="icon-lg">🎡</div>Super winner</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOT 4: EMOJI MODAL -->
+<div id="emojiModal" class="modal-overlay" onclick="closeModalOnBg(event, 'emojiModal')">
+  <div class="bottom-sheet" style="background:#fff;color:#222">
+    <div class="emoji-grid">
+      <div class="emoji-item"><span>👏</span>Guess</div>
+      <div class="emoji-item"><span>🎲</span>Hey</div>
+      <div class="emoji-item"><span>🎰</span>Cool</div>
+      <div class="emoji-item"><span>😊</span>Smile</div>
+      <div class="emoji-item"><span>😭</span>Cry</div>
+      <div class="emoji-item"><span>🙋‍♂️</span>Raise hand</div>
+      <div class="emoji-item"><span>🫰</span>Like</div>
+      <div class="emoji-item"><span>👍</span>Definite</div>
+      <div class="emoji-item"><span>👋</span>Bye</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOT 7: ROOM DETAIL MODAL -->
+<div id="roomDetailModal" class="modal-overlay" onclick="closeModalOnBg(event, 'roomDetailModal')">
+  <div class="bottom-sheet room-detail-box">
+    <b>Room Detail</b>
+    <div class="rd-card">
+      <img src="https://i.pravatar.cc/100?img=33">
+      <div>
+        <b style="font-size:14px">জিরো পয়েন্ট</b>
+        <div style="font-size:11px;color:#666">ID: 349200</div>
+      </div>
+    </div>
+    <div style="margin-top:15px;font-size:12px;color:#555">
+      <b>Online room users (1)</b>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+        <img src="https://i.pravatar.cc/100?img=12" style="width:36px;height:36px;border-radius:50%">
+        <div><b>༄Mia...✿Vai3</b> <span class="badge-lvl">LV.41</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOT 8 & 9: ROOM SETTINGS MODAL -->
+<div id="roomSettingsModal" class="modal-overlay" onclick="closeModalOnBg(event, 'roomSettingsModal')">
+  <div class="bottom-sheet">
+    <div style="font-size:16px;font-weight:bold;text-align:center;margin-bottom:15px">Room Setting</div>
+    <div class="setting-item"><span>Room Name</span><small>জিরো পয়েন্ট &gt;</small></div>
+    <div class="setting-item"><span>Room Notice</span><small>আসসালামু আলাইকুম... &gt;</small></div>
+    <div class="setting-item"><span>Join Room Owner Support Program</span><input type="checkbox" checked></div>
+    <div class="setting-item"><span>Room Welcome Message</span><small>🔴 &gt;</small></div>
+    <div class="setting-item"><span>Room Type</span><small>Chat 🔴 &gt;</small></div>
+    <div class="setting-item"><span>Mic mode</span><small>open mode &gt;</small></div>
+    <div class="setting-item"><span>Wheat mode</span><small>9 people &gt;</small></div>
+  </div>
 </div>
 
 <div id="toast"></div>
@@ -530,6 +776,16 @@ function enterRoom(roomId) {
 
 function leaveRoom() {
   document.getElementById('roomScreen').classList.remove('show');
+}
+
+function openModal(modalId) {
+  document.getElementById(modalId).classList.add('show');
+}
+
+function closeModalOnBg(event, modalId) {
+  if (event.target.id === modalId) {
+    document.getElementById(modalId).classList.remove('show');
+  }
 }
 
 function showToast(msg) {
