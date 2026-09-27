@@ -136,18 +136,18 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 .profile-name { font-size: 22px; font-weight: bold; color: #111; letter-spacing: -0.5px; }
 .profile-id { font-size: 13px; color: #888; margin-top: 5px; }
-.profile-settings-icon { position: absolute; right: 0; top: 10px; font-size: 20px; color: #888; font-weight: bold; letter-spacing: -2px; }
+.profile-settings-icon { position: absolute; right: 0; top: 10px; font-size: 20px; color: #888; font-weight: bold; letter-spacing: -2px; cursor: pointer; }
 
 .profile-stats-row { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-right: 15px; }
 .stats-left { display: flex; gap: 35px; margin-left: 20px; text-align: center; }
 .stat-value { font-size: 18px; font-weight: bold; color: #111; }
 .stat-label { font-size: 13px; color: #aaa; margin-top: 2px; }
-.family-shield { text-align: center; }
+.family-shield { text-align: center; cursor: pointer; }
 .family-shield-icon { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(255,215,0,0.4)); }
 .family-shield-text { font-size: 10px; font-weight: bold; color: #92400e; margin-top: -5px; }
 
 .profile-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
-.pr-card { border-radius: 14px; padding: 15px; color: #fff; position: relative; overflow: hidden; height: 85px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+.pr-card { border-radius: 14px; padding: 15px; color: #fff; position: relative; overflow: hidden; height: 85px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; }
 .pr-card.wallet { background: linear-gradient(135deg, #ff8a65, #ffcc80); }
 .pr-card.store { background: linear-gradient(135deg, #4fc3f7, #81d4fa); }
 .pr-card-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; z-index: 2; }
@@ -165,6 +165,17 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .badge-pill { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; font-style: italic; border: 1px solid gold; display: flex; align-items: center; gap: 4px; color: #fff; }
 .badge-lv { background: linear-gradient(90deg, #6b21a8, #d946ef); }
 .badge-svip { background: linear-gradient(90deg, #065f46, #10b981); color: gold; }
+
+/* EDIT PROFILE MODAL */
+#editProfileModal {
+  background: #f7f8fc; color: #222;
+}
+.edit-input-group {
+  background: #fff; padding: 12px 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+}
+.edit-input-group input {
+  border: none; outline: none; text-align: right; font-size: 14px; font-weight: bold; color: #555;
+}
 
 #toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
 #toast.show { opacity: 1; }
@@ -184,7 +195,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
       </div>
       <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
-      <button class="top-action btn3d primary" onclick="enterRoom('My Personal Room', 'https://i.pravatar.cc/150?img=12')">＋</button>
+      <button class="top-action btn3d primary" onclick="enterRoom('My Personal Room', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
     </div>
 
     <div id="popularContent">
@@ -195,8 +206,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
             <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
             <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
             <div class="event-slide" style="background:linear-gradient(110deg,#2563eb,#3b82f6)"><div class="event-content"><h2>💎 Diamond Bonus</h2><p>Get extra 20% diamonds now.</p><button class="event-btn" onclick="showToast('Recharge Page')">Recharge</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#7c3aed,#a855f7)"><div class="event-content"><h2>🎤 Singing Talent</h2><p>Participate & show your voice.</p><button class="event-btn">Join</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#db2777,#f43f5e)"><div class="event-content"><h2>🌹 Romantic CP Night</h2><p>Match your best partner tonight.</p><button class="event-btn" onclick="openCPZone()">Match</button></div></div>
           </div>
         </div>
       </div>
@@ -240,25 +249,25 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   
   <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div><div style="padding:15px"><div style="background:#fff; padding:12px; border-radius:12px; display:flex; gap:10px; align-items:center"><img src="https://i.pravatar.cc/150?img=5" style="width:40px; height:40px; border-radius:50%"><div><b>MRChat Official</b><br><small style="color:#777">Welcome to the application!</small></div></div></div></section>
 
-  <!-- ==================== ME / PROFILE PAGE (EXACT SCREENSHOT DESIGN) ==================== -->
+  <!-- ==================== ME / PROFILE PAGE ==================== -->
   <section id="mePage" class="page">
     <div class="profile-bg">
       
       <!-- Top Profile Info -->
       <div class="profile-header">
-        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar">
+        <img id="userAvatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openEditProfile()">
         <div>
-          <div class="profile-name">༄Mia༆✿Vai༊</div>
+          <div id="userName" class="profile-name">༄Mia༆✿Vai༊</div>
           <div class="profile-id">ID:100927248</div>
         </div>
-        <div class="profile-settings-icon">⇌</div>
+        <div class="profile-settings-icon" onclick="openEditProfile()">⇌</div>
       </div>
 
       <!-- Stats & Family Badge -->
       <div class="profile-stats-row">
         <div class="stats-left">
-          <div><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
+          <div onclick="showToast('Follow List')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
+          <div onclick="showToast('Fans List')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
         </div>
         <div class="family-shield" onclick="openFamilyPage()">
           <div class="family-shield-icon">🏰</div>
@@ -268,24 +277,24 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
       <!-- Wallet & Store Cards -->
       <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet Clicked')">
+        <div class="pr-card wallet" onclick="showToast('Wallet Balance: 13,658 Coins')">
           <div class="pr-card-title">Wallet</div>
           <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> 13658</div>
           <div class="pr-card-icon">👛</div>
         </div>
-        <div class="pr-card store" onclick="showToast('Store Clicked')">
+        <div class="pr-card store" onclick="showToast('Store Opening...')">
           <div class="pr-card-title">Store</div>
           <div class="pr-card-icon">🏪</div>
         </div>
       </div>
 
-      <!-- Settings List 1 -->
+      <!-- Settings List 1 (SCREENSHOT 1) -->
       <div class="pr-list-group">
-        <div class="pr-list-item" onclick="showToast('Invite get coins')">
+        <div class="pr-list-item" onclick="showToast('Invite Friends to get Coins')">
           <div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Love House Space')">
           <div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
@@ -293,43 +302,43 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
           <div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Prop Warehouse Opened')">
           <div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Medal List')">
           <div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('User Level: LV.41')">
           <div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div>
           <div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('SVIP Level: SVIP2')">
           <div class="pr-list-left"><span class="pr-list-icon">💎</span> SVIP</div>
           <div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP2</div><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Aristocracy Status')">
           <div class="pr-list-left"><span class="pr-list-icon">👑</span> Aristocracy</div>
           <div class="pr-list-right"><span style="font-size:22px">🐺</span><i>&gt;</i></div>
         </div>
       </div>
 
-      <!-- Settings List 2 -->
+      <!-- Settings List 2 (SCREENSHOT 2) -->
       <div class="pr-list-group" style="margin-bottom: 30px;">
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Select Language')">
           <div class="pr-list-left"><span class="pr-list-icon">🌐</span> Language</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Customer Service is currently Offline')">
           <div class="pr-list-left"><span class="pr-list-icon">🎧</span> Customer service</div>
           <div class="pr-list-right"><span style="font-size:12px"><span style="color:#aaa">●</span> Offline</span><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="showToast('Feedback Form')">
           <div class="pr-list-left"><span class="pr-list-icon">💬</span> Feedback</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
-        <div class="pr-list-item">
+        <div class="pr-list-item" onclick="openEditProfile()">
           <div class="pr-list-left"><span class="pr-list-icon">⚙️</span> Settings</div>
           <div class="pr-list-right"><i>&gt;</i></div>
         </div>
@@ -347,7 +356,39 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">😊</div><span>Me</span></button>
   </nav>
 
-  <!-- ==================== MODALS (UNCHANGED) ==================== -->
+  <!-- ==================== EDIT PROFILE MODAL ==================== -->
+  <div id="editProfileModal" class="modal-screen">
+    <div class="modal-header" style="background:#fff; color:#222; border-bottom:1px solid #eee">
+      <span onclick="closeEditProfile()" style="color:#666">&lt; Back</span>
+      <span>Edit Profile</span>
+      <span onclick="saveProfile()" style="color:#5036df; font-weight:bold">Save</span>
+    </div>
+    <div style="padding:20px">
+      <div style="text-align:center; margin-bottom:20px">
+        <img id="editAvatarPreview" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:80px; height:80px; border-radius:50%; border:3px solid #5036df; object-fit:cover">
+        <p style="font-size:12px; color:#5036df; margin-top:6px; font-weight:bold" onclick="showToast('Change Photo Clicked')">Change Avatar</p>
+      </div>
+
+      <div class="edit-input-group">
+        <span style="font-size:14px; color:#333; font-weight:bold">Nickname</span>
+        <input type="text" id="editNameInput" value="༄Mia༆✿Vai༊">
+      </div>
+      <div class="edit-input-group">
+        <span style="font-size:14px; color:#333; font-weight:bold">ID</span>
+        <span style="font-size:14px; color:#888; font-weight:bold">100927248</span>
+      </div>
+      <div class="edit-input-group">
+        <span style="font-size:14px; color:#333; font-weight:bold">Gender</span>
+        <span style="font-size:14px; color:#555; font-weight:bold">Male &gt;</span>
+      </div>
+      <div class="edit-input-group">
+        <span style="font-size:14px; color:#333; font-weight:bold">Signature</span>
+        <input type="text" value="Welcome to MRChat!">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
   <div id="rankingModal" class="modal-screen rank-bg">
     <div class="modal-header"><span onclick="closeRanking()">&lt; Back</span><span>Leaderboard</span><span style="opacity:0">Back</span></div>
     <div class="rank-tabs"><span class="rank-tab active">Daily</span><span class="rank-tab">Weekly</span><span class="rank-tab">Monthly</span></div>
@@ -417,11 +458,11 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 </div>
 
 <script>
-// AUTO SLIDER (6 EVENTS)
+// AUTO SLIDER (4 EVENTS)
 let slideIndex = 0;
 const slider = document.getElementById('eventSlider');
 setInterval(() => {
-  slideIndex = (slideIndex + 1) % 6;
+  slideIndex = (slideIndex + 1) % 4;
   slider.style.transform = `translateX(-${slideIndex * 100}%)`;
 }, 3000);
 
@@ -482,6 +523,18 @@ function switchHomeTab(tab) {
     tabs[2].classList.add('active');
     document.getElementById('recentContent').style.display = 'block';
   }
+}
+
+// EDIT PROFILE MODAL LOGIC
+function openEditProfile() { document.getElementById('editProfileModal').classList.add('show'); }
+function closeEditProfile() { document.getElementById('editProfileModal').classList.remove('show'); }
+function saveProfile() {
+  const newName = document.getElementById('editNameInput').value;
+  if(newName.trim() !== "") {
+    document.getElementById('userName').innerText = newName;
+  }
+  closeEditProfile();
+  showToast('Profile Saved Successfully!');
 }
 
 // MODAL CONTROLS
