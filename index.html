@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -19,36 +18,36 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* PAGE CONTAINERS */
 .page{
-  position:absolute;inset:0;background:#f7f8fc;display:none;
-  overflow-y:auto;padding-bottom:80px;z-index:1;
+  position:absolute;inset:0;background:#f7f8fc;display:none;
+  overflow-y:auto;padding-bottom:80px;z-index:1;
 }
 .page.show{display:block}
 
 /* 3D BUTTONS */
 .btn3d{
-  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
-  box-shadow:0 4px 0 #c8cad3,0 6px 12px rgba(40,45,80,.12);transition:.1s
+  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
+  box-shadow:0 4px 0 #c8cad3,0 6px 12px rgba(40,45,80,.12);transition:.1s
 }
 .btn3d:active{transform:translateY(3px);box-shadow:0 1px 0 #c8cad3}
 .btn3d.primary{
-  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
-  box-shadow:0 4px 0 #3824a9
+  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
+  box-shadow:0 4px 0 #3824a9
 }
 
 /* TOP BAR */
 .home-top{
-  height:60px;background:#fff;display:flex;align-items:center;
-  padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05)
+  height:60px;background:#fff;display:flex;align-items:center;
+  padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05)
 }
 .home-tabs{
-  display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
-  background:#f0eff6;border-radius:14px
+  display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
+  background:#f0eff6;border-radius:14px
 }
 .home-tab{
-  height:34px;padding:0 8px;border-radius:11px;display:flex;
-  align-items:center;justify-content:center;font-size:12px;font-weight:800;
-  color:#888;white-space:nowrap;background:transparent;flex:1;
+  height:34px;padding:0 8px;border-radius:11px;display:flex;
+  align-items:center;justify-content:center;font-size:12px;font-weight:800;
+  color:#888;white-space:nowrap;background:transparent;flex:1;
 }
 .home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
 
@@ -57,8 +56,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 /* SLIDER */
 .event-slider-wrap{padding:10px 10px 4px}
 .event-slider{
-  width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
-  box-shadow:0 6px 16px rgba(0,0,0,0.15)
+  width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15)
 }
 .slider-container{display:flex;width:100%;height:100%;transition:transform 0.5s ease-in-out}
 .event-slide{min-width:100%;height:100%;position:relative;color:white;flex-shrink:0}
@@ -81,8 +80,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* BOTTOM NAVIGATION */
 .bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
-  border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
+  position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
+  border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
 }
 .nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:transparent;font-size:10px;font-weight:bold}
 .nav-item.active{color:#8b5cf6}
@@ -91,8 +90,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* MODAL SCREENS */
 .modal-screen {
-  position: fixed; inset: 0; z-index: 500; display: none;
-  flex-direction: column; overflow: hidden; background: #0f0823; color: white;
+  position: fixed; inset: 0; z-index: 500; display: none;
+  flex-direction: column; overflow: hidden; background: #0f0823; color: white;
 }
 .modal-screen.show { display: flex; }
 
@@ -106,8 +105,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* ME / PROFILE PAGE DESIGN */
 .profile-bg {
-  background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
-  min-height: 100%; padding: 15px; color: #222;
+  background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
+  min-height: 100%; padding: 15px; color: #222;
 }
 .profile-header { display: flex; align-items: center; gap: 15px; position: relative; margin-top: 15px; }
 .profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
@@ -151,15 +150,15 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* ROOM STYLES */
 #roomScreen {
-  position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between;
-  background: radial-gradient(circle at 50% 30%, #a21caf 0%, #6b21a8 45%, #2e1065 100%);
-  color: #fff; overflow: hidden;
+  position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between;
+  background: radial-gradient(circle at 50% 30%, #a21caf 0%, #6b21a8 45%, #2e1065 100%);
+  color: #fff; overflow: hidden;
 }
 #roomScreen.show { display: flex; }
 
 .v-room-top {
-  padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between;
-  background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
+  padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
 }
 .v-room-info { display: flex; align-items: center; gap: 8px; }
 .v-room-avatar { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #fff; object-fit: cover; }
@@ -173,34 +172,34 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .v-icon-circle { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; }
 
 .v-cup-pill {
-  margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 12px; width: fit-content; padding: 2px 10px;
-  font-size: 11px; font-weight: bold; color: #fde047; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.1);
+  margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 12px; width: fit-content; padding: 2px 10px;
+  font-size: 11px; font-weight: bold; color: #fde047; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.1);
 }
 
 .v-host-center { text-align: center; margin-top: 10px; position: relative; }
 .v-host-frame {
-  width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid #f472b6; padding: 3px;
-  background: radial-gradient(circle, #f472b6 0%, transparent 80%); position: relative;
+  width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid #f472b6; padding: 3px;
+  background: radial-gradient(circle, #f472b6 0%, transparent 80%); position: relative;
 }
 .v-host-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .v-host-name { font-size: 12px; font-weight: bold; color: #38bdf8; margin-top: 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
 .v-seats-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 20px 15px; margin-top: 10px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 20px 15px; margin-top: 10px;
 }
 .v-seat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
 .v-seat-circle {
-  width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.12);
-  border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+  width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 .v-seat-icon { font-size: 18px; opacity: 0.6; }
 .v-seat-num { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; font-weight: bold; }
 
 .v-floating-banners { position: absolute; right: 10px; top: 40%; display: flex; flex-direction: column; gap: 12px; z-index: 10; }
 .v-float-card {
-  width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; text-align: center; cursor: pointer;
+  width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; text-align: center; cursor: pointer;
 }
 
 .v-room-body { padding: 0 15px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; margin-top: auto; margin-bottom: 5px; }
@@ -212,41 +211,41 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* ROOM BOTTOM BAR */
 .v-room-bottom {
-  padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
-  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
 }
 .v-say-hi-btn {
-  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
-  padding: 8px 14px; font-size: 11px; color: rgba(255,255,255,0.8); flex: 1; max-width: 100px;
-  text-align: left;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
+  padding: 8px 14px; font-size: 11px; color: rgba(255,255,255,0.8); flex: 1; max-width: 100px;
+  text-align: left;
 }
 .v-bottom-icon {
-  width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; cursor: pointer; transition: 0.2s;
+  width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; cursor: pointer; transition: 0.2s;
 }
 .v-bottom-icon:active { transform: scale(0.9); }
 .v-gift-btn {
-  width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 12px rgba(168,85,247,0.6); cursor: pointer;
+  width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7);
+  display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 12px rgba(168,85,247,0.6); cursor: pointer;
 }
 
 /* GIFT MODAL STYLES */
 #giftModal {
-  position: fixed; inset: 0; z-index: 700; display: none;
-  background: rgba(0,0,0,0.6); align-items: flex-end; justify-content: center;
+  position: fixed; inset: 0; z-index: 700; display: none;
+  background: rgba(0,0,0,0.6); align-items: flex-end; justify-content: center;
 }
 #giftModal.show { display: flex; }
 
 .gift-panel {
-  width: 100%; max-width: 480px; background: rgba(15, 8, 35, 0.95);
-  backdrop-filter: blur(15px); border-top-left-radius: 24px; border-top-right-radius: 24px;
-  padding: 15px; color: #fff; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.1);
-  animation: slideUp 0.3s ease-out;
+  width: 100%; max-width: 480px; background: rgba(15, 8, 35, 0.95);
+  backdrop-filter: blur(15px); border-top-left-radius: 24px; border-top-right-radius: 24px;
+  padding: 15px; color: #fff; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.1);
+  animation: slideUp 0.3s ease-out;
 }
 
 @keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
 
 .gift-tabs { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
@@ -254,32 +253,32 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .gift-tab-item { font-size: 14px; font-weight: bold; color: rgba(255,255,255,0.6); position: relative; padding-bottom: 4px; cursor: pointer; }
 .gift-tab-item.active { color: #fff; }
 .gift-tab-item.active::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #a855f7, #ec4899); border-radius: 2px;
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #a855f7, #ec4899); border-radius: 2px;
 }
 
 .gift-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-  margin: 15px 0; max-height: 280px; overflow-y: auto; padding-right: 4px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin: 15px 0; max-height: 280px; overflow-y: auto; padding-right: 4px;
 }
 .gift-card {
-  background: rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 6px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  border: 1px solid rgba(255,255,255,0.05); position: relative; cursor: pointer; transition: 0.2s;
+  background: rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.05); position: relative; cursor: pointer; transition: 0.2s;
 }
 .gift-card.selected {
-  border-color: #a855f7; background: rgba(168,85,247,0.15); box-shadow: 0 0 10px rgba(168,85,247,0.3);
+  border-color: #a855f7; background: rgba(168,85,247,0.15); box-shadow: 0 0 10px rgba(168,85,247,0.3);
 }
 .gift-title { font-size: 10px; font-weight: bold; color: #fff; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .gift-price { font-size: 9px; color: #fbbf24; margin-top: 2px; display: flex; align-items: center; gap: 2px; font-weight: bold; }
 
 .gift-badge-star {
-  position: absolute; top: 4px; right: 4px; background: #3b82f6; color: #fff; font-size: 8px;
-  border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;
+  position: absolute; top: 4px; right: 4px; background: #3b82f6; color: #fff; font-size: 8px;
+  border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;
 }
 .gift-badge-new {
-  position: absolute; top: 4px; left: 4px; background: #ef4444; color: #fff; font-size: 8px;
-  padding: 1px 4px; border-radius: 8px; font-weight: bold;
+  position: absolute; top: 4px; left: 4px; background: #ef4444; color: #fff; font-size: 8px;
+  padding: 1px 4px; border-radius: 8px; font-weight: bold;
 }
 
 .gift-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
@@ -290,45 +289,45 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 /* GAME PANEL MODAL STYLES */
 #gameModal {
-  position: fixed; inset: 0; z-index: 700; display: none;
-  background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(8px);
+  position: fixed; inset: 0; z-index: 700; display: none;
+  background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(8px);
 }
 #gameModal.show { display: flex; }
 
 .game-panel {
-  width: 100%; max-width: 480px; background: linear-gradient(180deg, #241442 0%, #0d061c 100%);
-  border-top-left-radius: 28px; border-top-right-radius: 28px;
-  padding: 20px 16px 30px; color: #fff; box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-  border-top: 1px solid rgba(255,255,255,0.2); max-height: 82vh; overflow-y: auto;
-  animation: slideUp 0.3s ease-out;
+  width: 100%; max-width: 480px; background: linear-gradient(180deg, #241442 0%, #0d061c 100%);
+  border-top-left-radius: 28px; border-top-right-radius: 28px;
+  padding: 20px 16px 30px; color: #fff; box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+  border-top: 1px solid rgba(255,255,255,0.2); max-height: 82vh; overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
 }
 
 .game-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .game-coin-badge {
-  background: linear-gradient(90deg, rgba(251,191,36,0.2), rgba(245,158,11,0.05)); padding: 6px 14px; border-radius: 20px;
-  font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
-  border: 1px solid rgba(251,191,36,0.4); box-shadow: 0 0 10px rgba(251,191,36,0.1);
+  background: linear-gradient(90deg, rgba(251,191,36,0.2), rgba(245,158,11,0.05)); padding: 6px 14px; border-radius: 20px;
+  font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(251,191,36,0.4); box-shadow: 0 0 10px rgba(251,191,36,0.1);
 }
 
 .game-sec-title { font-size: 15px; font-weight: bold; color: #fff; margin: 18px 0 12px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
 
 .casual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .casual-card {
-  background: rgba(255,255,255,0.06); border-radius: 18px; padding: 10px 8px;
-  display: flex; flex-direction: column; align-items: center; cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.1); transition: transform 0.2s, background 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.06); border-radius: 18px; padding: 10px 8px;
+  display: flex; flex-direction: column; align-items: center; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.1); transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .casual-card:active { transform: scale(0.94); background: rgba(255,255,255,0.12); }
 .casual-img-box {
-  width: 100%; height: 65px; border-radius: 14px; overflow: hidden;
-  display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 8px;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.3); position: relative;
+  width: 100%; height: 65px; border-radius: 14px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 8px;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.3); position: relative;
 }
 .casual-img-box::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
 }
 .casual-title { font-size: 12px; font-weight: bold; color: #f3f4f6; text-align: center; }
 
@@ -336,29 +335,29 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .lucky-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
 .lucky-card:active { transform: scale(0.92); }
 .lucky-icon-wrap {
-  width: 58px; height: 58px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
-  display: flex; align-items: center; justify-content: center; font-size: 28px;
-  border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 6px 15px rgba(0,0,0,0.4); position: relative;
+  width: 58px; height: 58px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+  border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 6px 15px rgba(0,0,0,0.4); position: relative;
 }
 .red-dot {
-  position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
-  background: #ef4444; border-radius: 50%; border: 2px solid #18112e;
+  position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
+  background: #ef4444; border-radius: 50%; border: 2px solid #18112e;
 }
 .lucky-title { font-size: 11px; font-weight: bold; color: #d1d5db; text-align: center; margin-top: 6px; line-height: 1.2; }
 
 /* ==================== LUCKY FRUIT GAME MODAL ==================== */
 #luckyFruitModal {
-  position: fixed; inset: 0; z-index: 850; display: none;
-  background: rgba(0,0,0,0.8); align-items: center; justify-content: center;
-  backdrop-filter: blur(8px);
+  position: fixed; inset: 0; z-index: 850; display: none;
+  background: rgba(0,0,0,0.8); align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
 }
 #luckyFruitModal.show { display: flex; }
 
 .lf-panel {
-  width: 95%; max-width: 420px; background: linear-gradient(180deg, #2b1204 0%, #130701 100%);
-  border-radius: 24px; border: 2px solid #fbbf24; padding: 15px; color: #fff;
-  box-shadow: 0 0 30px rgba(251,191,36,0.3); position: relative; display: flex;
-  flex-direction: column; align-items: center; overflow: hidden;
+  width: 95%; max-width: 420px; background: linear-gradient(180deg, #2b1204 0%, #130701 100%);
+  border-radius: 24px; border: 2px solid #fbbf24; padding: 15px; color: #fff;
+  box-shadow: 0 0 30px rgba(251,191,36,0.3); position: relative; display: flex;
+  flex-direction: column; align-items: center; overflow: hidden;
 }
 
 .lf-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -369,16 +368,16 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .lf-timer-title { font-size: 12px; font-weight: bold; color: #fde047; margin-bottom: 4px; }
 
 .lf-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  width: 100%; background: #261106; padding: 10px; border-radius: 18px;
-  border: 1px solid rgba(251,191,36,0.3); box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  width: 100%; background: #261106; padding: 10px; border-radius: 18px;
+  border: 1px solid rgba(251,191,36,0.3); box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
 }
 
 .lf-cell {
-  background: linear-gradient(145deg, #421e0b, #210d03); border-radius: 14px;
-  padding: 8px 4px; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; border: 1.5px solid #854d0e; cursor: pointer;
-  position: relative; transition: all 0.15s ease; min-height: 80px;
+  background: linear-gradient(145deg, #421e0b, #210d03); border-radius: 14px;
+  padding: 8px 4px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; border: 1.5px solid #854d0e; cursor: pointer;
+  position: relative; transition: all 0.15s ease; min-height: 80px;
 }
 .lf-cell.active-bet { border-color: #facc15; background: rgba(234,179,8,0.25); }
 .lf-cell.highlight { border-color: #38bdf8; background: #0284c7; box-shadow: 0 0 15px #38bdf8; transform: scale(1.03); }
@@ -386,26 +385,26 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .lf-icon { font-size: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
 .lf-rate { font-size: 9px; font-weight: bold; color: #fef08a; margin-top: 2px; }
 .lf-my-bet {
-  position: absolute; top: 3px; right: 4px; background: #ef4444; color: #fff;
-  font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 10px;
+  position: absolute; top: 3px; right: 4px; background: #ef4444; color: #fff;
+  font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 10px;
 }
 
 .lf-center-timer {
-  background: radial-gradient(circle, #451a03 0%, #1a0801 100%);
-  border-radius: 14px; border: 2px solid #eab308; display: flex;
-  flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle, #451a03 0%, #1a0801 100%);
+  border-radius: 14px; border: 2px solid #eab308; display: flex;
+  flex-direction: column; align-items: center; justify-content: center;
 }
 .lf-timer-num { font-size: 28px; font-weight: 900; color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,0.8); }
 
 .lf-chips-sec { display: flex; gap: 8px; margin: 12px 0 8px; justify-content: center; width: 100%; }
 .lf-chip {
-  width: 50px; height: 32px; border-radius: 16px; background: linear-gradient(135deg, #374151, #1f2937);
-  border: 1.5px solid #6b7280; display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: bold; color: #fff; cursor: pointer; transition: 0.2s;
+  width: 50px; height: 32px; border-radius: 16px; background: linear-gradient(135deg, #374151, #1f2937);
+  border: 1.5px solid #6b7280; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: bold; color: #fff; cursor: pointer; transition: 0.2s;
 }
 .lf-chip.selected {
-  background: linear-gradient(135deg, #a855f7, #6366f1); border-color: #f472b6;
-  box-shadow: 0 0 10px rgba(168,85,247,0.6); transform: scale(1.05);
+  background: linear-gradient(135deg, #a855f7, #6366f1); border-color: #f472b6;
+  box-shadow: 0 0 10px rgba(168,85,247,0.6); transform: scale(1.05);
 }
 
 .lf-bottom-bar { display: flex; justify-content: space-between; width: 100%; font-size: 11px; font-weight: bold; padding: 6px 10px; background: rgba(0,0,0,0.4); border-radius: 12px; }
@@ -424,111 +423,147 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 <body>
 <div id="app">
 
-  <!-- AUTO UPDATE NOTIFICATION -->
-  <div id="updateBanner">
-    <span style="font-size:12px; font-weight:bold">🚀 নতুন আপডেট পাওয়া গেছে!</span>
-    <button onclick="applyUpdate()">Update</button>
-  </div>
+  <!-- AUTO UPDATE NOTIFICATION -->
+  <div id="updateBanner">
+    <span style="font-size:12px; font-weight:bold">🚀 নতুন আপডেট পাওয়া গেছে!</span>
+    <button onclick="applyUpdate()">Update</button>
+  </div>
 
-  <!-- HOME PAGE -->
-  <section id="homePage" class="page show">
-    <div class="home-top">
-      <div class="home-tabs">
-        <button class="home-tab" onclick="switchHomeTab('following')">Following</button>
-        <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
-        <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
-      </div>
-      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
-      <button class="top-action btn3d primary" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
-    </div>
+  <!-- HOME PAGE -->
+  <section id="homePage" class="page show">
+    <div class="home-top">
+      <div class="home-tabs">
+        <button class="home-tab" onclick="switchHomeTab('following')">Following</button>
+        <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
+        <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
+      </div>
+      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
+      <button class="top-action btn3d primary" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
+    </div>
 
-    <div id="popularContent">
-      <div class="event-slider-wrap">
-        <div class="event-slider">
-          <div class="slider-container" id="eventSlider">
-            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
-          </div>
-        </div>
-      </div>
+    <div id="popularContent">
+      <div class="event-slider-wrap">
+        <div class="event-slider">
+          <div class="slider-container" id="eventSlider">
+            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
+          </div>
+        </div>
+      </div>
 
-      <div class="categories">
-        <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💖</div>CP</button>
-        <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
-      </div>
+      <div class="categories">
+        <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
+        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💖</div>CP</button>
+        <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+      </div>
 
-      <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
-      <div class="room-grid">
-        <div class="room-card" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">জিরো প... 🇧🇩</div>
-        </div>
-        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">Music & Songs 🎵</div>
-        </div>
-      </div>
-    </div>
-    <div id="followingContent" style="display:none; padding:15px">
-      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
-        <div style="display:flex; gap:10px; align-items:center">
-          <img src="https://i.pravatar.cc/150?img=32" style="width:40px; height:40px; border-radius:50%">
-          <div><b>সাদিয়া রহমান</b><br><small style="color:#777">ID: 100823</small></div>
-        </div>
-        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('সাদিয়ার রুম', 'https://i.pravatar.cc/150?img=32')">Enter</button>
-      </div>
-    </div>
-    <div id="recentContent" style="display:none; padding:15px"><div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div></div>
-  </section>
+      <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
+      <div class="room-grid">
+        <div class="room-card" onclick="enterRoom('জিরো প...', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
+          <div class="room-overlay"></div>
+          <div class="room-info">জিরো প... 🇧🇩</div>
+        </div>
+        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
+          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
+          <div class="room-overlay"></div>
+          <div class="room-info">Music & Songs 🎵</div>
+        </div>
+      </div>
+    </div>
+    <div id="followingContent" style="display:none; padding:15px">
+      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div style="display:flex; gap:10px; align-items:center">
+          <img src="https://i.pravatar.cc/150?img=32" style="width:40px; height:40px; border-radius:50%">
+          <div><b>সাদিয়া রহমান</b><br><small style="color:#777">ID: 100823</small></div>
+        </div>
+        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('সাদিয়ার রুম', 'https://i.pravatar.cc/150?img=32')">Enter</button>
+      </div>
+    </div>
+    <div id="recentContent" style="display:none; padding:15px"><div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div></div>
+  </section>
 
-  <!-- DISCOVER, MOMENTS, MESSAGES -->
-  <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div></section>
-  <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div></section>
-  <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div></section>
+  <!-- DISCOVER, MOMENTS, MESSAGES -->
+  <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div></section>
+  <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div></section>
+  <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div></section>
 
-  <!-- ME / PROFILE PAGE -->
-  <section id="mePage" class="page">
-    <div class="profile-bg">
-      <div class="profile-header">
-        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openProfileDetail()">
-        <div onclick="openProfileDetail()" style="cursor:pointer">
-          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
-          <div class="profile-id">ID:100927248</div>
-        </div>
-      </div>
+  <!-- ME / PROFILE PAGE -->
+  <section id="mePage" class="page">
+    <div class="profile-bg">
+      <div class="profile-header">
+        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openProfileDetail()">
+        <div onclick="openProfileDetail()" style="cursor:pointer">
+          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
+          <div class="profile-id">ID:100927248</div>
+        </div>
+      </div>
 
-      <div class="profile-stats-row">
-        <div class="stats-left">
-          <div onclick="showToast('Followers')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div onclick="showToast('Fans')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
-        </div>
-        <div class="family-shield" onclick="openFamilyPage()">
-          <div class="family-shield-icon">🏰</div>
-          <div class="family-shield-text">FAMILY</div>
-        </div>
-      </div>
+      <div class="profile-stats-row">
+        <div class="stats-left">
+          <div onclick="showToast('Followers')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
+          <div onclick="showToast('Fans')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
+        </div>
+        <div class="family-shield" onclick="openFamilyPage()">
+          <div class="family-shield-icon">🏰</div>
+          <div class="family-shield-text">FAMILY</div>
+        </div>
+      </div>
 
-      <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet: 8,458 Coins')">
-          <div class="pr-card-title">Wallet</div>
-          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> <span id="profileCoinVal">8458</span></div>
-          <div class="pr-card-icon">👛</div>
-        </div>
-        <div class="pr-card store" onclick="showToast('Store')">
-          <div class="pr-card-title">Store</div>
-          <div class="pr-card-icon">🏪</div>
-        </div>
-      </div>
+      <div class="profile-cards-grid">
+        <div class="pr-card wallet" onclick="showToast('Wallet: 8,458 Coins')">
+          <div class="pr-card-title">Wallet</div>
+          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> <span id="profileCoinVal">8458</span></div>
+          <div class="pr-card-icon">👛</div>
+        </div>
+        <div class="pr-card store" onclick="showToast('Store')">
+          <div class="pr-card-title">Store</div>
+          <div class="pr-card-icon">🏪</div>
+        </div>
+      </div>
 
-      <div class="pr-list-group">
-        <div class="pr-list-item" onclick="showToast('Invite get coins')"><div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Love House')"><div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="openCPZone()"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Prop Warehouse')"><div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Medal')"><div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div></div>
-        <div c
+      <div class="pr-list-group">
+        <div class="pr-list-item" onclick="showToast('Invite get coins')"><div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Love House')"><div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="openCPZone()"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Prop Warehouse')"><div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Medal')"><div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('SVIP Level')"><div class="pr-list-left"><span class="pr-list-icon">👑</span> SVIP</div><div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP 1</div><i>&gt;</i></div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast">Toast Message</div>
+
+<script>
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.innerText = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function switchHomeTab(tab) {
+  document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('popularContent').style.display = tab === 'popular' ? 'block' : 'none';
+  document.getElementById('followingContent').style.display = tab === 'following' ? 'block' : 'none';
+  document.getElementById('recentContent').style.display = tab === 'recent' ? 'block' : 'none';
+}
+
+function enterRoom(name, img) {
+  showToast('Entering room: ' + name);
+}
+
+function openCPZone() { showToast('CP Zone Opened'); }
+function openFamilyPage() { showToast('Family Page Opened'); }
+function openRanking() { showToast('Ranking Opened'); }
+function openProfileDetail() { showToast('Profile Detail Opened'); }
+function applyUpdate() { location.reload(); }
+</script>
+</body>
+</html>
