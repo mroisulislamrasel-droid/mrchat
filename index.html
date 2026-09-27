@@ -1,57 +1,400 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MR Chat - Full Production App Engine</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
+  body{width:100%;height:100vh;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0f172a;color:#1e293b}
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+  #app{width:100%;height:100%;position:relative;background:#f8fafc;display:flex;flex-direction:column}
 
-// রুম ডেটা ও ৮টি মাইক সিটের স্টেট
-let rooms = {
-    "349200": {
-        title: "জিরো পয়েন্ট ফ্যামিলি",
-        seats: Array(8).fill(null), // ৮টি সিট খালি
-        messages: []
+  /* APP TOP HEADER */
+  .app-header{height:50px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:20}
+  .nav-tabs{display:flex;gap:15px;align-items:center}
+  .tab-btn{font-size:15px;font-weight:700;color:#94a3b8;cursor:pointer;position:relative}
+  .tab-btn.active{color:#0f172a;font-size:17px;font-weight:900}
+  .tab-btn.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:3px;background:#7c3aed;border-radius:2px}
+
+  /* PAGE VIEWS */
+  .page-view{position:absolute;inset:0;bottom:60px;top:50px;background:#f8fafc;display:none;flex-direction:column;overflow-y:auto;z-index:10}
+  .page-view.active{display:flex}
+
+  /* BANNERS & CATEGORIES */
+  .banner-box{margin:10px 14px;height:110px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+  .banner-box img{width:100%;height:100%;object-fit:cover}
+
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 14px 10px}
+  .cat-card{background:linear-gradient(135deg,#fef3c7,#fde047);padding:10px;border-radius:12px;display:flex;flex-direction:column;gap:2px}
+  .cat-card:nth-child(2){background:linear-gradient(135deg,#e0e7ff,#c7d2fe)}
+  .cat-card:nth-child(3){background:linear-gradient(135deg,#ccfbf1,#99f6e4)}
+
+  /* ROOM GRID */
+  .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 20px}
+  .room-card{height:170px;border-radius:16px;overflow:hidden;position:relative;background:#1e293b;box-shadow:0 4px 10px rgba(0,0,0,0.08);cursor:pointer}
+  .room-card img{width:100%;height:100%;object-fit:cover}
+  .room-badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);padding:2px 8px;border-radius:10px;font-size:10px;color:#fff}
+  .room-info{position:absolute;bottom:0;inset-x:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,0.9));color:#fff}
+
+  /* BOTTOM NAVIGATION BAR */
+  .bottom-nav{position:fixed;bottom:0;inset-x:0;height:60px;background:#fff;border-top:1px solid #e2e8f0;display:flex;z-index:50}
+  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#94a3b8;font-size:11px;gap:2px;cursor:pointer}
+  .nav-btn.active{color:#7c3aed;font-weight:700}
+
+  /* VOICE ROOM OVERLAY SCREEN */
+  #roomScreen{position:fixed;inset:0;z-index:300;background:radial-gradient(circle at 50% 30%, #4c1d95 0%, #0f172a 100%);color:#fff;display:none;flex-direction:column;justify-content:space-between}
+  #roomScreen.active{display:flex}
+
+  .room-top-bar{height:55px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.3)}
+  .host-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.4);padding:4px 10px;border-radius:20px}
+  .host-info img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid #f59e0b}
+
+  /* 8 MIC SEATS SYSTEM */
+  .seats-container{display:grid;grid-template-columns:repeat(4,1fr);gap:15px 10px;padding:20px 15px}
+  .seat-item{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+  .seat-circle{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.12);border:1.5px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;overflow:hidden}
+  .seat-circle.active{border:2px solid #c084fc;background:#7c3aed;box-shadow:0 0 12px #c084fc}
+  .seat-name{font-size:10px;color:#cbd5e1;margin-top:4px}
+
+  /* CHAT AND LOGS */
+  .room-chat-box{height:140px;padding:0 12px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+  .chat-bubble{background:rgba(0,0,0,0.4);padding:6px 12px;border-radius:12px;font-size:11px;width:max-content;max-width:85%}
+  .chat-bubble b{color:#93c5fd}
+
+  /* BOTTOM CONTROLS */
+  .room-bottom-bar{height:60px;padding:0 12px;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .chat-btn-input{flex:1;background:rgba(255,255,255,0.15);padding:10px 14px;border-radius:20px;font-size:12px;color:#cbd5e1;cursor:pointer}
+  .ctrl-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none;color:#fff}
+
+  /* MODALS */
+  .modal-sheet{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;flex-direction:column;justify-content:flex-end;backdrop-filter:blur(4px)}
+  .modal-sheet.active{display:flex}
+  .sheet-body{background:#fff;border-radius:20px 20px 0 0;padding:18px;color:#0f172a;max-height:80vh;overflow-y:auto}
+
+  .game-grid, .gift-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .game-card, .gift-card{background:#f1f5f9;border-radius:12px;padding:10px;text-align:center;cursor:pointer;border:1px solid #e2e8f0}
+
+  #toast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:rgba(15,23,42,0.95);color:#fff;padding:10px 20px;border-radius:25px;font-size:12px;z-index:9999;display:none;text-align:center}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="nav-tabs">
+      <div class="tab-btn" onclick="switchTab(this)">Following</div>
+      <div class="tab-btn active" onclick="switchTab(this)">Popular</div>
+      <div class="tab-btn" onclick="switchTab(this)">Recent</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <span style="font-size:18px;cursor:pointer" onclick="showToast('Search Active')">🔍</span>
+      <div style="background:#7c3aed;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer" onclick="createCustomRoom()">＋</div>
+    </div>
+  </header>
+
+  <!-- HOME PAGE -->
+  <section id="pageHome" class="page-view active">
+    <div class="banner-box">
+      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80">
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card"><b style="font-size:12px">Contribution</b><span style="font-size:9px;color:#d97706">Weekly Top 🏆</span></div>
+      <div class="cat-card"><b style="font-size:12px">Charm</b><span style="font-size:9px;color:#4f46e5">Super Star 🌟</span></div>
+      <div class="cat-card"><b style="font-size:12px">Room</b><span style="font-size:9px;color:#0d9488">Party House 🎉</span></div>
+    </div>
+    <div class="room-grid" id="mainRoomGrid"></div>
+  </section>
+
+  <!-- SQUARE / MOMENTS PAGE -->
+  <section id="pageMoments" class="page-view">
+    <div style="padding:15px" id="feedContainer"></div>
+  </section>
+
+  <!-- MESSAGES PAGE -->
+  <section id="pageMessages" class="page-view">
+    <div style="padding:10px">
+      <div style="background:#fff;padding:12px;border-radius:12px;display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="font-size:24px">🎁</div>
+        <div style="flex:1"><b style="font-size:13px">Gift Notice</b><p style="font-size:11px;color:#64748b">You received 500 coins!</p></div>
+      </div>
+      <div style="background:#fff;padding:12px;border-radius:12px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">🛡️</div>
+        <div style="flex:1"><b style="font-size:13px">System Notice</b><p style="font-size:11px;color:#64748b">Welcome to MR Chat App.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ME / PROFILE PAGE -->
+  <section id="pageMe" class="page-view">
+    <div style="padding:20px;background:linear-gradient(180deg,#e0e7ff 0%,#f8fafc 100%);display:flex;align-items:center;gap:12px">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" style="width:65px;height:65px;border-radius:50%;border:3px solid #fff">
+      <div>
+        <b style="font-size:16px" id="profileName">Mia✿Vaiღ</b>
+        <span style="font-size:11px;color:#64748b;display:block">ID: 100927248</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 15px">
+      <div style="background:linear-gradient(135deg,#ffed4a,#f59e0b);padding:14px;border-radius:16px;color:#fff;cursor:pointer" onclick="showToast('Coins: ' + userWallet)">
+        <span style="font-size:11px">Wallet Balance</span>
+        <div style="font-size:18px;font-weight:900;margin-top:2px" id="walletDisplay">🪙 8,458</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#60a5fa,#3b82f6);padding:14px;border-radius:16px;color:#fff;cursor:pointer" onclick="showToast('Store Mall Active')">
+        <span style="font-size:11px">VIP Store</span>
+        <div style="font-size:18px;font-weight:900;margin-top:2px">🛍️ Mall</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <div class="nav-btn active" onclick="switchPage('pageHome', this)">
+      <span style="font-size:18px">🎙️</span><span>Party</span>
+    </div>
+    <div class="nav-btn" onclick="switchPage('pageMoments', this)">
+      <span style="font-size:18px">🧩</span><span>Square</span>
+    </div>
+    <div class="nav-btn" onclick="switchPage('pageMessages', this)">
+      <span style="font-size:18px">💬</span><span>Message</span>
+    </div>
+    <div class="nav-btn" onclick="switchPage('pageMe', this)">
+      <span style="font-size:18px">👤</span><span>Me</span>
+    </div>
+  </nav>
+
+  <!-- VOICE ROOM SCREEN -->
+  <div id="roomScreen">
+    <div class="room-top-bar">
+      <div class="host-info">
+        <img id="rHostImg" src="">
+        <div>
+          <b id="rTitle" style="font-size:11px;display:block">Room Title</b>
+          <small id="rId" style="font-size:9px;color:#cbd5e1">ID: 0000</small>
+        </div>
+      </div>
+      <button onclick="closeRoom()" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:14px;font-weight:700;cursor:pointer">Exit</button>
+    </div>
+
+    <!-- 8 MIC SEATS -->
+    <div class="seats-container" id="seatsContainer"></div>
+
+    <!-- CHAT MESSAGES -->
+    <div class="room-chat-box" id="roomChatLog"></div>
+
+    <!-- CONTROLS -->
+    <div class="room-bottom-bar">
+      <div class="chat-btn-input" onclick="sendChatMessage()">Say Hi...</div>
+      <button class="ctrl-btn" onclick="openModal('gameModal')">🎮</button>
+      <button class="ctrl-btn" style="background:linear-gradient(135deg,#ec4899,#7c3aed)" onclick="openModal('giftModal')">🎁</button>
+    </div>
+  </div>
+
+  <!-- GAMES MODAL -->
+  <div id="gameModal" class="modal-sheet">
+    <div class="sheet-body">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>In-Room Games</b>
+        <span onclick="closeModal('gameModal')" style="cursor:pointer">✖</span>
+      </div>
+      <div class="game-grid">
+        <div class="game-card" onclick="runGame('Ludo Team')">
+          <div style="font-size:28px">🎲</div>
+          <b style="font-size:10px;display:block">Ludo Team</b>
+        </div>
+        <div class="game-card" onclick="runGame('Carrom')">
+          <div style="font-size:28px">⚪</div>
+          <b style="font-size:10px;display:block">Carrom</b>
+        </div>
+        <div class="game-card" onclick="runGame('Lucky Fruit')">
+          <div style="font-size:28px">🎰</div>
+          <b style="font-size:10px;display:block">Lucky Fruit</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIFTS MODAL -->
+  <div id="giftModal" class="modal-sheet">
+    <div class="sheet-body">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>Virtual Gifts</b>
+        <span onclick="closeModal('giftModal')" style="cursor:pointer">✖</span>
+      </div>
+      <div class="gift-grid">
+        <div class="gift-card" onclick="triggerGift('Castle Guardian', 1000)">
+          <div style="font-size:28px">🏰</div>
+          <b style="font-size:10px;display:block">Castle</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 1000</span>
+        </div>
+        <div class="gift-card" onclick="triggerGift('Flame Tiger', 2000)">
+          <div style="font-size:28px">🐅</div>
+          <b style="font-size:10px;display:block">Tiger</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 2000</span>
+        </div>
+        <div class="gift-card" onclick="triggerGift('Sun Goddess', 5000)">
+          <div style="font-size:28px">👸</div>
+          <b style="font-size:10px;display:block">Goddess</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 5000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+</div>
+
+<script>
+  let userWallet = 8458;
+  const roomList = [
+    { id: '349200', title: 'জিরো পয়েন্ট ফ্যামিলি', host: 'Mia✿Vaiღ', img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80' },
+    { id: '349201', title: 'Unspoken Words', host: 'BAD BOY', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80' },
+    { id: '349202', title: 'প্রেম নগর হাইস্কুল', host: 'Mafiya', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80' }
+  ];
+
+  let currentSeats = Array(8).fill(null);
+
+  window.onload = function() {
+    renderHomeRooms();
+    renderFeed();
+  };
+
+  function renderHomeRooms() {
+    const grid = document.getElementById('mainRoomGrid');
+    grid.innerHTML = '';
+    roomList.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'room-card';
+      card.onclick = () => launchRoom(r);
+      card.innerHTML = `
+        <span class="room-badge">🎙️ Live</span>
+        <img src="${r.img}">
+        <div class="room-info">
+          <div style="font-size:12px;font-weight:700">${r.title}</div>
+          <small style="font-size:9px;color:#cbd5e1">ID: ${r.id} • ${r.host}</small>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderFeed() {
+    const feed = document.getElementById('feedContainer');
+    feed.innerHTML = `
+      <div style="background:#fff;padding:14px;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,0.04);margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" style="width:40px;height:40px;border-radius:50%">
+          <div><b style="font-size:13px">WASHIM 🍷</b><span style="font-size:10px;color:#64748b;display:block">01:43 PM</span></div>
+        </div>
+        <p style="font-size:12px;color:#334155;margin-top:8px">কিছু টোকাই আছে দুলাভাই ডেকে ডেকে আইডির লেভেল বড় করছে... 🥱</p>
+      </div>
+    `;
+  }
+
+  function launchRoom(room) {
+    document.getElementById('rTitle').innerText = room.title;
+    document.getElementById('rId').innerText = 'ID: ' + room.id;
+    document.getElementById('rHostImg').src = room.img;
+    document.getElementById('roomScreen').classList.add('active');
+
+    updateSeatsUI();
+    const chatLog = document.getElementById('roomChatLog');
+    chatLog.innerHTML = `<div class="chat-bubble"><b>System:</b> Welcome to ${room.title}! Enjoy live mic chat.</div>`;
+  }
+
+  function closeRoom() {
+    document.getElementById('roomScreen').classList.remove('active');
+  }
+
+  function updateSeatsUI() {
+    const box = document.getElementById('seatsContainer');
+    box.innerHTML = '';
+    currentSeats.forEach((seat, idx) => {
+      const item = document.createElement('div');
+      item.className = 'seat-item';
+      item.onclick = () => clickSeat(idx);
+      item.innerHTML = `
+        <div class="seat-circle ${seat ? 'active' : ''}">${seat ? '👤' : (idx + 1)}</div>
+        <span class="seat-name">${seat ? 'User' : 'Seat ' + (idx + 1)}</span>
+      `;
+      box.appendChild(item);
+    });
+  }
+
+  function clickSeat(idx) {
+    currentSeats[idx] = currentSeats[idx] ? null : 'You';
+    updateSeatsUI();
+    showToast(currentSeats[idx] ? `Occupied Seat ${idx + 1}` : `Left Seat ${idx + 1}`);
+  }
+
+  function sendChatMessage() {
+    const msg = prompt('Enter your message:');
+    if (msg) {
+      const log = document.getElementById('roomChatLog');
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.innerHTML = `<b>You:</b> ${msg}`;
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
     }
-};
+  }
 
-io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
+  function switchPage(pageId, btn) {
+    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    btn.classList.add('active');
+  }
 
-    // ভয়েস রুমে জয়েন করা
-    socket.on('join_room', (roomId) => {
-        socket.join(roomId);
-        if (rooms[roomId]) {
-            socket.emit('room_data', rooms[roomId]);
-        }
-    });
+  function switchTab(btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 
-    // মাইক সিট ধরা বা ছেড়ে দেওয়া (8-Seat Mic System)
-    socket.on('toggle_seat', ({ roomId, seatIndex, user }) => {
-        if (rooms[roomId]) {
-            let currentSeat = rooms[roomId].seats[seatIndex];
-            rooms[roomId].seats[seatIndex] = currentSeat ? null : user;
-            io.to(roomId).emit('update_seats', rooms[roomId].seats);
-        }
-    });
+  function openModal(id) { document.getElementById(id).classList.add('active'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // লাইভ গিফট পাঠানো (Virtual Gift)
-    socket.on('send_gift', ({ roomId, giftName, senderName }) => {
-        io.to(roomId).emit('gift_received', {
-            senderName,
-            giftName,
-            timestamp: new Date().toLocaleTimeString()
-        });
-    });
+  function runGame(name) {
+    closeModal('gameModal');
+    showToast(`Launching ${name}...`);
+  }
 
-    // লাইভ চ্যাট মেসেজ
-    socket.on('send_message', ({ roomId, message, sender }) => {
-        const msgData = { sender, message };
-        if (rooms[roomId]) rooms[roomId].messages.push(msgData);
-        io.to(roomId).emit('new_message', msgData);
-    });
-});
+  function triggerGift(name, cost) {
+    if (userWallet < cost) {
+      showToast('Insufficient Coins!');
+      return;
+    }
+    userWallet -= cost;
+    document.getElementById('walletDisplay').innerText = '🪙 ' + userWallet;
+    closeModal('giftModal');
 
-server.listen(3000, () => {
-    console.log('MRChat Server running on port 3000');
-});
+    const log = document.getElementById('roomChatLog');
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.style.background = 'rgba(236,72,153,0.5)';
+    bubble.innerHTML = `<b>🎁 Gift:</b> Sent ${name} (🪙 ${cost})`;
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+    showToast(`Successfully sent ${name}!`);
+  }
+
+  function createCustomRoom() {
+    const name = prompt('Enter New Room Name:');
+    if (name) {
+      roomList.unshift({ id: Math.floor(100000 + Math.random() * 900000).toString(), title: name, host: 'Mia✿Vaiღ', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80' });
+      renderHomeRooms();
+      showToast('New Voice Room Created!');
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000);
+  }
+</script>
+</body>
+</html>
