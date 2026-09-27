@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete UI with Premium Game Panel</title>
+<title>MRChat Complete App with Lucky Fruit Game</title>
 
 <!-- PWA Manifest Link -->
 <link rel="manifest" href="manifest.json">
@@ -99,10 +99,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
 .modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
 
-/* CP ZONE & FAMILY */
-.cp-bg { background: linear-gradient(180deg, #3b0029 0%, #10000b 100%); }
-.family-bg { background: linear-gradient(180deg, #0a192f 0%, #020c1b 100%); }
-
 /* ME / PROFILE PAGE DESIGN */
 .profile-bg {
   background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
@@ -166,15 +162,9 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .v-room-title { font-size: 13px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; }
 .v-room-id { font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
 .v-tag-badge { background: linear-gradient(90deg, #2563eb, #3b82f6); font-size: 9px; padding: 1px 6px; border-radius: 10px; color: #fff; }
-.v-chat-btn { background: #06b6d4; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 12px; color: #fff; display: flex; align-items: center; gap: 2px; }
 
 .v-top-actions { display: flex; align-items: center; gap: 8px; }
 .v-icon-circle { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; }
-
-.v-cup-pill {
-  margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 12px; width: fit-content; padding: 2px 10px;
-  font-size: 11px; font-weight: bold; color: #fde047; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.1);
-}
 
 .v-host-center { text-align: center; margin-top: 10px; position: relative; }
 .v-host-frame {
@@ -196,24 +186,10 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .v-seat-icon { font-size: 18px; opacity: 0.6; }
 .v-seat-num { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; font-weight: bold; }
 
-.v-floating-banners { position: absolute; right: 10px; top: 40%; display: flex; flex-direction: column; gap: 12px; z-index: 10; }
-.v-float-card {
-  width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; text-align: center;
-}
-
 .v-room-body { padding: 0 15px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; margin-top: auto; margin-bottom: 5px; }
 .v-welcome-txt { color: #38bdf8; opacity: 0.9; line-height: 1.3; }
-.v-announce-box { color: #38bdf8; }
-.v-announce-title { color: #0284c7; font-weight: bold; }
 
-.v-msg-line { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 12px; width: fit-content; max-width: 90%; }
-.v-user-badges { display: flex; align-items: center; gap: 3px; }
-.v-user-tag { font-size: 8px; padding: 1px 4px; border-radius: 8px; color: #fff; font-weight: bold; }
-
-.v-mention-box { background: rgba(0,0,0,0.35); padding: 6px 12px; border-radius: 15px; width: fit-content; color: #38bdf8; font-weight: bold; font-size: 12px; }
-
-/* ROOM BOTTOM BAR - UPDATED WITH ALL 5 BUTTONS */
+/* ROOM BOTTOM BAR */
 .v-room-bottom {
   padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
   display: flex; align-items: center; justify-content: space-between; gap: 6px;
@@ -233,7 +209,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 12px rgba(168,85,247,0.6); cursor: pointer;
 }
 
-/* ==================== GIFT MODAL STYLES ==================== */
+/* GIFT MODAL */
 #giftModal {
   position: fixed; inset: 0; z-index: 700; display: none;
   background: rgba(0,0,0,0.6); align-items: flex-end; justify-content: center;
@@ -277,22 +253,11 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .gift-title { font-size: 10px; font-weight: bold; color: #fff; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .gift-price { font-size: 9px; color: #fbbf24; margin-top: 2px; display: flex; align-items: center; gap: 2px; font-weight: bold; }
 
-.gift-badge-star {
-  position: absolute; top: 4px; right: 4px; background: #3b82f6; color: #fff; font-size: 8px;
-  border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;
-}
-.gift-badge-new {
-  position: absolute; top: 4px; left: 4px; background: #ef4444; color: #fff; font-size: 8px;
-  padding: 1px 4px; border-radius: 8px; font-weight: bold;
-}
-
 .gift-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
 .gift-coins { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; font-weight: bold; color: #fbbf24; }
-.gift-send-wrap { display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2px; border: 1px solid rgba(255,255,255,0.15); }
-.gift-count-select { background: transparent; border: none; color: #fff; font-size: 13px; font-weight: bold; padding: 0 12px; outline: none; }
 .gift-send-btn { background: linear-gradient(90deg, #06b6d4, #a855f7); color: #fff; font-weight: bold; font-size: 12px; padding: 8px 20px; border-radius: 18px; box-shadow: 0 2px 10px rgba(168,85,247,0.4); }
 
-/* ==================== IMPROVED PREMIUM GAME MODAL STYLES ==================== */
+/* GAME PANEL MODAL */
 #gameModal {
   position: fixed; inset: 0; z-index: 700; display: none;
   background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
@@ -308,9 +273,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   animation: slideUp 0.3s ease-out;
 }
 
-.game-panel-header {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
-}
+.game-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .game-coin-badge {
   background: linear-gradient(90deg, rgba(251,191,36,0.2), rgba(245,158,11,0.05)); padding: 6px 14px; border-radius: 20px;
   font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 6px;
@@ -319,7 +282,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 .game-sec-title { font-size: 15px; font-weight: bold; color: #fff; margin: 18px 0 12px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
 
-/* Casual Games (Top Cards with High-Quality Banners) */
 .casual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .casual-card {
   background: rgba(255,255,255,0.06); border-radius: 18px; padding: 10px 8px;
@@ -333,46 +295,78 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 8px;
   box-shadow: inset 0 0 15px rgba(0,0,0,0.3); position: relative;
 }
-.casual-img-box::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
-}
 .casual-title { font-size: 12px; font-weight: bold; color: #f3f4f6; text-align: center; }
 
-/* Lucky Games (Icon Grid) */
 .lucky-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 10px; }
-.lucky-card {
-  display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative;
-}
+.lucky-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
 .lucky-card:active { transform: scale(0.92); }
 .lucky-icon-wrap {
   width: 58px; height: 58px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
   display: flex; align-items: center; justify-content: center; font-size: 28px;
   border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 6px 15px rgba(0,0,0,0.4); position: relative;
 }
-.red-dot {
-  position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
-  background: #ef4444; border-radius: 50%; border: 2px solid #18112e;
-}
 .lucky-title { font-size: 11px; font-weight: bold; color: #d1d5db; text-align: center; margin-top: 6px; line-height: 1.2; }
 
-#updateBanner { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #8066ff; color: #fff; padding: 12px 16px; border-radius: 14px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; }
-#updateBanner button { background: #fff; color: #5036df; font-weight: bold; padding: 6px 12px; border-radius: 8px; }
+/* ==================== LUCKY FRUIT FULL SCREEN GAME MODAL ==================== */
+#luckyFruitScreen {
+  position: fixed; inset: 0; z-index: 800; display: none; flex-direction: column;
+  background: radial-gradient(circle at 50% 20%, #4c1d95 0%, #1e1b4b 50%, #0f172a 100%);
+  color: #fff; overflow-y: auto; padding: 12px;
+}
+#luckyFruitScreen.show { display: flex; }
+
+.lf-header { display: flex; justify-content: space-between; align-items: center; padding-top: 25px; margin-bottom: 10px; }
+.lf-round-info { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; color: #fde047; }
+.lf-timer-box { font-size: 13px; font-weight: bold; color: #38bdf8; background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(56,189,248,0.3); }
+
+/* FRUIT BOARD GRID (3x3) */
+.lf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+.lf-box {
+  background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 16px;
+  padding: 12px 6px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; cursor: pointer; transition: 0.2s;
+}
+.lf-box.selected { border-color: #f59e0b; background: rgba(245,158,11,0.2); box-shadow: 0 0 12px rgba(245,158,11,0.4); }
+.lf-box.winner { border-color: #22c55e; background: rgba(34,197,94,0.3); animation: pulseWin 0.6s infinite alternate; }
+
+@keyframes pulseWin {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+.lf-box-icon { font-size: 36px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+.lf-box-name { font-size: 11px; font-weight: bold; margin-top: 4px; color: #e2e8f0; }
+.lf-box-mult { font-size: 10px; font-weight: bold; color: #fbbf24; background: rgba(0,0,0,0.5); padding: 1px 6px; border-radius: 8px; margin-top: 2px; }
+.lf-box-bet { position: absolute; top: 4px; right: 4px; background: #ec4899; color: #fff; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 10px; }
+
+/* CHIPS SELECTOR BAR */
+.lf-chips-bar { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 5px; }
+.chip-btn {
+  width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: bold; color: #fff; border: 2px dashed rgba(255,255,255,0.6); box-shadow: 0 4px 8px rgba(0,0,0,0.4); cursor: pointer;
+}
+.chip-btn.active { border-style: solid; border-color: #fff; transform: scale(1.15); box-shadow: 0 0 12px #38bdf8; }
+
+.lf-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+.lf-balance { font-size: 14px; font-weight: bold; color: #fbbf24; display: flex; align-items: center; gap: 4px; }
+.lf-recharge-btn { background: linear-gradient(90deg, #ec4899, #8b5cf6); color: #fff; font-weight: bold; font-size: 12px; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 10px rgba(236,72,153,0.4); }
+
+/* RECHARGE POPUP MODAL */
+#rechargeModal {
+  position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+}
+#rechargeModal.show { display: flex; }
+.recharge-card { background: #1e1b4b; border: 1px solid #8b5cf6; width: 85%; max-width: 320px; border-radius: 20px; padding: 20px; text-align: center; color: #fff; }
 
 #toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
 #toast.show { opacity: 1; }
-@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
+@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen, #luckyFruitScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
 </style>
 </head>
 
 <body>
 <div id="app">
-
-  <!-- AUTO UPDATE NOTIFICATION -->
-  <div id="updateBanner">
-    <span style="font-size:12px; font-weight:bold">🚀 নতুন আপডেট পাওয়া গেছে!</span>
-    <button onclick="applyUpdate()">Update</button>
-  </div>
 
   <!-- HOME PAGE -->
   <section id="homePage" class="page show">
@@ -391,16 +385,16 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <div class="event-slider">
           <div class="slider-container" id="eventSlider">
             <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn">Open CP</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn">Family</button></div></div>
           </div>
         </div>
       </div>
 
       <div class="categories">
-        <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💖</div>CP</button>
-        <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+        <button class="category btn3d" onclick="showToast('Rank Page')"><div class="icon">🏆</div>Rank</button>
+        <button class="category btn3d" onclick="showToast('CP Zone')"><div class="icon">💖</div>CP</button>
+        <button class="category btn3d" onclick="showToast('Family Page')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
       </div>
 
       <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
@@ -429,7 +423,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     <div id="recentContent" style="display:none; padding:15px"><div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div></div>
   </section>
 
-  <!-- DISCOVER, MOMENTS, MESSAGES -->
+  <!-- OTHER MAIN PAGES -->
   <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div></section>
   <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div></section>
   <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div></section>
@@ -440,8 +434,8 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
       <div class="profile-header">
         <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openProfileDetail()">
         <div onclick="openProfileDetail()" style="cursor:pointer">
-          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
-          <div class="profile-id">ID:100927248</div>
+          <div id="userNameMain" class="profile-name">Mia Vai</div>
+          <div class="profile-id">ID: 100927248</div>
         </div>
       </div>
 
@@ -450,16 +444,16 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
           <div onclick="showToast('Followers')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
           <div onclick="showToast('Fans')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
         </div>
-        <div class="family-shield" onclick="openFamilyPage()">
+        <div class="family-shield" onclick="showToast('Family Zone')">
           <div class="family-shield-icon">🏰</div>
           <div class="family-shield-text">FAMILY</div>
         </div>
       </div>
 
       <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet: 8,458 Coins')">
+        <div class="pr-card wallet" onclick="showToast('Wallet Coins: ' + userBalance)">
           <div class="pr-card-title">Wallet</div>
-          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> 8458</div>
+          <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">🪙</span> <span class="global-coin-val">8458</span></div>
           <div class="pr-card-icon">👛</div>
         </div>
         <div class="pr-card store" onclick="showToast('Store')">
@@ -470,20 +464,9 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
       <div class="pr-list-group">
         <div class="pr-list-item" onclick="showToast('Invite get coins')"><div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Love House')"><div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="openCPZone()"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Prop Warehouse')"><div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Medal')"><div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('CP Level')"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
         <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div></div>
         <div class="pr-list-item" onclick="showToast('SVIP2')"><div class="pr-list-left"><span class="pr-list-icon">💎</span> SVIP</div><div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP2</div><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Aristocracy')"><div class="pr-list-left"><span class="pr-list-icon">👑</span> Aristocracy</div><div class="pr-list-right"><span style="font-size:22px">🐺</span><i>&gt;</i></div></div>
-      </div>
-
-      <div class="pr-list-group" style="margin-bottom: 30px;">
-        <div class="pr-list-item" onclick="showToast('Language')"><div class="pr-list-left"><span class="pr-list-icon">🌐</span> Language</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Customer service Offline')"><div class="pr-list-left"><span class="pr-list-icon">🎧</span> Customer service</div><div class="pr-list-right"><span style="font-size:12px"><span style="color:#aaa">●</span> Offline</span><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="showToast('Feedback')"><div class="pr-list-left"><span class="pr-list-icon">💬</span> Feedback</div><div class="pr-list-right"><i>&gt;</i></div></div>
-        <div class="pr-list-item" onclick="openProfileDetail()"><div class="pr-list-left"><span class="pr-list-icon">⚙️</span> Settings</div><div class="pr-list-right"><i>&gt;</i></div></div>
       </div>
     </div>
   </section>
@@ -497,55 +480,6 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">😊</div><span>Me</span></button>
   </nav>
 
-  <!-- PROFILE INNER SCREEN -->
-  <div id="profileDetailModal" class="modal-screen">
-    <div class="modal-header" style="background:#fff; color:#222; border-bottom:1px solid #eee">
-      <span onclick="closeProfileDetail()" style="color:#666; cursor:pointer">&lt; Back</span>
-      <span>Profile View</span>
-      <span style="opacity:0">Back</span>
-    </div>
-    <div class="profile-detail-card">
-      <div class="edit-top-btn" onclick="openEditProfile()">Edit ✎</div>
-      <img id="detailAvatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:90px; height:90px; border-radius:50%; border:3px solid #5036df; object-fit:cover; margin-bottom:10px">
-      <h2 id="detailName" style="font-size:18px; color:#111">༄Mia༆✿Vai༊</h2>
-      <p style="font-size:12px; color:#888; margin-top:2px">ID: 100927248</p>
-      
-      <div style="display:flex; justify-content:center; gap:10px; margin-top:15px">
-        <span class="badge-pill badge-lv">⭐ LV.41</span>
-        <span class="badge-pill badge-svip">👑 SVIP2</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT PROFILE SCREEN -->
-  <div id="editProfileModal" class="modal-screen">
-    <div class="modal-header-edit">
-      <span onclick="closeEditProfile()" style="color:#666; cursor:pointer">&lt; Back</span>
-      <span>Edit Profile</span>
-      <span onclick="saveProfile()" style="color:#5036df; font-weight:bold; cursor:pointer">Save</span>
-    </div>
-    <div style="padding:20px">
-      <div style="text-align:center; margin-bottom:20px">
-        <img id="editAvatarPreview" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:80px; height:80px; border-radius:50%; border:3px solid #5036df; object-fit:cover">
-        <p style="font-size:12px; color:#5036df; margin-top:6px; font-weight:bold; cursor:pointer" onclick="triggerPhotoUpload()">Change Avatar</p>
-        <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="previewImage(event)">
-      </div>
-      <div class="edit-input-group">
-        <span style="font-size:14px; color:#333; font-weight:bold">Nickname</span>
-        <input type="text" id="editNameInput" value="༄Mia༆✿Vai༊">
-      </div>
-      <div class="edit-input-group">
-        <span style="font-size:14px; color:#333; font-weight:bold">ID</span>
-        <span style="font-size:14px; color:#888; font-weight:bold">100927248</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- OTHER MODALS -->
-  <div id="rankingModal" class="modal-screen rank-bg"><div class="modal-header"><span onclick="closeRanking()">&lt; Back</span><span>Leaderboard</span><span></span></div></div>
-  <div id="cpModal" class="modal-screen cp-bg"><div class="modal-header"><span onclick="closeCPZone()">&lt; Back</span><span>CP Space</span><span></span></div></div>
-  <div id="familyModal" class="modal-screen family-bg"><div class="modal-header"><span onclick="closeFamilyPage()">&lt; Back</span><span>Family</span><span></span></div></div>
-
   <!-- VOICE ROOM SCREEN -->
   <div id="roomScreen">
     <div class="v-room-top">
@@ -553,32 +487,11 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <img id="currentRoomImg" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=150&q=80" class="v-room-avatar">
         <div class="v-room-meta">
           <div class="v-room-title"><span id="currentRoomTitle">জিরো প...</span> 👥1</div>
-          <div class="v-room-id">
-            <span>ID:349200</span>
-            <span class="v-tag-badge">কলি...</span>
-            <span class="v-chat-btn">⇌ Chat</span>
-          </div>
+          <div class="v-room-id"><span>ID:349200</span><span class="v-tag-badge">কলি...</span></div>
         </div>
       </div>
       <div class="v-top-actions">
-        <div class="v-icon-circle" onclick="showToast('Target View')">🎯</div>
-        <div class="v-icon-circle" onclick="showToast('Share Room')">↗</div>
         <div class="v-icon-circle" onclick="leaveRoom()" style="background:rgba(220,38,38,0.5)">⏻</div>
-      </div>
-    </div>
-
-    <div class="v-cup-pill">🏆 548.7M &gt;</div>
-
-    <div class="v-floating-banners">
-      <div class="v-float-card" onclick="showToast('Weekly Star')">
-        <span style="color:#fbbf24; font-size:8px">WEEKLY</span>
-        <span style="color:#f43f5e; font-size:10px">STAR</span>
-        <span style="font-size:16px; margin-top:2px">🤠</span>
-      </div>
-      <div class="v-float-card" onclick="showToast('Lucky Wheel')">
-        <span style="color:#38bdf8; font-size:8px">LUCKY</span>
-        <span style="color:#fbbf24; font-size:10px">WHEEL</span>
-        <span style="font-size:16px; margin-top:2px">🎡</span>
       </div>
     </div>
 
@@ -592,58 +505,22 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
     <!-- 8 SEATS GRID -->
     <div class="v-seats-grid">
-      <div class="v-seat-item" onclick="showToast('Seat 1 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">1</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 2 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">2</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 3 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">3</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 4 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">4</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 5 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">5</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 6 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">6</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 7 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">7</div>
-      </div>
-      <div class="v-seat-item" onclick="showToast('Seat 8 Selected')">
-        <div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div>
-        <div class="v-seat-num">8</div>
-      </div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">1</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">2</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">3</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">4</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">5</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">6</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">7</div></div>
+      <div class="v-seat-item"><div class="v-seat-circle"><span class="v-seat-icon">🎙️</span></div><div class="v-seat-num">8</div></div>
     </div>
 
     <!-- ROOM MESSAGES AREA -->
     <div class="v-room-body">
       <div class="v-welcome-txt">স্বাগতম! আনন্দদায়ক এবং শালীন চ্যাটিং উপভোগ করুন।</div>
-      <div class="v-announce-box">
-        <span class="v-announce-title">ঘোষণা:</span> সব নতুন ইউজারদের উপহার পাঠানোর জন্য ধন্যবাদ!
-      </div>
-      <div class="v-msg-line">
-        <div class="v-user-badges">
-          <span class="v-user-tag" style="background:#3b82f6">Lv.41</span>
-          <span class="v-user-tag" style="background:#10b981">VIP</span>
-        </div>
-        <span style="color:#fbbf24; font-weight:bold">Mia:</span>
-        <span>হ্যালো এভরিওয়ান! 👋</span>
-      </div>
-      <div class="v-mention-box">@সবাই কে স্বাগতম ❤️</div>
     </div>
 
-    <!-- ROOM BOTTOM BAR - FIXED WITH ALL 5 BUTTONS -->
+    <!-- ROOM BOTTOM BAR - WITH ALL BUTTONS -->
     <div class="v-room-bottom">
       <button class="v-say-hi-btn" onclick="showToast('Say Hi Sent')">Say Hi...</button>
       <div class="v-bottom-icon" onclick="showToast('Mic Toggled')">🎙️</div>
@@ -657,139 +534,130 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   <div id="giftModal">
     <div class="gift-panel">
       <div class="gift-tabs">
-        <div class="gift-tab-list">
-          <div class="gift-tab-item active" onclick="switchGiftTab(this)">Popular</div>
-          <div class="gift-tab-item" onclick="switchGiftTab(this)">Luxury</div>
-          <div class="gift-tab-item" onclick="switchGiftTab(this)">Event</div>
-          <div class="gift-tab-item" onclick="switchGiftTab(this)">Privilege</div>
-        </div>
+        <div class="gift-tab-list"><div class="gift-tab-item active">Popular</div></div>
         <span onclick="closeGiftModal()" style="font-weight:bold; cursor:pointer; color:#aaa">✕</span>
       </div>
-
       <div class="gift-grid">
-        <div class="gift-card selected" onclick="selectGift(this)">
-          <span class="gift-badge-star">⭐</span>
-          <img src="https://cdn-icons-png.flaticon.com/512/2549/2549807.png" class="gift-img" alt="Rose">
+        <div class="gift-card selected">
+          <img src="https://cdn-icons-png.flaticon.com/512/2549/2549807.png" class="gift-img">
           <div class="gift-title">Rose</div>
           <div class="gift-price">🪙 1</div>
         </div>
-        <div class="gift-card" onclick="selectGift(this)">
-          <span class="gift-badge-new">NEW</span>
-          <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" class="gift-img" alt="Love Ring">
-          <div class="gift-title">Love Ring</div>
-          <div class="gift-price">🪙 99</div>
-        </div>
-        <div class="gift-card" onclick="selectGift(this)">
-          <img src="https://cdn-icons-png.flaticon.com/512/744/744922.png" class="gift-img" alt="Sports Car">
-          <div class="gift-title">Sports Car</div>
-          <div class="gift-price">🪙 999</div>
-        </div>
-        <div class="gift-card" onclick="selectGift(this)">
-          <img src="https://cdn-icons-png.flaticon.com/512/1356/1356479.png" class="gift-img" alt="Castle">
-          <div class="gift-title">Castle</div>
-          <div class="gift-price">🪙 5200</div>
-        </div>
+      </div>
+      <div class="gift-footer">
+        <div class="gift-coins">🪙 <span class="global-coin-val">8458</span></div>
+        <button class="gift-send-btn" onclick="showToast('উপহার পাঠানো হয়েছে!')">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME PANEL MODAL -->
+  <div id="gameModal">
+    <div class="game-panel">
+      <div class="game-panel-header">
+        <div class="game-coin-badge">🪙 <span class="global-coin-val">8458</span></div>
+        <span onclick="closeGameModal()" style="font-weight:bold; cursor:pointer; color:#aaa; font-size:18px">✕</span>
       </div>
 
-      <div class="gift-footer">
-        <div class="gift-coins">🪙 8,458 &gt;</div>
-        <div class="gift-send-wrap">
-          <select class="gift-count-select">
-            <option>1</option>
-            <option>10</option>
-            <option>99</option>
-            <option>520</option>
-            <option>1314</option>
-          </select>
-          <button class="gift-send-btn" onclick="sendGift()">Send</button>
+      <div class="game-sec-title">🎰 Lucky Games</div>
+      <div class="lucky-grid">
+        <div class="lucky-card" onclick="openLuckyFruitGame()">
+          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(255,255,255,0.05))">🍎</div>
+          <div class="lucky-title">Lucky fruit</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PREMIUM ENHANCED GAME MODAL -->
-  <div id="gameModal">
-    <div class="game-panel">
-      <div class="game-panel-header">
-        <div class="game-coin-badge">🪙 180.7K</div>
-        <span onclick="closeGameModal()" style="font-weight:bold; cursor:pointer; color:#aaa; font-size:18px">✕</span>
+  <!-- ==================== LUCKY FRUIT FULL SCREEN GAME MODAL ==================== -->
+  <div id="luckyFruitScreen">
+    <div class="lf-header">
+      <span onclick="closeLuckyFruitGame()" style="font-size:18px; cursor:pointer; font-weight:bold">&lt; Back</span>
+      <div class="lf-round-info">Round <span id="lfRoundNum">1</span> / 24h</div>
+      <div class="lf-timer-box" id="lfStatusText">Betting Time: 15s</div>
+    </div>
+
+    <!-- 3x3 FRUIT GRID (9 BOXES) -->
+    <div class="lf-grid" id="lfGrid">
+      <div class="lf-box" onclick="placeBet(0)">
+        <span class="lf-box-icon">🍎</span>
+        <span class="lf-box-name">Apple</span>
+        <span class="lf-box-mult">5x</span>
+        <span class="lf-box-bet" id="betBox0" style="display:none">0</span>
       </div>
-
-      <!-- Casual Games Section -->
-      <div class="game-sec-title">🎯 Casual Games</div>
-      <div class="casual-grid">
-        <div class="casual-card" onclick="playGame('Ludo')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#0284c7,#38bdf8)">🎲</div>
-          <div class="casual-title">Ludo</div>
-        </div>
-        <div class="casual-card" onclick="playGame('Ludo Team')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#0d9488,#14b8a6)">👥</div>
-          <div class="casual-title">Ludo Team</div>
-        </div>
-        <div class="casual-card" onclick="playGame('Carrom')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#b91c1c,#ef4444)">⚪</div>
-          <div class="casual-title">Carrom</div>
-        </div>
-        <div class="casual-card" onclick="playGame('UMO')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#ea580c,#f97316)">🃏</div>
-          <div class="casual-title">UMO</div>
-        </div>
-        <div class="casual-card" onclick="playGame('Domino')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#2563eb,#60a5fa)">🀄</div>
-          <div class="casual-title">Domino</div>
-        </div>
-        <div class="casual-card" onclick="playGame('Jackaroo')">
-          <div class="casual-img-box" style="background:linear-gradient(135deg,#65a30d,#84cc16)">🔮</div>
-          <div class="casual-title">Jackaroo</div>
-        </div>
+      <div class="lf-box" onclick="placeBet(1)">
+        <span class="lf-box-icon">🍊</span>
+        <span class="lf-box-name">Orange</span>
+        <span class="lf-box-mult">5x</span>
+        <span class="lf-box-bet" id="betBox1" style="display:none">0</span>
       </div>
-
-      <!-- Lucky Game Section -->
-      <div class="game-sec-title">🎰 Lucky Games</div>
-      <div class="lucky-grid">
-        <div class="lucky-card" onclick="playGame('Lucky fruit')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(255,255,255,0.05))">🍎</div>
-          <div class="lucky-title">Lucky fruit</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Greedy Pro')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(255,255,255,0.05))">🎅</div>
-          <div class="lucky-title">Greedy Pro</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Jackpot')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(255,255,255,0.05))">🍔</div>
-          <div class="lucky-title">Jackpot</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Teen Patti')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(255,255,255,0.05))">🎴</div>
-          <div class="lucky-title">Teen Patti</div>
-        </div>
-
-        <div class="lucky-card" onclick="playGame('Lucky Pro')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(14,165,233,0.2),rgba(255,255,255,0.05))">🍇</div>
-          <div class="lucky-title">Lucky Pro</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Greedy Box')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(255,255,255,0.05))">📦<span class="red-dot"></span></div>
-          <div class="lucky-title">Greedy Box</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Jackpot slot')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(255,255,255,0.05))">🎰<span class="red-dot"></span></div>
-          <div class="lucky-title">Jackpot slot</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Dragon Tiger Slot')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(220,38,38,0.2),rgba(255,255,255,0.05))">🐉<span class="red-dot"></span></div>
-          <div class="lucky-title">Dragon Tiger</div>
-        </div>
-
-        <div class="lucky-card" onclick="playGame('Roulette')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(255,255,255,0.05))">🎡<span class="red-dot"></span></div>
-          <div class="lucky-title">Roulette</div>
-        </div>
-        <div class="lucky-card" onclick="playGame('Texas Cowboy')">
-          <div class="lucky-icon-wrap" style="background:linear-gradient(135deg,rgba(217,119,6,0.2),rgba(255,255,255,0.05))">🤠<span class="red-dot"></span></div>
-          <div class="lucky-title">Texas Cowboy</div>
-        </div>
+      <div class="lf-box" onclick="placeBet(2)">
+        <span class="lf-box-icon">🍇</span>
+        <span class="lf-box-name">Grapes</span>
+        <span class="lf-box-mult">10x</span>
+        <span class="lf-box-bet" id="betBox2" style="display:none">0</span>
       </div>
+      <div class="lf-box" onclick="placeBet(3)">
+        <span class="lf-box-icon">🍉</span>
+        <span class="lf-box-name">Melon</span>
+        <span class="lf-box-mult">10x</span>
+        <span class="lf-box-bet" id="betBox3" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(4)">
+        <span class="lf-box-icon">👑</span>
+        <span class="lf-box-name">Crown</span>
+        <span class="lf-box-mult">25x</span>
+        <span class="lf-box-bet" id="betBox4" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(5)">
+        <span class="lf-box-icon">🍓</span>
+        <span class="lf-box-name">Berry</span>
+        <span class="lf-box-mult">15x</span>
+        <span class="lf-box-bet" id="betBox5" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(6)">
+        <span class="lf-box-icon">🍌</span>
+        <span class="lf-box-name">Banana</span>
+        <span class="lf-box-mult">5x</span>
+        <span class="lf-box-bet" id="betBox6" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(7)">
+        <span class="lf-box-icon">🔔</span>
+        <span class="lf-box-name">Bell</span>
+        <span class="lf-box-mult">20x</span>
+        <span class="lf-box-bet" id="betBox7" style="display:none">0</span>
+      </div>
+      <div class="lf-box" onclick="placeBet(8)">
+        <span class="lf-box-icon">💎</span>
+        <span class="lf-box-name">Diamond</span>
+        <span class="lf-box-mult">50x</span>
+        <span class="lf-box-bet" id="betBox8" style="display:none">0</span>
+      </div>
+    </div>
+
+    <!-- CHIP SELECTION BAR -->
+    <div style="font-size:11px; color:#aaa; margin-top:5px; text-align:center">বাজির পরিমাণ সিলেক্ট করুন (সর্বোচ্চ ৬টি ঘর):</div>
+    <div class="lf-chips-bar">
+      <div class="chip-btn active" style="background:#ef4444" onclick="selectChip(100, this)">100</div>
+      <div class="chip-btn" style="background:#3b82f6" onclick="selectChip(500, this)">500</div>
+      <div class="chip-btn" style="background:#10b981" onclick="selectChip(1000, this)">1K</div>
+      <div class="chip-btn" style="background:#f59e0b" onclick="selectChip(5000, this)">5K</div>
+    </div>
+
+    <!-- GAME BOTTOM BAR -->
+    <div class="lf-bottom-bar">
+      <div class="lf-balance">🪙 <span class="global-coin-val">8458</span></div>
+      <button class="lf-recharge-btn" onclick="openRechargeModal()">রিচার্জ করুন ⚡</button>
+    </div>
+  </div>
+
+  <!-- RECHARGE MODAL -->
+  <div id="rechargeModal">
+    <div class="recharge-card">
+      <h3 style="color:#fbbf24; margin-bottom:8px">কয়েন রিচার্জ</h3>
+      <p style="font-size:12px; color:#ddd; margin-bottom:15px">আপনার অ্যাকাউন্টে পর্যালোচিত ব্যালেন্স নেই। বাজি ধরতে কয়েন রিচার্জ করুন!</p>
+      <button class="lf-recharge-btn" style="width:100%; margin-bottom:8px" onclick="addDemoCoins(5000)">+ 5,000 কয়েন যুক্ত করুন (Demo)</button>
+      <button style="background:transparent; color:#aaa; font-size:12px; margin-top:5px" onclick="closeRechargeModal()">বন্ধ করুন</button>
     </div>
   </div>
 
@@ -798,13 +666,167 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
 </div>
 
-<!-- JAVASCRIPT LOGIC -->
+<!-- JAVASCRIPT GAME & SYSTEM LOGIC -->
 <script>
-  // Page Switcher
+  // GLOBAL STATE
+  let userBalance = 8458;
+  let selectedChip = 100;
+  let currentBets = [0,0,0,0,0,0,0,0,0];
+  let multipliers = [5, 5, 10, 10, 25, 15, 5, 20, 50];
+  
+  // 24H AUTOMATIC GAME CYCLE ENGINE
+  let currentRound = 1;
+  let timerState = "BETTING"; // BETTING, SPINNING, RESULT
+  let timeLeft = 15;
+  let isGameLoopRunning = false;
+
+  function updateGlobalBalanceUI() {
+    document.querySelectorAll('.global-coin-val').forEach(el => {
+      el.innerText = userBalance.toLocaleString();
+    });
+  }
+
+  // LUCKY FRUIT ENGINE
+  function openLuckyFruitGame() {
+    closeGameModal();
+    document.getElementById('luckyFruitScreen').classList.add('show');
+    if(!isGameLoopRunning) {
+      start24HourGameEngine();
+    }
+  }
+
+  function closeLuckyFruitGame() {
+    document.getElementById('luckyFruitScreen').classList.remove('show');
+  }
+
+  function selectChip(val, btn) {
+    selectedChip = val;
+    document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function placeBet(index) {
+    if(timerState !== "BETTING") {
+      showToast("বাজি ধরার সময় শেষ! পরবর্তী রাউন্ডের জন্য অপেক্ষা করুন।");
+      return;
+    }
+
+    // CHECK MAXIMUM 6 BOXES BET LIMIT
+    let activeBoxesCount = currentBets.filter(b => b > 0).length;
+    if(currentBets[index] === 0 && activeBoxesCount >= 6) {
+      showToast("আপনি সর্বোচ্চ ৬ টি ঘরে বাজি ধরতে পারবেন!");
+      return;
+    }
+
+    // CHECK BALANCE
+    if(userBalance < selectedChip) {
+      openRechargeModal();
+      return;
+    }
+
+    // DEDUCT BALANCE AND ADD BET
+    userBalance -= selectedChip;
+    currentBets[index] += selectedChip;
+    updateGlobalBalanceUI();
+
+    // UPDATE UI BOX
+    const betTag = document.getElementById('betBox' + index);
+    betTag.innerText = currentBets[index];
+    betTag.style.display = 'block';
+    betTag.parentElement.classList.add('selected');
+  }
+
+  // 24 HOURS AUTOMATIC CYCLE ENGINE
+  function start24HourGameEngine() {
+    isGameLoopRunning = true;
+    setInterval(() => {
+      timeLeft--;
+
+      if(timerState === "BETTING") {
+        document.getElementById('lfStatusText').innerText = `Betting Time: ${timeLeft}s`;
+        if(timeLeft <= 0) {
+          timerState = "SPINNING";
+          timeLeft = 5; // 5 Sec Spinning
+          runLotterySpin();
+        }
+      } 
+      else if(timerState === "SPINNING") {
+        document.getElementById('lfStatusText').innerText = `Spinning Result...`;
+      } 
+      else if(timerState === "RESULT") {
+        document.getElementById('lfStatusText').innerText = `Next Round In: ${timeLeft}s`;
+        if(timeLeft <= 0) {
+          // RESET FOR NEXT ROUND
+          resetRoundForNext();
+        }
+      }
+    }, 1000);
+  }
+
+  function runLotterySpin() {
+    let boxes = document.querySelectorAll('.lf-box');
+    let spinIndex = 0;
+    
+    let spinInterval = setInterval(() => {
+      boxes.forEach(b => b.classList.remove('winner'));
+      let winCandidate = spinIndex % 9;
+      boxes[winCandidate].classList.add('winner');
+      spinIndex++;
+    }, 150);
+
+    setTimeout(() => {
+      clearInterval(spinInterval);
+      boxes.forEach(b => b.classList.remove('winner'));
+      
+      // SELECT RANDOM WINNING FRUIT (0-8)
+      let winningIndex = Math.floor(Math.random() * 9);
+      boxes[winningIndex].classList.add('winner');
+
+      // CALCULATE WINNINGS
+      let winAmount = currentBets[winningIndex] * multipliers[winningIndex];
+      if(winAmount > 0) {
+        userBalance += winAmount;
+        updateGlobalBalanceUI();
+        showToast(`🎉 অভিনন্দন! আপনি ${winAmount} কয়েন জিতেছেন!`);
+      } else {
+        showToast("পরবর্তী রাউন্ডে আবার চেষ্টা করুন!");
+      }
+
+      timerState = "RESULT";
+      timeLeft = 5;
+    }, 5000);
+  }
+
+  function resetRoundForNext() {
+    currentRound++;
+    if(currentRound > 1440) currentRound = 1; // 24 HOURS RESET CYCLE (1440 mins)
+    document.getElementById('lfRoundNum').innerText = currentRound;
+
+    currentBets = [0,0,0,0,0,0,0,0,0];
+    document.querySelectorAll('.lf-box').forEach((box, i) => {
+      box.classList.remove('selected', 'winner');
+      document.getElementById('betBox' + i).style.display = 'none';
+      document.getElementById('betBox' + i).innerText = '0';
+    });
+
+    timerState = "BETTING";
+    timeLeft = 15;
+  }
+
+  // RECHARGE MODAL LOGIC
+  function openRechargeModal() { document.getElementById('rechargeModal').classList.add('show'); }
+  function closeRechargeModal() { document.getElementById('rechargeModal').classList.remove('show'); }
+  function addDemoCoins(amount) {
+    userBalance += amount;
+    updateGlobalBalanceUI();
+    closeRechargeModal();
+    showToast(`${amount} কয়েন রিচার্জ সফল হয়েছে!`);
+  }
+
+  // PAGE SWITCHING & UI NAVIGATION
   function switchPage(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
     document.getElementById(pageId).classList.add('show');
-    
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     if(btn) btn.classList.add('active');
   }
@@ -813,92 +835,31 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     const tabs = document.querySelectorAll('.home-tab');
     tabs.forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
-
     document.getElementById('popularContent').style.display = type === 'popular' ? 'block' : 'none';
     document.getElementById('followingContent').style.display = type === 'following' ? 'block' : 'none';
     document.getElementById('recentContent').style.display = type === 'recent' ? 'block' : 'none';
   }
 
-  // Voice Room Modal Controls
   function enterRoom(title, img) {
     if(title) document.getElementById('currentRoomTitle').innerText = title;
     if(img) document.getElementById('currentRoomImg').src = img;
     document.getElementById('roomScreen').classList.add('show');
   }
-  function leaveRoom() {
-    document.getElementById('roomScreen').classList.remove('show');
-  }
+  function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
 
-  // Gift Modal
   function openGiftModal() { document.getElementById('giftModal').classList.add('show'); }
   function closeGiftModal() { document.getElementById('giftModal').classList.remove('show'); }
-  function selectGift(card) {
-    document.querySelectorAll('.gift-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-  }
-  function switchGiftTab(tab) {
-    document.querySelectorAll('.gift-tab-item').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-  }
-  function sendGift() {
-    showToast('উপহার পাঠানো হয়েছে! 🎁');
-    closeGiftModal();
-  }
-
-  // Game Modal
   function openGameModal() { document.getElementById('gameModal').classList.add('show'); }
   function closeGameModal() { document.getElementById('gameModal').classList.remove('show'); }
-  function playGame(gameName) {
-    showToast(gameName + ' গেম চালু হচ্ছে... 🎮');
-  }
 
-  // Profile Edit Modals
-  function openProfileDetail() { document.getElementById('profileDetailModal').classList.add('show'); }
-  function closeProfileDetail() { document.getElementById('profileDetailModal').classList.remove('show'); }
-  
-  function openEditProfile() { document.getElementById('editProfileModal').classList.add('show'); }
-  function closeEditProfile() { document.getElementById('editProfileModal').classList.remove('show'); }
-  
-  function triggerPhotoUpload() { document.getElementById('photoInput').click(); }
-  function previewImage(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-      document.getElementById('editAvatarPreview').src = reader.result;
-    }
-    if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
-  }
-  
-  function saveProfile() {
-    const newName = document.getElementById('editNameInput').value;
-    const newImg = document.getElementById('editAvatarPreview').src;
-    
-    document.getElementById('userNameMain').innerText = newName;
-    document.getElementById('detailName').innerText = newName;
-    document.getElementById('userAvatarMain').src = newImg;
-    document.getElementById('detailAvatar').src = newImg;
-    document.getElementById('vHostImg').src = newImg;
-    
-    closeEditProfile();
-    showToast('প্রোফাইল আপডেট হয়েছে!');
-  }
-
-  // Other Modals
-  function openRanking() { document.getElementById('rankingModal').classList.add('show'); }
-  function closeRanking() { document.getElementById('rankingModal').classList.remove('show'); }
-  function openCPZone() { document.getElementById('cpModal').classList.add('show'); }
-  function closeCPZone() { document.getElementById('cpModal').classList.remove('show'); }
-  function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
-  function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
-
-  // Toast Function
   function showToast(msg) {
     const toast = document.getElementById('toast');
     toast.innerText = msg;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
+    setTimeout(() => toast.classList.remove('show'), 2200);
   }
 
-  // Auto Slider Logic
+  // AUTO SLIDER LOGIC
   let slideIndex = 0;
   setInterval(() => {
     const slider = document.getElementById('eventSlider');
