@@ -156,7 +156,7 @@ input,textarea{font-family:inherit;outline:none}
 .profile-avatar{width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover}
 .profile-info{padding-left:12px;flex:1}
 
-/* VOICE ROOM SCREEN */
+/* VOICE ROOM SCREEN (WITH 10 SEATS) */
 #roomScreen{
   position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
   background:radial-gradient(circle at 50% 20%, #7d1a9e 0%, #3d0757 50%, #100323 100%)
@@ -183,36 +183,37 @@ input,textarea{font-family:inherit;outline:none}
   padding:3px 10px;border-radius:12px;font-size:11px;color:#ffd700;font-weight:bold;cursor:pointer
 }
 
-.room-host-wrap{margin-top:15px;display:flex;flex-direction:column;align-items:center;z-index:5}
+.room-host-wrap{margin-top:10px;display:flex;flex-direction:column;align-items:center;z-index:5}
 .host-avatar-ring{
-  position:relative;width:75px;height:75px;display:flex;align-items:center;justify-content:center
+  position:relative;width:65px;height:65px;display:flex;align-items:center;justify-content:center
 }
 .host-avatar-ring::before{
-  content:'';position:absolute;inset:-4px;border-radius:50%;
+  content:'';position:absolute;inset:-3px;border-radius:50%;
   background:linear-gradient(45deg, #ff007f, #ffd700, #ff007f);
-  box-shadow:0 0 15px #ff007f;z-index:1
+  box-shadow:0 0 12px #ff007f;z-index:1
 }
-.host-avatar-ring img{width:70px;height:70px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
-.host-title{margin-top:4px;font-size:12px;font-weight:bold;color:#60a5fa}
+.host-avatar-ring img{width:60px;height:60px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
+.host-title{margin-top:4px;font-size:11px;font-weight:bold;color:#60a5fa}
 
 .room-logo-title{
-  text-align:center;font-size:38px;font-weight:900;
+  text-align:center;font-size:32px;font-weight:900;
   background:linear-gradient(180deg,#ffffff,#d8b4fe,#a855f7);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(168,85,247,0.6);margin:-5px 0 10px
+  text-shadow:0 0 15px rgba(168,85,247,0.6);margin:2px 0 8px
 }
 
+/* 10 SEATS LAYOUT */
 .room-seats-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:15px 5px;
-  padding:0 20px;z-index:5
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px 4px;
+  padding:0 10px;z-index:5
 }
 .room-seat{display:flex;flex-direction:column;align-items:center;position:relative}
 .seat-icon-box{
-  width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.12);
+  width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.12);
   border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
-  justify-content:center;font-size:20px;box-shadow:inset 0 0 8px rgba(255,255,255,0.2)
+  justify-content:center;font-size:18px;box-shadow:inset 0 0 8px rgba(255,255,255,0.2)
 }
-.seat-num{font-size:11px;color:#ccc;margin-top:4px;font-weight:bold}
+.seat-num{font-size:10px;color:#ccc;margin-top:3px;font-weight:bold}
 
 .room-bottom-controls{
   height:60px;padding:0 10px;background:rgba(15,3,35,0.85);
@@ -268,7 +269,7 @@ input,textarea{font-family:inherit;outline:none}
 .list-score { font-size: 12px; font-weight: bold; color: #ffb703; }
 
 /* ------------------------------------------------------------- */
-/* CP RANKING & CP STAR SCREEN UI (MATCHING YOUR SCREENSHOTS) */
+/* CP RANKING & CP STAR SCREEN UI (MATCHING SCREENSHOTS) */
 /* ------------------------------------------------------------- */
 .cp-screen {
   position: fixed; inset: 0; z-index: 1000;
@@ -363,7 +364,7 @@ input,textarea{font-family:inherit;outline:none}
 }
 .cp-action-btn.active { background: linear-gradient(180deg, #ec4899, #be123c); }
 
-/* Weekly Ranking 1-100 List Box */
+/* CP 1 TO 100 RANKING LIST SECTION */
 .this-week-box {
   background: rgba(20, 5, 35, 0.7); border: 1px solid #a855f7;
   border-radius: 16px; padding: 12px;
@@ -452,7 +453,7 @@ input,textarea{font-family:inherit;outline:none}
     <div class="categories">
       <!-- 1 TO 100 CELEBRITY RANK BUTTON -->
       <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-      <!-- CP BUTTON OPENS YOUR NEW CP RANKING PAGE -->
+      <!-- CP BUTTON OPENS YOUR CP RANKING PAGE -->
       <button class="category btn3d" onclick="openCPZone()"><div class="icon">💜</div>CP</button>
       <button class="category btn3d" onclick="showToast('Family Zone')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
     </div>
@@ -541,7 +542,7 @@ input,textarea{font-family:inherit;outline:none}
   </button>
 </nav>
 
-<!-- VOICE ROOM SCREEN -->
+<!-- VOICE ROOM SCREEN (10 SEATS) -->
 <div id="roomScreen">
   <div class="room-top">
     <div class="room-profile">
@@ -565,11 +566,18 @@ input,textarea{font-family:inherit;outline:none}
 
   <div class="room-logo-title">MRChat</div>
 
+  <!-- 10 SEATS -->
   <div class="room-seats-grid">
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">1</span></div>
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">2</span></div>
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">3</span></div>
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">4</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">5</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">6</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">7</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">8</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">9</span></div>
+    <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">10</span></div>
   </div>
 
   <div class="room-bottom-controls">
@@ -598,7 +606,7 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </div>
 
-<!-- CP RANKING SCREEN (MATCHING YOUR 2 SCREENSHOTS) -->
+<!-- CP RANKING SCREEN (MATCHING SCREENSHOTS) -->
 <div id="cpZoneModal" class="cp-screen">
   <div class="cp-header">
     <button class="cp-back" onclick="closeCPZone()">❮</button>
@@ -722,7 +730,7 @@ for (let i = 4; i <= 100; i++) {
   });
 }
 
-// DEMO DATA FOR CP RANKING (AUTOMATIC UP TO 100 PAIRS)
+// DEMO DATA FOR CP RANKING (1-100 PAIRS)
 let cpRankingsData = [
   { rank: "TOP 1", name1: "WASHIM", name2: "পূর্ণা", img1: "https://i.pravatar.cc/100?img=33", img2: "https://i.pravatar.cc/100?img=44", points: 529700 },
   { rank: "TOP 2", name1: "AKASH", name2: "Miu", img1: "https://i.pravatar.cc/100?img=12", img2: "https://i.pravatar.cc/100?img=25", points: 433000 },
