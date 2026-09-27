@@ -2,8 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>মোবাইল অ্যাপ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মোবাইল অ্যাপ - সম্পূর্ণ ইউজার ইন্টারফেস</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,36 +13,47 @@
             user-select: none;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
+        body {
             background-color: #0f0f1a;
             color: #ffffff;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        /* মূল মোবাইল অ্যাপ ফ্রেম */
+        /* মোবাইল ফ্রেম সংকেত */
         .app-frame {
             width: 100%;
+            max-width: 414px;
             height: 100vh;
-            max-width: 500px;
-            margin: 0 auto;
+            max-height: 896px;
             background: #161626;
             display: flex;
             flex-direction: column;
             position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        @media (min-width: 450px) {
+            .app-frame {
+                border-radius: 30px;
+                border: 8px solid #2a2a40;
+                height: 92vh;
+            }
         }
 
         /* টপ বার (Top Navigation) */
         .top-bar {
-            height: 55px;
+            height: 60px;
             background: #1a1a2e;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 15px;
             border-bottom: 1px solid #2a2a40;
-            flex-shrink: 0;
+            z-index: 10;
         }
 
         .top-bar .title {
@@ -53,25 +64,25 @@
 
         .top-bar .top-icons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .icon-btn {
             background: #25253e;
             border: none;
             color: #fff;
-            padding: 6px 10px;
-            border-radius: 50%;
-            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             cursor: pointer;
         }
 
-        /* মূল কন্টেন্ট এরিয়া (Scrollable) */
+        /* মূল কন্টেন্ট এরিয়া (Tab Contents) */
         .content-area {
             flex: 1;
             overflow-y: auto;
             padding: 15px;
-            padding-bottom: 20px;
+            padding-bottom: 70px;
         }
 
         .tab-content {
@@ -82,13 +93,14 @@
             display: block;
         }
 
-        /* প্রোফাইল কার্ড */
+        /* ১. প্রোফাইল স্ক্রিন CSS */
         .profile-card {
             background: #202038;
             border-radius: 15px;
             padding: 20px;
             text-align: center;
             margin-bottom: 15px;
+            position: relative;
         }
 
         .avatar {
@@ -127,7 +139,6 @@
             cursor: pointer;
         }
 
-        /* স্ট্যাটস কন্টেইনার (টাইপো সংশোধন করা হয়েছে) */
         .stats-container {
             display: flex;
             justify-content: space-around;
@@ -150,13 +161,57 @@
         .stat-label {
             font-size: 11px;
             color: #aaa;
-            margin-top: 2px;
         }
 
-        /* সাধারণ বক্স/কার্ড লেআউট */
-        .room-container, .gift-box-section {
-            background: #202038;
+        /* ২. রুম লেআউট CSS */
+        .room-container {
+            background: #1c1c30;
             border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .room-screen {
+            height: 140px;
+            background: linear-gradient(180deg, #2a1b4e, #161626);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed #444466;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .seats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .seat-item {
+            background: #25253e;
+            border-radius: 10px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #888;
+            border: 1px solid #333355;
+        }
+
+        .seat-item.active {
+            border-color: #ff007f;
+            color: #fff;
+        }
+
+        /* ৩. গিফ্ট বক্স এবং গেম জোন (আপডেট করা) */
+        .gift-box-section {
+            background: #202038;
+            border-radius: 12px;
             padding: 15px;
             margin-bottom: 15px;
         }
@@ -170,43 +225,6 @@
             padding-bottom: 5px;
         }
 
-        /* ডিসকভার রুম মেকানিক্স */
-        .room-screen {
-            height: 120px;
-            background: linear-gradient(180deg, #2a1b4e, #161626);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px dashed #444466;
-            margin-bottom: 15px;
-        }
-
-        .seats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .seat-item {
-            background: #25253e;
-            border-radius: 10px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #888;
-            border: 1px solid #333355;
-        }
-
-        .seat-item.active {
-            border-color: #ff007f;
-            color: #fff;
-        }
-
-        /* গেম সেকশন */
         .game-buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -223,6 +241,11 @@
             font-size: 13px;
             font-weight: bold;
             cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .game-btn:active {
+            transform: scale(0.96);
         }
 
         .game-btn.secondary {
@@ -236,7 +259,7 @@
             border-radius: 8px;
             text-align: center;
             margin-bottom: 15px;
-            min-height: 45px;
+            min-height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -244,7 +267,7 @@
             border: 1px solid #2a2a45;
         }
 
-        /* গেম হিস্ট্রি (সর্বোচ্চ ৯টি) */
+        /* ৯টি সীমাবদ্ধ হিস্ট্রি তালিকা */
         .history-section {
             background: #18182b;
             border: 1px solid #2a2a45;
@@ -275,7 +298,7 @@
             padding: 8px;
         }
 
-        /* র‍্যাংকিং */
+        /* ৪. র‍্যাংকিং লিডারবোর্ড */
         .rank-list {
             display: flex;
             flex-direction: column;
@@ -283,7 +306,7 @@
         }
 
         .rank-item {
-            background: #25253e;
+            background: #202038;
             padding: 10px 15px;
             border-radius: 10px;
             display: flex;
@@ -313,15 +336,19 @@
             color: #8888a0;
         }
 
-        /* বটম নেভিগেশন বার (Fixed and Bottom Aligned) */
+        /* বটম নেভিগেশন বার (Bottom Navigation) */
         .bottom-nav {
-            height: 60px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
             background: #1a1a2e;
             display: flex;
             justify-content: space-around;
             align-items: center;
             border-top: 1px solid #2a2a40;
-            flex-shrink: 0;
+            z-index: 10;
         }
 
         .nav-item {
@@ -331,7 +358,7 @@
             color: #666688;
             font-size: 11px;
             cursor: pointer;
-            width: 25%;
+            width: 20%;
         }
 
         .nav-item.active {
@@ -340,7 +367,7 @@
 
         .nav-icon {
             font-size: 18px;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
     </style>
 </head>
@@ -356,10 +383,10 @@
         </div>
     </div>
 
-    <!-- মূল কন্টেন্ট স্ক্রিন -->
+    <!-- মূল কন্টেন্ট স্ক্রিনসমূহ -->
     <div class="content-area">
 
-        <!-- ১. মোমেন্ট ট্যাব -->
+        <!-- ১. মোমেন্ট ট্যাব (Moment) -->
         <div id="tab-moment" class="tab-content active">
             <div class="profile-card">
                 <div class="avatar">👤</div>
@@ -368,7 +395,6 @@
                 <button class="edit-btn">প্রোফাইল এডিট</button>
             </div>
 
-            <!-- টাইপো ঠিক করা হয়েছে (১k) -->
             <div class="stats-container">
                 <div class="stat-item">
                     <div class="stat-num">১২</div>
@@ -379,7 +405,7 @@
                     <div class="stat-label">ফলোয়ার</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-num">১k</div>
+                    <div class="stat-num">১Wait</div>
                     <div class="stat-label">ফলোয়িং</div>
                 </div>
             </div>
@@ -392,7 +418,7 @@
             </div>
         </div>
 
-        <!-- ২. ডিসকভার ট্যাব -->
+        <!-- ২. ডিসকভার ট্যাব (Discover) -->
         <div id="tab-discover" class="tab-content">
             <div class="room-container">
                 <div class="section-header">জনপ্রিয় রুম মডেল</div>
@@ -413,9 +439,10 @@
             </div>
         </div>
 
-        <!-- ৩. গেম ও গিফ্ট বক্স ট্যাব -->
+        <!-- ৩. গেম ও গিফ্ট বক্স ট্যাব (Game / Gift) -->
         <div id="tab-game" class="tab-content">
             <div class="gift-box-section">
+                <!-- আগের সবকটি গেমের বাটন অক্ষুণ্ণ রাখা হলো -->
                 <div class="section-header">গেম জোন ও বোর্ড গিফ্ট বক্স</div>
                 <div class="game-buttons-grid">
                     <button class="game-btn" onclick="playGame('লটারি গেম', 'আপনি ৫টি পয়েন্ট পেয়েছেন!')">লটারি গেম</button>
@@ -426,11 +453,12 @@
                     <button class="game-btn secondary" onclick="playGame('কুইজ চ্যালেঞ্জ', 'সঠিক উত্তর! +১০ স্কোয়ার')">কুইজ চ্যালেঞ্জ</button>
                 </div>
 
+                <!-- গেম আউটপুট মেকানিক্স -->
                 <div class="game-display" id="gameDisplay">
                     যেকোনো একটি গেমে ক্লিক করে প্লে করুন!
                 </div>
 
-                <!-- ৯টি হিস্ট্রি ফিল্টার -->
+                <!-- গেম হিস্ট্রি মেকানিক্স (সর্বোচ্চ ৯টি থাকবে, ১০ নম্বর থেকে পিছনের ডাটা অটো মুছে যাবে) -->
                 <div class="history-section">
                     <div class="section-header" style="font-size: 12px; margin-bottom: 8px;">গেম হিস্ট্রি (সর্বশেষ ৯টি)</div>
                     <ul class="history-list" id="historyList">
@@ -440,7 +468,7 @@
             </div>
         </div>
 
-        <!-- ৪. র‍্যাংকিং ট্যাব -->
+        <!-- ৪. র‍্যাংকিং ট্যাব (Rankings) -->
         <div id="tab-rank" class="tab-content">
             <div class="room-container">
                 <div class="section-header">টপ লিডারবোর্ড</div>
@@ -475,7 +503,7 @@
 
     </div>
 
-    <!-- বটম নেভিগেশন বার -->
+    <!-- বটম নেভিগেশন (মোমেন্ট, ডিসকভার, গেম, র‍্যাংক) -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('tab-moment', 'মোমেন্ট', this)">
             <span class="nav-icon">📸</span>
@@ -497,20 +525,23 @@
 </div>
 
 <script>
-    // ১. ট্যাব নেভিগেশন
+    // ১. নেভিগেশন ও ট্যাব সুইচিং মেকানিক্স
     function switchTab(tabId, titleText, element) {
+        // সবকটি ট্যাব কন্টেন্ট হাইড করা
         const contents = document.querySelectorAll('.tab-content');
         contents.forEach(content => content.classList.remove('active'));
 
+        // সবকটি নেভিগেশন আইটেম ডিঅ্যাক্টিভ করা
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => item.classList.remove('active'));
 
+        // সিলেক্ট করা ট্যাব ও নেভিগেশন চালু করা
         document.getElementById(tabId).classList.add('active');
         element.classList.add('active');
         document.getElementById('topTitle').innerText = titleText;
     }
 
-    // ২. গেম হিস্ট্রি (৯টিতে সীমাবদ্ধ)
+    // ২. গেম ইন্টারঅ্যাকশন ও হিস্ট্রি লজিক
     let gameHistory = [];
 
     function playGame(gameName, resultText) {
@@ -521,14 +552,18 @@
             timestamp: time
         };
 
+        // ডিসপ্লে আপডেট
         document.getElementById('gameDisplay').innerText = `${gameName}: ${resultText}`;
 
+        // হিস্ট্রির শুরুতে নতুন ডাটা যোগ
         gameHistory.unshift(logEntry);
 
+        // ১০ম নম্বর থেকে পেছনের ডাটা অটো মুছে ফেলার লজিক (সর্বোচ্চ ৯টি ডাটা থাকবে)
         if (gameHistory.length > 9) {
             gameHistory.pop();
         }
 
+        // হিস্ট্রি রেন্ডার
         renderHistory();
     }
 
