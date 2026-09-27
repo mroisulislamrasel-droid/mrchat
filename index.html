@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Profile Updated UI</title>
+<title>MRChat Complete UI</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -84,28 +84,54 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .nav-item.active .nav-icon{background:linear-gradient(135deg,#e0e7ff,#c7d2fe);width:40px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.2)}
 .nav-item .nav-icon{font-size:20px;margin-bottom:4px;transition:0.2s}
 
-/* MODAL SCREENS */
+/* MODAL SCREENS (FULL OVERLAY) */
 .modal-screen {
   position: fixed; inset: 0; z-index: 500; display: none;
   flex-direction: column; overflow: hidden; background: #0f0823; color: white;
 }
 .modal-screen.show { display: flex; }
 
-/* EXACT PROFILE DESIGN STYLES */
+/* RANK SCREEN */
+.rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
+.modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
+.rank-tabs { display: flex; justify-content: center; gap: 25px; margin: 12px 0; font-size: 13px; font-weight: bold; }
+.rank-tab { color: #888; cursor: pointer; padding-bottom: 4px; }
+.rank-tab.active { color: #ffd700; border-bottom: 2px solid #ffd700; }
+.podium-wrap { display: flex; justify-content: center; align-items: flex-end; gap: 12px; margin: 15px 0 25px; }
+.podium-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+.podium-avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #c0c0c0; object-fit: cover; }
+.podium-item.top1 .podium-avatar { width: 72px; height: 72px; border: 3px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+.podium-badge { position: absolute; top: -12px; font-size: 18px; }
+.podium-name { font-size: 11px; margin-top: 6px; font-weight: bold; max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.podium-score { font-size: 10px; color: #ffd700; font-weight: bold; }
+
+/* CP ZONE */
+.cp-bg { background: linear-gradient(180deg, #3b0029 0%, #10000b 100%); }
+.cp-box { background: rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 18px; margin: 15px; border: 1px solid rgba(255,255,255,0.15); text-align: center; }
+.cp-avatars { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; }
+.cp-avatar { width: 65px; height: 65px; border-radius: 50%; border: 2px solid #ff4081; object-fit: cover; }
+
+/* FAMILY SCREEN */
+.family-bg { background: linear-gradient(180deg, #0a192f 0%, #020c1b 100%); }
+.family-banner { padding: 20px; text-align: center; background: rgba(255,255,255,0.05); }
+.family-logo { width: 75px; height: 75px; border-radius: 18px; border: 2px solid #3b82f6; object-fit: cover; }
+
+/* VOICE ROOM */
+#roomScreen { position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between; background: radial-gradient(circle at 50% 20%, #4a0e5c 0%, #1f032b 60%, #08000c 100%); }
+#roomScreen.show { display: flex; }
+.room-top { height: 50px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); }
+.room-seats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px 4px; padding: 10px; }
+.seat-box { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+
+/* ME / PROFILE PAGE DESIGN */
 .profile-bg {
   background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
-  min-height: 100%;
-  padding: 15px;
-  color: #222;
+  min-height: 100%; padding: 15px; color: #222;
 }
 .profile-header { display: flex; align-items: center; gap: 15px; position: relative; margin-top: 15px; }
-.avatar-wrap { position: relative; cursor: pointer; }
-.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.avatar-edit-badge { position: absolute; bottom: 2px; right: 2px; background: #5036df; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; border: 2px solid #fff; }
-.profile-name-area { cursor: pointer; }
-.profile-name { font-size: 20px; font-weight: bold; color: #111; letter-spacing: -0.5px; display: flex; align-items: center; gap: 5px; }
+.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
+.profile-name { font-size: 20px; font-weight: bold; color: #111; letter-spacing: -0.5px; }
 .profile-id { font-size: 13px; color: #888; margin-top: 3px; }
-.profile-settings-icon { position: absolute; right: 0; top: 15px; font-size: 18px; color: #666; font-weight: bold; cursor: pointer; background: rgba(255,255,255,0.8); padding: 6px 12px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
 
 .profile-stats-row { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-right: 15px; }
 .stats-left { display: flex; gap: 35px; margin-left: 20px; text-align: center; }
@@ -129,31 +155,28 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 .pr-list-left { display: flex; align-items: center; gap: 15px; }
 .pr-list-icon { font-size: 20px; width: 24px; text-align: center; }
 .pr-list-right { display: flex; align-items: center; gap: 10px; color: #ccc; }
-.pr-list-right i { font-style: normal; font-size: 16px; }
-
 .badge-pill { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; font-style: italic; border: 1px solid gold; display: flex; align-items: center; gap: 4px; color: #fff; }
 .badge-lv { background: linear-gradient(90deg, #6b21a8, #d946ef); }
 .badge-svip { background: linear-gradient(90deg, #065f46, #10b981); color: gold; }
 
-/* EDIT PROFILE MODAL */
+/* SCREENSHOT 1: PROFILE DETAILS MODAL (OPENED ON AVATAR CLICK) */
+#profileDetailModal { background: #f7f8fc; color: #222; }
+.profile-detail-card {
+  background: #fff; margin: 15px; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; position: relative;
+}
+.edit-top-btn {
+  position: absolute; right: 15px; top: 15px; background: #f0eff6; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #5036df; cursor: pointer;
+}
+
+/* SCREENSHOT 2: EDIT PROFILE MODAL */
 #editProfileModal { background: #f7f8fc; color: #222; }
 .modal-header-edit { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: #fff; color: #222; border-bottom: 1px solid #eee; }
 .edit-input-group { background: #fff; padding: 12px 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
 .edit-input-group input { border: none; outline: none; text-align: right; font-size: 14px; font-weight: bold; color: #555; }
 
-/* GENERIC POPUP DIALOG */
-.popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; }
-.popup-overlay.show { display: flex; }
-.popup-box { background: #fff; color: #222; border-radius: 20px; width: 85%; max-width: 320px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.2s ease-out; }
-@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.popup-icon { font-size: 40px; margin-bottom: 10px; }
-.popup-title { font-size: 18px; font-weight: bold; margin-bottom: 8px; color: #111; }
-.popup-desc { font-size: 13px; color: #666; margin-bottom: 20px; }
-.popup-btn { background: #5036df; color: white; padding: 10px 0; border-radius: 12px; font-weight: bold; font-size: 14px; width: 100%; }
-
 #toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
 #toast.show { opacity: 1; }
-@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, .popup-overlay { max-width: 480px; left: 50%; transform: translateX(-50%); } }
+@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
 </style>
 </head>
 
@@ -168,7 +191,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
         <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
         <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
       </div>
-      <button class="top-action btn3d" onclick="openPopup('⌕ Search', 'খোঁজার অপশনটি খুব শীঘ্রই আসছে।', '🔍')">⌕</button>
+      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
       <button class="top-action btn3d primary" onclick="enterRoom('My Personal Room', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
     </div>
 
@@ -215,7 +238,7 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     <div id="recentContent" style="display:none; padding:15px"><div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div></div>
   </section>
 
-  <!-- ==================== DISCOVER & MOMENTS & MESSAGES ==================== -->
+  <!-- ==================== DISCOVER, MOMENTS, MESSAGES ==================== -->
   <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div></section>
   <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div></section>
   <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages</div></section>
@@ -224,24 +247,20 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
   <section id="mePage" class="page">
     <div class="profile-bg">
       
-      <!-- Top Profile Info (Tapping image or name area opens Edit Profile) -->
+      <!-- Top Profile Info (Tapping image/name opens Profile Detail Modal) -->
       <div class="profile-header">
-        <div class="avatar-wrap" onclick="openEditProfile()">
-          <img id="userAvatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar">
-          <div class="avatar-edit-badge">✎</div>
-        </div>
-        <div class="profile-name-area" onclick="openEditProfile()">
-          <div id="userName" class="profile-name">༄Mia༆✿Vai༊ ✎</div>
+        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar" onclick="openProfileDetail()">
+        <div onclick="openProfileDetail()" style="cursor:pointer">
+          <div id="userNameMain" class="profile-name">༄Mia༆✿Vai༊</div>
           <div class="profile-id">ID:100927248</div>
         </div>
-        <div class="profile-settings-icon" onclick="openEditProfile()">Edit Profile</div>
       </div>
 
       <!-- Stats & Family Badge -->
       <div class="profile-stats-row">
         <div class="stats-left">
-          <div onclick="openPopup('Followers', 'আপনি ১৫ জনকে ফলো করছেন।', '👥')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div onclick="openPopup('Fans', 'আপনার ২৬ জন ফ্যান রয়েছে।', '❤️')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
+          <div onclick="showToast('Followers')"><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
+          <div onclick="showToast('Fans')"><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
         </div>
         <div class="family-shield" onclick="openFamilyPage()">
           <div class="family-shield-icon">🏰</div>
@@ -251,71 +270,35 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
 
       <!-- Wallet & Store Cards -->
       <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="openPopup('Wallet Balance', 'আপনার বর্তমান ব্যালেন্স: ১৩,৬৫৮ কয়েন', '👛')">
+        <div class="pr-card wallet" onclick="showToast('Wallet: 13,658 Coins')">
           <div class="pr-card-title">Wallet</div>
           <div class="pr-card-sub"><span style="color:#ffd700;font-size:16px">Ⓗ</span> 13658</div>
           <div class="pr-card-icon">👛</div>
         </div>
-        <div class="pr-card store" onclick="openPopup('Store', 'স্টোর অপশনটি শীঘ্রই আসছে।', '🏪')">
+        <div class="pr-card store" onclick="showToast('Store')">
           <div class="pr-card-title">Store</div>
           <div class="pr-card-icon">🏪</div>
         </div>
       </div>
 
-      <!-- Settings List 1 (SCREENSHOT 1 OPTIONS) -->
+      <!-- List Group 1 (Screenshot 1 Options) -->
       <div class="pr-list-group">
-        <div class="pr-list-item" onclick="openPopup('Invite get coins', 'বন্ধুদের ইনভাইট করে ফ্রী কয়েন জিতে নিন!', '💰')">
-          <div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Love House', 'আপনার ভালোবাসার মানুষের সাথে রুম শেয়ার করুন।', '🏠')">
-          <div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openCPZone()">
-          <div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Prop Warehouse', 'আপনার কেনা সমস্ত আইটেম এখানে থাকবে।', '📦')">
-          <div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Medal Center', 'আপনার অর্জিত সকল মেডেল তালিকা।', '🏅')">
-          <div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('User Level', 'আপনার বর্তমান লেভেল: LV.41', '🛡️')">
-          <div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div>
-          <div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('SVIP Level', 'আপনার SVIP লেভেল: SVIP2', '💎')">
-          <div class="pr-list-left"><span class="pr-list-icon">💎</span> SVIP</div>
-          <div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP2</div><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Aristocracy', 'আপনার আভিজাত্য ব্যাজ: Wolf Knight', '👑')">
-          <div class="pr-list-left"><span class="pr-list-icon">👑</span> Aristocracy</div>
-          <div class="pr-list-right"><span style="font-size:22px">🐺</span><i>&gt;</i></div>
-        </div>
+        <div class="pr-list-item" onclick="showToast('Invite get coins')"><div class="pr-list-left"><span class="pr-list-icon">💰</span> Invite get coins</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Love House')"><div class="pr-list-left"><span class="pr-list-icon">🏠</span> Love House</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="openCPZone()"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Level</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Prop Warehouse')"><div class="pr-list-left"><span class="pr-list-icon">📦</span> Prop Warehouse</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Medal')"><div class="pr-list-left"><span class="pr-list-icon">🏅</span> Medal</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('SVIP2')"><div class="pr-list-left"><span class="pr-list-icon">💎</span> SVIP</div><div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP2</div><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Aristocracy')"><div class="pr-list-left"><span class="pr-list-icon">👑</span> Aristocracy</div><div class="pr-list-right"><span style="font-size:22px">🐺</span><i>&gt;</i></div></div>
       </div>
 
-      <!-- Settings List 2 (SCREENSHOT 2 OPTIONS) -->
+      <!-- List Group 2 (Screenshot 2 Options) -->
       <div class="pr-list-group" style="margin-bottom: 30px;">
-        <div class="pr-list-item" onclick="openPopup('Language Settings', 'আপনার পছন্দের ভাষা নির্বাচন করুন (বাংলা / English)।', '🌐')">
-          <div class="pr-list-left"><span class="pr-list-icon">🌐</span> Language</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Customer Support', 'কাস্টমার কেয়ার বর্তমানে অফলাইন আছে।', '🎧')">
-          <div class="pr-list-left"><span class="pr-list-icon">🎧</span> Customer service</div>
-          <div class="pr-list-right"><span style="font-size:12px"><span style="color:#aaa">●</span> Offline</span><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openPopup('Feedback', 'অ্যাপের উন্নতির জন্য মতামত বা পরামর্শ পাঠান।', '💬')">
-          <div class="pr-list-left"><span class="pr-list-icon">💬</span> Feedback</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
-        <div class="pr-list-item" onclick="openEditProfile()">
-          <div class="pr-list-left"><span class="pr-list-icon">⚙️</span> Settings</div>
-          <div class="pr-list-right"><i>&gt;</i></div>
-        </div>
+        <div class="pr-list-item" onclick="showToast('Language')"><div class="pr-list-left"><span class="pr-list-icon">🌐</span> Language</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Customer service Offline')"><div class="pr-list-left"><span class="pr-list-icon">🎧</span> Customer service</div><div class="pr-list-right"><span style="font-size:12px"><span style="color:#aaa">●</span> Offline</span><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="showToast('Feedback')"><div class="pr-list-left"><span class="pr-list-icon">💬</span> Feedback</div><div class="pr-list-right"><i>&gt;</i></div></div>
+        <div class="pr-list-item" onclick="openProfileDetail()"><div class="pr-list-left"><span class="pr-list-icon">⚙️</span> Settings</div><div class="pr-list-right"><i>&gt;</i></div></div>
       </div>
 
     </div>
@@ -330,7 +313,35 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">😊</div><span>Me</span></button>
   </nav>
 
-  <!-- ==================== EDIT PROFILE SCREEN (2nd SCREENSHOT EDIT) ==================== -->
+  <!-- ==================== SCREENSHOT 1: PROFILE INNER SCREEN ==================== -->
+  <div id="profileDetailModal" class="modal-screen">
+    <div class="modal-header" style="background:#fff; color:#222; border-bottom:1px solid #eee">
+      <span onclick="closeProfileDetail()" style="color:#666; cursor:pointer">&lt; Back</span>
+      <span>Profile View</span>
+      <span style="opacity:0">Back</span>
+    </div>
+    
+    <div class="profile-detail-card">
+      <div class="edit-top-btn" onclick="openEditProfile()">Edit ✎</div>
+      <img id="detailAvatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:90px; height:90px; border-radius:50%; border:3px solid #5036df; object-fit:cover; margin-bottom:10px">
+      <h2 id="detailName" style="font-size:18px; color:#111">༄Mia༆✿Vai༊</h2>
+      <p style="font-size:12px; color:#888; margin-top:2px">ID: 100927248</p>
+      
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:15px">
+        <span class="badge-pill badge-lv">⭐ LV.41</span>
+        <span class="badge-pill badge-svip">👑 SVIP2</span>
+      </div>
+    </div>
+
+    <div style="padding:15px">
+      <div class="pr-list-group">
+        <div class="pr-list-item" onclick="showToast('Signature')"><div class="pr-list-left">Signature</div><div style="font-size:13px; color:#888">Welcome to MRChat!</div></div>
+        <div class="pr-list-item"><div class="pr-list-left">Gender</div><div style="font-size:13px; color:#888">Male</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREENSHOT 2: EDIT PROFILE SCREEN ==================== -->
   <div id="editProfileModal" class="modal-screen">
     <div class="modal-header-edit">
       <span onclick="closeEditProfile()" style="color:#666; cursor:pointer">&lt; Back</span>
@@ -363,53 +374,139 @@ button{border:0;font-family:inherit;cursor:pointer;outline:none}
     </div>
   </div>
 
-  <!-- GENERIC POPUP DIALOG -->
-  <div id="genericPopup" class="popup-overlay">
-    <div class="popup-box">
-      <div id="popupIcon" class="popup-icon">ℹ️</div>
-      <div id="popupTitle" class="popup-title">Title</div>
-      <div id="popupDesc" class="popup-desc">Description goes here...</div>
-      <button class="popup-btn" onclick="closePopup()">OK</button>
+  <!-- ==================== RANKING MODAL ==================== -->
+  <div id="rankingModal" class="modal-screen rank-bg">
+    <div class="modal-header"><span onclick="closeRanking()" style="cursor:pointer">&lt; Back</span><span>Leaderboard</span><span style="opacity:0">Back</span></div>
+    <div class="rank-tabs"><span class="rank-tab active">Daily</span><span class="rank-tab">Weekly</span><span class="rank-tab">Monthly</span></div>
+    <div class="podium-wrap">
+      <div class="podium-item"><div class="podium-badge">🥈</div><img class="podium-avatar" src="https://i.pravatar.cc/150?img=21"><div class="podium-name">Queen Star</div><div class="podium-score">850k</div></div>
+      <div class="podium-item top1"><div class="podium-badge">👑</div><img class="podium-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80"><div class="podium-name">Mia Vai</div><div class="podium-score">1.25M</div></div>
+      <div class="podium-item"><div class="podium-badge">🥉</div><img class="podium-avatar" src="https://i.pravatar.cc/150?img=44"><div class="podium-name">Royal Prince</div><div class="podium-score">500k</div></div>
     </div>
   </div>
 
-  <!-- MODALS -->
-  <div id="rankingModal" class="modal-screen rank-bg"><div style="padding:20px; text-align:center"><button onclick="closeRanking()">Close</button><h2>Rankings</h2></div></div>
-  <div id="cpModal" class="modal-screen cp-bg"><div style="padding:20px; text-align:center"><button onclick="closeCPZone()">Close</button><h2>CP Space</h2></div></div>
-  <div id="familyModal" class="modal-screen family-bg"><div style="padding:20px; text-align:center"><button onclick="closeFamilyPage()">Close</button><h2>Family</h2></div></div>
-  
+  <!-- ==================== CP ZONE MODAL ==================== -->
+  <div id="cpModal" class="modal-screen cp-bg">
+    <div class="modal-header"><span onclick="closeCPZone()" style="cursor:pointer">&lt; Back</span><span>CP Space</span><span style="opacity:0">Back</span></div>
+    <div class="cp-box">
+      <h3 style="color:#ff79c6; font-size:15px">💖 Sweet Couple 💖</h3>
+      <div class="cp-avatars"><img class="cp-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80"><div style="font-size:24px">💞</div><img class="cp-avatar" src="https://i.pravatar.cc/150?img=32"></div>
+      <b style="font-size:13px">Mia Vai 💕 সাদিয়া রহমান</b>
+      <p style="font-size:11px; color:#ffb86c; margin-top:4px">CP Intimacy Level: 99,999</p>
+      <button class="btn3d primary" style="width:100%; padding:10px; font-size:12px; margin-top:15px" onclick="showToast('Ring Sent!')">Send CP Ring 💍</button>
+    </div>
+  </div>
+
+  <!-- ==================== FAMILY MODAL ==================== -->
+  <div id="familyModal" class="modal-screen family-bg">
+    <div class="modal-header"><span onclick="closeFamilyPage()" style="cursor:pointer">&lt; Back</span><span>Family Details</span><span style="opacity:0">Back</span></div>
+    <div class="family-banner">
+      <img class="family-logo" src="https://i.pravatar.cc/150?img=60"><h2 style="margin-top:8px; font-size:18px">ফরিদপুর ফ্যামিলি</h2>
+      <p style="font-size:11px; color:#60a5fa; margin-top:2px">ID: 800492 | Rank #1</p>
+    </div>
+    <div style="padding:15px"><b>Family Leader & Admins</b>
+      <div style="display:flex; gap:10px; margin-top:10px">
+        <div style="text-align:center"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:45px; height:45px; border-radius:50%; border:2px solid #3b82f6"><p style="font-size:10px; margin-top:2px">Mia (Leader)</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VOICE ROOM SCREEN ==================== -->
+  <div id="roomScreen">
+    <div class="room-top">
+      <div style="display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.4); padding:3px 8px; border-radius:15px">
+        <img id="currentRoomImg" src="https://i.pravatar.cc/100?img=33" style="width:30px; height:30px; border-radius:50%">
+        <div><b id="currentRoomTitle" style="font-size:11px; display:block">Adda Zone</b><small style="font-size:9px; color:#ccc">ID:349200</small></div>
+      </div>
+      <button style="background:#ef4444; color:#fff; width:28px; height:28px; border-radius:50%; font-size:12px" onclick="leaveRoom()">✕</button>
+    </div>
+    <div style="text-align:center; margin-top:10px">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" style="width:60px; height:60px; border-radius:50%; border:2px solid #ffd700">
+      <p style="font-size:11px; margin-top:4px; font-weight:bold">Mia Vai (Host)</p>
+    </div>
+    <div class="room-seats-grid">
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">1</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">2</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">3</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">4</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">5</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">6</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">7</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">8</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">9</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">10</span></div>
+    </div>
+    <div style="height:55px; padding:0 12px; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:space-between">
+      <button style="background:rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:15px; font-size:11px" onclick="showToast('Hello!')">Say Hi</button>
+      <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff007f,#00f2fe); display:flex; align-items:center; justify-content:center; font-size:18px" onclick="showToast('Gift Box Opened')">🎁</div>
+    </div>
+  </div>
+
   <div id="toast"></div>
 </div>
 
 <script>
-// POPUP CONTROLS
-function openPopup(title, desc, icon = 'ℹ️') {
-  document.getElementById('popupTitle').innerText = title;
-  document.getElementById('popupDesc').innerText = desc;
-  document.getElementById('popupIcon').innerText = icon;
-  document.getElementById('genericPopup').classList.add('show');
-}
-function closePopup() {
-  document.getElementById('genericPopup').classList.remove('show');
+// AUTO SLIDER
+let slideIndex = 0;
+const slider = document.getElementById('eventSlider');
+setInterval(() => {
+  slideIndex = (slideIndex + 1) % 3;
+  slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+}, 3000);
+
+// NAVIGATION CONTROLS
+function switchPage(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(pageId).classList.add('show');
+  btn.classList.add('active');
 }
 
-// EDIT PROFILE MODAL
-function openEditProfile() { 
-  document.getElementById('editProfileModal').classList.add('show'); 
+// HOME TABS
+function switchHomeTab(tab) {
+  const tabs = document.querySelectorAll('.home-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  document.getElementById('popularContent').style.display = 'none';
+  document.getElementById('followingContent').style.display = 'none';
+  document.getElementById('recentContent').style.display = 'none';
+
+  if (tab === 'popular') {
+    tabs[1].classList.add('active');
+    document.getElementById('popularContent').style.display = 'block';
+  } else if (tab === 'following') {
+    tabs[0].classList.add('active');
+    document.getElementById('followingContent').style.display = 'block';
+  } else if (tab === 'recent') {
+    tabs[2].classList.add('active');
+    document.getElementById('recentContent').style.display = 'block';
+  }
 }
-function closeEditProfile() { 
-  document.getElementById('editProfileModal').classList.remove('show'); 
+
+// PROFILE STEP-BY-STEP MODALS
+function openProfileDetail() {
+  document.getElementById('profileDetailModal').classList.add('show');
 }
+function closeProfileDetail() {
+  document.getElementById('profileDetailModal').classList.remove('show');
+}
+
+function openEditProfile() {
+  document.getElementById('editProfileModal').classList.add('show');
+}
+function closeEditProfile() {
+  document.getElementById('editProfileModal').classList.remove('show');
+}
+
 function saveProfile() {
   const newName = document.getElementById('editNameInput').value;
   if(newName.trim() !== "") {
-    document.getElementById('userName').innerHTML = newName + ' ✎';
+    document.getElementById('userNameMain').innerText = newName;
+    document.getElementById('detailName').innerText = newName;
   }
   closeEditProfile();
-  showToast('Profile Updated Successfully!');
+  showToast('Saved Successfully!');
 }
 
-// IMAGE UPLOAD PREVIEW
 function triggerPhotoUpload() {
   document.getElementById('photoInput').click();
 }
@@ -419,19 +516,28 @@ function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
       document.getElementById('editAvatarPreview').src = e.target.result;
-      document.getElementById('userAvatar').src = e.target.result;
+      document.getElementById('userAvatarMain').src = e.target.result;
+      document.getElementById('detailAvatar').src = e.target.result;
     }
     reader.readAsDataURL(file);
   }
 }
 
-// NAV SWITCHING
-function switchPage(pageId, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById(pageId).classList.add('show');
-  btn.classList.add('active');
+// ROOM LOGIC
+function enterRoom(name, img) {
+  document.getElementById('currentRoomTitle').innerText = name;
+  document.getElementById('currentRoomImg').src = img;
+  document.getElementById('roomScreen').classList.add('show');
 }
+function leaveRoom() { document.getElementById('roomScreen').classList.remove('show'); }
+
+// MODAL OPEN/CLOSE
+function openRanking() { document.getElementById('rankingModal').classList.add('show'); }
+function closeRanking() { document.getElementById('rankingModal').classList.remove('show'); }
+function openCPZone() { document.getElementById('cpModal').classList.add('show'); }
+function closeCPZone() { document.getElementById('cpModal').classList.remove('show'); }
+function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
+function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
 
 function showToast(msg) {
   const toast = document.getElementById('toast');
@@ -439,13 +545,6 @@ function showToast(msg) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
-
-function openRanking() { document.getElementById('rankingModal').classList.add('show'); }
-function closeRanking() { document.getElementById('rankingModal').classList.remove('show'); }
-function openCPZone() { document.getElementById('cpModal').classList.add('show'); }
-function closeCPZone() { document.getElementById('cpModal').classList.remove('show'); }
-function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
-function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
 </script>
 </body>
 </html>
