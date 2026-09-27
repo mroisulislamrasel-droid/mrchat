@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Exact Screen Design</title>
+<title>MRChat Exact UI Design</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#0f0823;color:#fff}
 button{border:0;font-family:inherit;cursor:pointer;outline:none}
-input,textarea{font-family:inherit;outline:none}
 
 #app{width:100%;height:100%;position:relative;overflow:hidden;background:#f6f7fb;color:#222}
 
@@ -31,7 +30,7 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:0 4px 0 #3824a9
 }
 
-/* HOME TOP BAR */
+/* TOP BAR */
 .home-top{
   height:60px;background:#fff;display:flex;align-items:center;
   padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
@@ -42,7 +41,7 @@ input,textarea{font-family:inherit;outline:none}
   background:#f0eff6;border-radius:14px
 }
 .home-tab{
-  height:34px;padding:0 10px;border-radius:11px;display:flex;
+  height:34px;padding:0 8px;border-radius:11px;display:flex;
   align-items:center;justify-content:center;font-size:12px;font-weight:800;
   color:#888;white-space:nowrap;background:transparent;flex:1;
 }
@@ -50,7 +49,7 @@ input,textarea{font-family:inherit;outline:none}
 
 .top-action{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:18px;font-weight:bold}
 
-/* AUTO SLIDING BANNER (8 EVENTS) */
+/* SLIDER */
 .event-slider-wrap{padding:10px 10px 4px}
 .event-slider{
   width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
@@ -59,7 +58,7 @@ input,textarea{font-family:inherit;outline:none}
 .slider-container{display:flex;width:100%;height:100%;transition:transform 0.5s ease-in-out}
 .event-slide{min-width:100%;height:100%;position:relative;color:white;flex-shrink:0}
 .event-content{position:absolute;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.2)}
-.event-content h2{font-size:16px;margin-bottom:2px}
+.event-content h2{font-size:15px;margin-bottom:2px}
 .event-content p{font-size:11px;opacity:0.9}
 .event-btn{height:26px;padding:0 10px;margin-top:6px;border-radius:10px;background:#fff;color:#5b42df;font-weight:bold;font-size:10px;width:fit-content}
 
@@ -68,83 +67,67 @@ input,textarea{font-family:inherit;outline:none}
 .category{height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
 .category .icon{font-size:24px;margin-bottom:2px}
 
-/* ROOM GRID & LISTS */
+/* ROOM GRID */
 .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{height:180px;border-radius:16px;overflow:hidden;position:relative;background:#ccc;cursor:pointer}
+.room-card{height:160px;border-radius:16px;overflow:hidden;position:relative;background:#ccc;cursor:pointer}
 .room-card img{width:100%;height:100%;object-fit:cover}
 .room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.8))}
 .room-info{position:absolute;bottom:8px;left:8px;right:8px;color:#fff;font-size:11px;font-weight:bold}
 
-/* BOTTOM NAV */
+/* 5 BUTTONS BOTTOM NAVIGATION */
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
   border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
 }
-.nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#aaa;background:transparent;font-size:10px;font-weight:bold}
+.nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:transparent;font-size:10px;font-weight:bold}
 .nav-item.active{color:#5d45df}
-.nav-item .nav-icon{font-size:20px;margin-bottom:2px}
+.nav-item .nav-icon{font-size:18px;margin-bottom:2px}
 
-/* ================= EXACT MODAL SCREENS ================= */
+/* MODAL SCREENS */
 .modal-screen {
   position: fixed; inset: 0; z-index: 500; display: none;
   flex-direction: column; overflow: hidden; background: #0f0823; color: white;
 }
 .modal-screen.show { display: flex; }
 
-/* 1. RANKING SCREEN DESIGN */
-.rank-bg { background: linear-gradient(180deg, #2a085c 0%, #0d041e 100%); }
-.modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 16px; }
-.rank-top-tabs { display: flex; justify-content: center; gap: 20px; margin: 10px 0; font-size: 14px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-.rank-tab { color: #888; cursor: pointer; }
-.rank-tab.active { color: #ffd700; border-bottom: 2px solid #ffd700; padding-bottom: 6px; }
+/* RANK SCREEN */
+.rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
+.modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
+.rank-tabs { display: flex; justify-content: center; gap: 25px; margin: 12px 0; font-size: 13px; font-weight: bold; }
+.rank-tab { color: #888; cursor: pointer; padding-bottom: 4px; }
+.rank-tab.active { color: #ffd700; border-bottom: 2px solid #ffd700; }
 
-.podium-wrap { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 20px 0; }
-.podium-item { display: flex; flex-direction: column; align-items: center; }
-.podium-avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #ffd700; object-fit: cover; }
-.podium-item.top1 .podium-avatar { width: 70px; height: 70px; border-width: 3px; box-shadow: 0 0 15px #ffd700; }
-.podium-crown { font-size: 18px; margin-bottom: -8px; z-index: 2; }
-.podium-name { font-size: 11px; margin-top: 5px; font-weight: bold; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.podium-score { font-size: 10px; color: #ffd700; }
+.podium-wrap { display: flex; justify-content: center; align-items: flex-end; gap: 12px; margin: 15px 0 25px; }
+.podium-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+.podium-avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #c0c0c0; object-fit: cover; }
+.podium-item.top1 .podium-avatar { width: 72px; height: 72px; border: 3px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+.podium-badge { position: absolute; top: -12px; font-size: 18px; }
+.podium-name { font-size: 11px; margin-top: 6px; font-weight: bold; max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.podium-score { font-size: 10px; color: #ffd700; font-weight: bold; }
 
-.rank-list-scroll { flex: 1; overflow-y: auto; padding: 0 15px; display: flex; flex-direction: column; gap: 10px; }
-.rank-card-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.06); padding: 10px 12px; border-radius: 12px; }
-.rank-num { font-size: 14px; font-weight: bold; width: 25px; color: #aaa; }
-.rank-user-info { display: flex; align-items: center; gap: 10px; flex: 1; }
-.rank-user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rank-list-scroll { flex: 1; overflow-y: auto; padding: 0 15px; display: flex; flex-direction: column; gap: 8px; }
+.rank-card-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.06); padding: 10px; border-radius: 12px; }
 
-/* 2. CP ZONE SCREEN DESIGN */
-.cp-bg { background: linear-gradient(180deg, #4a0033 0%, #150010 100%); }
-.cp-card-box { background: rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 15px; margin: 15px; border: 1px solid rgba(255,255,255,0.15); }
-.cp-couple-avatars { display: flex; align-items: center; justify-content: center; gap: 15px; position: relative; margin: 10px 0; }
+/* CP ZONE */
+.cp-bg { background: linear-gradient(180deg, #3b0029 0%, #10000b 100%); }
+.cp-box { background: rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 18px; margin: 15px; border: 1px solid rgba(255,255,255,0.15); text-align: center; }
+.cp-avatars { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; }
 .cp-avatar { width: 65px; height: 65px; border-radius: 50%; border: 2px solid #ff4081; object-fit: cover; }
-.cp-heart-icon { font-size: 26px; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{transform: scale(1);} 50%{transform: scale(1.2);} }
 
-/* 3. FAMILY SCREEN DESIGN */
-.family-bg { background: linear-gradient(180deg, #091e3a 0%, #020b18 100%); }
-.family-banner { padding: 20px; text-align: center; background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); }
-.family-logo { width: 80px; height: 80px; border-radius: 20px; border: 2px solid #3b82f6; object-fit: cover; }
+/* FAMILY SCREEN */
+.family-bg { background: linear-gradient(180deg, #0a192f 0%, #020c1b 100%); }
+.family-banner { padding: 20px; text-align: center; background: rgba(255,255,255,0.05); }
+.family-logo { width: 75px; height: 75px; border-radius: 18px; border: 2px solid #3b82f6; object-fit: cover; }
 
-/* 4. VOICE ROOM SCREEN DESIGN */
+/* VOICE ROOM */
 #roomScreen {
   position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column;
-  justify-content: space-between; background: radial-gradient(circle at 50% 20%, #6b1185 0%, #29043a 60%, #0a0112 100%);
+  justify-content: space-between; background: radial-gradient(circle at 50% 20%, #4a0e5c 0%, #1f032b 60%, #08000c 100%);
 }
 #roomScreen.show { display: flex; }
 .room-top { height: 50px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); }
-.room-profile { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 15px; }
-.room-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #ffd700; }
-
-.room-host-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
-.host-ring { position: relative; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; }
-.host-ring::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: linear-gradient(45deg, #ff007f, #ffd700); }
-.host-ring img { width: 60px; height: 60px; border-radius: 50%; position: relative; z-index: 2; object-fit: cover; }
-
 .room-seats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px 4px; padding: 10px; }
-.room-seat { display: flex; flex-direction: column; align-items: center; }
-.seat-icon-box { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; }
-
-.room-bottom { height: 55px; padding: 0 12px; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: space-between; }
+.seat-box { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
 
 /* TOAST */
 #toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
@@ -167,78 +150,86 @@ input,textarea{font-family:inherit;outline:none}
         <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
         <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
       </div>
-      <button class="top-action btn3d" onclick="showToast('Search')">⌕</button>
-      <button class="top-action btn3d primary" onclick="enterRoom('My Room', 'https://i.pravatar.cc/150?img=12')">＋</button>
+      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
+      <button class="top-action btn3d primary" onclick="enterRoom('My Personal Room', 'https://i.pravatar.cc/150?img=12')">＋</button>
     </div>
 
-    <!-- POPULAR CONTENT -->
     <div id="popularContent">
+      <!-- 8 EVENT SLIDER -->
       <div class="event-slider-wrap">
         <div class="event-slider">
           <div class="slider-container" id="eventSlider">
-            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)">
-              <div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Enjoy voice rooms, gifting and meet friends.</p><button class="event-btn">Join Event</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)">
-              <div class="event-content"><h2>👑 CP Star Battle</h2><p>Win 1,000,000 Diamonds with your partner!</p><button class="event-btn" onclick="openCPZone()">View CP</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)">
-              <div class="event-content"><h2>🏆 Family Season Stars</h2><p>Represent your family for TOP 1 rewards.</p><button class="event-btn" onclick="openFamilyPage()">Family Page</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#2563eb,#3b82f6)">
-              <div class="event-content"><h2>💎 Recharge Carnival</h2><p>Get 20% Extra bonus diamonds today!</p><button class="event-btn">Top Up</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#7c3aed,#a855f7)">
-              <div class="event-content"><h2>🎤 MRChat Voice Idol</h2><p>Show your singing talent in room #101.</p><button class="event-btn">Register</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#db2777,#f43f5e)">
-              <div class="event-content"><h2>🌹 Midnight Party</h2><p>Find your special one at 12:00 AM!</p><button class="event-btn">Join</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#4b5563,#9ca3af)">
-              <div class="event-content"><h2>🛡️ VIP Privileges</h2><p>Unlock custom avatar frames and entry.</p><button class="event-btn">Upgrade</button></div>
-            </div>
-            <div class="event-slide" style="background:linear-gradient(110deg,#0284c7,#06b6d4)">
-              <div class="event-content"><h2>🎁 Lucky Wheel Spin</h2><p>Spin wheel and win virtual cars and crowns.</p><button class="event-btn">Spin Now</button></div>
-            </div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#059669,#10b981)"><div class="event-content"><h2>👑 CP Star Battle</h2><p>Top CP wins 1 Million Diamonds!</p><button class="event-btn" onclick="openCPZone()">Open CP</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#d97706,#f59e0b)"><div class="event-content"><h2>🏆 Family Ranking</h2><p>Make your family TOP 1 today!</p><button class="event-btn" onclick="openFamilyPage()">Family</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#2563eb,#3b82f6)"><div class="event-content"><h2>💎 Diamond Bonus</h2><p>Get extra 20% diamonds now.</p><button class="event-btn" onclick="showToast('Recharge Page')">Recharge</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#7c3aed,#a855f7)"><div class="event-content"><h2>🎤 Singing Talent</h2><p>Participate & show your voice.</p><button class="event-btn">Join</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#db2777,#f43f5e)"><div class="event-content"><h2>🌹 Romantic CP Night</h2><p>Match your best partner tonight.</p><button class="event-btn" onclick="openCPZone()">Match</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#4b5563,#9ca3af)"><div class="event-content"><h2>🛡️ VIP Status</h2><p>Get exclusive badge & entry frames.</p><button class="event-btn" onclick="showToast('VIP Store')">VIP</button></div></div>
+            <div class="event-slide" style="background:linear-gradient(110deg,#0284c7,#06b6d4)"><div class="event-content"><h2>🎁 Lucky Wheel Spin</h2><p>Spin wheel and win rewards!</p><button class="event-btn" onclick="showToast('Lucky Wheel')">Spin</button></div></div>
           </div>
         </div>
       </div>
 
+      <!-- MAIN CATEGORIES -->
       <div class="categories">
         <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💜</div>CP</button>
+        <button class="category btn3d" onclick="openCPZone()"><div class="icon">💖</div>CP</button>
         <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
       </div>
 
-      <div style="padding: 10px; font-weight: bold; font-size: 14px">Popular Rooms</div>
+      <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
       <div class="room-grid">
-        <div class="room-card" onclick="enterRoom('Friendship Lounge', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
+        <div class="room-card" onclick="enterRoom('Adda Zone 🇧🇩', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
           <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
           <div class="room-overlay"></div>
-          <div class="room-info">Friendship Lounge</div>
+          <div class="room-info">Adda Zone 🇧🇩</div>
         </div>
-        <div class="room-card" onclick="enterRoom('Night Board', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
+        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
           <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
           <div class="room-overlay"></div>
-          <div class="room-info">Night Board</div>
+          <div class="room-info">Music & Songs 🎵</div>
         </div>
       </div>
     </div>
 
-    <!-- FOLLOWING CONTENT -->
     <div id="followingContent" style="display:none; padding:15px">
       <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
         <div style="display:flex; gap:10px; align-items:center">
           <img src="https://i.pravatar.cc/150?img=32" style="width:40px; height:40px; border-radius:50%">
           <div><b>সাদিয়া রহমান</b><br><small style="color:#777">ID: 100823</small></div>
         </div>
-        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('জিরো পয়েন্ট', 'https://i.pravatar.cc/150?img=32')">Join</button>
+        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('সাদিয়ার রুম', 'https://i.pravatar.cc/150?img=32')">Enter</button>
       </div>
     </div>
 
-    <!-- RECENT CONTENT -->
     <div id="recentContent" style="display:none; padding:15px">
       <div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div>
+    </div>
+  </section>
+
+  <!-- ==================== DISCOVER PAGE ==================== -->
+  <section id="discoverPage" class="page">
+    <div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover</div>
+    <div style="padding:15px">
+      <div style="background:#fff; padding:15px; border-radius:15px; margin-bottom:10px" onclick="showToast('Finding Random Match...')">
+        <h3>🔍 Random Voice Match</h3>
+        <p style="font-size:11px; color:#666">Connect with new friends nearby</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MOMENT PAGE ==================== -->
+  <section id="momentPage" class="page">
+    <div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments</div>
+    <div style="padding:15px">
+      <div style="background:#fff; padding:12px; border-radius:12px; margin-bottom:10px">
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px">
+          <img src="https://i.pravatar.cc/150?img=33" style="width:35px; height:35px; border-radius:50%">
+          <div><b>King Boss</b><br><small style="color:#888">10 mins ago</small></div>
+        </div>
+        <p style="font-size:12px">Hello Everyone! Welcome to MRChat 🎉</p>
+      </div>
     </div>
   </section>
 
@@ -248,7 +239,7 @@ input,textarea{font-family:inherit;outline:none}
     <div style="padding:15px">
       <div style="background:#fff; padding:12px; border-radius:12px; display:flex; gap:10px; align-items:center">
         <img src="https://i.pravatar.cc/150?img=5" style="width:40px; height:40px; border-radius:50%">
-        <div><b>MRChat Team</b><br><small style="color:#777">Welcome to MRChat!</small></div>
+        <div><b>MRChat Official</b><br><small style="color:#777">Welcome to the application!</small></div>
       </div>
     </div>
   </section>
@@ -258,163 +249,151 @@ input,textarea{font-family:inherit;outline:none}
     <div style="background:linear-gradient(135deg,#6366f1,#a855f7); color:#fff; padding:25px; text-align:center">
       <img src="https://i.pravatar.cc/150?img=12" style="width:70px; height:70px; border-radius:50%; border:2px solid #fff">
       <h3 style="margin-top:8px">Mia Vai 🇧🇩</h3>
-      <p style="font-size:11px; opacity:0.8">ID: 8849201 | VIP 3</p>
+      <p style="font-size:11px; opacity:0.8">ID: 8849201 | VIP Level 3</p>
     </div>
     <div style="padding:15px; display:flex; flex-direction:column; gap:10px">
-      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between" onclick="showToast('Wallet')"><span>💰 Wallet</span><span>0 Diamonds &gt;</span></div>
+      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between" onclick="showToast('Wallet: 0 Diamonds')"><span>💰 Diamond Wallet</span><span>0 &gt;</span></div>
+      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between" onclick="openCPZone()"><span>💖 CP Space</span><span>Active &gt;</span></div>
       <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between" onclick="openFamilyPage()"><span>👨‍👩‍👧‍👦 Family</span><span>Faridpur Family &gt;</span></div>
     </div>
   </section>
 
-  <!-- BOTTOM NAV -->
+  <!-- 5 BUTTONS BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="switchPage('homePage', this)"><div class="nav-icon">🏠</div><span>Home</span></button>
+    <button class="nav-item" onclick="switchPage('discoverPage', this)"><div class="nav-icon">🧭</div><span>Discover</span></button>
+    <button class="nav-item" onclick="switchPage('momentPage', this)"><div class="nav-icon">📸</div><span>Moment</span></button>
     <button class="nav-item" onclick="switchPage('messagePage', this)"><div class="nav-icon">💬</div><span>Message</span></button>
     <button class="nav-item" onclick="switchPage('mePage', this)"><div class="nav-icon">👤</div><span>Me</span></button>
   </nav>
 
-  <!-- ==================== 1. RANKING MODAL (EXACT MODEL) ==================== -->
+  <!-- ==================== RANKING MODAL ==================== -->
   <div id="rankingModal" class="modal-screen rank-bg">
     <div class="modal-header">
-      <span onclick="closeRanking()" style="cursor:pointer">&lt; Back</span>
+      <span onclick="closeRanking()">&lt; Back</span>
       <span>Leaderboard</span>
       <span style="opacity:0">Back</span>
     </div>
 
-    <div class="rank-top-tabs">
+    <div class="rank-tabs">
       <span class="rank-tab active">Daily</span>
       <span class="rank-tab">Weekly</span>
       <span class="rank-tab">Monthly</span>
     </div>
 
-    <!-- PODIUM TOP 3 -->
     <div class="podium-wrap">
       <div class="podium-item">
-        <div class="podium-crown">🥈</div>
+        <div class="podium-badge">🥈</div>
         <img class="podium-avatar" src="https://i.pravatar.cc/150?img=21">
         <div class="podium-name">Queen Star</div>
-        <div class="podium-score">850K</div>
+        <div class="podium-score">850,000</div>
       </div>
       <div class="podium-item top1">
-        <div class="podium-crown">👑</div>
+        <div class="podium-badge">👑</div>
         <img class="podium-avatar" src="https://i.pravatar.cc/150?img=33">
         <div class="podium-name">King Boss</div>
-        <div class="podium-score">1.2M</div>
+        <div class="podium-score">1,250,000</div>
       </div>
       <div class="podium-item">
-        <div class="podium-crown">🥉</div>
+        <div class="podium-badge">🥉</div>
         <img class="podium-avatar" src="https://i.pravatar.cc/150?img=44">
         <div class="podium-name">Royal Prince</div>
-        <div class="podium-score">500K</div>
+        <div class="podium-score">500,000</div>
       </div>
     </div>
 
     <div class="rank-list-scroll">
       <div class="rank-card-row">
-        <div class="rank-num">4</div>
-        <div class="rank-user-info">
-          <img class="rank-user-avatar" src="https://i.pravatar.cc/150?img=50">
-          <div><b style="font-size:12px">Arian Khan</b><br><small style="color:#aaa;font-size:10px">ID: 884920</small></div>
+        <span style="font-weight:bold; color:#aaa">4</span>
+        <div style="display:flex; align-items:center; gap:10px; flex:1; margin-left:10px">
+          <img src="https://i.pravatar.cc/150?img=50" style="width:38px; height:38px; border-radius:50%">
+          <div><b style="font-size:12px">Arian Khan</b><br><small style="color:#aaa; font-size:10px">ID: 884920</small></div>
         </div>
-        <div style="color:#ffd700;font-weight:bold;font-size:12px">320K</div>
-      </div>
-      <div class="rank-card-row">
-        <div class="rank-num">5</div>
-        <div class="rank-user-info">
-          <img class="rank-user-avatar" src="https://i.pravatar.cc/150?img=60">
-          <div><b style="font-size:12px">Tanvir Ahmed</b><br><small style="color:#aaa;font-size:10px">ID: 104820</small></div>
-        </div>
-        <div style="color:#ffd700;font-weight:bold;font-size:12px">210K</div>
+        <span style="color:#ffd700; font-weight:bold; font-size:12px">320,000</span>
       </div>
     </div>
   </div>
 
-  <!-- ==================== 2. CP ZONE MODAL (EXACT MODEL) ==================== -->
+  <!-- ==================== CP ZONE MODAL ==================== -->
   <div id="cpModal" class="modal-screen cp-bg">
     <div class="modal-header">
-      <span onclick="closeCPZone()" style="cursor:pointer">&lt; Back</span>
+      <span onclick="closeCPZone()">&lt; Back</span>
       <span>CP Space</span>
       <span style="opacity:0">Back</span>
     </div>
 
-    <div style="padding:15px; text-align:center">
-      <div class="cp-card-box">
-        <h3 style="color:#ff79c6; font-size:16px">❤️ Sweet CP Couple ❤️</h3>
-        <div class="cp-couple-avatars">
-          <img class="cp-avatar" src="https://i.pravatar.cc/150?img=12">
-          <div class="cp-heart-icon">💖</div>
-          <img class="cp-avatar" src="https://i.pravatar.cc/150?img=32">
-        </div>
-        <div style="font-size:13px; font-weight:bold">Mia Vai 💕 সাদিয়া রহমান</div>
-        <div style="font-size:11px; color:#ffb86c; margin-top:4px">CP Intimacy Level: 99,999</div>
+    <div class="cp-box">
+      <h3 style="color:#ff79c6; font-size:15px">💖 Sweet Couple 💖</h3>
+      <div class="cp-avatars">
+        <img class="cp-avatar" src="https://i.pravatar.cc/150?img=12">
+        <div style="font-size:24px">💞</div>
+        <img class="cp-avatar" src="https://i.pravatar.cc/150?img=32">
       </div>
-
-      <button class="btn3d primary" style="width:80%; padding:10px; font-size:12px; margin-top:10px" onclick="showToast('CP Ring Sent')">Send CP Ring 💍</button>
+      <b style="font-size:13px">Mia Vai 💕 সাদিয়া রহমান</b>
+      <p style="font-size:11px; color:#ffb86c; margin-top:4px">CP Intimacy Level: 99,999</p>
+      <button class="btn3d primary" style="width:100%; padding:10px; font-size:12px; margin-top:15px" onclick="showToast('Ring Sent!')">Send CP Ring 💍</button>
     </div>
   </div>
 
-  <!-- ==================== 3. FAMILY MODAL (EXACT MODEL) ==================== -->
+  <!-- ==================== FAMILY MODAL ==================== -->
   <div id="familyModal" class="modal-screen family-bg">
     <div class="modal-header">
-      <span onclick="closeFamilyPage()" style="cursor:pointer">&lt; Back</span>
+      <span onclick="closeFamilyPage()">&lt; Back</span>
       <span>Family Details</span>
       <span style="opacity:0">Back</span>
     </div>
 
     <div class="family-banner">
       <img class="family-logo" src="https://i.pravatar.cc/150?img=60">
-      <h2 style="margin-top:10px; font-size:18px">ফরিদপুর ফ্যামিলি</h2>
-      <p style="font-size:11px; color:#60a5fa; margin-top:2px">Family ID: 800492 · Rank #1</p>
-      <p style="font-size:11px; opacity:0.7; margin-top:4px">336 Members · Active Level 10</p>
+      <h2 style="margin-top:8px; font-size:18px">ফরিদপুর ফ্যামিলি</h2>
+      <p style="font-size:11px; color:#60a5fa; margin-top:2px">ID: 800492 | Rank #1</p>
     </div>
 
     <div style="padding:15px">
-      <b style="font-size:13px">Family Leader & Admins</b>
+      <b>Family Leader & Admins</b>
       <div style="display:flex; gap:10px; margin-top:10px">
         <div style="text-align:center">
           <img src="https://i.pravatar.cc/150?img=12" style="width:45px; height:45px; border-radius:50%; border:2px solid #3b82f6">
-          <div style="font-size:10px; margin-top:2px">Mia (Leader)</div>
+          <p style="font-size:10px; margin-top:2px">Mia (Leader)</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== 4. VOICE ROOM SCREEN ==================== -->
+  <!-- ==================== VOICE ROOM SCREEN ==================== -->
   <div id="roomScreen">
     <div class="room-top">
-      <div class="room-profile">
-        <img id="currentRoomImg" class="room-avatar" src="https://i.pravatar.cc/100?img=33">
+      <div style="display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.4); padding:3px 8px; border-radius:15px">
+        <img id="currentRoomImg" src="https://i.pravatar.cc/100?img=33" style="width:30px; height:30px; border-radius:50%">
         <div>
-          <b id="currentRoomTitle" style="font-size:11px; display:block">জিরো পয়েন্ট</b>
+          <b id="currentRoomTitle" style="font-size:11px; display:block">Adda Zone</b>
           <small style="font-size:9px; color:#ccc">ID:349200</small>
         </div>
       </div>
       <button style="background:#ef4444; color:#fff; width:28px; height:28px; border-radius:50%; font-size:12px" onclick="leaveRoom()">✕</button>
     </div>
 
-    <div class="room-host-wrap">
-      <div class="host-ring"><img src="https://i.pravatar.cc/150?img=12"></div>
-      <div style="font-size:11px; margin-top:4px; font-weight:bold">Mia Vai 🇧🇩</div>
+    <div style="text-align:center; margin-top:10px">
+      <img src="https://i.pravatar.cc/150?img=12" style="width:60px; height:60px; border-radius:50%; border:2px solid #ffd700">
+      <p style="font-size:11px; margin-top:4px; font-weight:bold">Mia Vai (Host)</p>
     </div>
-
-    <div style="text-align:center; font-size:24px; font-weight:900; color:#a855f7">MRChat</div>
 
     <div class="room-seats-grid">
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">1</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">2</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">3</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">4</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">5</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">6</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">7</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">8</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">9</span></div>
-      <div class="room-seat"><div class="seat-icon-box">💺</div><span style="font-size:9px; color:#aaa">10</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">1</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">2</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">3</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">4</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">5</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">6</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">7</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">8</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">9</span></div>
+      <div style="text-align:center"><div class="seat-box">💺</div><span style="font-size:9px; color:#aaa">10</span></div>
     </div>
 
-    <div class="room-bottom">
-      <button style="background:rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:15px; font-size:11px" onclick="showToast('Hi!')">Say Hi</button>
-      <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff007f,#00f2fe); display:flex; align-items:center; justify-content:center; font-size:18px" onclick="showToast('Gift Panel')">🎁</div>
+    <div style="height:55px; padding:0 12px; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:space-between">
+      <button style="background:rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:15px; font-size:11px" onclick="showToast('Hello!')">Say Hi</button>
+      <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff007f,#00f2fe); display:flex; align-items:center; justify-content:center; font-size:18px" onclick="showToast('Gift Box Opened')">🎁</div>
     </div>
   </div>
 
@@ -423,7 +402,7 @@ input,textarea{font-family:inherit;outline:none}
 </div>
 
 <script>
-// AUTO SLIDER LOGIC
+// AUTO SLIDER (8 EVENTS)
 let slideIndex = 0;
 const slider = document.getElementById('eventSlider');
 setInterval(() => {
@@ -431,7 +410,7 @@ setInterval(() => {
   slider.style.transform = `translateX(-${slideIndex * 100}%)`;
 }, 3000);
 
-// RECENT ROOMS TRACKING LOGIC
+// RECENT ROOM LOGIC
 let recentRooms = [];
 function enterRoom(name, img) {
   document.getElementById('currentRoomTitle').innerText = name;
@@ -463,7 +442,7 @@ function renderRecentRooms() {
   });
 }
 
-// MAIN NAVIGATION SWITCHING
+// 5 BOTTOM NAVIGATION SWITCHING
 function switchPage(pageId, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
