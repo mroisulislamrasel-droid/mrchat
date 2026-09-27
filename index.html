@@ -140,22 +140,6 @@ input,textarea{font-family:inherit;outline:none}
   justify-content:center;text-align:center;color:#aaa
 }
 
-/* MESSAGE PAGE DESIGN */
-.msg-list{padding:10px}
-.msg-item{display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
-.msg-info{flex:1}
-.msg-title{font-size:14px;font-weight:bold;color:#111}
-.msg-sub{font-size:11px;color:#888;margin-top:2px}
-
-/* PROFILE PAGE */
-.profile-head{
-  padding:20px 14px 25px;color:white;
-  background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px
-}
-.profile-main{display:flex;align-items:center}
-.profile-avatar{width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover}
-.profile-info{padding-left:12px;flex:1}
-
 /* VOICE ROOM SCREEN (WITH 10 SEATS) */
 #roomScreen{
   position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
@@ -231,7 +215,7 @@ input,textarea{font-family:inherit;outline:none}
   box-shadow:0 0 10px rgba(255,0,127,0.5);cursor:pointer
 }
 
-/* CELEBRITY RANKING PAGE (1 TO 100 AUTOMATIC) */
+/* CELEBRITY RANKING PAGE */
 .ranking-screen {
   position: fixed; inset: 0; z-index: 999;
   background: radial-gradient(circle at top, #2d0b00 0%, #120300 100%);
@@ -268,9 +252,7 @@ input,textarea{font-family:inherit;outline:none}
 .list-user-info { flex: 1; font-size: 12px; font-weight: bold; color: #eee; }
 .list-score { font-size: 12px; font-weight: bold; color: #ffb703; }
 
-/* ------------------------------------------------------------- */
-/* CP RANKING & CP STAR SCREEN UI (MATCHING SCREENSHOTS) */
-/* ------------------------------------------------------------- */
+/* CP SCREEN */
 .cp-screen {
   position: fixed; inset: 0; z-index: 1000;
   background: radial-gradient(circle at top, #3b0764 0%, #1a0230 60%, #0a0014 100%);
@@ -302,7 +284,6 @@ input,textarea{font-family:inherit;outline:none}
 .help-btn { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; color: #fff; font-weight: bold; font-size: 16px; border:none; }
 .my-rewards-btn { background: linear-gradient(90deg, #f43f5e, #fb7185); padding: 6px 14px; border-radius: 15px; font-size: 11px; font-weight: bold; border: 1px solid #ffedd5; }
 
-/* Wheel / CP Star Podium */
 .cp-wheel-stage {
   position: relative; width: 100%; height: 270px;
   display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
@@ -335,14 +316,12 @@ input,textarea{font-family:inherit;outline:none}
   padding: 1px 6px; border-radius: 8px; border: 1px solid #fff;
 }
 
-/* CP Star Wheel Positions */
 .pos-1 { top: 10px; left: 20px; }
 .pos-2 { top: 0px; right: 75px; }
 .pos-3 { top: 85px; right: 10px; }
 .pos-4 { bottom: 10px; right: 95px; }
 .pos-5 { bottom: 15px; left: 20px; }
 
-/* Countdown Timer */
 .timer-wrap {
   background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 8px;
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -354,7 +333,6 @@ input,textarea{font-family:inherit;outline:none}
   padding: 3px 6px; font-size: 12px; font-weight: bold; color: #fff;
 }
 
-/* Action Buttons */
 .cp-action-row { display: flex; gap: 8px; margin-bottom: 15px; }
 .cp-action-btn {
   flex: 1; height: 40px; border-radius: 20px;
@@ -364,7 +342,6 @@ input,textarea{font-family:inherit;outline:none}
 }
 .cp-action-btn.active { background: linear-gradient(180deg, #ec4899, #be123c); }
 
-/* CP 1 TO 100 RANKING LIST SECTION */
 .this-week-box {
   background: rgba(20, 5, 35, 0.7); border: 1px solid #a855f7;
   border-radius: 16px; padding: 12px;
@@ -385,7 +362,6 @@ input,textarea{font-family:inherit;outline:none}
 .cp-names { font-size: 11px; font-weight: bold; color: #eee; }
 .cp-points { font-size: 12px; font-weight: bold; color: #fde047; }
 
-/* Bottom Fixed My CP Status */
 .my-cp-footer {
   position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
   background: linear-gradient(90deg, #ec4899, #8b5cf6);
@@ -396,6 +372,115 @@ input,textarea{font-family:inherit;outline:none}
 .my-cp-imgs { display: flex; align-items: center; }
 .my-cp-imgs img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #fff; }
 .my-cp-imgs img:last-child { margin-left: -8px; }
+
+/* ------------------------------------------------------------- */
+/* FAMILY PAGE DESIGN (EXACTLY MATCHING SCREENSHOTS) */
+/* ------------------------------------------------------------- */
+.fam-screen {
+  position: fixed; inset: 0; z-index: 1000;
+  background: #110323; display: none; flex-direction: column; overflow: hidden; color: #fff;
+}
+.fam-screen.show { display: flex; }
+
+.fam-header {
+  height: 55px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 15px; background: rgba(0,0,0,0.3); z-index: 10;
+}
+.fam-back { background: none; color: #fff; font-size: 22px; cursor: pointer; }
+.fam-top-tabs { display: flex; gap: 20px; font-size: 16px; font-weight: bold; }
+.fam-top-tab { color: #888; cursor: pointer; position: relative; padding-bottom: 4px; }
+.fam-top-tab.active { color: #fff; border-bottom: 3px solid #3b82f6; }
+
+.fam-content { flex: 1; overflow-y: auto; padding-bottom: 30px; }
+
+/* MY FAMILY SECTION */
+.my-fam-hero {
+  position: relative; width: 100%; min-height: 280px;
+  background: linear-gradient(180deg, rgba(20,5,30,0.4) 0%, #110323 100%), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80') center/cover;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 10px 10px;
+}
+.fam-wings-frame {
+  position: relative; width: 130px; height: 130px; display: flex;
+  align-items: center; justify-content: center; margin-bottom: 5px;
+}
+.fam-wings-frame img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #ffd700; object-fit: cover; }
+.fam-wings-icon { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.fam-title-text { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.fam-badge-btn {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8); padding: 4px 14px;
+  border-radius: 15px; font-size: 11px; font-weight: bold; display: flex; align-items: center; gap: 5px;
+}
+
+.top-fam-bar {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  margin: 10px 12px; padding: 10px 14px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: space-between; font-weight: bold; font-size: 13px;
+}
+.top-fam-badges { display: flex; gap: 6px; }
+.top-fam-badge { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+
+.exp-box {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  margin: 0 12px 12px; padding: 14px; border-radius: 16px; position: relative;
+}
+.exp-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.exp-bar-bg { background: rgba(0,0,0,0.3); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.exp-bar-fill { width: 95%; height: 100%; background: #f59e0b; border-radius: 4px; }
+.exp-task-btn { background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 10px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
+
+.owner-card {
+  background: #1e1135; margin: 0 12px 15px; padding: 12px; border-radius: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.owner-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.owner-info { flex: 1; }
+.owner-name-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; }
+.owner-tag { background: #3b82f6; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+
+.fam-stars-sec { padding: 0 12px 15px; }
+.fam-stars-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; }
+.fam-stars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fam-star-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  border-radius: 12px; padding: 10px 5px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+}
+.star-card-header { font-size: 11px; font-weight: bold; padding: 3px; border-radius: 6px; margin-bottom: 8px; }
+.star-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #f59e0b; margin-bottom: 4px; }
+
+.fam-sub-tabs { display: flex; gap: 20px; padding: 0 15px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.fam-sub-tab { padding-bottom: 8px; color: #aaa; font-weight: bold; font-size: 13px; }
+.fam-sub-tab.active { color: #fff; border-bottom: 2px solid #fff; }
+
+/* FAMILY SQUARE SECTION */
+.square-hero {
+  background: linear-gradient(180deg, #78350f 0%, #110323 100%);
+  padding: 20px 12px; text-align: center; position: relative;
+}
+.square-title { font-size: 24px; font-weight: 900; color: #fde047; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.square-time-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+.square-time-btn {
+  background: linear-gradient(180deg, #f59e0b, #b45309); border: 1px solid #fde047;
+  padding: 6px 20px; border-radius: 15px; color: #fff; font-size: 12px; font-weight: bold;
+}
+.square-time-btn.active { background: linear-gradient(180deg, #ef4444, #991b1b); }
+
+.sq-rank-list { padding: 0 12px; display: flex; flex-direction: column; gap: 10px; }
+.sq-rank-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.sq-rank-item.top1 { background: linear-gradient(90deg, #78350f, #451a03); border: 1px solid #f59e0b; }
+.sq-rank-item.top2 { background: linear-gradient(90deg, #1e3a8a, #172554); border: 1px solid #3b82f6; }
+.sq-rank-item.top3 { background: linear-gradient(90deg, #064e3b, #022c22); border: 1px solid #10b981; }
+
+.sq-rank-badge { font-size: 16px; font-weight: 900; width: 30px; text-align: center; }
+.sq-fam-info { flex: 1; display: flex; align-items: center; gap: 10px; margin-left: 5px; }
+.sq-fam-logo { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
+.sq-fam-name { font-size: 13px; font-weight: bold; }
+.sq-members-imgs { display: flex; gap: 3px; margin-top: 3px; }
+.sq-members-imgs img { width: 18px; height: 18px; border-radius: 50%; }
+.sq-score { font-size: 12px; font-weight: bold; color: #fde047; }
 
 /* MODALS & TOAST */
 .modal-overlay{
@@ -416,7 +501,7 @@ input,textarea{font-family:inherit;outline:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(min-width:700px){
-  .page, .bottom-nav, #roomScreen, .ranking-screen, .cp-screen { max-width:520px;left:50%;transform:translateX(-50%)}
+  .page, .bottom-nav, #roomScreen, .ranking-screen, .cp-screen, .fam-screen { max-width:520px;left:50%;transform:translateX(-50%)}
 }
 </style>
 </head>
@@ -451,11 +536,10 @@ input,textarea{font-family:inherit;outline:none}
 
     <!-- CATEGORIES BUTTONS -->
     <div class="categories">
-      <!-- 1 TO 100 CELEBRITY RANK BUTTON -->
       <button class="category btn3d" onclick="openRanking()"><div class="icon">🏆</div>Rank</button>
-      <!-- CP BUTTON OPENS YOUR CP RANKING PAGE -->
       <button class="category btn3d" onclick="openCPZone()"><div class="icon">💜</div>CP</button>
-      <button class="category btn3d" onclick="showToast('Family Zone')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
+      <!-- FAMILY BUTTON OPENS FAMILY PAGE -->
+      <button class="category btn3d" onclick="openFamilyPage()"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
     </div>
 
     <div class="section-title">
@@ -499,12 +583,12 @@ input,textarea{font-family:inherit;outline:none}
 <!-- 4. MESSAGE PAGE -->
 <section id="messagePage" class="page">
   <div class="page-header">Message</div>
-  <div class="msg-list">
-    <div class="msg-item">
-      <div style="font-size:24px;margin-right:10px">🎁</div>
-      <div class="msg-info">
-        <div class="msg-title">Gift Notifications</div>
-        <div class="msg-sub">System updates and rewards</div>
+  <div style="padding:10px">
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 10px;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.03)">
+      <div style="font-size:24px">🎁</div>
+      <div>
+        <div style="font-size:14px;font-weight:bold;color:#111">Gift Notifications</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">System updates and rewards</div>
       </div>
     </div>
   </div>
@@ -512,10 +596,10 @@ input,textarea{font-family:inherit;outline:none}
 
 <!-- 5. ME PAGE -->
 <section id="mePage" class="page">
-  <div class="profile-head">
-    <div class="profile-main">
-      <img class="profile-avatar" src="https://i.pravatar.cc/200?img=12">
-      <div class="profile-info">
+  <div style="padding:20px 14px 25px;color:white;background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px">
+    <div style="display:flex;align-items:center">
+      <img style="width:78px;height:78px;border-radius:50%;border:3px solid white;object-fit:cover" src="https://i.pravatar.cc/200?img=12">
+      <div style="padding-left:12px;flex:1">
         <h2>Mia Vai 🇧🇩</h2>
         <p style="font-size:11px;opacity:.8">ID: 349200 · VIP 3</p>
       </div>
@@ -542,7 +626,7 @@ input,textarea{font-family:inherit;outline:none}
   </button>
 </nav>
 
-<!-- VOICE ROOM SCREEN (10 SEATS) -->
+<!-- VOICE ROOM SCREEN -->
 <div id="roomScreen">
   <div class="room-top">
     <div class="room-profile">
@@ -566,7 +650,6 @@ input,textarea{font-family:inherit;outline:none}
 
   <div class="room-logo-title">MRChat</div>
 
-  <!-- 10 SEATS -->
   <div class="room-seats-grid">
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">1</span></div>
     <div class="room-seat"><div class="seat-icon-box">💺</div><span class="seat-num">2</span></div>
@@ -586,7 +669,7 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </div>
 
-<!-- CELEBRITY RANKING SCREEN (1-100) -->
+<!-- CELEBRITY RANKING SCREEN -->
 <div id="rankingModal" class="ranking-screen">
   <div class="rank-header">
     <button class="rank-back-btn" onclick="closeRanking()">❮</button>
@@ -606,7 +689,7 @@ input,textarea{font-family:inherit;outline:none}
   </div>
 </div>
 
-<!-- CP RANKING SCREEN (MATCHING SCREENSHOTS) -->
+<!-- CP RANKING SCREEN -->
 <div id="cpZoneModal" class="cp-screen">
   <div class="cp-header">
     <button class="cp-back" onclick="closeCPZone()">❮</button>
@@ -626,7 +709,6 @@ input,textarea{font-family:inherit;outline:none}
       <button class="my-rewards-btn">My Rewards</button>
     </div>
 
-    <!-- Wheel & CP Star Podium -->
     <div class="cp-wheel-stage">
       <div class="wheel-bg-circle">
         <div class="wheel-center-title">CP<br>Star</div>
@@ -664,7 +746,6 @@ input,textarea{font-family:inherit;outline:none}
       </div>
     </div>
 
-    <!-- Countdown Timer -->
     <div class="timer-wrap">
       <span class="timer-label">CountDown</span>
       <div class="time-box">00</div> <span style="font-size:10px">Days</span>
@@ -673,14 +754,12 @@ input,textarea{font-family:inherit;outline:none}
       <div class="time-box" id="cd-secs">30</div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="cp-action-row">
       <button class="cp-action-btn active">Ranking</button>
       <button class="cp-action-btn">Ranking Rewards</button>
       <button class="cp-action-btn">Weekly Reward</button>
     </div>
 
-    <!-- CP 1 TO 100 RANKING LIST SECTION -->
     <div class="this-week-box">
       <div class="this-week-header">
         <span>👑</span> This Week Ranking <span>👑</span>
@@ -689,7 +768,6 @@ input,textarea{font-family:inherit;outline:none}
     </div>
   </div>
 
-  <!-- Bottom Fixed My CP Status -->
   <div class="my-cp-footer">
     <div class="my-cp-left">
       <span style="font-size:11px;font-weight:900;">TOP 73</span>
@@ -700,6 +778,187 @@ input,textarea{font-family:inherit;outline:none}
       <div style="font-size:11px;font-weight:bold;">শীতল 💕 Mia Vai</div>
     </div>
     <div style="font-size:12px;font-weight:bold;">13.3K 💖</div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------- -->
+/* FAMILY SCREEN (NEW FEATURE BASED ON SCREENSHOTS) */
+<!-- ------------------------------------------------------------- -->
+<div id="familyModal" class="fam-screen">
+  <div class="fam-header">
+    <button class="fam-back" onclick="closeFamilyPage()">❮</button>
+    <div class="fam-top-tabs">
+      <span id="tabMyFamily" class="fam-top-tab active" onclick="switchFamTab('myFamily')">My family</span>
+      <span id="tabFamSquare" class="fam-top-tab" onclick="switchFamTab('famSquare')">Family square</span>
+    </div>
+    <div style="font-size:20px;color:#fff">❓</div>
+  </div>
+
+  <div class="fam-content">
+    <!-- MY FAMILY VIEW -->
+    <div id="myFamilyView">
+      <div class="my-fam-hero">
+        <div class="fam-wings-frame">
+          <img src="https://i.pravatar.cc/150?img=33">
+        </div>
+        <div class="fam-title-text">ফরিদপুর</div>
+        <div class="fam-badge-btn">
+          <span>👥 336/500</span> ❯
+        </div>
+      </div>
+
+      <div class="top-fam-bar">
+        <span>★ TOP Family</span>
+        <div class="top-fam-badges">
+          <span class="top-fam-badge">TOP 1</span>
+          <span class="top-fam-badge">TOP 2</span>
+          <span class="top-fam-badge">TOP 3</span>
+        </div>
+      </div>
+
+      <div class="exp-box">
+        <div class="exp-row">
+          <span style="font-weight:bold;font-size:13px">Family level exp <b style="color:#fde047">76442/80000</b></span>
+          <span style="font-size:11px;color:#ddd">Next family level process</span>
+        </div>
+        <div class="exp-bar-bg">
+          <div class="exp-bar-fill"></div>
+        </div>
+        <div class="exp-task-btn">
+          <span>My monthly task: <b>Get EXP and Gift</b></span>
+          <span style="color:#fde047">EXP *2894 ❯</span>
+        </div>
+      </div>
+
+      <div class="owner-card">
+        <img class="owner-avatar" src="https://i.pravatar.cc/100?img=12">
+        <div class="owner-info">
+          <div class="owner-name-row">
+            <span>বর্তমান</span>
+            <span class="owner-tag">Owner</span>
+          </div>
+          <div style="font-size:11px;color:#aaa;margin-top:2px">ID:100095059 | 🇧🇩 Bangladesh</div>
+        </div>
+      </div>
+
+      <div class="fam-stars-sec">
+        <div class="fam-stars-title">
+          <span>Family season stars</span>
+          <span style="font-size:12px;color:#aaa">Ranking ❯</span>
+        </div>
+        <div class="fam-stars-grid">
+          <div class="fam-star-card">
+            <div class="star-card-header" style="background:#f59e0b;color:#000">Gift Giving</div>
+            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
+            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
+            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
+          </div>
+          <div class="fam-star-card">
+            <div class="star-card-header" style="background:#ec4899;color:#fff">Receiving Gifts</div>
+            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
+            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
+            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
+          </div>
+          <div class="fam-star-card">
+            <div class="star-card-header" style="background:#3b82f6;color:#fff">Room</div>
+            <img class="star-avatar" src="https://i.pravatar.cc/100?img=12">
+            <div style="font-size:10px;color:#fde047;font-weight:bold">TOP1</div>
+            <div style="font-size:11px;font-weight:bold">বর্তমান</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fam-sub-tabs">
+        <span class="fam-sub-tab active">Room</span>
+        <span class="fam-sub-tab">Contribution</span>
+        <span class="fam-sub-tab">Activity</span>
+      </div>
+    </div>
+
+    <!-- FAMILY SQUARE VIEW -->
+    <div id="famSquareView" style="display:none">
+      <div class="square-hero">
+        <div class="square-title">Family Ranking</div>
+        <div class="square-time-tabs">
+          <button class="square-time-btn active">Daily</button>
+          <button class="square-time-btn">Weekly</button>
+          <button class="square-time-btn">Season</button>
+        </div>
+        <div style="font-size:12px;color:#ccc;margin-bottom:10px">2026-09-27</div>
+      </div>
+
+      <div class="sq-rank-list">
+        <div class="sq-rank-item top1">
+          <div class="sq-rank-badge" style="color:#fde047">1</div>
+          <div class="sq-fam-info">
+            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=33">
+            <div>
+              <div class="sq-fam-name">BD King ♔</div>
+              <div class="sq-members-imgs">
+                <img src="https://i.pravatar.cc/100?img=1"><img src="https://i.pravatar.cc/100?img=2"><img src="https://i.pravatar.cc/100?img=3">
+              </div>
+            </div>
+          </div>
+          <div class="sq-score">👑 x4645</div>
+        </div>
+
+        <div class="sq-rank-item top2">
+          <div class="sq-rank-badge" style="color:#93c5fd">2</div>
+          <div class="sq-fam-info">
+            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=44">
+            <div>
+              <div class="sq-fam-name">Friends & Family</div>
+              <div class="sq-members-imgs">
+                <img src="https://i.pravatar.cc/100?img=4"><img src="https://i.pravatar.cc/100?img=5"><img src="https://i.pravatar.cc/100?img=6">
+              </div>
+            </div>
+          </div>
+          <div class="sq-score">👑 x3809</div>
+        </div>
+
+        <div class="sq-rank-item top3">
+          <div class="sq-rank-badge" style="color:#6ee7b7">3</div>
+          <div class="sq-fam-info">
+            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=55">
+            <div>
+              <div class="sq-fam-name">Sk Sagor...</div>
+              <div class="sq-members-imgs">
+                <img src="https://i.pravatar.cc/100?img=7"><img src="https://i.pravatar.cc/100?img=8"><img src="https://i.pravatar.cc/100?img=9">
+              </div>
+            </div>
+          </div>
+          <div class="sq-score">👑 x1394</div>
+        </div>
+
+        <div class="sq-rank-item">
+          <div class="sq-rank-badge">04</div>
+          <div class="sq-fam-info">
+            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=60">
+            <div>
+              <div class="sq-fam-name">BAND OF BROTHERS</div>
+              <div class="sq-members-imgs">
+                <img src="https://i.pravatar.cc/100?img=10"><img src="https://i.pravatar.cc/100?img=11"><img src="https://i.pravatar.cc/100?img=12">
+              </div>
+            </div>
+          </div>
+          <div class="sq-score">👑 x1301</div>
+        </div>
+
+        <div class="sq-rank-item">
+          <div class="sq-rank-badge">05</div>
+          <div class="sq-fam-info">
+            <img class="sq-fam-logo" src="https://i.pravatar.cc/100?img=65">
+            <div>
+              <div class="sq-fam-name">কুঁড়েঘর ফ্যামিলি</div>
+              <div class="sq-members-imgs">
+                <img src="https://i.pravatar.cc/100?img=13"><img src="https://i.pravatar.cc/100?img=14"><img src="https://i.pravatar.cc/100?img=15">
+              </div>
+            </div>
+          </div>
+          <div class="sq-score">👑 x776</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -716,7 +975,7 @@ input,textarea{font-family:inherit;outline:none}
 </div>
 
 <script>
-// DEMO DATA FOR CELEBRITY RANKING (1-100 AUTOMATIC)
+// DEMO DATA FOR CELEBRITY RANKING
 let usersData = [
   { name: "Mahim 🇧🇩", gems: 35539998, avatar: "https://i.pravatar.cc/150?img=33" },
   { name: "WASHIM 🇸🇦", gems: 13369000, avatar: "https://i.pravatar.cc/150?img=12" },
@@ -730,7 +989,7 @@ for (let i = 4; i <= 100; i++) {
   });
 }
 
-// DEMO DATA FOR CP RANKING (1-100 PAIRS)
+// DEMO DATA FOR CP RANKING
 let cpRankingsData = [
   { rank: "TOP 1", name1: "WASHIM", name2: "পূর্ণা", img1: "https://i.pravatar.cc/100?img=33", img2: "https://i.pravatar.cc/100?img=44", points: 529700 },
   { rank: "TOP 2", name1: "AKASH", name2: "Miu", img1: "https://i.pravatar.cc/100?img=12", img2: "https://i.pravatar.cc/100?img=25", points: 433000 },
@@ -823,6 +1082,24 @@ function closeRanking() { document.getElementById('rankingModal').classList.remo
 
 function openCPZone() { renderCPList(); document.getElementById('cpZoneModal').classList.add('show'); }
 function closeCPZone() { document.getElementById('cpZoneModal').classList.remove('show'); }
+
+/* FAMILY PAGE FUNCTIONS */
+function openFamilyPage() { document.getElementById('familyModal').classList.add('show'); }
+function closeFamilyPage() { document.getElementById('familyModal').classList.remove('show'); }
+function switchFamTab(tab) {
+  document.getElementById('tabMyFamily').classList.remove('active');
+  document.getElementById('tabFamSquare').classList.remove('active');
+  
+  if(tab === 'myFamily') {
+    document.getElementById('tabMyFamily').classList.add('active');
+    document.getElementById('myFamilyView').style.display = 'block';
+    document.getElementById('famSquareView').style.display = 'none';
+  } else {
+    document.getElementById('tabFamSquare').classList.add('active');
+    document.getElementById('myFamilyView').style.display = 'none';
+    document.getElementById('famSquareView').style.display = 'block';
+  }
+}
 
 function sendGift(name, val) {
   showToast('Gift Sent Successfully!');
