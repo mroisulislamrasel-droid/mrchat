@@ -3,615 +3,340 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MR Chat - Multi-User Voice Chat Platform</title>
+<title>MR Chat - Real Interactive Voice Platform</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{width:100%;height:100%;overflow:hidden;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;background:#f2f5f9;color:#1e293b}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
+  html,body{width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0f172a;color:#1e293b}
   button,input,textarea,select{font-family:inherit;outline:none;border:none}
 
-  #app{width:100%;height:100%;position:relative;overflow:hidden}
+  /* MAIN APP CONTAINER (MOBILE VIEWPORT) */
+  #app{width:100%;height:100%;position:relative;overflow:hidden;background:#f8fafc;display:flex;flex-direction:column}
 
-  /* PAGES CONTAINER */
-  .page{
-    position:absolute;inset:0;background:#f8fafc;display:none;
-    overflow-y:auto;padding-bottom:75px;
-  }
-  .page.show{display:block}
+  /* SCREEN VIEWS */
+  .page-view{position:absolute;inset:0;bottom:65px;background:#f8fafc;display:none;flex-direction:column;overflow-y:auto;z-index:10}
+  .page-view.active{display:flex}
+
+  /* SUB-SCREENS / MODALS OVERLAY */
+  .sub-screen{position:absolute;inset:0;background:#fff;z-index:100;display:none;flex-direction:column;animation:slideIn 0.2s ease-out}
+  .sub-screen.active{display:flex}
+  @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
 
   /* TOP HEADER */
-  .home-top{
-    height:60px;background:#fff;display:flex;align-items:center;
-    padding:0 12px;gap:10px;position:sticky;top:0;z-index:20;
-    box-shadow:0 1px 3px rgba(0,0,0,0.05)
-  }
-  .home-tabs{
-    display:flex;align-items:center;gap:4px;height:38px;padding:3px;flex:1;
-    background:#f1f5f9;border-radius:20px
-  }
-  .home-tab{
-    flex:1;height:32px;border-radius:16px;font-size:12px;font-weight:600;
-    color:#64748b;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.2s
-  }
-  .home-tab.active{color:#4f46e5;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.06)}
-  
-  .top-btn{
-    width:38px;height:38px;border-radius:50%;background:#f1f5f9;
-    font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer
-  }
-  .top-btn.primary{background:#4f46e5;color:#fff}
+  .app-header{height:55px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:20}
+  .header-title{font-size:18px;font-weight:800;color:#4f46e5;display:flex;align-items:center;gap:6px}
+  .header-actions{display:flex;gap:10px}
+  .icon-btn{width:36px;height:36px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+  .icon-btn:active{background:#e2e8f0}
 
-  /* BANNER & ROOM LIST */
-  .banner-wrap{padding:12px}
-  .banner{
-    height:120px;border-radius:18px;background:linear-gradient(135deg,#4f46e5,#9333ea);
-    color:#fff;padding:16px;display:flex;flex-direction:column;justify-content:center;
-    box-shadow:0 8px 20px rgba(79,70,229,0.2)
-  }
-  .banner h2{font-size:18px;font-weight:800}
-  .banner p{font-size:11px;opacity:0.85;margin-top:4px}
+  /* TAB NAVIGATION */
+  .nav-tabs{display:flex;background:#f1f5f9;padding:3px;border-radius:20px;gap:2px}
+  .tab-btn{padding:6px 14px;border-radius:16px;font-size:12px;font-weight:700;color:#64748b;background:transparent;cursor:pointer}
+  .tab-btn.active{background:#fff;color:#4f46e5;box-shadow:0 2px 4px rgba(0,0,0,0.05)}
 
-  .section-title{padding:8px 14px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;color:#334155}
-
-  .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 12px}
-  .room-card{
-    height:180px;border-radius:16px;overflow:hidden;position:relative;
-    background:#1e293b;box-shadow:0 4px 12px rgba(0,0,0,0.08);cursor:pointer
-  }
+  /* ROOM GRID */
+  .banner-box{margin:12px;padding:16px;border-radius:18px;background:linear-gradient(135deg,#4f46e5,#9333ea);color:#fff;box-shadow:0 8px 20px rgba(79,70,229,0.25)}
+  .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 12px 20px}
+  .room-card{height:170px;border-radius:16px;overflow:hidden;position:relative;background:#1e293b;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
   .room-card img{width:100%;height:100%;object-fit:cover;opacity:0.85}
-  .room-card-info{position:absolute;bottom:0;inset-x:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff}
-  .room-card-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .room-card-sub{font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;margin-top:2px}
+  .room-info{position:absolute;bottom:0;inset-x:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,0.9));color:#fff}
+  .room-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .room-meta{font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;margin-top:4px}
 
   /* USER PROFILE (ME PAGE) */
-  .profile-container{padding:15px 12px 20px;background:linear-gradient(180deg, #e0e7ff 0%, #f8fafc 35%)}
-  
-  .user-header{display:flex;align-items:center;position:relative;margin-bottom:15px}
-  .profile-pic-wrap{position:relative;cursor:pointer}
-  .profile-pic-wrap img{width:75px;height:75px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-  .edit-icon-badge{
-    position:absolute;bottom:0;right:0;background:#4f46e5;color:#fff;
-    width:22px;height:22px;border-radius:50%;display:flex;align-items:center;
-    justify-content:center;font-size:10px;border:2px solid #fff
-  }
+  .profile-header{padding:20px 14px;background:linear-gradient(180deg,#e0e7ff 0%,#f8fafc 100%);display:flex;align-items:center;gap:14px}
+  .avatar-wrap{position:relative;cursor:pointer}
+  .avatar-wrap img{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+  .avatar-edit-badge{position:absolute;bottom:0;right:0;background:#4f46e5;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;border:2px solid #fff}
+  .user-info b{font-size:17px;color:#0f172a;display:block}
+  .user-info span{font-size:11px;color:#64748b}
+  .user-info p{font-size:11px;color:#475569;margin-top:2px;font-style:italic}
 
-  .user-details-box{margin-left:14px;flex:1}
-  .user-nickname-row{display:flex;align-items:center;gap:6px}
-  .user-nickname-row h3{font-size:17px;font-weight:700;color:#0f172a}
-  .edit-profile-btn{font-size:13px;color:#64748b;cursor:pointer}
-  .user-id-text{font-size:11px;color:#64748b;margin-top:2px}
-  .user-bio-text{font-size:11px;color:#475569;margin-top:4px;font-style:italic}
+  .wallet-bar{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px;margin-bottom:15px}
+  .w-card{padding:12px;border-radius:14px;color:#fff;cursor:pointer;position:relative}
+  .w-card.coins{background:linear-gradient(135deg,#ff758c,#ff7eb3)}
+  .w-card.diamonds{background:linear-gradient(135deg,#36d1dc,#5b86e5)}
+  .w-card-val{font-size:15px;font-weight:800;margin-top:6px}
 
-  .family-badge{
-    position:absolute;right:0;top:5px;background:linear-gradient(135deg,#f59e0b,#d97706);
-    color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;
-    display:flex;align-items:center;gap:3px;box-shadow:0 3px 8px rgba(245,158,11,0.3)
-  }
-
-  .stats-row{display:flex;align-items:center;gap:30px;margin-bottom:18px;padding-left:5px}
-  .stat-item{display:flex;flex-direction:column;cursor:pointer}
-  .stat-item b{font-size:16px;color:#0f172a}
-  .stat-item span{font-size:11px;color:#64748b}
-
-  .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px}
-  .wallet-card{
-    background:linear-gradient(135deg,#ff758c,#ff7eb3);
-    border-radius:16px;padding:12px;color:#fff;position:relative;
-    box-shadow:0 6px 15px rgba(255,117,140,0.25);cursor:pointer
-  }
-  .store-card{
-    background:linear-gradient(135deg,#4299e1,#3182ce);
-    border-radius:16px;padding:12px;color:#fff;position:relative;
-    box-shadow:0 6px 15px rgba(66,153,225,0.25);cursor:pointer
-  }
-  .card-title{font-size:13px;font-weight:700}
-  .card-val{font-size:13px;margin-top:12px;display:flex;align-items:center;gap:4px;font-weight:700}
-  .card-icon-img{position:absolute;right:10px;bottom:8px;font-size:30px;opacity:0.9}
-
-  .menu-group{background:#fff;border-radius:16px;padding:4px 0;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.03)}
-  .menu-item{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:12px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9
-  }
+  .menu-list{background:#fff;margin:0 14px 15px;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+  .menu-item{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid #f1f5f9;cursor:pointer}
   .menu-item:last-child{border-bottom:none}
-  .menu-left{display:flex;align-items:center;gap:12px}
-  .menu-icon{font-size:17px;width:22px;text-align:center}
-  .menu-text{font-size:13px;color:#334155;font-weight:600}
-  .menu-right{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8}
-  .badge-pill{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;color:#fff}
-
-  /* MODALS */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:900;
-    display:none;align-items:center;justify-content:center;padding:15px;backdrop-filter:blur(3px)
-  }
-  .modal-overlay.active{display:flex}
-  .modal-box{
-    background:#fff;width:100%;max-width:360px;border-radius:20px;
-    padding:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2)
-  }
-  .modal-title{font-size:15px;font-weight:700;margin-bottom:12px;color:#0f172a}
-  .form-group{margin-bottom:12px}
-  .form-group label{display:block;font-size:11px;color:#64748b;margin-bottom:4px;font-weight:700}
-  .form-group input, .form-group textarea, .form-group select{
-    width:100%;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;
-    border-radius:10px;font-size:12px;color:#0f172a
-  }
-  .modal-btns{display:flex;gap:10px;margin-top:16px}
-  .modal-btn{flex:1;padding:10px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;text-align:center}
-  .modal-btn.cancel{background:#f1f5f9;color:#64748b}
-  .modal-btn.save{background:#4f46e5;color:#fff}
+  .menu-item:active{background:#f8fafc}
+  .menu-left{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#334155}
 
   /* BOTTOM NAVIGATION */
-  .bottom-nav{
-    position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
-    display:flex;border-top:1px solid #f1f5f9;z-index:100
-  }
-  .nav-item{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    color:#94a3b8;font-size:10px;gap:2px;background:none;cursor:pointer
-  }
-  .nav-item.active{color:#4f46e5;font-weight:700}
-  .nav-icon{font-size:18px}
+  .bottom-nav{position:fixed;bottom:0;inset-x:0;height:65px;background:#fff;border-top:1px solid #e2e8f0;display:flex;z-index:50}
+  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#94a3b8;font-size:10px;gap:3px;cursor:pointer}
+  .nav-btn.active{color:#4f46e5;font-weight:700}
+  .nav-btn span:first-child{font-size:18px}
 
-  /* VOICE ROOM SCREEN */
-  #roomScreen{
-    position:fixed;inset:0;z-index:500;display:none;overflow:hidden;color:white;
-    background:radial-gradient(circle at 50% 20%, #4c1d95 0%, #1e1b4b 60%, #0f172a 100%);
-    flex-direction:column;justify-content:space-between
-  }
-  #roomScreen.active{display:flex}
+  /* LIVE VOICE ROOM (LIVE SCREEN) */
+  #roomView{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 20%, #311042 0%, #111827 100%);color:#fff;display:none;flex-direction:column;justify-content:space-between}
+  #roomView.active{display:flex}
 
-  .room-header{
-    height:55px;padding:8px 10px;display:flex;align-items:center;
-    justify-content:space-between;z-index:10;background:rgba(0,0,0,0.2)
-  }
-  .room-profile-box{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:20px}
-  .room-avatar-img{width:32px;height:32px;border-radius:50%;border:1px solid #f59e0b;object-fit:cover}
-  .room-details b{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
-  .room-details small{font-size:9px;color:#cbd5e1}
+  .room-top{height:55px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.3)}
+  .host-badge{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.4);padding:4px 10px;border-radius:20px}
+  .host-badge img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #f59e0b}
 
-  .top-right-btns{display:flex;align-items:center;gap:6px}
-  .top-icon-btn{
-    width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.15);
-    border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;
-    font-size:12px;color:#fff;cursor:pointer
-  }
+  .room-branding{text-align:center;font-size:28px;font-weight:900;background:linear-gradient(180deg,#fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:5px 0}
 
-  .host-section{margin-top:10px;display:flex;flex-direction:column;align-items:center}
-  .host-ring{
-    position:relative;width:68px;height:68px;display:flex;align-items:center;justify-content:center;cursor:pointer
-  }
-  .host-ring::before{
-    content:'';position:absolute;inset:-3px;border-radius:50%;
-    background:linear-gradient(45deg, #ec4899, #f59e0b, #ec4899);
-    box-shadow:0 0 10px #ec4899
-  }
-  .host-ring img{width:62px;height:62px;border-radius:50%;object-fit:cover;z-index:2;position:relative}
-  .host-name{margin-top:4px;font-size:11px;font-weight:700;color:#60a5fa}
+  .seat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px;padding:0 15px}
+  .seat-cell{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+  .seat-avatar{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;overflow:hidden}
+  .seat-avatar img{width:100%;height:100%;object-fit:cover}
+  .seat-avatar.active{border-color:#a855f7;box-shadow:0 0 10px #a855f7}
+  .seat-label{font-size:10px;color:#cbd5e1;margin-top:4px}
 
-  /* BRANDING TEXT */
-  .room-title-logo{
-    text-align:center;font-size:32px;font-weight:900;letter-spacing:1px;
-    background:linear-gradient(180deg,#ffffff,#c084fc,#a855f7);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    margin:-5px 0 5px
-  }
+  .chat-console{height:120px;padding:0 12px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+  .chat-msg{background:rgba(0,0,0,0.4);padding:4px 8px;border-radius:8px;font-size:11px;width:max-content;max-width:90%}
+  .chat-msg b{color:#60a5fa}
 
-  /* 8 SEATS GRID */
-  .seats-grid-8{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:12px 5px;
-    padding:0 20px
-  }
-  .seat-box{display:flex;flex-direction:column;align-items:center;cursor:pointer}
-  .seat-icon{
-    width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.12);
-    border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;
-    justify-content:center;font-size:16px;overflow:hidden
-  }
-  .seat-icon img{width:100%;height:100%;object-fit:cover}
-  .seat-icon.occupied{background:linear-gradient(135deg,#a855f7,#ec4899)}
-  .seat-num{font-size:10px;color:#cbd5e1;margin-top:3px;font-weight:600}
+  .room-bottom{height:60px;padding:0 10px;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:space-between;gap:6px}
+  .chat-input-btn{flex:1;background:rgba(255,255,255,0.15);padding:8px 12px;border-radius:20px;font-size:11px;color:#cbd5e1;cursor:pointer}
 
-  .mascot-area{
-    position:relative;height:90px;display:flex;justify-content:center;align-items:center
-  }
-  .mascot-area img{height:95px}
+  /* MODALS & GAME WHEEL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;align-items:center;justify-content:center;padding:15px;backdrop-filter:blur(3px)}
+  .modal-overlay.active{display:flex}
+  .modal-card{background:#fff;width:100%;max-width:340px;border-radius:20px;padding:18px;color:#0f172a}
+  .modal-card h3{font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 
-  .widgets-right{
-    position:absolute;right:10px;bottom:0;display:flex;flex-direction:column;gap:6px
-  }
-  .widget-item{
-    width:48px;height:48px;border-radius:10px;
-    border:1px solid rgba(255,255,255,0.2);display:flex;flex-direction:column;
-    align-items:center;justify-content:center;font-size:8px;text-align:center;cursor:pointer
-  }
+  /* WHEEL GAME STYLING */
+  .wheel-box{width:200px;height:200px;border-radius:50%;border:8px solid #f59e0b;margin:15px auto;position:relative;overflow:hidden;transition:transform 3s cubic-bezier(0.15,0.9,0.15,1);background:conic-gradient(#ef4444 0deg 90deg, #3b82f6 90deg 180deg, #10b981 180deg 270deg, #8b5cf6 270deg 360deg)}
+  .wheel-pointer{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:18px solid #fff;z-index:10}
 
-  .chat-box-area{
-    padding:0 12px;display:flex;flex-direction:column;gap:5px;max-height:130px;overflow-y:auto
-  }
-  .announcement-text{
-    background:rgba(0,0,0,0.25);border-radius:8px;padding:5px 8px;
-    font-size:10px;color:#6ee7b7
-  }
-  .chat-bubble{
-    background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:10px;
-    font-size:10px;width:max-content;display:flex;align-items:center;gap:4px
-  }
-
-  .room-controls{
-    height:55px;padding:0 8px;background:rgba(15,23,42,0.9);
-    display:flex;align-items:center;justify-content:space-between;
-    border-top:1px solid rgba(255,255,255,0.1)
-  }
-  .say-hi{
-    background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
-    color:#fff;padding:6px 10px;border-radius:18px;font-size:10px;cursor:pointer
-  }
-  .ctrl-btn{
-    width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);
-    display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;cursor:pointer
-  }
-  .ctrl-btn.off{background:rgba(239,68,68,0.4)}
-  .gift-btn{
-    width:36px;height:36px;border-radius:10px;
-    background:linear-gradient(135deg,#ec4899,#3b82f6);
-    display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer
-  }
-
-  /* GIFT PANEL MODAL */
-  .gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
-  .gift-card{
-    background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;
-    padding:8px;text-align:center;cursor:pointer;transition:0.2s
-  }
-  .gift-card:hover{border-color:#4f46e5;background:#e0e7ff}
-  .gift-emoji{font-size:24px}
-  .gift-name{font-size:10px;font-weight:700;margin-top:2px;color:#334155}
-  .gift-price{font-size:9px;color:#f59e0b;font-weight:700}
-
-  #toast{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    background:rgba(15,23,42,0.9);color:#fff;padding:10px 18px;border-radius:20px;
-    font-size:12px;z-index:1000;display:none;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3)
-  }
+  #toast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:rgba(15,23,42,0.95);color:#fff;padding:10px 20px;border-radius:25px;font-size:12px;z-index:9999;display:none;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3)}
 </style>
 </head>
-
 <body>
+
 <div id="app">
 
   <!-- HOME PAGE -->
-  <section id="homePage" class="page show">
-    <div class="home-top">
-      <div class="home-tabs">
-        <button class="home-tab" onclick="setActiveTab(this)">Following</button>
-        <button class="home-tab active" onclick="setActiveTab(this)">Popular</button>
-        <button class="home-tab" onclick="setActiveTab(this)">Recent</button>
+  <section id="pageHome" class="page-view active">
+    <div class="app-header">
+      <div class="header-title"><span>MR Chat</span></div>
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchHomeTab(this)">Popular</button>
+        <button class="tab-btn" onclick="switchHomeTab(this)">Recent</button>
       </div>
-      <button class="top-btn" onclick="showToast('Search feature ready for API')">⌕</button>
-      <button class="top-btn primary" onclick="openCreateRoomModal()">＋</button>
-    </div>
-
-    <div class="banner-wrap">
-      <div class="banner">
-        <h2>MR Chat Live World</h2>
-        <p>Thousands of users talking live. Join a room now!</p>
+      <div class="header-actions">
+        <div class="icon-btn" onclick="openSubScreen('subSearch')">⌕</div>
+        <div class="icon-btn" style="background:#4f46e5;color:#fff" onclick="openCreateRoomModal()">＋</div>
       </div>
     </div>
 
-    <!-- USER SWITCHER (DEMO PURPOSE TO TEST MULTI-USER) -->
-    <div style="padding:0 12px 10px;">
+    <div class="banner-box">
+      <h3 style="font-size:16px">Welcome to MR Chat</h3>
+      <p style="font-size:11px;opacity:0.9;margin-top:2px">Join live voice rooms, chat & play games!</p>
+    </div>
+
+    <!-- Active User Switcher Bar -->
+    <div style="padding:0 12px 10px">
       <div style="background:#e0e7ff;padding:8px 12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:11px;font-weight:700;color:#3730a3">Active Account Switcher:</span>
-        <select id="userSelector" onchange="switchDemoUser(this.value)" style="font-size:11px;padding:3px 6px;border-radius:6px;background:#fff">
-          <option value="0">Mia Vai (ID: 100927248)</option>
-          <option value="1">Tanvir Ahmed (ID: 100452189)</option>
-          <option value="2">Nusrat Jahan (ID: 100882310)</option>
+        <span style="font-size:11px;font-weight:700;color:#3730a3">Active Profile:</span>
+        <select id="userSelector" onchange="switchUser(this.value)" style="font-size:11px;padding:3px 8px;border-radius:6px;background:#fff;font-weight:600">
+          <option value="0">Mia Vai (ID: 100927)</option>
+          <option value="1">Tanvir Ahmed (ID: 100452)</option>
+          <option value="2">Nusrat Jahan (ID: 100882)</option>
         </select>
       </div>
     </div>
 
-    <div class="section-title">
-      <span>Active Voice Rooms</span><small style="color:#ef4444">● LIVE</small>
-    </div>
-
-    <div class="room-grid" id="roomListContainer">
-      <!-- Dynamic Room Cards will load here -->
-    </div>
+    <div style="padding:0 14px 8px;font-size:13px;font-weight:700;color:#475569">Live Rooms</div>
+    <div class="room-grid" id="roomGrid"></div>
   </section>
 
   <!-- DISCOVER PAGE -->
-  <section id="discoverPage" class="page">
-    <div style="padding:15px;text-align:center;font-weight:700;background:#fff;border-bottom:1px solid #eee">Discover Community</div>
-    <div style="text-align:center;color:#94a3b8;margin-top:50px;font-size:13px">Discover events and trending users.</div>
+  <section id="pageDiscover" class="page-view">
+    <div class="app-header"><div class="header-title">Discover</div></div>
+    <div style="padding:15px">
+      <div class="menu-list">
+        <div class="menu-item" onclick="openSubScreen('subRankings')"><div class="menu-left">🏆 Leaderboard & Rankings</div><div>❯</div></div>
+        <div class="menu-item" onclick="openSubScreen('subEvents')"><div class="menu-left">🎉 Live Events</div><div>❯</div></div>
+      </div>
+    </div>
   </section>
 
-  <!-- MOMENT PAGE -->
-  <section id="momentPage" class="page">
-    <div style="padding:15px;text-align:center;font-weight:700;background:#fff;border-bottom:1px solid #eee">Moments Feed</div>
-    <div style="text-align:center;color:#94a3b8;margin-top:50px;font-size:13px">User posts & status updates appear here.</div>
+  <!-- MOMENTS PAGE -->
+  <section id="pageMoments" class="page-view">
+    <div class="app-header"><div class="header-title">Moments</div></div>
+    <div style="padding:15px">
+      <div style="background:#fff;padding:12px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+        <b style="font-size:13px">Tanvir Ahmed</b>
+        <p style="font-size:12px;color:#475569;margin-top:4px">Having fun in MR Chat room! Join us now 🔥</p>
+      </div>
+    </div>
   </section>
 
-  <!-- MESSAGE PAGE -->
-  <section id="messagePage" class="page">
-    <div style="padding:15px;text-align:center;font-weight:700;background:#fff;border-bottom:1px solid #eee">Messages & Notifications</div>
-    <div style="text-align:center;color:#94a3b8;margin-top:50px;font-size:13px">1-on-1 private chats will appear here.</div>
+  <!-- MESSAGES PAGE -->
+  <section id="pageMessages" class="page-view">
+    <div class="app-header"><div class="header-title">Messages</div></div>
+    <div class="menu-list" style="margin-top:15px">
+      <div class="menu-item" onclick="openPrivateChat('System Team')"><div class="menu-left">📢 System Notifications</div><div>❯</div></div>
+      <div class="menu-item" onclick="openPrivateChat('Nusrat Jahan')"><div class="menu-left">💬 Nusrat Jahan</div><div>❯</div></div>
+    </div>
   </section>
 
   <!-- ME (PROFILE) PAGE -->
-  <section id="mePage" class="page">
-    <div class="profile-container">
-      
-      <div class="user-header">
-        <div class="profile-pic-wrap" onclick="openEditModal()">
-          <img id="displayUserImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar">
-          <div class="edit-icon-badge">✏️</div>
-        </div>
-        <div class="user-details-box">
-          <div class="user-nickname-row">
-            <h3 id="displayUserNickname">༄Mia...✿Vai3</h3>
-            <span class="edit-profile-btn" onclick="openEditModal()">✏️</span>
-          </div>
-          <div class="user-id-text">ID: <span id="displayUserId">100927248</span></div>
-          <div class="user-bio-text" id="displayUserBio">Enjoying life on MR Chat!</div>
-        </div>
-        <div class="family-badge" onclick="showToast('Family Details')">
-          👑 FAMILY
-        </div>
+  <section id="pageMe" class="page-view">
+    <div class="profile-header">
+      <div class="avatar-wrap" onclick="openEditProfile()">
+        <img id="meAvatar" src="">
+        <div class="avatar-edit-badge">✏️</div>
       </div>
-
-      <div class="stats-row">
-        <div class="stat-item" onclick="showToast('Following List')">
-          <b id="displayUserFollow">15</b>
-          <span>Follow</span>
-        </div>
-        <div class="stat-item" onclick="showToast('Fans List')">
-          <b id="displayUserFans">26</b>
-          <span>Fans</span>
-        </div>
+      <div class="user-info">
+        <b id="meName">---</b>
+        <span id="meId">ID: ---</span>
+        <p id="meBio">---</p>
       </div>
+    </div>
 
-      <div class="cards-grid">
-        <div class="wallet-card" onclick="showToast('Wallet Center')">
-          <div class="card-title">Wallet</div>
-          <div class="card-val">🪙 <span id="displayWalletCoins">8458</span></div>
-          <div class="card-icon-img">👛</div>
-        </div>
-        <div class="store-card" onclick="showToast('MR Store')">
-          <div class="card-title">Store</div>
-          <div class="card-icon-img">🏪</div>
-        </div>
+    <div class="wallet-bar">
+      <div class="w-card coins" onclick="openSubScreen('subWallet')">
+        <div style="font-size:11px">Coins Balance</div>
+        <div class="w-card-val">🪙 <span id="meCoins">0</span></div>
       </div>
-
-      <!-- Menu Items Group 1 -->
-      <div class="menu-group">
-        <div class="menu-item" onclick="showToast('Invite & Earn')">
-          <div class="menu-left"><span class="menu-icon">💰</span><span class="menu-text">Invite get coins</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('Love House Space')">
-          <div class="menu-left"><span class="menu-icon">💜</span><span class="menu-text">Love House</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('CP Level Status')">
-          <div class="menu-left"><span class="menu-icon">💖</span><span class="menu-text">CP Level</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('Prop Warehouse')">
-          <div class="menu-left"><span class="menu-icon">🧰</span><span class="menu-text">Prop Warehouse</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('Medals Center')">
-          <div class="menu-left"><span class="menu-icon">🎖️</span><span class="menu-text">Medal</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('Level Details')">
-          <div class="menu-left"><span class="menu-icon">🛡️</span><span class="menu-text">Level</span></div>
-          <div class="menu-right">
-            <span class="badge-pill" style="background:linear-gradient(135deg,#a855f7,#7c3aed)">LV.41</span>
-            ❯
-          </div>
-        </div>
-        <div class="menu-item" onclick="showToast('SVIP Membership')">
-          <div class="menu-left"><span class="menu-icon">💎</span><span class="menu-text">SVIP</span></div>
-          <div class="menu-right">
-            <span class="badge-pill" style="background:linear-gradient(135deg,#eab308,#ca8a04)">SVIP2</span>
-            ❯
-          </div>
-        </div>
-        <div class="menu-item" onclick="showToast('Aristocracy Level')">
-          <div class="menu-left"><span class="menu-icon">👑</span><span class="menu-text">Aristocracy</span></div>
-          <div class="menu-right">
-            <span style="font-size:16px">🛡️</span>
-            ❯
-          </div>
-        </div>
+      <div class="w-card diamonds" onclick="openSubScreen('subWallet')">
+        <div style="font-size:11px">Diamonds</div>
+        <div class="w-card-val">💎 <span id="meDiamonds">120</span></div>
       </div>
+    </div>
 
-      <!-- Menu Items Group 2 -->
-      <div class="menu-group">
-        <div class="menu-item" onclick="showToast('Language Selected')">
-          <div class="menu-left"><span class="menu-icon">🌐</span><span class="menu-text">Language</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('Customer Service Online')">
-          <div class="menu-left"><span class="menu-icon">🎧</span><span class="menu-text">Customer service</span></div>
-          <div class="menu-right">
-            <span style="font-size:10px;color:#94a3b8;background:#f1f5f9;padding:2px 6px;border-radius:10px">● Offline</span>
-            ❯
-          </div>
-        </div>
-        <div class="menu-item" onclick="showToast('Feedback Center')">
-          <div class="menu-left"><span class="menu-icon">💬</span><span class="menu-text">Feedback</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-        <div class="menu-item" onclick="showToast('System Settings')">
-          <div class="menu-left"><span class="menu-icon">⚙️</span><span class="menu-text">Settings</span></div>
-          <div class="menu-right">❯</div>
-        </div>
-      </div>
-
+    <div class="menu-list">
+      <div class="menu-item" onclick="openSubScreen('subStore')"><div class="menu-left">🏪 MR Store & VIP</div><div>❯</div></div>
+      <div class="menu-item" onclick="openSubScreen('subBackpack')"><div class="menu-left">🎒 Backpack / Props</div><div>❯</div></div>
+      <div class="menu-item" onclick="openSubScreen('subSettings')"><div class="menu-left">⚙️ App Settings</div><div>❯</div></div>
     </div>
   </section>
 
   <!-- BOTTOM MAIN NAVIGATION -->
   <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchNav('homePage', this)">
-      <span class="nav-icon">🏠</span><span>Home</span>
-    </button>
-    <button class="nav-item" onclick="switchNav('discoverPage', this)">
-      <span class="nav-icon">🧭</span><span>Discover</span>
-    </button>
-    <button class="nav-item" onclick="switchNav('momentPage', this)">
-      <span class="nav-icon">📸</span><span>Moment</span>
-    </button>
-    <button class="nav-item" onclick="switchNav('messagePage', this)">
-      <span class="nav-icon">💬</span><span>Message</span>
-    </button>
-    <button class="nav-item" onclick="switchNav('mePage', this)">
-      <span class="nav-icon">👤</span><span>Me</span>
-    </button>
+    <div class="nav-btn active" onclick="switchMainPage('pageHome', this)"><span>🏠</span><span>Home</span></div>
+    <div class="nav-btn" onclick="switchMainPage('pageDiscover', this)"><span>🧭</span><span>Discover</span></div>
+    <div class="nav-btn" onclick="switchMainPage('pageMoments', this)"><span>📸</span><span>Moment</span></div>
+    <div class="nav-btn" onclick="switchMainPage('pageMessages', this)"><span>💬</span><span>Message</span></div>
+    <div class="nav-btn" onclick="switchMainPage('pageMe', this)"><span>👤</span><span>Me</span></div>
   </nav>
 
-  <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-title">Edit Profile</div>
-      <div class="form-group">
-        <label>Nickname</label>
-        <input type="text" id="inputNickname">
+  <!-- SUB-SCREENS (FUNCTIONAL PAGES) -->
+  <div id="subWallet" class="sub-screen">
+    <div class="app-header">
+      <div class="header-title"><span onclick="closeSubScreen('subWallet')" style="cursor:pointer">❮ Wallet Center</span></div>
+    </div>
+    <div style="padding:20px;text-align:center">
+      <h3>Coins Recharge</h3>
+      <div style="font-size:24px;font-weight:800;color:#f59e0b;margin:10px 0">🪙 <span id="walletCoinVal">0</span></div>
+      <button onclick="addCoins(500)" style="background:#10b981;color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;margin-top:10px;cursor:pointer">+ Buy 500 Coins ($0.99)</button>
+    </div>
+  </div>
+
+  <div id="subStore" class="sub-screen">
+    <div class="app-header">
+      <div class="header-title"><span onclick="closeSubScreen('subStore')" style="cursor:pointer">❮ MR Store</span></div>
+    </div>
+    <div style="padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#f1f5f9;padding:12px;border-radius:12px;text-align:center">
+        <div style="font-size:24px">👑</div>
+        <b>SVIP Badge</b>
+        <button onclick="showToast('SVIP Purchased!')" style="background:#4f46e5;color:#fff;padding:4px 8px;border-radius:6px;font-size:10px;margin-top:6px;cursor:pointer">Buy (🪙 1000)</button>
       </div>
-      <div class="form-group">
-        <label>Profile Picture URL</label>
-        <input type="text" id="inputProfileImg">
-      </div>
-      <div class="form-group">
-        <label>Bio</label>
-        <textarea id="inputBio" rows="2"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Date of Birth</label>
-        <input type="date" id="inputDob" value="2000-01-01">
-      </div>
-      <div class="modal-btns">
-        <button class="modal-btn cancel" onclick="closeEditModal()">Cancel</button>
-        <button class="modal-btn save" onclick="saveProfileData()">Save Changes</button>
+      <div style="background:#f1f5f9;padding:12px;border-radius:12px;text-align:center">
+        <div style="font-size:24px">🚗</div>
+        <b>Car Entrance</b>
+        <button onclick="showToast('Entrance Frame Added!')" style="background:#4f46e5;color:#fff;padding:4px 8px;border-radius:6px;font-size:10px;margin-top:6px;cursor:pointer">Buy (🪙 500)</button>
       </div>
     </div>
   </div>
 
-  <!-- GIFT PANEL MODAL -->
-  <div id="giftModal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-title">Send Gift</div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:8px">Your Coins: 🪙 <span id="giftUserCoins">8458</span></div>
-      <div class="gift-grid">
-        <div class="gift-card" onclick="sendGift('Rose', 10)">
-          <div class="gift-emoji">🌹</div>
-          <div class="gift-name">Rose</div>
-          <div class="gift-price">🪙 10</div>
-        </div>
-        <div class="gift-card" onclick="sendGift('Ring', 100)">
-          <div class="gift-emoji">💍</div>
-          <div class="gift-name">Ring</div>
-          <div class="gift-price">🪙 100</div>
-        </div>
-        <div class="gift-card" onclick="sendGift('Sports Car', 500)">
-          <div class="gift-emoji">🏎️</div>
-          <div class="gift-name">Car</div>
-          <div class="gift-price">🪙 500</div>
-        </div>
-        <div class="gift-card" onclick="sendGift('Crown', 1000)">
-          <div class="gift-emoji">👑</div>
-          <div class="gift-name">Crown</div>
-          <div class="gift-price">🪙 1000</div>
-        </div>
-      </div>
-      <div class="modal-btns">
-        <button class="modal-btn cancel" onclick="closeGiftModal()">Close</button>
-      </div>
+  <div id="subSettings" class="sub-screen">
+    <div class="app-header">
+      <div class="header-title"><span onclick="closeSubScreen('subSettings')" style="cursor:pointer">❮ Settings</span></div>
+    </div>
+    <div class="menu-list" style="margin-top:15px">
+      <div class="menu-item" onclick="showToast('Language: English / Bangla')"><div class="menu-left">🌐 App Language</div><div>Bangla ❯</div></div>
+      <div class="menu-item" onclick="showToast('Cache Cleared')"><div class="menu-left">🧹 Clear Cache</div><div>0 MB ❯</div></div>
     </div>
   </div>
 
-  <!-- CREATE ROOM MODAL -->
-  <div id="createRoomModal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-title">Create Voice Room</div>
-      <div class="form-group">
-        <label>Room Name</label>
-        <input type="text" id="newRoomTitle" placeholder="e.g. Adda Zone">
-      </div>
-      <div class="modal-btns">
-        <button class="modal-btn cancel" onclick="closeCreateRoomModal()">Cancel</button>
-        <button class="modal-btn save" onclick="confirmCreateRoom()">Create</button>
-      </div>
+  <div id="subChat" class="sub-screen">
+    <div class="app-header">
+      <div class="header-title"><span id="chatTargetTitle" onclick="closeSubScreen('subChat')" style="cursor:pointer">❮ Private Chat</span></div>
+    </div>
+    <div id="pChatBox" style="flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+    <div style="padding:10px;background:#fff;display:flex;gap:6px;border-top:1px solid #eee">
+      <input type="text" id="pChatInput" placeholder="Type message..." style="flex:1;background:#f1f5f9;padding:8px 12px;border-radius:20px;font-size:12px">
+      <button onclick="sendPrivateMsg()" style="background:#4f46e5;color:#fff;padding:8px 14px;border-radius:20px;font-weight:700;cursor:pointer">Send</button>
     </div>
   </div>
 
-  <!-- VOICE ROOM SCREEN -->
-  <div id="roomScreen">
-    <div class="room-header">
-      <div class="room-profile-box" onclick="showToast('Room Details')">
-        <img class="room-avatar-img" id="roomHostAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80">
-        <div class="room-details">
-          <b id="activeRoomName">MR Room</b>
-          <small id="activeRoomId">ID: 349200</small>
+  <!-- VOICE CHATROOM SCREEN -->
+  <div id="roomView">
+    <div class="room-top">
+      <div class="host-badge">
+        <img id="rHostImg" src="">
+        <div>
+          <b id="rTitle" style="font-size:11px;display:block">Room Title</b>
+          <small id="rId" style="font-size:9px;color:#cbd5e1">ID: 1001</small>
         </div>
       </div>
-
-      <div class="top-right-btns">
-        <div class="top-icon-btn" onclick="showToast('Room Share Link Copied!')">↗️</div>
-        <div class="top-icon-btn" style="background:#ef4444" onclick="closeRoom()">⚡</div>
-      </div>
+      <button onclick="closeRoomView()" style="background:#ef4444;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;cursor:pointer">Exit</button>
     </div>
 
-    <!-- HOST SECTION -->
-    <div class="host-section">
-      <div class="host-ring" onclick="showToast('Host: ' + currentRoomHost.name)">
-        <img id="roomHostImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80">
-      </div>
-      <div class="host-name" id="roomHostName">Host Name</div>
-    </div>
-
-    <!-- UPDATED BRANDING LOGO: MR Chat -->
-    <div class="room-title-logo">MR Chat</div>
+    <!-- BRANDING TITLE -->
+    <div class="room-branding">MR Chat</div>
 
     <!-- 8 SEATS GRID -->
-    <div class="seats-grid-8" id="seatsGrid">
-      <!-- Generated Seats -->
+    <div class="seat-grid" id="seatGrid"></div>
+
+    <!-- GAME & WIDGET BUTTONS -->
+    <div style="padding:0 15px;display:flex;justify-content:flex-end;gap:8px">
+      <button onclick="openGameModal()" style="background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;padding:6px 12px;border-radius:12px;font-size:11px;font-weight:800;box-shadow:0 4px 10px rgba(0,0,0,0.3);cursor:pointer">🎰 Lucky Wheel Game</button>
     </div>
 
-    <!-- MASCOT & WIDGETS -->
-    <div class="mascot-area">
-      <img src="https://cdni.iconscout.com/illustration/premium/thumb/cute-cat-playing-guitar-illustration-download-in-svg-png-gif-file-formats--kitten-pet-animal-character-pack-illustrations-5246731.png">
-      <div class="widgets-right">
-        <div class="widget-item" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="showToast('Weekly Star Leaderboard')">
-          <b>WEEKLY</b><b>STAR</b>
+    <!-- CHAT MESSAGES LOG -->
+    <div class="chat-console" id="roomChatLog"></div>
+
+    <!-- ROOM CONTROLS BAR -->
+    <div class="room-bottom">
+      <div class="chat-input-btn" onclick="sendRoomMsgPrompt()">💬 Type a message...</div>
+      <button id="micBtn" onclick="toggleMic()" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);color:#fff;font-size:14px;cursor:pointer">🎙️</button>
+      <button onclick="openGiftModal()" style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#ec4899,#3b82f6);color:#fff;font-size:18px;cursor:pointer">🎁</button>
+    </div>
+  </div>
+
+  <!-- GAME MODAL (LUCKY WHEEL) -->
+  <div id="gameModal" class="modal-overlay">
+    <div class="modal-card" style="text-align:center">
+      <h3><span>🎰 MR Lucky Wheel</span> <span onclick="closeGameModal()" style="cursor:pointer">✖</span></h3>
+      <div style="font-size:12px;color:#64748b">Cost: 🪙 50 per Spin</div>
+      <div class="wheel-pointer"></div>
+      <div class="wheel-box" id="wheelBox"></div>
+      <button onclick="spinWheel()" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;width:100%;padding:10px;border-radius:12px;font-weight:800;margin-top:10px;cursor:pointer">SPIN NOW</button>
+    </div>
+  </div>
+
+  <!-- GIFT MODAL -->
+  <div id="giftModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3><span>🎁 Send Gift</span> <span onclick="closeGiftModal()" style="cursor:pointer">✖</span></h3>
+      <div style="font-size:11px;color:#64748b;margin-bottom:10px">Coins: 🪙 <span id="giftModalCoins">0</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <div onclick="sendGift('Rose', 20)" style="background:#f8fafc;padding:10px;border-radius:10px;text-align:center;cursor:pointer;border:1px solid #e2e8f0">
+          <div style="font-size:24px">🌹</div>
+          <b style="font-size:10px;display:block;margin-top:2px">Rose</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 20</span>
         </div>
-        <div class="widget-item" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="showToast('Lucky Wheel Game')">
-          <span>Fruit Game</span><b>🎰 30</b>
+        <div onclick="sendGift('Ring', 100)" style="background:#f8fafc;padding:10px;border-radius:10px;text-align:center;cursor:pointer;border:1px solid #e2e8f0">
+          <div style="font-size:24px">💍</div>
+          <b style="font-size:10px;display:block;margin-top:2px">Ring</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 100</span>
+        </div>
+        <div onclick="sendGift('Car', 500)" style="background:#f8fafc;padding:10px;border-radius:10px;text-align:center;cursor:pointer;border:1px solid #e2e8f0">
+          <div style="font-size:24px">🏎️</div>
+          <b style="font-size:10px;display:block;margin-top:2px">Car</b>
+          <span style="font-size:9px;color:#f59e0b">🪙 500</span>
         </div>
       </div>
     </div>
-
-    <!-- CHAT AREA -->
-    <div class="chat-box-area" id="chatList">
-      <div class="announcement-text">
-        <b>MR Chat Notice:</b> Welcome everyone! Maintain polite behavior.
-      </div>
-    </div>
-
-    <!-- CONTROLS BAR -->
-    <div class="room-controls">
-      <button class="say-hi" onclick="sendQuickMessage('👋 Say Hi!')">Say Hi</button>
-      <div class="ctrl-btn" onclick="sendCustomMessage()">💬</div>
-      <div class="ctrl-btn" id="speakerBtn" onclick="toggleSpeaker(this)">🔊</div>
-      <div class="ctrl-btn" id="micBtn" onclick="toggleMic(this)">🎙️</div>
-      <div class="ctrl-btn" onclick="sendQuickMessage('😊')">😊</div>
-      <div class="ctrl-btn" onclick="showToast('Sound Effects')">🎛️</div>
-      <div class="gift-btn" onclick="openGiftModal()">🎁</div>
-    </div>
-
   </div>
 
   <div id="toast"></div>
@@ -619,232 +344,232 @@
 </div>
 
 <script>
-  /* DEMO MULTI-USER DATA STRUCTURE */
-  const demoUsers = [
-    { id: '100927248', name: '༄Mia...✿Vai3', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80', bio: 'Enjoying life on MR Chat!', coins: 8458, follow: 15, fans: 26 },
-    { id: '100452189', name: 'Tanvir Ahmed', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', bio: 'Music Lover 🎧', coins: 12000, follow: 40, fans: 120 },
-    { id: '100882310', name: 'Nusrat Jahan', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80', bio: 'Voice streamer ✨', coins: 5300, follow: 80, fans: 450 }
+  /* STATE MANAGEMENT */
+  const users = [
+    { id: '100927', name: 'Mia Vai', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80', bio: 'Living live on MR Chat!', coins: 1500 },
+    { id: '100452', name: 'Tanvir Ahmed', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', bio: 'Voice Host 🎙️', coins: 3200 },
+    { id: '100882', name: 'Nusrat Jahan', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80', bio: 'Singing Lover ✨', coins: 800 }
   ];
 
-  let currentUserIndex = 0;
-  let currentUser = demoUsers[0];
+  let currUserIdx = 0;
+  let activeUser = users[0];
 
-  let roomList = [
-    { id: '349200', title: 'জিরো পয়েন্ট আড্ডা', host: demoUsers[0], bg: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80' },
-    { id: '885210', title: 'Night Chat Club', host: demoUsers[1], bg: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80' }
+  const rooms = [
+    { id: '3001', title: 'জিরো পয়েন্ট আড্ডা', host: users[0], bg: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80' },
+    { id: '3002', title: 'Night Music Club', host: users[1], bg: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80' }
   ];
 
-  let currentRoomHost = null;
-  let isMicOn = true;
-  let isSpeakerOn = true;
-  let seatsState = Array(8).fill(null);
+  let roomSeats = Array(8).fill(null);
+  let isMicActive = true;
 
-  // Initialize App
   window.onload = function() {
-    renderProfile();
+    renderUserUI();
     renderRooms();
     renderSeats();
   };
 
-  function switchDemoUser(index) {
-    currentUserIndex = parseInt(index);
-    currentUser = demoUsers[currentUserIndex];
-    renderProfile();
-    showToast('Switched user to: ' + currentUser.name);
+  function switchUser(idx) {
+    currUserIdx = parseInt(idx);
+    activeUser = users[currUserIdx];
+    renderUserUI();
+    showToast('Switched Profile: ' + activeUser.name);
   }
 
-  function renderProfile() {
-    document.getElementById('displayUserNickname').innerText = currentUser.name;
-    document.getElementById('displayUserId').innerText = currentUser.id;
-    document.getElementById('displayUserImg').src = currentUser.img;
-    document.getElementById('displayUserBio').innerText = currentUser.bio;
-    document.getElementById('displayWalletCoins').innerText = currentUser.coins;
-    document.getElementById('displayUserFollow').innerText = currentUser.follow;
-    document.getElementById('displayUserFans').innerText = currentUser.fans;
-
-    // Load inside Edit Inputs
-    document.getElementById('inputNickname').value = currentUser.name;
-    document.getElementById('inputProfileImg').value = currentUser.img;
-    document.getElementById('inputBio').value = currentUser.bio;
+  function renderUserUI() {
+    document.getElementById('meName').innerText = activeUser.name;
+    document.getElementById('meId').innerText = 'ID: ' + activeUser.id;
+    document.getElementById('meBio').innerText = activeUser.bio;
+    document.getElementById('meAvatar').src = activeUser.avatar;
+    document.getElementById('meCoins').innerText = activeUser.coins;
+    document.getElementById('walletCoinVal').innerText = activeUser.coins;
   }
 
   function renderRooms() {
-    const container = document.getElementById('roomListContainer');
-    container.innerHTML = '';
-    roomList.forEach(room => {
+    const grid = document.getElementById('roomGrid');
+    grid.innerHTML = '';
+    rooms.forEach(r => {
       const card = document.createElement('div');
       card.className = 'room-card';
-      card.onclick = () => openRoom(room);
+      card.onclick = () => openRoom(r);
       card.innerHTML = `
-        <img src="${room.bg}">
-        <div class="room-card-info">
-          <div class="room-card-title">${room.title}</div>
-          <div class="room-card-sub"><span>ID: ${room.id}</span><span>🎙️ Live</span></div>
+        <img src="${r.bg}">
+        <div class="room-info">
+          <div class="room-title">${r.title}</div>
+          <div class="room-meta"><span>ID: ${r.id}</span><span>🎙️ Live</span></div>
         </div>
       `;
-      container.appendChild(card);
+      grid.appendChild(card);
     });
+  }
+
+  /* ROOM & SEATS INTERACTION */
+  function openRoom(room) {
+    document.getElementById('rTitle').innerText = room.title;
+    document.getElementById('rId').innerText = 'ID: ' + room.id;
+    document.getElementById('rHostImg').src = room.host.avatar;
+    document.getElementById('roomView').classList.add('active');
+
+    const chatLog = document.getElementById('roomChatLog');
+    chatLog.innerHTML = `<div class="chat-msg"><b>System:</b> Welcome to ${room.title}!</div>`;
+    addRoomChatMsg('System', `${activeUser.name} joined the room.`);
+  }
+
+  function closeRoomView() {
+    document.getElementById('roomView').classList.remove('active');
+    roomSeats = Array(8).fill(null);
+    renderSeats();
   }
 
   function renderSeats() {
-    const grid = document.getElementById('seatsGrid');
+    const grid = document.getElementById('seatGrid');
     grid.innerHTML = '';
-    seatsState.forEach((user, idx) => {
-      const seatNo = idx + 1;
-      const box = document.createElement('div');
-      box.className = 'seat-box';
-      box.onclick = () => toggleSeat(idx);
+    roomSeats.forEach((userOnSeat, idx) => {
+      const cell = document.createElement('div');
+      cell.className = 'seat-cell';
+      cell.onclick = () => toggleSeat(idx);
 
-      if (user) {
-        box.innerHTML = `<div class="seat-icon occupied"><img src="${user.img}"></div><span class="seat-num">${user.name.split(' ')[0]}</span>`;
+      if (userOnSeat) {
+        cell.innerHTML = `<div class="seat-avatar active"><img src="${userOnSeat.avatar}"></div><span class="seat-label">${userOnSeat.name.split(' ')[0]}</span>`;
       } else {
-        box.innerHTML = `<div class="seat-icon">💺</div><span class="seat-num">${seatNo}</span>`;
+        cell.innerHTML = `<div class="seat-avatar">💺</div><span class="seat-label">${idx + 1}</span>`;
       }
-      grid.appendChild(box);
+      grid.appendChild(cell);
     });
   }
 
-  function toggleSeat(index) {
-    if (seatsState[index]) {
-      if (seatsState[index].id === currentUser.id) {
-        seatsState[index] = null;
-        showToast('You left seat ' + (index + 1));
+  function toggleSeat(idx) {
+    if (roomSeats[idx]) {
+      if (roomSeats[idx].id === activeUser.id) {
+        roomSeats[idx] = null;
+        showToast('Left Seat ' + (idx + 1));
       } else {
-        showToast('Seat taken by ' + seatsState[index].name);
+        showToast('Seat taken by ' + roomSeats[idx].name);
       }
     } else {
-      // Clear previous seat if sat elsewhere
-      seatsState = seatsState.map(u => (u && u.id === currentUser.id ? null : u));
-      seatsState[index] = currentUser;
-      showToast('You sat on seat ' + (index + 1));
+      roomSeats = roomSeats.map(u => (u && u.id === activeUser.id ? null : u));
+      roomSeats[idx] = activeUser;
+      showToast('Sat on Seat ' + (idx + 1));
     }
     renderSeats();
   }
 
-  function openRoom(room) {
-    currentRoomHost = room.host;
-    document.getElementById('activeRoomName').innerText = room.title;
-    document.getElementById('activeRoomId').innerText = 'ID: ' + room.id;
-    document.getElementById('roomHostName').innerText = room.host.name;
-    document.getElementById('roomHostImg').src = room.host.img;
-    document.getElementById('roomHostAvatar').src = room.host.img;
-
-    document.getElementById('roomScreen').classList.add('active');
-    
-    // Welcome message inside chat
-    const chatList = document.getElementById('chatList');
-    chatList.innerHTML = `<div class="announcement-text"><b>MR Chat Notice:</b> Welcome to ${room.title}!</div>`;
-    addChatMessage('System', `${currentUser.name} joined the room!`);
-  }
-
-  function closeRoom() {
-    document.getElementById('roomScreen').classList.remove('active');
-    seatsState = Array(8).fill(null);
-    renderSeats();
-    showToast('Left room');
-  }
-
-  function addChatMessage(sender, text) {
-    const chatList = document.getElementById('chatList');
+  function addRoomChatMsg(sender, text) {
+    const log = document.getElementById('roomChatLog');
     const msg = document.createElement('div');
-    msg.className = 'chat-bubble';
-    msg.innerHTML = `<b style="color:#a7f3d0">${sender}:</b> ${text}`;
-    chatList.appendChild(msg);
-    chatList.scrollTop = chatList.scrollHeight;
+    msg.className = 'chat-msg';
+    msg.innerHTML = `<b>${sender}:</b> ${text}`;
+    log.appendChild(msg);
+    log.scrollTop = log.scrollHeight;
   }
 
-  function sendQuickMessage(txt) {
-    addChatMessage(currentUser.name, txt);
+  function sendRoomMsgPrompt() {
+    const txt = prompt('Type your room message:');
+    if (txt) addRoomChatMsg(activeUser.name, txt);
   }
 
-  function sendCustomMessage() {
-    const msg = prompt("Type your message:");
-    if(msg) addChatMessage(currentUser.name, msg);
+  function toggleMic() {
+    isMicActive = !isMicActive;
+    document.getElementById('micBtn').innerText = isMicActive ? '🎙️' : '🔇';
+    showToast(isMicActive ? 'Mic Unmuted' : 'Mic Muted');
   }
 
+  /* GAME WHEEL LOGIC */
+  function openGameModal() { document.getElementById('gameModal').classList.add('active'); }
+  function closeGameModal() { document.getElementById('gameModal').classList.remove('active'); }
+
+  let isSpinning = false;
+  function spinWheel() {
+    if (isSpinning) return;
+    if (activeUser.coins < 50) {
+      showToast('Not enough coins!');
+      return;
+    }
+    activeUser.coins -= 50;
+    renderUserUI();
+
+    isSpinning = true;
+    const wheel = document.getElementById('wheelBox');
+    const randomDeg = Math.floor(1800 + Math.random() * 360);
+    wheel.style.transform = `rotate(${randomDeg}deg)`;
+
+    setTimeout(() => {
+      isSpinning = false;
+      const prizes = [100, 0, 200, 50];
+      const won = prizes[Math.floor(Math.random() * prizes.length)];
+      activeUser.coins += won;
+      renderUserUI();
+      showToast(`Wheel stopped! You won 🪙 ${won} Coins!`);
+      addRoomChatMsg('🎰 GAME', `${activeUser.name} played Lucky Wheel and won 🪙 ${won} Coins!`);
+    }, 3000);
+  }
+
+  /* GIFTS LOGIC */
   function openGiftModal() {
-    document.getElementById('giftUserCoins').innerText = currentUser.coins;
+    document.getElementById('giftModalCoins').innerText = activeUser.coins;
     document.getElementById('giftModal').classList.add('active');
   }
+  function closeGiftModal() { document.getElementById('giftModal').classList.remove('active'); }
 
-  function closeGiftModal() {
-    document.getElementById('giftModal').classList.remove('active');
-  }
-
-  function sendGift(giftName, price) {
-    if (currentUser.coins >= price) {
-      currentUser.coins -= price;
-      renderProfile();
-      document.getElementById('giftUserCoins').innerText = currentUser.coins;
+  function sendGift(gName, price) {
+    if (activeUser.coins >= price) {
+      activeUser.coins -= price;
+      renderUserUI();
       closeGiftModal();
-      addChatMessage('🎁 GIFT', `${currentUser.name} sent ${giftName} to Host!`);
-      showToast(`Sent ${giftName} successfully!`);
+      addRoomChatMsg('🎁 GIFT', `${activeUser.name} sent ${gName} to Room Host!`);
+      showToast(`Sent ${gName}!`);
     } else {
-      showToast('Not enough coins!');
+      showToast('Insufficient Coins!');
     }
   }
 
-  /* MODALS & TABS */
-  function switchNav(pageId, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(pageId).classList.add('show');
+  /* NAVIGATION & NAVIGATION MODALS */
+  function switchMainPage(pageId, btn) {
+    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
     btn.classList.add('active');
   }
 
-  function setActiveTab(btn) {
-    document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
+  function openSubScreen(id) { document.getElementById(id).classList.add('active'); }
+  function closeSubScreen(id) { document.getElementById(id).classList.remove('active'); }
+
+  function openEditProfile() {
+    const newName = prompt('Enter New Nickname:', activeUser.name);
+    if (newName) {
+      activeUser.name = newName;
+      renderUserUI();
+      showToast('Nickname Updated!');
+    }
   }
 
-  function openEditModal() { document.getElementById('editModal').classList.add('active'); }
-  function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
-
-  function saveProfileData() {
-    currentUser.name = document.getElementById('inputNickname').value;
-    currentUser.img = document.getElementById('inputProfileImg').value;
-    currentUser.bio = document.getElementById('inputBio').value;
-    renderProfile();
-    closeEditModal();
-    showToast('Profile updated!');
+  function addCoins(amount) {
+    activeUser.coins += amount;
+    renderUserUI();
+    showToast(`Added 🪙 ${amount} Coins!`);
   }
 
-  function openCreateRoomModal() { document.getElementById('createRoomModal').classList.add('active'); }
-  function closeCreateRoomModal() { document.getElementById('createRoomModal').classList.remove('active'); }
-
-  function confirmCreateRoom() {
-    const title = document.getElementById('newRoomTitle').value || 'New Room';
-    const newRoom = {
-      id: Math.floor(100000 + Math.random() * 900000).toString(),
-      title: title,
-      host: currentUser,
-      bg: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80'
-    };
-    roomList.unshift(newRoom);
-    renderRooms();
-    closeCreateRoomModal();
-    openRoom(newRoom);
+  function openPrivateChat(targetName) {
+    document.getElementById('chatTargetTitle').innerText = '❮ ' + targetName;
+    openSubScreen('subChat');
   }
 
-  function toggleMic(btn) {
-    isMicOn = !isMicOn;
-    btn.innerText = isMicOn ? '🎙️' : '🔇';
-    btn.classList.toggle('off', !isMicOn);
-    showToast(isMicOn ? 'Microphone Unmuted' : 'Microphone Muted');
+  function sendPrivateMsg() {
+    const input = document.getElementById('pChatInput');
+    if (!input.value.trim()) return;
+    const box = document.getElementById('pChatBox');
+    const msg = document.createElement('div');
+    msg.style.cssText = 'background:#4f46e5;color:#fff;padding:8px 12px;border-radius:12px;align-self:flex-end;font-size:12px';
+    msg.innerText = input.value;
+    box.appendChild(msg);
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
   }
 
-  function toggleSpeaker(btn) {
-    isSpeakerOn = !isSpeakerOn;
-    btn.innerText = isSpeakerOn ? '🔊' : '🔈';
-    btn.classList.toggle('off', !isSpeakerOn);
-    showToast(isSpeakerOn ? 'Speaker On' : 'Speaker Muted');
-  }
-
-  function showToast(text) {
-    const toast = document.getElementById('toast');
-    toast.innerText = text;
-    toast.style.display = 'block';
-    setTimeout(() => { toast.style.display = 'none'; }, 2000);
+  function showToast(txt) {
+    const t = document.getElementById('toast');
+    t.innerText = txt;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000);
   }
 </script>
 </body>
