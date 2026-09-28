@@ -1,131 +1,40 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-body { background-color: #0b0d19; color: #fff; display: flex; justify-content: center; }
+/* Store & Love Store Styling */
+.store-bg { background: #f4f8fb; color: #333; }
+.store-top-bar { display: flex; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+.store-top-bar i { font-size: 20px; cursor: pointer; color: #4b5563; }
+.store-main-tabs { display: flex; justify-content: center; width: 100%; gap: 30px; }
+.s-main-tab { font-size: 18px; font-weight: bold; color: #9ca3af; cursor: pointer; position: relative; }
+.s-main-tab.active { color: #111827; }
+.s-main-tab.active::after { content: ''; position: absolute; bottom: -8px; left: 30%; width: 40%; height: 3px; background: #06b6d4; border-radius: 2px; }
 
-.screen { width: 100%; max-width: 480px; height: 100vh; background: #121526; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-.view-section { display: none; flex: 1; overflow-y: auto; padding-bottom: 70px; }
-.view-section.active { display: block; }
+.store-page { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+.store-page.active { display: flex; }
 
-/* হেডার ও নেভিগেশন */
-.sub-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #181c33; }
-.nav-tabs span { font-size: 16px; color: #72779a; margin-right: 15px; font-weight: bold; cursor: pointer; }
-.nav-tabs span.active { color: #fff; border-bottom: 2px solid #00d2ff; }
-.right-icons i { font-size: 18px; margin-left: 12px; color: #a0a5c0; }
+.store-sub-tabs { display: flex; gap: 20px; padding: 12px 20px; background: #fff; font-weight: 600; color: #6b7280; }
+.s-sub-tab.active, .ls-sub-tab.active { color: #111827; font-size: 16px; border-bottom: 2px solid #06b6d4; }
 
-.banner-card { background: linear-gradient(135deg, #a855f7, #ec4899); padding: 20px; text-align: center; font-weight: bold; border-radius: 12px; margin: 15px; cursor: pointer; }
+.store-body { padding: 15px; flex: 1; overflow-y: auto; }
+.s-tab-content, .ls-tab-content { display: none; }
+.s-tab-content.active, .ls-tab-content.active { display: block; }
 
-/* প্রোফাইল */
-.profile-header { padding: 20px; background: linear-gradient(180deg, #1d2342 0%, #121526 100%); }
-.profile-main { display: flex; gap: 15px; align-items: center; }
-.avatar-container { position: relative; }
-.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #a855f7; }
-.badge-svip-top { position: absolute; bottom: 0; right: 0; background: #10b981; font-size: 9px; padding: 2px 5px; border-radius: 8px; }
-.p-info h3 { font-size: 18px; }
-.gender-m { color: #3b82f6; font-size: 14px; }
-.id-tag { color: #8286a3; font-size: 12px; margin: 3px 0; }
-.p-stats { font-size: 13px; color: #a0a5c0; display: flex; gap: 15px; }
+.store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.store-card, .theme-card { background: #fff; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-.wallet-store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
-.card-wallet { background: linear-gradient(135deg, #ff9a9e, #fecfef); padding: 12px; border-radius: 12px; color: #333; cursor: pointer; }
-.card-store { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); padding: 12px; border-radius: 12px; color: #333; cursor: pointer; }
+.card-badge { font-size: 11px; color: #9ca3af; width: 100%; display: flex; justify-content: space-between; margin-bottom: 8px; }
+.test-btn { color: #38bdf8; cursor: pointer; }
 
-.profile-sub-tabs { display: flex; border-bottom: 1px solid #1e233d; background: #181c33; }
-.p-tab { flex: 1; text-align: center; padding: 12px; color: #72779a; font-weight: bold; cursor: pointer; }
-.p-tab.active { color: #00d2ff; border-bottom: 2px solid #00d2ff; }
-.p-content { display: none; padding: 15px; }
-.p-content.active { display: block; }
+.item-img img { width: 100px; height: 100px; object-fit: contain; }
+.item-price { font-size: 14px; font-weight: bold; color: #111827; margin: 8px 0; }
 
-.info-card { background: #1a1e36; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-.bio { color: #cbd5e1; font-size: 13px; margin: 8px 0; }
-.family-banner { background: #2563eb; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
+.item-actions { display: flex; width: 100%; gap: 6px; }
+.btn-send { flex: 1; border: 1px solid #38bdf8; background: #fff; color: #38bdf8; border-radius: 18px; padding: 6px 0; font-size: 12px; cursor: pointer; }
+.btn-buy { flex: 1; border: none; background: linear-gradient(90deg, #38bdf8, #a855f7); color: #fff; border-radius: 18px; padding: 6px 0; font-size: 12px; font-weight: bold; cursor: pointer; }
+.full-btn { width: 100%; }
 
-.tags-cloud { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.tags-cloud span { background: #252a48; padding: 6px 12px; border-radius: 15px; font-size: 12px; }
+.cp-exclusive { font-size: 10px; color: #ec4899; margin-top: 4px; }
 
-/* ভয়েস রুম ওভারলে */
-.overlay-screen { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; max-width: 480px; margin: 0 auto; background: linear-gradient(180deg, #4c1d95 0%, #0f172a 100%); z-index: 999; flex-direction: column; justify-content: space-between; padding: 15px; }
-.overlay-screen.active { display: flex; }
-
-.room-header { display: flex; justify-content: space-between; align-items: center; }
-.room-actions i { font-size: 18px; margin-left: 12px; cursor: pointer; }
-
-.mic-grid-12 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; margin-top: 20px; }
-.mic-seat { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 50%; width: 60px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; font-size: 12px; position: relative; }
-.seat-avatar img { width: 45px; height: 45px; border-radius: 50%; }
-.seat-name { font-size: 10px; position: absolute; bottom: -15px; white-space: nowrap; }
-
-.room-footer { display: flex; flex-direction: column; gap: 10px; }
-.room-controls { display: flex; gap: 10px; align-items: center; }
-.room-controls i { font-size: 20px; cursor: pointer; color: #a855f7; }
-.chat-input { flex: 1; background: rgba(0,0,0,0.4); border: none; padding: 10px 15px; border-radius: 20px; color: #fff; }
-
-/* গেম ওভারলে স্টাইলস */
-.game-bg { background: linear-gradient(180deg, #2a0845 0%, #6441A5 100%); text-align: center; }
-.game-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; font-size: 18px; font-weight: bold; }
-.game-header i { cursor: pointer; }
-
-.grid-game-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; background: #1a0933; padding: 15px; border-radius: 15px; }
-.fruit-cell { background: #3b1566; padding: 15px; border-radius: 10px; font-size: 12px; }
-.fruit-cell.highlight { border: 2px solid #eab308; }
-.timer-cell { background: #eab308; color: #000; font-size: 28px; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
-.red-timer { background: #ef4444; color: #fff; }
-
-.bet-controls { margin: 15px 0; }
-.bet-btns { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
-.bet-btns button { background: #3b1566; border: 1px solid #8b5cf6; color: #fff; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
-.bet-btns button.active { background: #8b5cf6; font-weight: bold; }
-
-.game-balance-bar { display: flex; justify-content: space-between; background: rgba(0,0,0,0.4); padding: 10px 15px; border-radius: 10px; font-size: 12px; }
-
-/* রকেট ইভেন্ট স্টাইলস */
-.rocket-container { position: relative; margin: 30px 0; }
-.rocket-graphic { font-size: 100px; }
-.rocket-badge { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); background: #10b981; padding: 4px 10px; border-radius: 10px; font-size: 12px; }
-.reward-section { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; }
-.reward-tabs { display: flex; justify-content: space-around; margin: 10px 0; }
-.reward-tabs span.active { color: #eab308; font-weight: bold; border-bottom: 2px solid #eab308; }
-.reward-cards { display: flex; justify-content: space-around; font-size: 30px; }
-
-/* স্লট মেশিন স্টাইলস */
-.jackpot-pool { font-size: 24px; color: #facc15; font-weight: bold; margin: 15px 0; }
-.slot-machine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: #4c1d95; padding: 10px; border-radius: 12px; }
-.slot-item { background: #2e1065; padding: 20px; border-radius: 8px; font-size: 30px; }
-.slot-item.wild { color: #facc15; font-size: 12px; font-weight: bold; }
-.slot-stats { display: flex; justify-content: space-around; margin: 15px 0; background: #2e1065; padding: 10px; border-radius: 10px; }
-.slot-actions { display: flex; gap: 15px; justify-content: center; }
-.btn-auto, .btn-spin { padding: 12px 30px; border-radius: 25px; border: none; font-weight: bold; cursor: pointer; }
-.btn-auto { background: #3b82f6; color: #fff; }
-.btn-spin { background: #22c55e; color: #fff; font-size: 16px; }
-
-/* ওয়ালেট মোডাল */
-.wallet-nav-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid #232845; padding-bottom: 10px; margin-bottom: 15px; }
-.w-tab { color: #8286a3; font-weight: bold; cursor: pointer; }
-.w-tab.active { color: #00d2ff; border-bottom: 2px solid #00d2ff; }
-.w-content { display: none; }
-.w-content.active { display: block; }
-.coin-balance-card, .diamond-balance-card { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-.diamond-balance-card { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-.method-item, .ex-item { display: flex; justify-content: space-between; align-items: center; background: #232845; padding: 12px; border-radius: 10px; margin-top: 8px; }
-.ex-item button { background: #8b5cf6; border: none; color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer; }
-
-/* বটম শিট মডাল প্যানেল */
-.bottom-sheet { display: none; position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto; background: #181c33; border-radius: 20px 20px 0 0; padding: 20px; z-index: 1000; max-height: 80vh; overflow-y: auto; }
-.bottom-sheet.active { display: block; animation: slideUp 0.3s ease; }
-
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-
-/* এক্সিট পপআপ */
-.center-popup { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1001; align-items: center; justify-content: center; }
-.center-popup.active { display: flex; }
-.popup-box { background: #181c33; padding: 20px; border-radius: 15px; text-align: center; }
-.popup-actions { display: flex; gap: 15px; }
-.btn-minimize, .btn-exit { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-.btn-minimize { background: #3b82f6; color: #fff; }
-.btn-exit { background: #ef4444; color: #fff; }
-
-/* বটম নেভিগেশন */
-.bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; height: 60px; background: #16192e; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #232845; z-index: 100; }
-.nav-btn { font-size: 20px; color: #52587a; cursor: pointer; }
-.nav-btn.active { color: #00d2ff; }
-.mic-btn { background: linear-gradient(45deg, #00d2ff, #a855f7); color: #fff; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -18px; box-shadow: 0 4px 10px rgba(0,210,255,0.4); }
+/* Custom ID Card */
+.custom-id-box { background: #fff; padding: 25px; border-radius: 16px; text-align: center; margin-top: 20px; }
+.custom-id-box h3 { font-size: 18px; margin-bottom: 15px; color: #1f2937; }
+.custom-id-box input { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; margin-bottom: 15px; text-align: center; }
+.btn-customize { width: 100%; padding: 12px; border: none; border-radius: 20px; background: linear-gradient(90deg, #38bdf8, #c084fc); color: #fff; font-weight: bold; cursor: pointer; }
