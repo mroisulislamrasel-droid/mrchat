@@ -1,329 +1,390 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice App Complete</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voice Chat App Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #0b0f19; color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
+        body { background: #090d16; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* Top Header */
-        .top-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #131b2e; border-bottom: 1px solid #1e293b; }
-        .app-logo { font-size: 18px; font-weight: bold; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
-        .top-icons i { font-size: 18px; margin-left: 15px; color: #94a3b8; }
+        /* Top Bar */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #111827; border-bottom: 1px solid #1f293d; }
+        .app-brand { font-size: 18px; font-weight: bold; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        .wallet-badge { background: #1e293b; border: 1px solid #334155; padding: 4px 10px; border-radius: 15px; font-size: 12px; color: #fbbf24; font-weight: bold; display: flex; align-items: center; gap: 5px; }
 
-        /* Scrollable Main Area */
-        .main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 70px; }
-        .page-sec { display: none; }
-        .page-sec.active { display: block; }
+        /* Main View Container */
+        .main-container { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+        .view-page { display: none; padding: 15px; }
+        .view-page.active { display: block; }
 
-        /* Home View Styles */
-        .section-title { font-size: 16px; margin: 15px 0 10px 0; color: #f8fafc; font-weight: 600; }
-        .room-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .room-card { background: #131b2e; border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
-        .room-img { height: 110px; background: linear-gradient(135deg, #1e293b, #334155); position: relative; display: flex; align-items: center; justify-content: center; }
-        .live-tag { position: absolute; top: 8px; left: 8px; background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-        .room-info { padding: 10px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-        .game-banner { background: linear-gradient(90deg, #8b5cf6, #ec4899); padding: 16px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 15px; margin-top: 10px; cursor: pointer; }
+        /* Room List Items */
+        .room-card-large { background: linear-gradient(135deg, #1e1b4b, #311b92); border-radius: 16px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #4338ca; cursor: pointer; }
+        .room-info-left { display: flex; align-items: center; gap: 12px; }
+        .room-avatar-stack { position: relative; width: 50px; height: 50px; }
+        .room-avatar-stack img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #a855f7; }
+        .live-dot { position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; background: #22c55e; border-radius: 50%; border: 2px solid #000; }
 
-        /* Profile View Styles */
-        .profile-card { background: #131b2e; padding: 15px; border-radius: 14px; display: flex; align-items: center; gap: 15px; border: 1px solid #1e293b; margin-bottom: 15px; }
-        .avatar { width: 60px; height: 60px; border-radius: 50%; background: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
-        .profile-info h3 { font-size: 16px; color: #fff; }
-        .profile-info p { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        /* Real Voice Room Modal (Voice Chat UI) */
+        .room-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%); z-index: 1000; display: none; flex-direction: column; }
+        .room-screen.active { display: flex; }
+        .room-top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.3); }
         
-        .menu-list { display: flex; flex-direction: column; gap: 10px; }
-        .menu-item { background: #131b2e; padding: 14px 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border: 1px solid #1e293b; cursor: pointer; }
-        .menu-item i { color: #64748b; }
+        /* 8 Mic Seat Grid */
+        .mic-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 10px; padding: 20px 15px; text-align: center; }
+        .mic-seat-box { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .mic-avatar { width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px dashed #64748b; display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; color: #64748b; }
+        .mic-avatar.occupied { border: 2px solid #38bdf8; background-size: cover; background-position: center; }
+        .mic-avatar.speaking { border-color: #22c55e; box-shadow: 0 0 12px #22c55e; }
+        .seat-num { position: absolute; bottom: -2px; background: #334155; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 8px; }
+        .seat-name { font-size: 11px; margin-top: 6px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65px; }
+
+        /* Room Chat & Gift Overlay Area */
+        .room-middle-area { flex: 1; padding: 10px 15px; display: flex; flex-direction: column; justify-content: flex-end; }
+        .chat-logs { height: 120px; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .chat-msg { background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 8px; max-width: 85%; }
+        .chat-msg .uname { color: #38bdf8; font-weight: bold; }
+
+        /* Room Bottom Action Bar */
+        .room-bottom-bar { padding: 10px 15px; background: rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; }
+        .chat-input-box { flex: 1; background: rgba(255,255,255,0.15); border: none; border-radius: 20px; padding: 8px 14px; color: #fff; font-size: 12px; outline: none; }
+        .btn-icon-action { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; border: none; }
+        .btn-gift { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+
+        /* Gift Selection Modal Panel */
+        .gift-panel { position: absolute; bottom: 0; left: 0; width: 100%; background: #1e293b; border-radius: 20px 20px 0 0; padding: 15px; display: none; flex-direction: column; gap: 10px; z-index: 1001; }
+        .gift-panel.active { display: flex; }
+        .gift-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .gift-card { background: #0f172a; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #334155; }
+        .gift-card img { width: 40px; height: 40px; }
+        .gift-price { font-size: 10px; color: #fbbf24; margin-top: 4px; }
 
         /* Bottom Fixed Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #131b2e; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; align-items: center; z-index: 999; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; font-size: 11px; gap: 4px; cursor: pointer; }
-        .nav-item i { font-size: 18px; }
-        .nav-item.active { color: #38bdf8; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111827; border-top: 1px solid #1f293d; display: flex; justify-content: space-around; align-items: center; z-index: 999; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; color: #64748b; font-size: 11px; gap: 3px; cursor: pointer; }
+        .nav-btn i { font-size: 18px; }
+        .nav-btn.active { color: #38bdf8; }
 
-        /* Full Overlay Screen Modals */
-        .modal-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b0f19; z-index: 1000; display: none; flex-direction: column; }
-        .modal-screen.active { display: flex; }
-        .modal-header { height: 50px; background: #131b2e; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #1e293b; }
-        .modal-body { flex: 1; padding: 16px; overflow-y: auto; }
-        .light-theme { background: #f8fafc; color: #0f172a; }
-        .light-theme .modal-header { background: #fff; color: #0f172a; border-bottom: 1px solid #e2e8f0; }
-
-        /* Prop Warehouse Styling */
-        .wh-tabs { display: flex; gap: 10px; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 10px; overflow-x: auto; }
-        .wh-tab-btn { padding: 6px 12px; border-radius: 16px; background: #e2e8f0; font-size: 12px; font-weight: 600; color: #475569; }
-        .wh-tab-btn.active { background: #0284c7; color: #fff; }
-        .wh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .wh-item { background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; }
-        .wh-item-btn { margin-top: 8px; width: 100%; background: #0284c7; color: #fff; border: none; padding: 6px; border-radius: 6px; font-size: 12px; }
-
-        /* Love House Styling */
-        .lh-bg { background: linear-gradient(180deg, #ec4899, #8b5cf6); color: #fff; }
-        .cp-box { display: flex; justify-content: space-around; align-items: center; margin: 30px 0; }
-        .cp-user { text-align: center; }
-        .cp-avatar { width: 65px; height: 65px; border-radius: 50%; background: #fff; margin-bottom: 6px; }
-
-        /* Input / Button UI */
-        .fb-input { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 10px; }
-        .btn-submit { width: 100%; background: #0284c7; color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: bold; margin-top: 15px; }
+        /* Modals Rules */
+        .overlay-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 1000; display: none; flex-direction: column; }
+        .overlay-screen.active { display: flex; }
+        .modal-top { height: 50px; background: #1e293b; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #334155; }
+        .modal-content-area { flex: 1; padding: 15px; overflow-y: auto; }
+        .list-btn-item { background: #1e293b; padding: 14px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border: 1px solid #334155; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div class="top-header">
-        <span class="app-logo"><i class="fas fa-crown"></i> Voice App</span>
-        <div class="top-icons">
-            <i class="fas fa-search"></i>
-            <i class="fas fa-bell"></i>
-        </div>
+    <!-- App Header -->
+    <div class="top-bar">
+        <span class="app-brand"><i class="fas fa-headset"></i> Live Voice App</span>
+        <div class="wallet-badge"><i class="fas fa-coins"></i> <span id="coin-balance">12,500</span></div>
     </div>
 
-    <!-- Main View Area -->
-    <div class="main-content">
-        
-        <!-- PAGE 1: ROOMS & GAMES -->
-        <div id="page-home" class="page-sec active">
-            <div class="section-title"><i class="fas fa-microphone"></i> Live Voice Rooms</div>
-            <div class="room-grid">
-                <div class="room-card" onclick="openModal('modal-room')">
-                    <div class="room-img"><span class="live-tag">LIVE</span><i class="fas fa-users fa-2x"></i></div>
-                    <div class="room-info"><span>Party Room #1</span><span style="color:#f59e0b;">🔥 1.2k</span></div>
+    <!-- Main Views Area -->
+    <div class="main-container">
+
+        <!-- 1. Voice Rooms List View -->
+        <div id="page-rooms" class="view-page active">
+            <h3 style="margin-bottom: 12px; font-size: 15px; color: #94a3b8;">Hot Voice Party Rooms</h3>
+            
+            <div class="room-card-large" onclick="enterRoom('🔥 Friends Adda Club', '887412')">
+                <div class="room-info-left">
+                    <div class="room-avatar-stack">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=room1" alt="Room">
+                        <div class="live-dot"></div>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 15px;">🔥 Friends Adda Club</h4>
+                        <p style="font-size: 11px; color: #94a3b8; margin-top: 2px;">ID: 887412 | 🎙️ 8 Mics Active</p>
+                    </div>
                 </div>
-                <div class="room-card" onclick="openModal('modal-room')">
-                    <div class="room-img"><span class="live-tag">LIVE</span><i class="fas fa-music fa-2x"></i></div>
-                    <div class="room-info"><span>Music & Adda</span><span style="color:#f59e0b;">🔥 850</span></div>
-                </div>
+                <span style="background: rgba(168,85,247,0.2); color: #c084fc; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: bold;">Join</span>
             </div>
 
-            <div class="section-title"><i class="fas fa-gamepad"></i> Games Center</div>
-            <div class="game-banner" onclick="openModal('modal-games')">
-                🎰 Ludo & Greedy Slots Games
+            <div class="room-card-large" onclick="enterRoom('🎶 Music & Chill Lounge', '993201')">
+                <div class="room-info-left">
+                    <div class="room-avatar-stack">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=room2" alt="Room">
+                        <div class="live-dot"></div>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 15px;">🎶 Music & Chill Lounge</h4>
+                        <p style="font-size: 11px; color: #94a3b8; margin-top: 2px;">ID: 993201 | 🎵 Playing Songs</p>
+                    </div>
+                </div>
+                <span style="background: rgba(168,85,247,0.2); color: #c084fc; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: bold;">Join</span>
             </div>
         </div>
 
-        <!-- PAGE 2: PROFILE & ALL FEATURES MENU -->
-        <div id="page-profile" class="page-sec">
-            <div class="profile-card">
-                <div class="avatar">M</div>
-                <div class="profile-info">
-                    <h3>༄Mia࿐✿Vai࿐</h3>
-                    <p>ID: 88741205 | VIP 5 👑</p>
+        <!-- 2. Games Center View -->
+        <div id="page-games" class="view-page">
+            <h3 style="margin-bottom: 12px;">🎮 Live Party Games</h3>
+            <div class="list-btn-item" onclick="openModal('modal-game-ludo')">
+                <span>🎲 Ludo Quick Match (2v2 / 4 Player)</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-game-slots')">
+                <span>🎰 Greedy Fruits Slots</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- 3. User Profile & Screenshots Features View -->
+        <div id="page-profile" class="view-page">
+            <div style="background: #1e293b; padding: 15px; border-radius: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mia" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid #38bdf8;">
+                <div>
+                    <h4>༄Mia࿐✿Vai࿐</h4>
+                    <p style="font-size: 11px; color: #94a3b8; margin-top: 2px;">ID: 88741205 | VIP 5 👑</p>
                 </div>
             </div>
 
-            <div class="menu-list">
-                <div class="menu-item" onclick="openModal('modal-warehouse')">
-                    <span>📦 Prop Warehouse / Inventory</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-lovehouse')">
-                    <span>🏠 Love House & Intimacy</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-cplevel')">
-                    <span>👑 CP Level Privileges</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-invite')">
-                    <span>💰 Invite Get Gold</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-language')">
-                    <span>🌐 Language Settings</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-settings')">
-                    <span>⚙️ Settings</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="menu-item" onclick="openModal('modal-feedback')">
-                    <span>💬 Feedback & Help</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
+            <!-- Features from user screenshots -->
+            <div class="list-btn-item" onclick="openModal('modal-warehouse')">
+                <span>📦 Prop Warehouse / Inventory</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-lovehouse')">
+                <span>🏠 Love House & CP Intimacy</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-cplevel')">
+                <span>👑 CP Level Privileges</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-invite')">
+                <span>💰 Invite Get Gold</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-language')">
+                <span>🌐 Language Settings</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-settings')">
+                <span>⚙️ Settings</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-btn-item" onclick="openModal('modal-feedback')">
+                <span>💬 Feedback & Support</span>
+                <i class="fas fa-chevron-right"></i>
             </div>
         </div>
 
     </div>
 
-    <!-- Bottom Navigation Bar (এখন সবসময় স্ক্রিনের নিচে থাকবে) -->
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('page-home', this)">
-            <i class="fas fa-comments"></i>
+        <div class="nav-btn active" onclick="switchNav('page-rooms', this)">
+            <i class="fas fa-microphone"></i>
             <span>Rooms</span>
         </div>
-        <div class="nav-item" onclick="openModal('modal-games')">
+        <div class="nav-btn" onclick="switchNav('page-games', this)">
             <i class="fas fa-gamepad"></i>
             <span>Games</span>
         </div>
-        <div class="nav-item" onclick="switchTab('page-profile', this)">
+        <div class="nav-btn" onclick="switchNav('page-profile', this)">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </div>
     </div>
 
-    <!-- ================= ALL FEATURE POPUP MODALS ================= -->
-
-    <!-- Voice Room Screen -->
-    <div id="modal-room" class="modal-screen">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-room')"></i>
-            <span>Party Voice Room</span>
-            <i class="fas fa-share-alt"></i>
+    <!-- ================= REAL VOICE CHAT ROOM SCREEN ================= -->
+    <div id="voice-room-screen" class="room-screen">
+        <div class="room-top-nav">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-chevron-left" style="font-size: 18px;" onclick="leaveRoom()"></i>
+                <div>
+                    <h4 id="active-room-title" style="font-size: 14px;">Party Room</h4>
+                    <p style="font-size: 10px; color: #94a3b8;">ID: <span id="active-room-id">0000</span></p>
+                </div>
+            </div>
+            <button style="background: #ef4444; border: none; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px;" onclick="leaveRoom()">Exit</button>
         </div>
-        <div class="modal-body" style="text-align: center; padding-top: 50px;">
-            <h3>🎙️ Voice Mic Seats</h3>
-            <p style="color:#94a3b8; margin-top:10px;">[আপনার স্ক্রিনশটের ভয়েস রুমের ডিজাইন]</p>
+
+        <!-- 8 Microphone Seats -->
+        <div class="mic-grid-container">
+            <div class="mic-seat-box">
+                <div class="mic-avatar occupied speaking" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Mia');">
+                    <span class="seat-num">Host</span>
+                </div>
+                <span class="seat-name">Mia (Host)</span>
+            </div>
+            <div class="mic-seat-box">
+                <div class="mic-avatar occupied" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Sheetal');">
+                    <span class="seat-num">1</span>
+                </div>
+                <span class="seat-name">Sheetal</span>
+            </div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-microphone-slash"></i><span class="seat-num">2</span></div><span class="seat-name">Empty</span></div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-microphone-slash"></i><span class="seat-num">3</span></div><span class="seat-name">Empty</span></div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-lock"></i><span class="seat-num">4</span></div><span class="seat-name">Locked</span></div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-microphone-slash"></i><span class="seat-num">5</span></div><span class="seat-name">Empty</span></div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-lock"></i><span class="seat-num">6</span></div><span class="seat-name">Locked</span></div>
+            <div class="mic-seat-box"><div class="mic-avatar"><i class="fas fa-microphone-slash"></i><span class="seat-num">7</span></div><span class="seat-name">Empty</span></div>
+        </div>
+
+        <!-- Middle Chat & Animation View -->
+        <div class="room-middle-area">
+            <div class="chat-logs" id="chat-logs">
+                <div class="chat-msg"><span class="uname">System:</span> Welcome to the Voice Party Room!</div>
+                <div class="chat-msg"><span class="uname">Sheetal:</span> Hey Mia! Send me a gift 🎁</div>
+            </div>
+        </div>
+
+        <!-- Room Bottom Controls -->
+        <div class="room-bottom-bar">
+            <input type="text" id="room-msg-input" class="chat-input-box" placeholder="Say something..." onkeypress="if(event.key==='Enter') sendRoomMsg()">
+            <button class="btn-icon-action" onclick="toggleMic(this)"><i class="fas fa-microphone"></i></button>
+            <button class="btn-icon-action btn-gift" onclick="toggleGiftPanel()"><i class="fas fa-gift"></i></button>
+        </div>
+
+        <!-- Gift Panel Modal -->
+        <div id="gift-panel" class="gift-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: bold;">Send Virtual Gift</span>
+                <i class="fas fa-times" onclick="toggleGiftPanel()"></i>
+            </div>
+            <div class="gift-grid">
+                <div class="gift-card" onclick="sendGift('Rose 🌹', 10)">
+                    <p style="font-size: 22px;">🌹</p>
+                    <p class="gift-price">10 Coins</p>
+                </div>
+                <div class="gift-card" onclick="sendGift('Rocket 🚀', 500)">
+                    <p style="font-size: 22px;">🚀</p>
+                    <p class="gift-price">500 Coins</p>
+                </div>
+                <div class="gift-card" onclick="sendGift('Crown 👑', 1000)">
+                    <p style="font-size: 22px;">👑</p>
+                    <p class="gift-price">1k Coins</p>
+                </div>
+                <div class="gift-card" onclick="sendGift('Sports Car 🏎️', 5000)">
+                    <p style="font-size: 22px;">🏎️</p>
+                    <p class="gift-price">5k Coins</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Games Center Screen -->
-    <div id="modal-games" class="modal-screen">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-games')"></i>
-            <span>Game Center</span>
-            <div></div>
-        </div>
-        <div class="modal-body">
-            <div class="menu-item" style="margin-bottom:10px;">🎲 Ludo Quick Game</div>
-            <div class="menu-item" style="margin-bottom:10px;">🎰 Greedy Slots</div>
-            <div class="menu-item">🏎️ Car Racing</div>
-        </div>
-    </div>
-
-    <!-- Prop Warehouse Screen -->
-    <div id="modal-warehouse" class="modal-screen light-theme">
-        <div class="modal-header">
+    <!-- ================= FEATURE MODALS ================= -->
+    <div id="modal-warehouse" class="overlay-screen">
+        <div class="modal-top">
             <i class="fas fa-chevron-left" onclick="closeModal('modal-warehouse')"></i>
             <span>Prop Warehouse</span>
-            <span style="font-size:12px; color:#0284c7; font-weight:bold;">Select</span>
-        </div>
-        <div class="modal-body">
-            <div class="wh-tabs">
-                <span class="wh-tab-btn active">All</span>
-                <span class="wh-tab-btn">Frame</span>
-                <span class="wh-tab-btn">Vehicle</span>
-                <span class="wh-tab-btn">Theme</span>
-                <span class="wh-tab-btn">Ring</span>
-            </div>
-            <div class="wh-grid">
-                <div class="wh-item">
-                    <p style="font-size:11px; color:#64748b;">⏱️ 3 Days (x17)</p>
-                    <p style="font-size:24px; margin:8px 0;">🦁</p>
-                    <button class="wh-item-btn">Use</button>
-                </div>
-                <div class="wh-item">
-                    <p style="font-size:11px; color:#64748b;">⏱️ 7 Days (x36)</p>
-                    <p style="font-size:24px; margin:8px 0;">🆔</p>
-                    <button class="wh-item-btn">Use</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Love House Screen -->
-    <div id="modal-lovehouse" class="modal-screen lh-bg">
-        <div class="modal-header" style="background:transparent; border:none; color:#fff;">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-lovehouse')"></i>
-            <span>Love House</span>
-            <i class="fas fa-ellipsis-v"></i>
-        </div>
-        <div class="modal-body" style="text-align: center;">
-            <h2>21 Days Together 💕</h2>
-            <div class="cp-box">
-                <div class="cp-user"><div class="cp-avatar"></div><p>Mia</p></div>
-                <span style="background:rgba(255,255,255,0.2); padding:5px 12px; border-radius:12px;">LV.3</span>
-                <div class="cp-user"><div class="cp-avatar"></div><p>Sheetal</p></div>
-            </div>
-            <button style="background:#fff; color:#ec4899; padding:10px 25px; border:none; border-radius:20px; font-weight:bold;">Proposal</button>
-        </div>
-    </div>
-
-    <!-- CP Level Screen -->
-    <div id="modal-cplevel" class="modal-screen lh-bg">
-        <div class="modal-header" style="background:transparent; border:none; color:#fff;">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-cplevel')"></i>
-            <span>CP Level Privileges</span>
             <div></div>
         </div>
-        <div class="modal-body" style="text-align:center;">
-            <h1>👑 LV.3 Privileges</h1>
+        <div class="modal-content-area">
+            <div class="list-btn-item"><span>🦁 Lion Vehicle (3 Days) x17</span><button style="background:#38bdf8; border:none; padding:4px 10px; border-radius:6px; color:#fff;">Use</button></div>
+            <div class="list-btn-item"><span>🆔 Custom ID Badge (7 Days) x36</span><button style="background:#38bdf8; border:none; padding:4px 10px; border-radius:6px; color:#fff;">Use</button></div>
         </div>
     </div>
 
-    <!-- Invite Gold Screen -->
-    <div id="modal-invite" class="modal-screen">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-invite')"></i>
-            <span>Invite Get Gold</span>
-            <div></div>
-        </div>
-        <div class="modal-body" style="text-align:center;">
-            <h2>💰 Invite Friends & Win Gold</h2>
+    <div id="modal-lovehouse" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-lovehouse')"></i><span>Love House</span><div></div></div>
+        <div class="modal-content-area" style="text-align:center; padding-top:40px;">
+            <h2>💕 21 Days Together</h2>
+            <p style="margin-top:10px; color:#cbd5e1;">CP Partner: Sheetal (LV.3)</p>
         </div>
     </div>
 
-    <!-- Language Screen -->
-    <div id="modal-language" class="modal-screen light-theme">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-language')"></i>
-            <span>Language</span>
-            <span style="color:#0284c7; font-weight:bold;" onclick="closeModal('modal-language')">Save</span>
-        </div>
-        <div class="modal-body">
-            <div class="menu-item" style="color:#0284c7; margin-bottom:8px;">English ✔</div>
-            <div class="menu-item" style="margin-bottom:8px;">বাংলা</div>
-            <div class="menu-item">हिन्दी</div>
+    <div id="modal-cplevel" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-cplevel')"></i><span>CP Level</span><div></div></div>
+        <div class="modal-content-area" style="text-align:center;">
+            <h3>👑 CP Level 3 Privileges Active</h3>
         </div>
     </div>
 
-    <!-- Settings Screen -->
-    <div id="modal-settings" class="modal-screen light-theme">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-settings')"></i>
-            <span>Settings</span>
-            <div></div>
-        </div>
-        <div class="modal-body">
-            <div class="menu-item" style="margin-bottom:8px;">Account Binding</div>
-            <div class="menu-item" style="margin-bottom:8px;" onclick="alert('Cache Cleared!')">Clear Cache (49MB)</div>
-            <div class="menu-item">Current Version (3.8.2)</div>
+    <div id="modal-invite" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-invite')"></i><span>Invite Get Gold</span><div></div></div>
+        <div class="modal-content-area" style="text-align:center;">
+            <h3>💰 Share Code & Get 1000 Coins</h3>
         </div>
     </div>
 
-    <!-- Feedback Screen -->
-    <div id="modal-feedback" class="modal-screen light-theme">
-        <div class="modal-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('modal-feedback')"></i>
-            <span>Feedback</span>
-            <div></div>
-        </div>
-        <div class="modal-body">
-            <label style="font-size:14px; font-weight:bold;">Problem Description</label>
-            <textarea class="fb-input" placeholder="Enter problem details here..."></textarea>
-            <button class="btn-submit" onclick="alert('Submitted!'); closeModal('modal-feedback');">Complete</button>
+    <div id="modal-language" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-language')"></i><span>Language</span><div></div></div>
+        <div class="modal-content-area">
+            <div class="list-btn-item"><span>English ✔</span></div>
+            <div class="list-btn-item"><span>বাংলা</span></div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <div id="modal-settings" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-settings')"></i><span>Settings</span><div></div></div>
+        <div class="modal-content-area">
+            <div class="list-btn-item" onclick="alert('Cache Cleared')"><span>Clear Cache (49MB)</span></div>
+            <div class="list-btn-item"><span>App Version 3.8.2</span></div>
+        </div>
+    </div>
+
+    <div id="modal-feedback" class="overlay-screen">
+        <div class="modal-top"><i class="fas fa-chevron-left" onclick="closeModal('modal-feedback')"></i><span>Feedback</span><div></div></div>
+        <div class="modal-content-area">
+            <textarea style="width:100%; height:100px; padding:10px; border-radius:8px; border:none; outline:none;" placeholder="Write issues..."></textarea>
+            <button style="width:100%; margin-top:10px; padding:10px; background:#38bdf8; border:none; border-radius:8px; color:#fff; font-weight:bold;" onclick="alert('Submitted!'); closeModal('modal-feedback');">Submit</button>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
     <script>
-        function switchTab(pageId, element) {
-            document.querySelectorAll('.page-sec').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-            
+        function switchNav(pageId, btn) {
+            document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            element.classList.add('active');
+            btn.classList.add('active');
         }
 
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function enterRoom(title, id) {
+            document.getElementById('active-room-title').innerText = title;
+            document.getElementById('active-room-id').innerText = id;
+            document.getElementById('voice-room-screen').classList.add('active');
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+        function leaveRoom() {
+            document.getElementById('voice-room-screen').classList.remove('active');
+        }
+
+        function toggleMic(btn) {
+            const icon = btn.querySelector('i');
+            if(icon.classList.contains('fa-microphone')) {
+                icon.className = 'fas fa-microphone-slash';
+                btn.style.background = '#ef4444';
+            } else {
+                icon.className = 'fas fa-microphone';
+                btn.style.background = 'rgba(255,255,255,0.15)';
+            }
+        }
+
+        function toggleGiftPanel() {
+            document.getElementById('gift-panel').classList.toggle('active');
+        }
+
+        function sendRoomMsg() {
+            const input = document.getElementById('room-msg-input');
+            if(input.value.trim() !== '') {
+                const logs = document.getElementById('chat-logs');
+                logs.innerHTML += `<div class="chat-msg"><span class="uname">Mia:</span> ${input.value}</div>`;
+                input.value = '';
+                logs.scrollTop = logs.scrollHeight;
+            }
+        }
+
+        function sendGift(giftName, cost) {
+            let balance = parseInt(document.getElementById('coin-balance').innerText.replace(',', ''));
+            if(balance >= cost) {
+                balance -= cost;
+                document.getElementById('coin-balance').innerText = balance.toLocaleString();
+                const logs = document.getElementById('chat-logs');
+                logs.innerHTML += `<div class="chat-msg" style="color:#fbbf24;"><span class="uname">Mia</span> sent ${giftName} 🎁</div>`;
+                logs.scrollTop = logs.scrollHeight;
+                toggleGiftPanel();
+            } else {
+                alert('Insufficient Coins!');
+            }
         }
     </script>
 </body>
