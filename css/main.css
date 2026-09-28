@@ -11,6 +11,8 @@ body { background-color: #0b0d19; color: #fff; display: flex; justify-content: c
 .nav-tabs span.active { color: #fff; border-bottom: 2px solid #00d2ff; }
 .right-icons i { font-size: 18px; margin-left: 12px; color: #a0a5c0; }
 
+.banner-card { background: linear-gradient(135deg, #a855f7, #ec4899); padding: 20px; text-align: center; font-weight: bold; border-radius: 12px; margin: 15px; cursor: pointer; }
+
 /* প্রোফাইল */
 .profile-header { padding: 20px; background: linear-gradient(180deg, #1d2342 0%, #121526 100%); }
 .profile-main { display: flex; gap: 15px; align-items: center; }
@@ -23,8 +25,8 @@ body { background-color: #0b0d19; color: #fff; display: flex; justify-content: c
 .p-stats { font-size: 13px; color: #a0a5c0; display: flex; gap: 15px; }
 
 .wallet-store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
-.card-wallet { background: linear-gradient(135deg, #ff9a9e, #fecfef); padding: 12px; border-radius: 12px; color: #333; }
-.card-store { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); padding: 12px; border-radius: 12px; color: #333; }
+.card-wallet { background: linear-gradient(135deg, #ff9a9e, #fecfef); padding: 12px; border-radius: 12px; color: #333; cursor: pointer; }
+.card-store { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); padding: 12px; border-radius: 12px; color: #333; cursor: pointer; }
 
 .profile-sub-tabs { display: flex; border-bottom: 1px solid #1e233d; background: #181c33; }
 .p-tab { flex: 1; text-align: center; padding: 12px; color: #72779a; font-weight: bold; cursor: pointer; }
@@ -56,6 +58,55 @@ body { background-color: #0b0d19; color: #fff; display: flex; justify-content: c
 .room-controls i { font-size: 20px; cursor: pointer; color: #a855f7; }
 .chat-input { flex: 1; background: rgba(0,0,0,0.4); border: none; padding: 10px 15px; border-radius: 20px; color: #fff; }
 
+/* গেম ওভারলে স্টাইলস */
+.game-bg { background: linear-gradient(180deg, #2a0845 0%, #6441A5 100%); text-align: center; }
+.game-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; font-size: 18px; font-weight: bold; }
+.game-header i { cursor: pointer; }
+
+.grid-game-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; background: #1a0933; padding: 15px; border-radius: 15px; }
+.fruit-cell { background: #3b1566; padding: 15px; border-radius: 10px; font-size: 12px; }
+.fruit-cell.highlight { border: 2px solid #eab308; }
+.timer-cell { background: #eab308; color: #000; font-size: 28px; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
+.red-timer { background: #ef4444; color: #fff; }
+
+.bet-controls { margin: 15px 0; }
+.bet-btns { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
+.bet-btns button { background: #3b1566; border: 1px solid #8b5cf6; color: #fff; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
+.bet-btns button.active { background: #8b5cf6; font-weight: bold; }
+
+.game-balance-bar { display: flex; justify-content: space-between; background: rgba(0,0,0,0.4); padding: 10px 15px; border-radius: 10px; font-size: 12px; }
+
+/* রকেট ইভেন্ট স্টাইলস */
+.rocket-container { position: relative; margin: 30px 0; }
+.rocket-graphic { font-size: 100px; }
+.rocket-badge { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); background: #10b981; padding: 4px 10px; border-radius: 10px; font-size: 12px; }
+.reward-section { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; }
+.reward-tabs { display: flex; justify-content: space-around; margin: 10px 0; }
+.reward-tabs span.active { color: #eab308; font-weight: bold; border-bottom: 2px solid #eab308; }
+.reward-cards { display: flex; justify-content: space-around; font-size: 30px; }
+
+/* স্লট মেশিন স্টাইলস */
+.jackpot-pool { font-size: 24px; color: #facc15; font-weight: bold; margin: 15px 0; }
+.slot-machine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: #4c1d95; padding: 10px; border-radius: 12px; }
+.slot-item { background: #2e1065; padding: 20px; border-radius: 8px; font-size: 30px; }
+.slot-item.wild { color: #facc15; font-size: 12px; font-weight: bold; }
+.slot-stats { display: flex; justify-content: space-around; margin: 15px 0; background: #2e1065; padding: 10px; border-radius: 10px; }
+.slot-actions { display: flex; gap: 15px; justify-content: center; }
+.btn-auto, .btn-spin { padding: 12px 30px; border-radius: 25px; border: none; font-weight: bold; cursor: pointer; }
+.btn-auto { background: #3b82f6; color: #fff; }
+.btn-spin { background: #22c55e; color: #fff; font-size: 16px; }
+
+/* ওয়ালেট মোডাল */
+.wallet-nav-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid #232845; padding-bottom: 10px; margin-bottom: 15px; }
+.w-tab { color: #8286a3; font-weight: bold; cursor: pointer; }
+.w-tab.active { color: #00d2ff; border-bottom: 2px solid #00d2ff; }
+.w-content { display: none; }
+.w-content.active { display: block; }
+.coin-balance-card, .diamond-balance-card { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+.diamond-balance-card { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.method-item, .ex-item { display: flex; justify-content: space-between; align-items: center; background: #232845; padding: 12px; border-radius: 10px; margin-top: 8px; }
+.ex-item button { background: #8b5cf6; border: none; color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+
 /* বটম শিট মডাল প্যানেল */
 .bottom-sheet { display: none; position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto; background: #181c33; border-radius: 20px 20px 0 0; padding: 20px; z-index: 1000; max-height: 80vh; overflow-y: auto; }
 .bottom-sheet.active { display: block; animation: slideUp 0.3s ease; }
@@ -63,14 +114,6 @@ body { background-color: #0b0d19; color: #fff; display: flex; justify-content: c
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
 .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.setting-img-box { text-align: center; position: relative; width: 80px; margin: 0 auto 15px; }
-.room-edit-img { width: 80px; height: 80px; border-radius: 12px; }
-.input-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
-.input-group input, .input-group textarea { background: #232845; border: none; padding: 10px; border-radius: 8px; color: #fff; }
-
-.setting-list { list-style: none; margin-top: 10px; }
-.setting-list li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #232845; font-size: 14px; }
-.setting-bottom-actions { display: flex; justify-content: space-around; margin-top: 20px; padding-top: 10px; border-top: 1px solid #232845; font-size: 12px; }
 
 /* এক্সিট পপআপ */
 .center-popup { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1001; align-items: center; justify-content: center; }
