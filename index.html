@@ -2,227 +2,563 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MrChat - Social Voice Chat</title>
   
-  <!-- React & Babel CDNs -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & React DOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel Compiler -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              900: '#0c4a6e',
+            },
+            dark: {
+              base: '#0b0f19',
+              card: '#151c2c',
+              border: '#232d42',
+              accent: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
     body {
-      background-color: #0f172a;
-      color: #ffffff;
-      padding-bottom: 70px;
+      background-color: #0b0f19;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
-    .app-header {
-      background: #1e293b;
-      padding: 16px;
-      text-align: center;
-      border-bottom: 1px solid #334155;
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
     }
-    .app-header h1 {
-      color: #38bdf8;
-      font-size: 22px;
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
     }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 16px;
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
     }
-    .card {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid #334155;
-    }
-    .btn {
-      background: #0284c7;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-    }
-    .btn:disabled {
-      background: #475569;
-    }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: #1e293b;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      border-top: 1px solid #334155;
-      z-index: 1000;
-    }
-    .nav-item {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-    }
-    .nav-item.active {
-      color: #38bdf8;
+    .speaking-ring {
+      animation: pulse-ring 1.5s infinite ease-in-out;
     }
   </style>
 </head>
-<body>
+<body class="bg-dark-base text-slate-100 overflow-x-hidden">
 
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect } = React;
 
-    // Mini Dice Game Component
-    const DiceGame = ({ balance, setBalance }) => {
-      const [betAmount, setBetAmount] = useState(10000);
-      const [prediction, setPrediction] = useState("HIGH");
-      const [result, setResult] = useState(null);
+    // --- MOCK DATABASE / INITIAL STATES ---
+    const INITIAL_USER = {
+      userId: "88471029",
+      username: "Alex_MrChat",
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+      country: "🇺🇸",
+      gender: "Male",
+      level: 12,
+      xp: 2400,
+      contribution: 150000,
+      charm: 89000,
+      followers: 124,
+      following: 45,
+      vipLevel: "SVIP",
+      cp: "Elena_V",
+      bio: "Welcome to MrChat! Let's talk & enjoy games 🎙️",
+      role: "admin"
+    };
 
-      const handleRoll = () => {
-        if (balance < betAmount) {
-          alert("পর্যাপ্ত MR Coins নেই!");
-          return;
-        }
+    const GIFTS_DATA = [
+      { id: "g1", name: "Lollipop", price: 100, category: "Popular", icon: "🍭" },
+      { id: "g2", name: "Rose", price: 500, category: "Love", icon: "🌹" },
+      { id: "g3", name: "Teddy Bear", price: 1000, category: "Cute", icon: "🧸" },
+      { id: "g4", name: "Golden Veil", price: 10000, category: "Special", icon: "🧕" },
+      { id: "g5", name: "Gold Bar", price: 50000, category: "Luxury", icon: "🧈" },
+      { id: "g6", name: "Golden Egg", price: 100000, category: "Celebration", icon: "🥚" },
+      { id: "g7", name: "Supercar Cake", price: 1000000, category: "Vehicles", icon: "🏎️" },
+      { id: "g8", name: "Cash Cow", price: 10000000, category: "Luxury", icon: "🐄" },
+      { id: "g9", name: "Golden Sailboat", price: 20000000, category: "Mega", icon: "⛵" },
+    ];
 
-        const dice1 = Math.floor(Math.random() * 6) + 1;
-        const dice2 = Math.floor(Math.random() * 6) + 1;
-        const sum = dice1 + dice2;
+    // --- MAIN APP COMPONENT ---
+    const App = () => {
+      const [user, setUser] = useState(INITIAL_USER);
+      const [mrCoins, setMrCoins] = useState(20000000);
+      const [activeTab, setActiveTab] = useState("home");
+      const [currentRoom, setCurrentRoom] = useState(null);
+      const [activeGame, setActiveGame] = useState(null);
+      const [showAdmin, setShowAdmin] = useState(false);
+      const [hourlyTimer, setHourlyTimer] = useState(3600);
 
-        let won = false;
-        if (prediction === "LOW" && sum >= 2 && sum <= 6) won = true;
-        if (prediction === "SEVEN" && sum === 7) won = true;
-        if (prediction === "HIGH" && sum >= 8 && sum <= 12) won = true;
+      // Hourly Reward Timer Simulation
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setHourlyTimer((prev) => {
+            if (prev <= 1) {
+              setMrCoins((c) => c + 20000000);
+              return 3600;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+        return () => clearInterval(timer);
+      }, []);
 
-        const payout = won ? (prediction === "SEVEN" ? betAmount * 5 : betAmount * 2) : 0;
-        const newBalance = won ? balance + payout : balance - betAmount;
+      const formatCoins = (val) => val.toLocaleString() + " MR";
 
-        setBalance(newBalance);
-        setResult({ dice1, dice2, sum, won, payout });
+      return (
+        <div className="max-w-md mx-auto min-h-screen bg-dark-base flex flex-col relative pb-20 shadow-2xl border-x border-dark-border">
+          
+          <!-- TOP HEADER -->
+          <header className="bg-dark-card border-b border-dark-border px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg">
+                MC
+              </div>
+              <span className="font-extrabold text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                MrChat
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="bg-dark-base border border-amber-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-inner">
+                <span className="text-amber-400 font-black text-xs">MR</span>
+                <span className="text-xs font-bold text-amber-300">{formatCoins(mrCoins)}</span>
+              </div>
+
+              {user.role === "admin" && (
+                <button 
+                  onClick={() => setShowAdmin(!showAdmin)}
+                  className="bg-red-600/20 text-red-400 border border-red-500/30 p-1.5 rounded-lg text-xs"
+                >
+                  <i className="fa-solid fa-shield-halved"></i>
+                </button>
+              )}
+            </div>
+          </header>
+
+          <!-- CONTENT BODY -->
+          <main className="flex-1 overflow-y-auto custom-scrollbar p-4">
+            {showAdmin ? (
+              <AdminPanel onClose={() => setShowAdmin(false)} />
+            ) : currentRoom ? (
+              <VoiceRoom 
+                room={currentRoom} 
+                onLeave={() => setCurrentRoom(null)} 
+                mrCoins={mrCoins}
+                setMrCoins={setMrCoins}
+                onOpenGame={(g) => setActiveGame(g)}
+              />
+            ) : (
+              <>
+                {activeTab === "home" && <HomeScreen onJoinRoom={(r) => setCurrentRoom(r)} />}
+                {activeTab === "live" && <LiveDiscoveryScreen onJoinRoom={(r) => setCurrentRoom(r)} />}
+                {activeTab === "games" && <GamesHub onSelectGame={(g) => setActiveGame(g)} />}
+                {activeTab === "chat" && <ChatScreen />}
+                {activeTab === "profile" && <ProfileScreen user={user} mrCoins={mrCoins} timer={hourlyTimer} />}
+              </>
+            )}
+          </main>
+
+          <!-- MINI-GAME MODAL OVERLAY -->
+          {activeGame && (
+            <GameModal 
+              game={activeGame} 
+              onClose={() => setActiveGame(null)} 
+              mrCoins={mrCoins}
+              setMrCoins={setMrCoins}
+            />
+          )}
+
+          <!-- BOTTOM NAVIGATION BAR -->
+          <nav className="fixed bottom-0 max-w-md w-full bg-dark-card border-t border-dark-border py-2 px-3 flex justify-between items-center z-40">
+            {[
+              { id: "home", label: "Home", icon: "fa-house" },
+              { id: "live", label: "Live", icon: "fa-broadcast-tower" },
+              { id: "games", label: "Games", icon: "fa-gamepad" },
+              { id: "chat", label: "Message", icon: "fa-comment-dots" },
+              { id: "profile", label: "Profile", icon: "fa-user" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setShowAdmin(false);
+                  setActiveTab(tab.id);
+                }}
+                className={`flex flex-col items-center gap-1 flex-1 ${
+                  activeTab === tab.id && !showAdmin ? "text-cyan-400 font-bold" : "text-slate-400"
+                }`}
+              >
+                <i className={`fa-solid ${tab.icon} text-lg`}></i>
+                <span className="text-[10px]">{tab.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      );
+    };
+
+    // --- HOME SCREEN ---
+    const HomeScreen = ({ onJoinRoom }) => {
+      const rooms = [
+        { id: "1001", title: "❤️ Chill & Music Lounge", host: "Elena", users: 18, frame: "Gold" },
+        { id: "1002", title: "🎮 Gaming & Chat Zone", host: "David", users: 12, frame: "Silver" },
+        { id: "1003", title: "🎤 Live Singing Contest", host: "Sarah", users: 45, frame: "VIP" },
+      ];
+
+      return (
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-cyan-600 to-blue-700 p-4 rounded-2xl shadow-lg flex justify-between items-center">
+            <div>
+              <h2 className="font-bold text-lg">Welcome to MrChat</h2>
+              <p className="text-xs text-cyan-100 opacity-80">Free Voice Rooms & Games Platform</p>
+            </div>
+            <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold">
+              + Create Room
+            </button>
+          </div>
+
+          <h3 className="font-bold text-sm text-slate-300">Popular Voice Rooms</h3>
+          <div className="space-y-3">
+            {rooms.map((r) => (
+              <div 
+                key={r.id} 
+                onClick={() => onJoinRoom(r)}
+                className="bg-dark-card border border-dark-border p-3 rounded-xl flex justify-between items-center cursor-pointer hover:border-cyan-500/50 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center font-bold text-cyan-400 border border-cyan-500/30">
+                    🎙️
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm">{r.title}</h4>
+                    <p className="text-xs text-slate-400">Host: {r.host} • ID: {r.id}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="bg-cyan-950 text-cyan-400 text-[10px] px-2 py-0.5 rounded-full border border-cyan-800">
+                    👥 {r.users} Online
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // --- LIVE DISCOVERY ---
+    const LiveDiscoveryScreen = ({ onJoinRoom }) => (
+      <div className="space-y-3">
+        <h3 className="font-bold text-sm text-slate-300">Active Streams & Rooms</h3>
+        <p className="text-xs text-slate-500">Explore real-time voice broadcasts around the globe.</p>
+        <div className="grid grid-cols-2 gap-3">
+          {[1, 2, 4, 5].map((i) => (
+            <div 
+              key={i} 
+              onClick={() => onJoinRoom({ id: `200${i}`, title: `Party Room #${i}`, host: `User_${i}`, users: i * 5 })}
+              className="bg-dark-card border border-dark-border p-3 rounded-xl cursor-pointer"
+            >
+              <div className="h-20 bg-slate-800 rounded-lg flex items-center justify-center text-3xl mb-2">
+                🎧
+              </div>
+              <h4 className="font-bold text-xs truncate">Voice Party Lounge #{i}</h4>
+              <p className="text-[10px] text-slate-400">ID: 200{i}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+
+    // --- GAMES HUB ---
+    const GamesHub = ({ onSelectGame }) => {
+      const games = [
+        { id: "dice", name: "Dice Challenge", icon: "🎲", desc: "Predict High/Low/Seven" },
+        { id: "wheel", name: "Lucky Wheel", icon: "🎡", desc: "Spin & multiply coins" },
+        { id: "cards", name: "Card Match", icon: "🃏", desc: "Find matching pairs" },
+        { id: "foot", name: "Lucky Foot", icon: "⚽", desc: "Penalty Shootout" },
+      ];
+
+      return (
+        <div className="space-y-3">
+          <h3 className="font-bold text-sm text-slate-300">100% Free MR Coin Mini-Games</h3>
+          <p className="text-xs text-slate-500">Play with virtual entertainment points (No real money involved).</p>
+          <div className="grid grid-cols-2 gap-3">
+            {games.map((g) => (
+              <div 
+                key={g.id} 
+                onClick={() => onSelectGame(g)}
+                className="bg-dark-card border border-dark-border p-4 rounded-xl text-center cursor-pointer hover:border-amber-500/50 transition-all"
+              >
+                <div className="text-4xl mb-2">{g.icon}</div>
+                <h4 className="font-bold text-xs">{g.name}</h4>
+                <p className="text-[10px] text-slate-400 mt-1">{g.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // --- CHAT SCREEN ---
+    const ChatScreen = () => (
+      <div className="space-y-3">
+        <h3 className="font-bold text-sm text-slate-300">Messages & Conversations</h3>
+        <div className="space-y-2">
+          {["System Announcement", "Elena_V", "Official Support"].map((name, idx) => (
+            <div key={idx} className="bg-dark-card border border-dark-border p-3 rounded-xl flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold">
+                {name[0]}
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-xs">{name}</h4>
+                <p className="text-[11px] text-slate-400 truncate">Welcome to MrChat platform!</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+
+    // --- PROFILE SCREEN ---
+    const ProfileScreen = ({ user, mrCoins, timer }) => {
+      const formatTime = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${m}:${sec < 10 ? "0" : ""}${sec}`;
       };
 
       return (
-        <div className="card">
-          <h3>🎲 Dice Challenge Game</h3>
-          <p style={{ margin: "8px 0" }}>ব্যালেন্স: <strong>{balance.toLocaleString()} MR</strong></p>
-          
-          <div style={{ margin: "12px 0" }}>
-            <label>বাজির পরিমাণ: </label>
-            <select 
-              value={betAmount} 
-              onChange={(e) => setBetAmount(Number(e.target.value))}
-              style={{ padding: "6px", borderRadius: "4px", background: "#334155", color: "#fff", border: "none" }}
-            >
-              <option value={10000}>10,000 MR</option>
-              <option value={100000}>100,000 MR</option>
-              <option value={1000000}>1,000,000 MR</option>
-            </select>
+        <div className="space-y-4">
+          <div className="bg-dark-card border border-dark-border p-4 rounded-2xl flex items-center gap-4">
+            <img src={user.avatar} className="w-16 h-16 rounded-full border-2 border-cyan-500" />
+            <div>
+              <h3 className="font-bold text-base">{user.username} {user.country}</h3>
+              <p className="text-xs text-slate-400">ID: {user.userId} • LV {user.level}</p>
+              <span className="bg-purple-950 text-purple-300 border border-purple-800 text-[10px] px-2 py-0.5 rounded-full inline-block mt-1">
+                {user.vipLevel}
+              </span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
-            <button 
-              onClick={() => setPrediction("LOW")} 
-              style={{ flex: 1, padding: "8px", background: prediction === "LOW" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
-            >
-              LOW (2-6)
-            </button>
-            <button 
-              onClick={() => setPrediction("SEVEN")} 
-              style={{ flex: 1, padding: "8px", background: prediction === "SEVEN" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
-            >
-              SEVEN (7)
-            </button>
-            <button 
-              onClick={() => setPrediction("HIGH")} 
-              style={{ flex: 1, padding: "8px", background: prediction === "HIGH" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
-            >
-              HIGH (8-12)
+          <div className="bg-gradient-to-br from-amber-950/40 to-dark-card border border-amber-500/30 p-4 rounded-2xl">
+            <p className="text-xs text-amber-400 font-bold">Hourly Bonus Reward</p>
+            <div className="flex justify-between items-center mt-2">
+              <div>
+                <h2 className="text-xl font-black text-amber-300">+20,000,000 MR</h2>
+                <p className="text-[10px] text-slate-400">Auto-credited every 60 mins</p>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-mono font-bold bg-dark-base px-3 py-1 rounded-lg border border-dark-border">
+                  ⏳ {formatTime(timer)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // --- VOICE ROOM COMPONENT ---
+    const VoiceRoom = ({ room, onLeave, mrCoins, setMrCoins, onOpenGame }) => {
+      const [mics, setMics] = useState(Array(8).fill(null));
+      const [messages, setMessages] = useState([
+        { user: "System", text: "Welcome to voice room! Keep chat friendly." }
+      ]);
+      const [chatInput, setChatInput] = useState("");
+      const [showGifts, setShowGifts] = useState(false);
+
+      const handleSendGift = (gift) => {
+        if (mrCoins < gift.price) {
+          alert("Not enough MR Coins!");
+          return;
+        }
+        setMrCoins((c) => c - gift.price);
+        setMessages((prev) => [
+          ...prev,
+          { user: "You", text: `sent virtual gift ${gift.icon} ${gift.name} (${gift.price.toLocaleString()} MR)` }
+        ]);
+        setShowGifts(false);
+      };
+
+      return (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center bg-dark-card p-3 rounded-xl border border-dark-border">
+            <div>
+              <h3 className="font-bold text-sm">{room.title}</h3>
+              <p className="text-xs text-slate-400">ID: {room.id}</p>
+            </div>
+            <button onClick={onLeave} className="bg-red-600/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-lg text-xs font-bold">
+              Leave
             </button>
           </div>
 
-          <button className="btn" onClick={handleRoll}>ROLL DICE</button>
+          <!-- 8 MIC SEATS GRID -->
+          <div className="grid grid-cols-4 gap-3 bg-dark-card p-4 rounded-2xl border border-dark-border">
+            {mics.map((userOnMic, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 text-sm font-bold relative">
+                  {i + 1}
+                  <i className="fa-solid fa-microphone text-[10px] absolute bottom-0 right-0 bg-dark-base p-1 rounded-full text-slate-400"></i>
+                </div>
+                <span className="text-[10px] text-slate-400 mt-1">Seat {i + 1}</span>
+              </div>
+            ))}
+          </div>
 
-          {result && (
-            <div style={{ marginTop: "12px", padding: "10px", background: result.won ? "#15803d" : "#991b1b", borderRadius: "6px" }}>
-              ডাইস: [{result.dice1}] + [{result.dice2}] = মোট {result.sum} <br />
-              {result.won ? `আপনি জিতেছেন +${result.payout.toLocaleString()} MR!` : "আবার চেষ্টা করুন!"}
+          <!-- ROOM CHAT BOX -->
+          <div className="bg-dark-card p-3 rounded-xl border border-dark-border h-48 overflow-y-auto custom-scrollbar space-y-2">
+            {messages.map((m, idx) => (
+              <p key={idx} className="text-xs">
+                <span className="font-bold text-cyan-400">{m.user}: </span>
+                <span className="text-slate-300">{m.text}</span>
+              </p>
+            ))}
+          </div>
+
+          <!-- ROOM ACTIONS -->
+          <div className="flex gap-2">
+            <button onClick={() => setShowGifts(true)} className="flex-1 bg-amber-600 text-white font-bold py-2 rounded-xl text-xs">
+              🎁 Send Gift
+            </button>
+            <button onClick={() => onOpenGame({ id: "dice", name: "Dice Challenge" })} className="flex-1 bg-purple-600 text-white font-bold py-2 rounded-xl text-xs">
+              🎲 Open Game
+            </button>
+          </div>
+
+          <!-- GIFT SELECTOR MODAL -->
+          {showGifts && (
+            <div className="fixed inset-0 bg-black/80 flex items-end justify-center z-50 p-4">
+              <div className="bg-dark-card w-full max-w-md rounded-2xl p-4 border border-dark-border space-y-3">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-bold text-sm">Virtual Gift Catalog</h4>
+                  <button onClick={() => setShowGifts(false)} className="text-slate-400 text-sm">✕</button>
+                </div>
+                <div className="grid grid-cols-3 gap-2 max-h-60 overflow-y-auto">
+                  {GIFTS_DATA.map((g) => (
+                    <div 
+                      key={g.id} 
+                      onClick={() => handleSendGift(g)}
+                      className="bg-dark-base p-2 rounded-xl text-center border border-dark-border cursor-pointer hover:border-amber-500/50"
+                    >
+                      <div className="text-2xl">{g.icon}</div>
+                      <p className="text-[10px] font-bold mt-1">{g.name}</p>
+                      <p className="text-[9px] text-amber-400">{g.price.toLocaleString()} MR</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
       );
     };
 
-    // Main App Component
-    const App = () => {
-      const [activeTab, setActiveTab] = useState("Home");
-      const [balance, setBalance] = useState(20000000); // 20 Million MR Coins Initial
+    // --- MINI GAME MODAL ---
+    const GameModal = ({ game, onClose, mrCoins, setMrCoins }) => {
+      const [bet, setBet] = useState(10000);
+      const [result, setResult] = useState(null);
+
+      const playDice = (pred) => {
+        if (mrCoins < bet) return alert("Not enough coins!");
+        const d1 = Math.floor(Math.random() * 6) + 1;
+        const d2 = Math.floor(Math.random() * 6) + 1;
+        const sum = d1 + d2;
+
+        let won = false;
+        if (pred === "LOW" && sum < 7) won = true;
+        if (pred === "HIGH" && sum > 7) won = true;
+
+        const delta = won ? bet : -bet;
+        setMrCoins((c) => c + delta);
+        setResult({ d1, d2, sum, won });
+      };
 
       return (
-        <div>
-          <header className="app-header">
-            <h1>MrChat</h1>
-            <p style={{ fontSize: "12px", color: "#94a3b8" }}>Real-Time Social Voice Room Platform</p>
-          </header>
-
-          <div className="container">
-            <div className="card" style={{ background: "linear-gradient(135deg, #1e293b, #0f172a)", borderColor: "#38bdf8" }}>
-              <h2>💰 My MR Coins</h2>
-              <h1 style={{ color: "#38bdf8", margin: "10px 0" }}>{balance.toLocaleString()} MR</h1>
-              <p style={{ fontSize: "12px", color: "#94a3b8" }}>প্রতি ১ ঘণ্টায় স্বয়ংক্রিয়ভাবে +২০,০০০,০০০ MR যোগ হবে।</p>
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-dark-card w-full max-w-md rounded-2xl p-4 border border-dark-border space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="font-bold text-sm">🎲 {game.name}</h3>
+              <button onClick={onClose} className="text-slate-400">✕</button>
             </div>
 
-            {activeTab === "Home" && (
-              <div>
-                <div className="card">
-                  <h3>🎙️ রিয়েল-টাইম ভয়েস রুম</h3>
-                  <p style={{ margin: "8px 0", color: "#94a3b8" }}>জনপ্রিয় ভয়েস রুমে যোগ দিন বা নিজের রুম তৈরি করুন।</p>
-                  <button className="btn">নতুন রুম তৈরি করুন</button>
-                </div>
-                <DiceGame balance={balance} setBalance={setBalance} />
-              </div>
-            )}
+            <div className="space-y-2">
+              <label className="text-xs text-slate-400">Bet Amount (MR):</label>
+              <select 
+                value={bet} 
+                onChange={(e) => setBet(Number(e.target.value))}
+                className="w-full bg-dark-base border border-dark-border p-2 rounded-xl text-xs text-white"
+              >
+                <option value={10000}>10,000 MR</option>
+                <option value={100000}>100,000 MR</option>
+                <option value={1000000}>1,000,000 MR</option>
+              </select>
+            </div>
 
-            {activeTab === "Live" && <div className="card"><h3>📡 Live Stream & Rooms</h3><p>লাইভ রুমের তালিকা এখানে দেখাবে...</p></div>}
-            {activeTab === "Room" && <div className="card"><h3>🎙️ Voice Room</h3><p>আপনার ভয়েস চ্যানেল নিয়ন্ত্রণের প্যানেল...</p></div>}
-            {activeTab === "Message" && <div className="card"><h3>💬 Messages</h3><p>প্রাইভেট মেসেজ ও চ্যাট...</p></div>}
-            {activeTab === "Profile" && (
-              <div className="card">
-                <h3>👤 Profile Overview</h3>
-                <p>User ID: 88471029</p>
-                <p>Level: LV 1</p>
-                <p>VIP Status: NONE</p>
+            <div className="flex gap-2">
+              <button onClick={() => playDice("LOW")} className="flex-1 bg-cyan-600 text-white font-bold py-2 rounded-xl text-xs">
+                LOW (2-6)
+              </button>
+              <button onClick={() => playDice("HIGH")} className="flex-1 bg-blue-600 text-white font-bold py-2 rounded-xl text-xs">
+                HIGH (8-12)
+              </button>
+            </div>
+
+            {result && (
+              <div className={`p-3 rounded-xl text-center text-xs font-bold ${result.won ? "bg-green-950 text-green-400" : "bg-red-950 text-red-400"}`}>
+                Dice Result: [{result.d1}] + [{result.d2}] = {result.sum} <br />
+                {result.won ? `You won +${bet.toLocaleString()} MR!` : `Lost -${bet.toLocaleString()} MR`}
               </div>
             )}
           </div>
-
-          <nav className="bottom-nav">
-            <div className={`nav-item ${activeTab === 'Home' ? 'active' : ''}`} onClick={() => setActiveTab('Home')}>🏠<br/>Home</div>
-            <div className={`nav-item ${activeTab === 'Live' ? 'active' : ''}`} onClick={() => setActiveTab('Live')}>📡<br/>Live</div>
-            <div className={`nav-item ${activeTab === 'Room' ? 'active' : ''}`} onClick={() => setActiveTab('Room')}>🎙️<br/>Room</div>
-            <div className={`nav-item ${activeTab === 'Message' ? 'active' : ''}`} onClick={() => setActiveTab('Message')}>💬<br/>Message</div>
-            <div className={`nav-item ${activeTab === 'Profile' ? 'active' : ''}`} onClick={() => setActiveTab('Profile')}>👤<br/>Profile</div>
-          </nav>
         </div>
       );
     };
+
+    // --- ADMIN PANEL ---
+    const AdminPanel = ({ onClose }) => (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold text-sm text-red-400">🛡️ MrChat Admin Panel</h3>
+          <button onClick={onClose} className="text-xs text-slate-400">Close</button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 text-center">
+          <div className="bg-dark-card p-3 rounded-xl border border-dark-border">
+            <p className="text-[10px] text-slate-400">Total Users</p>
+            <p className="font-bold text-sm">1,248</p>
+          </div>
+          <div className="bg-dark-card p-3 rounded-xl border border-dark-border">
+            <p className="text-[10px] text-slate-400">Active Rooms</p>
+            <p className="font-bold text-sm">14</p>
+          </div>
+        </div>
+      </div>
+    );
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(<App />);
