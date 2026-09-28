@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MrChat - Voice Chat Room</title>
+    <title>HiChat - Voice Chat Room</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div id="app-screen" class="screen active">
+    <div id="app-screen" class="screen">
         
         <!-- ১. স্কয়ার ভিউ -->
         <section id="square-view" class="view-section">
@@ -58,10 +58,10 @@
                 <div class="room-grid">
                     <div class="room-card" onclick="openVoiceRoom()">
                         <div class="room-cover">
-                            <span class="badge-online"><i class="fas fa-signal"></i> 12</span>
+                            <span class="badge-online"><i class="fas fa-signal"></i> 2</span>
                         </div>
                         <div class="room-info">
-                            <h4>জিরো প...</h4>
+                            <h4>জিরো পয়েন্ট</h4>
                             <p>ID: 349200</p>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
             </div>
         </section>
 
-        <!-- ৪. প্রোফাইল ভিউ (User Profile Details) -->
+        <!-- ৪. প্রোফাইল ভিউ -->
         <section id="profile-view" class="view-section">
             <div class="profile-header">
                 <div class="profile-main">
@@ -108,12 +108,11 @@
                         <p class="id-tag">ID: 100927248</p>
                         <div class="p-stats">
                             <span><b>15</b> Follow</span>
-                            <span><b>26</b> Fans</span>
+                            <span><b>26</b> Followers</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- প্রোফাইল সার্ভিস কারাউসেল -->
                 <div class="wallet-store-grid">
                     <div class="card-wallet">
                         <p>Wallet</p>
@@ -126,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- প্রোফাইল ট্যাব (Profile / Intimacy) -->
             <div class="profile-sub-tabs">
                 <span class="p-tab active" onclick="switchProfileTab('p-details')">Profile</span>
                 <span class="p-tab" onclick="switchProfileTab('p-intimacy')">Intimacy</span>
@@ -136,7 +134,7 @@
                 <div class="info-card">
                     <p class="location">📍 Bangladesh</p>
                     <p class="bio">আমিই এক মাত্র মানুষ যে জেনে শুনে বার বার ভুল করে 💔</p>
-                    <div class="family-banner" onclick="openFamilyPage()">
+                    <div class="family-banner">
                         <span class="fam-name">ফরিদপুর কলিজা</span>
                         <span class="fam-exp">331/500</span>
                     </div>
@@ -148,12 +146,6 @@
                     <span>🎤 Sing</span>
                     <span>🎬 Film</span>
                     <span>⚽ Football</span>
-                </div>
-
-                <div class="section-title">Vehicles & Frames</div>
-                <div class="items-mini-grid">
-                    <div class="mini-item">Permanent Using</div>
-                    <div class="mini-item">Rose Frame (5d)</div>
                 </div>
             </div>
 
@@ -169,16 +161,18 @@
             </div>
         </section>
 
-        <!-- ৫. ডাইনামিক ভয়েস রুম ওভারলে (Voice Room Screen) -->
+        <!-- ৫. ভয়েস রুম ওভারলে -->
         <div id="voice-room-overlay" class="overlay-screen">
+            <!-- টপ বার -->
             <div class="room-header">
                 <div class="room-title-info">
-                    <h4>জিরো প...</h4>
-                    <p>ID: 349200 | 👥 2</p>
+                    <h4>জিরো পয়েন্ট</h4>
+                    <p>ID: 349200 | 👤 2</p>
                 </div>
                 <div class="room-actions">
+                    <i class="fas fa-cog" onclick="openModal('room-settings-modal')"></i>
                     <i class="fas fa-share-alt"></i>
-                    <i class="fas fa-power-off" onclick="closeVoiceRoom()"></i>
+                    <i class="fas fa-power-off" onclick="openModal('exit-confirm-modal')"></i>
                 </div>
             </div>
 
@@ -188,7 +182,6 @@
                     <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
                     <span class="seat-name">Mia Vai</span>
                 </div>
-                <!-- ১ থেকে ১২ নম্বর সিট -->
                 <div class="mic-seat"><i class="fas fa-lock"></i><span>1</span></div>
                 <div class="mic-seat"><i class="fas fa-lock"></i><span>2</span></div>
                 <div class="mic-seat"><i class="fas fa-lock"></i><span>3</span></div>
@@ -206,16 +199,156 @@
                 <div class="mic-seat"><i class="fas fa-lock"></i><span>12</span></div>
             </div>
 
-            <!-- রুম চ্যাট ও গেম আইকন -->
+            <!-- রুম চ্যাট ও একশন কন্ট্রোল -->
             <div class="room-footer">
                 <div class="room-chat">
-                    <p class="sys-msg">Welcome Mia Vai to the room</p>
+                    <p class="sys-msg">Welcome <span>Mia Vai</span> to the room</p>
+                    <p class="chat-msg"><b>@Mia Vai</b> কেমন আছেন প্রিয়</p>
                 </div>
+                
                 <div class="room-controls">
                     <input type="text" placeholder="Say Hi" class="chat-input">
+                    <i class="fas fa-smile" onclick="openModal('emoji-modal')"></i>
                     <i class="fas fa-microphone mic-toggle"></i>
-                    <i class="fas fa-gift gift-btn"></i>
+                    <i class="fas fa-th-large" onclick="openModal('props-modal')"></i>
+                    <i class="fas fa-gamepad" onclick="openModal('games-modal')"></i>
+                    <i class="fas fa-gift gift-btn" onclick="openModal('gift-modal')"></i>
                 </div>
+            </div>
+        </div>
+
+        <!-- মডাল ১: Room Setting Panel -->
+        <div id="room-settings-modal" class="bottom-sheet">
+            <div class="sheet-header">
+                <h3>Room Setting</h3>
+                <i class="fas fa-times" onclick="closeModal('room-settings-modal')"></i>
+            </div>
+            <div class="sheet-content scrollable">
+                <div class="setting-img-box">
+                    <img src="https://via.placeholder.com/80" class="room-edit-img">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="input-group">
+                    <label>Room Name</label>
+                    <input type="text" value="জিরো পয়েন্ট">
+                </div>
+                <div class="input-group">
+                    <label>Room Notice</label>
+                    <textarea>আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ</textarea>
+                </div>
+                <ul class="setting-list">
+                    <li><span>Room Welcome Message</span> <i class="fas fa-chevron-right"></i></li>
+                    <li><span>Public screen setting</span> <i class="fas fa-chevron-right"></i></li>
+                    <li><span>Room Type</span> <span class="val">Chat <i class="fas fa-chevron-right"></i></span></li>
+                    <li><span>Mic mode</span> <span class="val">open mode <i class="fas fa-chevron-right"></i></span></li>
+                    <li><span>Wheat mode</span> <span class="val">13 people <i class="fas fa-chevron-right"></i></span></li>
+                    <li><span>Super Mic</span> <i class="fas fa-chevron-right"></i></li>
+                    <li><span>Effect switch</span> <i class="fas fa-chevron-right"></i></li>
+                </ul>
+                <div class="setting-bottom-actions">
+                    <div><i class="fas fa-broom"></i> Clear screen</div>
+                    <div><i class="fas fa-image"></i> Theme</div>
+                    <div><i class="fas fa-music"></i> Music</div>
+                    <div><i class="fas fa-lock"></i> Lock</div>
+                    <div><i class="fas fa-user-shield"></i> Administration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- মডাল ২: Exit / Minimize Modal -->
+        <div id="exit-confirm-modal" class="center-popup">
+            <div class="popup-box">
+                <div class="popup-actions">
+                    <button class="btn-minimize" onclick="minimizeRoom()"><i class="fas fa-compress-arrows-alt"></i> Minimize</button>
+                    <button class="btn-exit" onclick="closeVoiceRoom()"><i class="fas fa-power-off"></i> Exit Room</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- মডাল ৩: Gift Store Bottom Sheet -->
+        <div id="gift-modal" class="bottom-sheet">
+            <div class="sheet-tabs">
+                <span class="active">Gift</span>
+                <span>Aristocracy</span>
+                <span>Exclusive</span>
+                <span>Customize</span>
+            </div>
+            <div class="gift-grid">
+                <div class="gift-card">
+                    <div class="gift-icon">🏰</div>
+                    <p>Castle Guardian</p>
+                    <span class="price">💰 10000000</span>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-icon">☀️</div>
+                    <p>Sun Goddess</p>
+                    <span class="price">💰 10000000</span>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-icon">🐅</div>
+                    <p>Flame Tiger</p>
+                    <span class="price">💰 20000000</span>
+                </div>
+            </div>
+            <div class="gift-footer">
+                <span class="balance">💰 3877</span>
+                <button class="btn-send">Send</button>
+            </div>
+        </div>
+
+        <!-- মডাল ৪: Games Center Modal -->
+        <div id="games-modal" class="bottom-sheet">
+            <div class="sheet-header">
+                <h3>Casual Games</h3>
+                <span class="coins-balance">💰 180.7K</span>
+            </div>
+            <div class="games-grid scrollable">
+                <div class="game-item">🎲 Ludo</div>
+                <div class="game-item">👥 Ludo Team</div>
+                <div class="game-item">⚪ Carrom</div>
+                <div class="game-item">🎴 UMO</div>
+                <div class="game-item">🀄 Domino</div>
+                <div class="game-item">🃏 Jackaroo</div>
+            </div>
+            <h4 class="sub-title">Lucky Game</h4>
+            <div class="lucky-grid">
+                <div class="lucky-item">🍎 Lucky fruit</div>
+                <div class="lucky-item">🎰 Greedy Pro</div>
+                <div class="lucky-item">💎 Jackpot</div>
+                <div class="lucky-item">🃏 Teen Patti</div>
+                <div class="lucky-item">🐉 Dragon Tiger</div>
+                <div class="lucky-item">🎡 Roulette</div>
+            </div>
+        </div>
+
+        <!-- মডাল ৫: Props Store & Party Tools -->
+        <div id="props-modal" class="bottom-sheet">
+            <h4>Props Store</h4>
+            <div class="props-grid">
+                <div class="p-item">🏬 Store</div>
+                <div class="p-item">💖 Love Store</div>
+                <div class="p-item">🎒 Prop Warehouse</div>
+            </div>
+            <h4>Party</h4>
+            <div class="props-grid">
+                <div class="p-item">🛍️ Lucky bag</div>
+                <div class="p-item">⚔️ Mic pk</div>
+                <div class="p-item">🤺 PK</div>
+                <div class="p-item">🍀 Lucky number</div>
+            </div>
+        </div>
+
+        <!-- মডাল ৬: Emoji / Reaction Panel -->
+        <div id="emoji-modal" class="bottom-sheet">
+            <div class="emoji-grid">
+                <span>👏 Guess</span>
+                <span>🎲 Hey</span>
+                <span>🎰 Cool</span>
+                <span>😄 Smile</span>
+                <span>😭 Cry</span>
+                <span>✋ Raise hand</span>
+                <span>👍 Like</span>
+                <span>👋 Bye</span>
             </div>
         </div>
 
