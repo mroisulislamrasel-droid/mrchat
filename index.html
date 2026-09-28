@@ -1,227 +1,152 @@
-<!-- Prop Warehouse Modal (Inventory) -->
+<!-- Prop Warehouse / Inventory Full Modal -->
 <div id="warehouse-modal" class="overlay-screen bg-light">
+    <!-- Top Bar -->
     <div class="top-nav-bar">
         <i class="fas fa-chevron-left" onclick="closeModal('warehouse-modal')"></i>
         <span class="nav-title">Prop Ware...</span>
-        <span class="nav-right" onclick="toggleUsingList()">Using</span>
+        <div class="nav-right-group">
+            <span class="tab-toggle active" id="tab-btn-warehouse" onclick="switchWarehouseTab('warehouse')">Warehouse</span>
+            <span class="tab-toggle" id="tab-btn-using" onclick="switchWarehouseTab('using')">Using</span>
+        </div>
         <button class="btn-select-top">Select</button>
     </div>
 
-    <div class="sub-nav-tabs">
-        <span class="p-tab active" onclick="filterProps('all')">All</span>
-        <span class="p-tab" onclick="filterProps('frame')">Frame</span>
-        <span class="p-tab" onclick="filterProps('vehicle')">Vehicle</span>
-        <span class="p-tab" onclick="filterProps('theme')">Theme</span>
-        <span class="p-tab" onclick="filterProps('custom')">Custom <i class="fas fa-chevron-down"></i></span>
+    <!-- Sub Navigation Tabs for Categories -->
+    <div class="sub-nav-tabs horizontal-scroll">
+        <span class="p-tab active" onclick="filterCategory('all')">All</span>
+        <span class="p-tab" onclick="filterCategory('frame')">Frame</span>
+        <span class="p-tab" onclick="filterCategory('vehicle')">Vehicle</span>
+        <span class="p-tab" onclick="filterCategory('theme')">Theme</span>
+        <span class="p-tab" onclick="filterCategory('custom_id')">Custom ID</span>
+        <span class="p-tab" onclick="filterCategory('ring')">Ring</span>
+        <span class="p-tab" onclick="filterCategory('enter_effect')">Enter Effect</span>
+        <span class="p-tab" onclick="filterCategory('bubble')">Bubble</span>
     </div>
 
-    <div class="warehouse-body scrollable">
+    <!-- MAIN CONTAINER 1: Prop Warehouse List -->
+    <div id="warehouse-view" class="warehouse-body scrollable">
         <div class="prop-grid">
-            <!-- Item 1 -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 1 days</span>
-                    <span class="item-count">x2</span>
-                </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/80" alt="Hello Card"></div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
-            </div>
-            <!-- Item 2 -->
+            <!-- Vehicle Item -->
             <div class="prop-card">
                 <div class="prop-header">
                     <span>⏱️ 3 days</span>
-                    <span class="item-count">x7</span>
+                    <span class="item-count">x17</span>
                 </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/80" alt="Green Pegasus"></div>
+                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Roaring+Lion" alt="Lion Vehicle"></div>
                 <div class="prop-actions">
                     <button class="btn-p-send">Send</button>
                     <button class="btn-p-use">Use</button>
                 </div>
             </div>
-            <!-- Item 3 -->
+
+            <!-- Theme Items -->
             <div class="prop-card">
                 <div class="prop-header">
-                    <span>⏱️ 1 days</span>
-                    <span class="item-count">x6</span>
-                </div>
-                <div class="prop-img-box"><div class="circle-preview border-blue-glow"></div></div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
-            </div>
-            <!-- Item 4 -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 1 days</span>
+                    <span>⏱️ 7 days</span>
                     <span class="item-count">x2</span>
                 </div>
-                <div class="prop-img-box"><div class="circle-preview border-desert"></div></div>
+                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Crystal+Chest" alt="Theme"></div>
+                <div class="prop-actions">
+                    <button class="btn-p-send">Send</button>
+                    <button class="btn-p-use">Use</button>
+                </div>
+            </div>
+
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ 1 days</span>
+                    <span class="item-count">x14</span>
+                </div>
+                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Golden+Bike" alt="Golden Bike Theme"></div>
+                <div class="prop-actions">
+                    <button class="btn-p-send">Send</button>
+                    <button class="btn-p-use">Use</button>
+                </div>
+            </div>
+
+            <!-- Custom ID Items -->
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ 7 days</span>
+                    <span class="item-count">x36</span>
+                </div>
+                <div class="prop-img-box">
+                    <div class="badge-custom-id">ID<br><small>7/8 DIGITS</small></div>
+                </div>
+                <div class="prop-actions">
+                    <button class="btn-p-send">Send</button>
+                    <button class="btn-p-use">Use</button>
+                </div>
+            </div>
+
+            <!-- Bubble Chat Items -->
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ 1 days</span>
+                    <span class="item-count">x57</span>
+                </div>
+                <div class="prop-img-box">
+                    <div class="chat-bubble-preview golden">Hello</div>
+                </div>
                 <div class="prop-actions">
                     <button class="btn-p-send">Send</button>
                     <button class="btn-p-use">Use</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Love House Page -->
-<div id="love-house-modal" class="overlay-screen love-house-bg">
-    <div class="lh-header">
-        <i class="fas fa-chevron-left" onclick="closeModal('love-house-modal')"></i>
-        <h2>Love House</h2>
-        <div class="lh-icons">
-            <i class="fas fa-tshirt"></i>
-            <i class="fas fa-bars"></i>
+        <!-- Empty State Example (for Enter Effect) -->
+        <div id="empty-state" class="empty-state-box d-none">
+            <div class="empty-avatar-icon">🐱💬</div>
+            <p>List is empty</p>
         </div>
     </div>
 
-    <div class="lh-body scrollable">
-        <div class="time-together">
-            <span class="days-num">21</span> <span class="days-text">Day<br><small>Time together</small></span>
-        </div>
+    <!-- MAIN CONTAINER 2: Active "Using" List View -->
+    <div id="using-view" class="warehouse-body scrollable d-none">
+        <div class="prop-grid">
+            <!-- Frame Active Item -->
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ 5 days</span>
+                    <span class="status-using-text">Using</span>
+                </div>
+                <div class="prop-img-box">
+                    <div class="frame-circle rose-frame"></div>
+                </div>
+                <button class="btn-p-using-active" disabled>Using</button>
+            </div>
 
-        <div class="cp-profiles">
-            <div class="cp-user">
-                <div class="cp-avatar-frame"><img src="https://via.placeholder.com/70" alt="Male Partner"></div>
-                <span class="cp-name">༄Mia࿐✿Vai࿐</span>
+            <!-- Other Available Frames to Equip -->
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ 16 days</span>
+                    <span class="badge-leader">Leader</span>
+                </div>
+                <div class="prop-img-box">
+                    <div class="frame-circle green-dragon-frame"></div>
+                </div>
+                <button class="btn-p-use-only">Use</button>
             </div>
-            <div class="cp-badge-box" onclick="openModal('cp-level-modal')">
-                <div class="badge-wing">LV.3</div>
-            </div>
-            <div class="cp-user">
-                <div class="cp-avatar-frame"><img src="https://via.placeholder.com/70" alt="Female Partner"></div>
-                <span class="cp-name">❤️ শীতল ❤️</span>
-            </div>
-        </div>
 
-        <div class="cp-stats">
-            <span>💖 15460 Intimacy</span>
-            <span>💎 0 Blessing</span>
-        </div>
+            <!-- Vehicle Active Item -->
+            <div class="prop-card">
+                <div class="prop-header">
+                    <span>⏱️ Permanent</span>
+                    <span class="status-using-text">Using</span>
+                </div>
+                <div class="prop-img-box">
+                    <div class="avatar-hero-preview">LV.40</div>
+                </div>
+                <button class="btn-p-using-active" disabled>Using</button>
+            </div>
 
-        <button class="btn-proposal">Proposal</button>
-        <p class="cp-hint">CP level meets to propose</p>
-
-        <div class="lh-section">
-            <h4>Ring</h4>
-            <div class="empty-data">No More Data</div>
-        </div>
-
-        <div class="lh-section">
-            <h4>Recent gifts</h4>
-            <p class="sub-hint">Sending gifts can increase the intimacy value</p>
-            <div class="empty-data">No More Data</div>
-        </div>
-    </div>
-
-    <div class="lh-bottom-bar">
-        <button class="btn-send-gifts">🎁 send gifts</button>
-    </div>
-</div>
-
-<!-- CP Level Privileges Modal -->
-<div id="cp-level-modal" class="overlay-screen cp-level-bg">
-    <div class="top-nav-bar transparent">
-        <i class="fas fa-chevron-left" onclick="closeModal('cp-level-modal')"></i>
-        <span class="nav-title">CP Level</span>
-        <i class="fas fa-question-circle nav-right"></i>
-    </div>
-
-    <div class="cp-level-body scrollable">
-        <div class="level-badge-large">
-            <div class="lv-crown">LV.3</div>
-        </div>
-        <div class="gained-banner">Gained</div>
-
-        <div class="privilege-grid">
-            <div class="priv-card">
-                <div class="priv-icon card-icon"></div>
-                <span>CP Card</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon bell-icon"></div>
-                <span>CP Online Notification</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon castle-icon"></div>
-                <span>Unlock CP House</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon profile-icon"></div>
-                <span>CP together profile</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon gift-icon"></div>
-                <span>Unlock Exclusive CP Gifts</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon letter-icon"></div>
-                <span>Unlock Proposal Function</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon effect-icon"></div>
-                <span>CP Online Effect</span>
-            </div>
-            <div class="priv-card">
-                <div class="priv-icon banner-icon"></div>
-                <span>CP Sending Notification in...</span>
-            </div>
-            <div class="priv-card locked">
-                <div class="priv-icon emoji-icon"></div>
-                <span>CP Emoji</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Invite Get Gold Modal -->
-<div id="invite-gold-modal" class="overlay-screen invite-gold-bg">
-    <div class="top-ticker">***548 get gold</div>
-    <div class="invite-banner">
-        <h1>Invite Get Gold</h1>
-        <button class="btn-invite-code">Invite Code</button>
-    </div>
-
-    <div class="invite-body scrollable">
-        <div class="rates-container">
-            <div class="rate-box">
-                <span class="r-title">Personally</span>
-                <span class="r-val">6.5% Highest</span>
-            </div>
-            <div class="rate-box">
-                <span class="r-title">Team Invite</span>
-                <span class="r-val">2.5% Highest</span>
-            </div>
-        </div>
-
-        <button class="btn-get-coins">Get Coins</button>
-
-        <div class="record-box">
-            <div class="rec-header">
-                <span>My Record</span>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="rec-row">
-                <span>Friends Invite</span>
-                <span class="count-num">0</span>
-            </div>
-        </div>
-
-        <div class="method-box">
-            <h3>Invite Method</h3>
-            <div class="method-tabs">
-                <button class="m-tab active">I'm a Member</button>
-                <button class="m-tab">I'm a Leader</button>
-            </div>
-            <h4>Achieve the Goal</h4>
-            <div class="goal-desc">
-                <div class="coins-stack">🪙</div>
-                <p>Invite people and their sending coins decide the level and Reward ratio. Total personal reward ratio = A% +B%</p>
+            <div class="prop-card locked-card">
+                <div class="prop-header">
+                    <span>🔒 Unlock</span>
+                </div>
+                <div class="prop-img-box"><img src="https://via.placeholder.com/80?text=Dragon" alt="Dragon Vehicle"></div>
+                <button class="btn-aristocracy">Aristocracy ></button>
             </div>
         </div>
     </div>
