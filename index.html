@@ -1,153 +1,149 @@
-<!-- Prop Warehouse / Inventory Full Modal -->
-<div id="warehouse-modal" class="overlay-screen bg-light">
-    <!-- Top Bar -->
+<!-- Language Selection Modal -->
+<div id="language-modal" class="overlay-screen bg-light">
     <div class="top-nav-bar">
-        <i class="fas fa-chevron-left" onclick="closeModal('warehouse-modal')"></i>
-        <span class="nav-title">Prop Ware...</span>
-        <div class="nav-right-group">
-            <span class="tab-toggle active" id="tab-btn-warehouse" onclick="switchWarehouseTab('warehouse')">Warehouse</span>
-            <span class="tab-toggle" id="tab-btn-using" onclick="switchWarehouseTab('using')">Using</span>
-        </div>
-        <button class="btn-select-top">Select</button>
+        <i class="fas fa-chevron-left" onclick="closeModal('language-modal')"></i>
+        <span class="nav-title">Language</span>
+        <span class="nav-right text-cyan font-bold" onclick="saveLanguage()">Save</span>
     </div>
 
-    <!-- Sub Navigation Tabs for Categories -->
-    <div class="sub-nav-tabs horizontal-scroll">
-        <span class="p-tab active" onclick="filterCategory('all')">All</span>
-        <span class="p-tab" onclick="filterCategory('frame')">Frame</span>
-        <span class="p-tab" onclick="filterCategory('vehicle')">Vehicle</span>
-        <span class="p-tab" onclick="filterCategory('theme')">Theme</span>
-        <span class="p-tab" onclick="filterCategory('custom_id')">Custom ID</span>
-        <span class="p-tab" onclick="filterCategory('ring')">Ring</span>
-        <span class="p-tab" onclick="filterCategory('enter_effect')">Enter Effect</span>
-        <span class="p-tab" onclick="filterCategory('bubble')">Bubble</span>
+    <div class="language-list scrollable">
+        <div class="lang-item active" onclick="selectLanguage(this)">English</div>
+        <div class="lang-item" onclick="selectLanguage(this)">हिन्दी</div>
+        <div class="lang-item" onclick="selectLanguage(this)">বাংলা</div>
+        <div class="lang-item" onclick="selectLanguage(this)">ਪੰਜਾਬੀ</div>
+        <div class="lang-item" onclick="selectLanguage(this)">தமிழ்</div>
+        <div class="lang-item" onclick="selectLanguage(this)">తెలుగు</div>
+        <div class="lang-item" onclick="selectLanguage(this)">اردو</div>
+        <div class="lang-item" onclick="selectLanguage(this)">العربية</div>
+        <div class="lang-item" onclick="selectLanguage(this)">Türkçe</div>
+        <div class="lang-item" onclick="selectLanguage(this)">ไทย</div>
+        <div class="lang-item" onclick="selectLanguage(this)">Tiếng Việt</div>
+        <div class="lang-item" onclick="selectLanguage(this)">Malay</div>
+        <div class="lang-item" onclick="selectLanguage(this)">Português</div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="overlay-screen bg-light">
+    <div class="top-nav-bar">
+        <i class="fas fa-chevron-left" onclick="closeModal('settings-modal')"></i>
+        <span class="nav-title">Settings</span>
     </div>
 
-    <!-- MAIN CONTAINER 1: Prop Warehouse List -->
-    <div id="warehouse-view" class="warehouse-body scrollable">
-        <div class="prop-grid">
-            <!-- Vehicle Item -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 3 days</span>
-                    <span class="item-count">x17</span>
-                </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Roaring+Lion" alt="Lion Vehicle"></div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
+    <div class="settings-list">
+        <div class="setting-item" onclick="openModal('account-binding-modal')">
+            <div class="setting-left">
+                <i class="far fa-check-circle"></i>
+                <span>Account Binding</span>
             </div>
-
-            <!-- Theme Items -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 7 days</span>
-                    <span class="item-count">x2</span>
-                </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Crystal+Chest" alt="Theme"></div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
-            </div>
-
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 1 days</span>
-                    <span class="item-count">x14</span>
-                </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Golden+Bike" alt="Golden Bike Theme"></div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
-            </div>
-
-            <!-- Custom ID Items -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 7 days</span>
-                    <span class="item-count">x36</span>
-                </div>
-                <div class="prop-img-box">
-                    <div class="badge-custom-id">ID<br><small>7/8 DIGITS</small></div>
-                </div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
-            </div>
-
-            <!-- Bubble Chat Items -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 1 days</span>
-                    <span class="item-count">x57</span>
-                </div>
-                <div class="prop-img-box">
-                    <div class="chat-bubble-preview golden">Hello</div>
-                </div>
-                <div class="prop-actions">
-                    <button class="btn-p-send">Send</button>
-                    <button class="btn-p-use">Use</button>
-                </div>
+            <div class="setting-right">
+                <i class="fas fa-exclamation-circle text-red"></i>
+                <i class="fas fa-chevron-right"></i>
             </div>
         </div>
 
-        <!-- Empty State Example (for Enter Effect) -->
-        <div id="empty-state" class="empty-state-box d-none">
-            <div class="empty-avatar-icon">🐱💬</div>
-            <p>List is empty</p>
+        <div class="setting-item" onclick="clearCache()">
+            <div class="setting-left">
+                <i class="fas fa-trash-alt"></i>
+                <span>Clear Cache</span>
+            </div>
+            <div class="setting-right">
+                <span class="text-gray" id="cache-size">49MB</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-item" onclick="openModal('blacklist-modal')">
+            <div class="setting-left">
+                <i class="fas fa-user-slash"></i>
+                <span>Blacklist</span>
+            </div>
+            <div class="setting-right">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-item" onclick="openModal('policy-modal')">
+            <div class="setting-left">
+                <i class="far fa-list-alt"></i>
+                <span>APP POLICY</span>
+            </div>
+            <div class="setting-right">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-left">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Current Version</span>
+            </div>
+            <div class="setting-right">
+                <span class="text-gray">3.8.2</span>
+            </div>
+        </div>
+
+        <div class="setting-item" onclick="openModal('other-modal')">
+            <div class="setting-left">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Other</span>
+            </div>
+            <div class="setting-right">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-item" onclick="uploadLog()">
+            <div class="setting-left">
+                <i class="fas fa-upload"></i>
+                <span>Upload Log</span>
+            </div>
+            <div class="setting-right">
+                <i class="fas fa-chevron-right"></i>
+            </div>
         </div>
     </div>
 
-    <!-- MAIN CONTAINER 2: Active "Using" List View -->
-    <div id="using-view" class="warehouse-body scrollable d-none">
-        <div class="prop-grid">
-            <!-- Frame Active Item -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 5 days</span>
-                    <span class="status-using-text">Using</span>
-                </div>
-                <div class="prop-img-box">
-                    <div class="frame-circle rose-frame"></div>
-                </div>
-                <button class="btn-p-using-active" disabled>Using</button>
-            </div>
-
-            <!-- Other Available Frames to Equip -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ 16 days</span>
-                    <span class="badge-leader">Leader</span>
-                </div>
-                <div class="prop-img-box">
-                    <div class="frame-circle green-dragon-frame"></div>
-                </div>
-                <button class="btn-p-use-only">Use</button>
-            </div>
-
-            <!-- Vehicle Active Item -->
-            <div class="prop-card">
-                <div class="prop-header">
-                    <span>⏱️ Permanent</span>
-                    <span class="status-using-text">Using</span>
-                </div>
-                <div class="prop-img-box">
-                    <div class="avatar-hero-preview">LV.40</div>
-                </div>
-                <button class="btn-p-using-active" disabled>Using</button>
-            </div>
-
-            <div class="prop-card locked-card">
-                <div class="prop-header">
-                    <span>🔒 Unlock</span>
-                </div>
-                <div class="prop-img-box"><img src="https://via.placeholder.com/80?text=Dragon" alt="Dragon Vehicle"></div>
-                <button class="btn-aristocracy">Aristocracy ></button>
-            </div>
+    <!-- Bottom Action Floating Buttons -->
+    <div class="settings-bottom-actions">
+        <div class="profile-avatar-mini">
+            <img src="https://via.placeholder.com/40" alt="Profile">
+            <span class="online-indicator">✓</span>
         </div>
+        <div class="btn-add-account">+</div>
+        <div class="btn-logout-power"><i class="fas fa-power-off"></i></div>
+    </div>
+</div>
+
+<!-- Feedback Modal -->
+<div id="feedback-modal" class="overlay-screen bg-light">
+    <div class="top-nav-bar">
+        <i class="fas fa-chevron-left" onclick="closeModal('feedback-modal')"></i>
+        <span class="nav-title">Feedback</span>
+    </div>
+
+    <div class="feedback-body scrollable">
+        <label class="fb-label">Choose a type</label>
+        <div class="type-grid">
+            <button class="fb-type-btn active" onclick="selectFeedbackType(this)">App error</button>
+            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Recharge/Wallet</button>
+            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Suggestion</button>
+            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Account Appeal</button>
+        </div>
+
+        <label class="fb-label">Problem Description</label>
+        <textarea class="fb-textarea" placeholder="Enter problem details here"></textarea>
+
+        <label class="fb-label">Upload Screenshot <small>(Optional)</small></label>
+        <div class="upload-box">
+            <input type="file" id="fb-screenshot" hidden accept="image/*" onchange="previewScreenshot(event)">
+            <div class="upload-btn" onclick="document.getElementById('fb-screenshot').click()">+</div>
+            <div id="screenshot-preview" class="screenshot-preview d-none"></div>
+        </div>
+
+        <label class="fb-label">Contact <small>(Optional)</small></label>
+        <input type="text" class="fb-input" placeholder="Mobile phone or Email address">
+
+        <button class="btn-complete-gradient" onclick="submitFeedback()">Complete</button>
     </div>
 </div>
