@@ -4,120 +4,221 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MrChat - Social Voice Chat</title>
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React & React DOM -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <!-- Babel Compiler -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0284c7',
-              600: '#0369a1',
-              900: '#0c4a6e',
-            },
-            dark: {
-              base: '#0b0f19',
-              card: '#151c2c',
-              border: '#232d42',
-              accent: '#1e293b'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <!-- React Core CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
     body {
       background-color: #0b0f19;
       color: #f8fafc;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
+    #root {
+      width: 100%;
+      max-width: 480px;
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      padding-bottom: 70px;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
+    /* Header Styles */
+    .app-header {
+      background: #1e293b;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+    .brand-title {
+      color: #38bdf8;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .coin-badge {
+      background: #0f172a;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .coin-text {
+      color: #fbbf24;
+      font-weight: bold;
+    }
+    /* Main Content Container */
+    .container {
+      padding: 16px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .btn {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 13px;
+    }
+    .btn:hover {
+      background: #0369a1;
+    }
+    /* Mic Seats Grid */
+    .mic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .mic-seat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mic-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       background: #334155;
-      border-radius: 4px;
+      border: 2px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #94a3b8;
     }
-    @keyframes pulse-ring {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 0.4; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+    .mic-label {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 4px;
     }
-    .speaking-ring {
-      animation: pulse-ring 1.5s infinite ease-in-out;
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      height: 60px;
+      background: #1e293b;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #334155;
+      z-index: 100;
+    }
+    .nav-item {
+      color: #94a3b8;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      gap: 2px;
+    }
+    .nav-item.active {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+    .nav-icon {
+      font-size: 16px;
+    }
+    /* Modal Window */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .modal-body {
+      background: #1e293b;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #334155;
     }
   </style>
 </head>
-<body class="bg-dark-base text-slate-100 overflow-x-hidden">
+<body>
 
   <div id="root"></div>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // --- MOCK DATABASE / INITIAL STATES ---
-    const INITIAL_USER = {
-      userId: "88471029",
-      username: "Alex_MrChat",
-      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
-      country: "🇺🇸",
-      gender: "Male",
-      level: 12,
-      xp: 2400,
-      contribution: 150000,
-      charm: 89000,
-      followers: 124,
-      following: 45,
-      vipLevel: "SVIP",
-      cp: "Elena_V",
-      bio: "Welcome to MrChat! Let's talk & enjoy games 🎙️",
-      role: "admin"
-    };
-
-    const GIFTS_DATA = [
-      { id: "g1", name: "Lollipop", price: 100, category: "Popular", icon: "🍭" },
-      { id: "g2", name: "Rose", price: 500, category: "Love", icon: "🌹" },
-      { id: "g3", name: "Teddy Bear", price: 1000, category: "Cute", icon: "🧸" },
-      { id: "g4", name: "Golden Veil", price: 10000, category: "Special", icon: "🧕" },
-      { id: "g5", name: "Gold Bar", price: 50000, category: "Luxury", icon: "🧈" },
-      { id: "g6", name: "Golden Egg", price: 100000, category: "Celebration", icon: "🥚" },
-      { id: "g7", name: "Supercar Cake", price: 1000000, category: "Vehicles", icon: "🏎️" },
-      { id: "g8", name: "Cash Cow", price: 10000000, category: "Luxury", icon: "🐄" },
-      { id: "g9", name: "Golden Sailboat", price: 20000000, category: "Mega", icon: "⛵" },
+    const GIFTS = [
+      { id: "g1", name: "Lollipop", price: 100, icon: "🍭" },
+      { id: "g2", name: "Rose", price: 500, icon: "🌹" },
+      { id: "g3", name: "Golden Veil", price: 10000, icon: "🧕" },
+      { id: "g4", name: "Gold Bar", price: 50000, icon: "🧈" },
+      { id: "g5", name: "Supercar", price: 1000000, icon: "🏎️" },
+      { id: "g6", name: "Golden Sailboat", price: 20000000, icon: "⛵" },
     ];
 
-    // --- MAIN APP COMPONENT ---
     const App = () => {
-      const [user, setUser] = useState(INITIAL_USER);
       const [mrCoins, setMrCoins] = useState(20000000);
       const [activeTab, setActiveTab] = useState("home");
       const [currentRoom, setCurrentRoom] = useState(null);
       const [activeGame, setActiveGame] = useState(null);
-      const [showAdmin, setShowAdmin] = useState(false);
-      const [hourlyTimer, setHourlyTimer] = useState(3600);
+      const [timer, setTimer] = useState(3600);
 
-      // Hourly Reward Timer Simulation
+      // Hourly Bonus Countdown
       useEffect(() => {
-        const timer = setInterval(() => {
-          setHourlyTimer((prev) => {
+        const interval = setInterval(() => {
+          setTimer((prev) => {
             if (prev <= 1) {
               setMrCoins((c) => c + 20000000);
               return 3600;
@@ -125,349 +226,187 @@
             return prev - 1;
           });
         }, 1000);
-        return () => clearInterval(timer);
+        return () => clearInterval(interval);
       }, []);
 
-      const formatCoins = (val) => val.toLocaleString() + " MR";
+      const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+      };
 
       return (
-        <div className="max-w-md mx-auto min-h-screen bg-dark-base flex flex-col relative pb-20 shadow-2xl border-x border-dark-border">
-          
-          <!-- TOP HEADER -->
-          <header className="bg-dark-card border-b border-dark-border px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg">
-                MC
-              </div>
-              <span className="font-extrabold text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                MrChat
-              </span>
+        <div>
+          <!-- Top Application Bar -->
+          <header className="app-header">
+            <div className="logo-container">
+              <div className="logo-badge">MC</div>
+              <span className="brand-title">MrChat</span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="bg-dark-base border border-amber-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-inner">
-                <span className="text-amber-400 font-black text-xs">MR</span>
-                <span className="text-xs font-bold text-amber-300">{formatCoins(mrCoins)}</span>
-              </div>
-
-              {user.role === "admin" && (
-                <button 
-                  onClick={() => setShowAdmin(!showAdmin)}
-                  className="bg-red-600/20 text-red-400 border border-red-500/30 p-1.5 rounded-lg text-xs"
-                >
-                  <i className="fa-solid fa-shield-halved"></i>
-                </button>
-              )}
+            <div className="coin-badge">
+              <span style={{ color: '#fbbf24', fontWeight: 'bold' }}>MR</span>
+              <span className="coin-text">{mrCoins.toLocaleString()}</span>
             </div>
           </header>
 
-          <!-- CONTENT BODY -->
-          <main className="flex-1 overflow-y-auto custom-scrollbar p-4">
-            {showAdmin ? (
-              <AdminPanel onClose={() => setShowAdmin(false)} />
-            ) : currentRoom ? (
-              <VoiceRoom 
+          <!-- Main View -->
+          <main className="container">
+            {currentRoom ? (
+              <RoomView 
                 room={currentRoom} 
                 onLeave={() => setCurrentRoom(null)} 
                 mrCoins={mrCoins}
                 setMrCoins={setMrCoins}
-                onOpenGame={(g) => setActiveGame(g)}
+                onOpenGame={() => setActiveGame(true)}
               />
             ) : (
               <>
-                {activeTab === "home" && <HomeScreen onJoinRoom={(r) => setCurrentRoom(r)} />}
-                {activeTab === "live" && <LiveDiscoveryScreen onJoinRoom={(r) => setCurrentRoom(r)} />}
-                {activeTab === "games" && <GamesHub onSelectGame={(g) => setActiveGame(g)} />}
-                {activeTab === "chat" && <ChatScreen />}
-                {activeTab === "profile" && <ProfileScreen user={user} mrCoins={mrCoins} timer={hourlyTimer} />}
+                {activeTab === "home" && (
+                  <div>
+                    <div className="card" style={{ background: "linear-gradient(135deg, #0f172a, #1e293b)", borderColor: "#38bdf8" }}>
+                      <h3>🎙️ Welcome to MrChat</h3>
+                      <p style={{ fontSize: "12px", color: "#94a3b8", margin: "6px 0 12px 0" }}>
+                        Free-to-use social voice rooms with 0 monetary cost.
+                      </p>
+                      <button className="btn" onClick={() => setCurrentRoom({ id: "1001", title: "❤️ Chill & Music Room" })}>
+                        + Create Voice Room
+                      </button>
+                    </div>
+
+                    <h4 style={{ margin: "12px 0 8px 0", color: "#94a3b8" }}>Popular Rooms</h4>
+                    <div className="card" onClick={() => setCurrentRoom({ id: "1001", title: "❤️ Chill & Music Lounge" })} style={{ cursor: "pointer" }}>
+                      <div style={{ display: "flex", justifyBetween: "space-between", alignItems: "center" }}>
+                        <div>
+                          <strong style={{ fontSize: "14px" }}>❤️ Chill & Music Lounge</strong>
+                          <p style={{ fontSize: "11px", color: "#94a3b8" }}>Room ID: 1001 • Host: Alex</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "games" && (
+                  <div>
+                    <h4 style={{ marginBottom: "10px" }}>100% Free MR Coin Mini-Games</h4>
+                    <div className="card" style={{ cursor: "pointer" }} onClick={() => setActiveGame(true)}>
+                      <div style={{ fontSize: "28px", textAlign: "center" }}>🎲</div>
+                      <h4 style={{ textAlign: "center", marginTop: "4px" }}>Dice Challenge</h4>
+                      <p style={{ textAlign: "center", fontSize: "11px", color: "#94a3b8" }}>Predict sum of two dice</p>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "profile" && (
+                  <div className="card">
+                    <h3>👤 My Profile</h3>
+                    <p style={{ fontSize: "12px", color: "#94a3b8", margin: "6px 0" }}>User ID: 88471029</p>
+                    <hr style={{ borderColor: "#334155", margin: "10px 0" }} />
+                    <p style={{ fontSize: "12px" }}>⏱️ Next Hourly Bonus (+20M MR):</p>
+                    <strong style={{ color: "#38bdf8", fontSize: "18px" }}>{formatTime(timer)}</strong>
+                  </div>
+                )}
               </>
             )}
           </main>
 
-          <!-- MINI-GAME MODAL OVERLAY -->
+          <!-- Interactive Dice Game Modal -->
           {activeGame && (
-            <GameModal 
-              game={activeGame} 
-              onClose={() => setActiveGame(null)} 
-              mrCoins={mrCoins}
-              setMrCoins={setMrCoins}
-            />
+            <div className="modal-overlay">
+              <div className="modal-body">
+                <div style={{ display: "flex", justifyBetween: "space-between", marginBottom: "12px" }}>
+                  <h4>🎲 Dice Challenge Game</h4>
+                  <span style={{ cursor: "pointer" }} onClick={() => setActiveGame(false)}>✕</span>
+                </div>
+                <DiceGame mrCoins={mrCoins} setMrCoins={setMrCoins} />
+              </div>
+            </div>
           )}
 
-          <!-- BOTTOM NAVIGATION BAR -->
-          <nav className="fixed bottom-0 max-w-md w-full bg-dark-card border-t border-dark-border py-2 px-3 flex justify-between items-center z-40">
-            {[
-              { id: "home", label: "Home", icon: "fa-house" },
-              { id: "live", label: "Live", icon: "fa-broadcast-tower" },
-              { id: "games", label: "Games", icon: "fa-gamepad" },
-              { id: "chat", label: "Message", icon: "fa-comment-dots" },
-              { id: "profile", label: "Profile", icon: "fa-user" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setShowAdmin(false);
-                  setActiveTab(tab.id);
-                }}
-                className={`flex flex-col items-center gap-1 flex-1 ${
-                  activeTab === tab.id && !showAdmin ? "text-cyan-400 font-bold" : "text-slate-400"
-                }`}
-              >
-                <i className={`fa-solid ${tab.icon} text-lg`}></i>
-                <span className="text-[10px]">{tab.label}</span>
-              </button>
-            ))}
+          <!-- Bottom Navigation Bar -->
+          <nav className="bottom-nav">
+            <div className={`nav-item ${activeTab === 'home' ? 'active' : ''}`} onClick={() => { setActiveTab('home'); setCurrentRoom(null); }}>
+              <span className="nav-icon">🏠</span>
+              <span>Home</span>
+            </div>
+            <div className={`nav-item ${activeTab === 'games' ? 'active' : ''}`} onClick={() => { setActiveTab('games'); setCurrentRoom(null); }}>
+              <span className="nav-icon">🎲</span>
+              <span>Games</span>
+            </div>
+            <div className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => { setActiveTab('profile'); setCurrentRoom(null); }}>
+              <span className="nav-icon">👤</span>
+              <span>Profile</span>
+            </div>
           </nav>
         </div>
       );
     };
 
-    // --- HOME SCREEN ---
-    const HomeScreen = ({ onJoinRoom }) => {
-      const rooms = [
-        { id: "1001", title: "❤️ Chill & Music Lounge", host: "Elena", users: 18, frame: "Gold" },
-        { id: "1002", title: "🎮 Gaming & Chat Zone", host: "David", users: 12, frame: "Silver" },
-        { id: "1003", title: "🎤 Live Singing Contest", host: "Sarah", users: 45, frame: "VIP" },
-      ];
-
-      return (
-        <div className="space-y-4">
-          <div className="bg-gradient-to-r from-cyan-600 to-blue-700 p-4 rounded-2xl shadow-lg flex justify-between items-center">
-            <div>
-              <h2 className="font-bold text-lg">Welcome to MrChat</h2>
-              <p className="text-xs text-cyan-100 opacity-80">Free Voice Rooms & Games Platform</p>
-            </div>
-            <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold">
-              + Create Room
-            </button>
-          </div>
-
-          <h3 className="font-bold text-sm text-slate-300">Popular Voice Rooms</h3>
-          <div className="space-y-3">
-            {rooms.map((r) => (
-              <div 
-                key={r.id} 
-                onClick={() => onJoinRoom(r)}
-                className="bg-dark-card border border-dark-border p-3 rounded-xl flex justify-between items-center cursor-pointer hover:border-cyan-500/50 transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center font-bold text-cyan-400 border border-cyan-500/30">
-                    🎙️
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm">{r.title}</h4>
-                    <p className="text-xs text-slate-400">Host: {r.host} • ID: {r.id}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <span className="bg-cyan-950 text-cyan-400 text-[10px] px-2 py-0.5 rounded-full border border-cyan-800">
-                    👥 {r.users} Online
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
-
-    // --- LIVE DISCOVERY ---
-    const LiveDiscoveryScreen = ({ onJoinRoom }) => (
-      <div className="space-y-3">
-        <h3 className="font-bold text-sm text-slate-300">Active Streams & Rooms</h3>
-        <p className="text-xs text-slate-500">Explore real-time voice broadcasts around the globe.</p>
-        <div className="grid grid-cols-2 gap-3">
-          {[1, 2, 4, 5].map((i) => (
-            <div 
-              key={i} 
-              onClick={() => onJoinRoom({ id: `200${i}`, title: `Party Room #${i}`, host: `User_${i}`, users: i * 5 })}
-              className="bg-dark-card border border-dark-border p-3 rounded-xl cursor-pointer"
-            >
-              <div className="h-20 bg-slate-800 rounded-lg flex items-center justify-center text-3xl mb-2">
-                🎧
-              </div>
-              <h4 className="font-bold text-xs truncate">Voice Party Lounge #{i}</h4>
-              <p className="text-[10px] text-slate-400">ID: 200{i}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-
-    // --- GAMES HUB ---
-    const GamesHub = ({ onSelectGame }) => {
-      const games = [
-        { id: "dice", name: "Dice Challenge", icon: "🎲", desc: "Predict High/Low/Seven" },
-        { id: "wheel", name: "Lucky Wheel", icon: "🎡", desc: "Spin & multiply coins" },
-        { id: "cards", name: "Card Match", icon: "🃏", desc: "Find matching pairs" },
-        { id: "foot", name: "Lucky Foot", icon: "⚽", desc: "Penalty Shootout" },
-      ];
-
-      return (
-        <div className="space-y-3">
-          <h3 className="font-bold text-sm text-slate-300">100% Free MR Coin Mini-Games</h3>
-          <p className="text-xs text-slate-500">Play with virtual entertainment points (No real money involved).</p>
-          <div className="grid grid-cols-2 gap-3">
-            {games.map((g) => (
-              <div 
-                key={g.id} 
-                onClick={() => onSelectGame(g)}
-                className="bg-dark-card border border-dark-border p-4 rounded-xl text-center cursor-pointer hover:border-amber-500/50 transition-all"
-              >
-                <div className="text-4xl mb-2">{g.icon}</div>
-                <h4 className="font-bold text-xs">{g.name}</h4>
-                <p className="text-[10px] text-slate-400 mt-1">{g.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
-
-    // --- CHAT SCREEN ---
-    const ChatScreen = () => (
-      <div className="space-y-3">
-        <h3 className="font-bold text-sm text-slate-300">Messages & Conversations</h3>
-        <div className="space-y-2">
-          {["System Announcement", "Elena_V", "Official Support"].map((name, idx) => (
-            <div key={idx} className="bg-dark-card border border-dark-border p-3 rounded-xl flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold">
-                {name[0]}
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-xs">{name}</h4>
-                <p className="text-[11px] text-slate-400 truncate">Welcome to MrChat platform!</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-
-    // --- PROFILE SCREEN ---
-    const ProfileScreen = ({ user, mrCoins, timer }) => {
-      const formatTime = (s) => {
-        const m = Math.floor(s / 60);
-        const sec = s % 60;
-        return `${m}:${sec < 10 ? "0" : ""}${sec}`;
-      };
-
-      return (
-        <div className="space-y-4">
-          <div className="bg-dark-card border border-dark-border p-4 rounded-2xl flex items-center gap-4">
-            <img src={user.avatar} className="w-16 h-16 rounded-full border-2 border-cyan-500" />
-            <div>
-              <h3 className="font-bold text-base">{user.username} {user.country}</h3>
-              <p className="text-xs text-slate-400">ID: {user.userId} • LV {user.level}</p>
-              <span className="bg-purple-950 text-purple-300 border border-purple-800 text-[10px] px-2 py-0.5 rounded-full inline-block mt-1">
-                {user.vipLevel}
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-amber-950/40 to-dark-card border border-amber-500/30 p-4 rounded-2xl">
-            <p className="text-xs text-amber-400 font-bold">Hourly Bonus Reward</p>
-            <div className="flex justify-between items-center mt-2">
-              <div>
-                <h2 className="text-xl font-black text-amber-300">+20,000,000 MR</h2>
-                <p className="text-[10px] text-slate-400">Auto-credited every 60 mins</p>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-mono font-bold bg-dark-base px-3 py-1 rounded-lg border border-dark-border">
-                  ⏳ {formatTime(timer)}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // --- VOICE ROOM COMPONENT ---
-    const VoiceRoom = ({ room, onLeave, mrCoins, setMrCoins, onOpenGame }) => {
-      const [mics, setMics] = useState(Array(8).fill(null));
-      const [messages, setMessages] = useState([
-        { user: "System", text: "Welcome to voice room! Keep chat friendly." }
-      ]);
-      const [chatInput, setChatInput] = useState("");
+    // Voice Room Interface
+    const RoomView = ({ room, onLeave, mrCoins, setMrCoins, onOpenGame }) => {
+      const [messages, setMessages] = useState([{ user: "System", text: "Joined voice room!" }]);
       const [showGifts, setShowGifts] = useState(false);
 
-      const handleSendGift = (gift) => {
+      const sendGift = (gift) => {
         if (mrCoins < gift.price) {
           alert("Not enough MR Coins!");
           return;
         }
         setMrCoins((c) => c - gift.price);
-        setMessages((prev) => [
-          ...prev,
-          { user: "You", text: `sent virtual gift ${gift.icon} ${gift.name} (${gift.price.toLocaleString()} MR)` }
-        ]);
+        setMessages((prev) => [...prev, { user: "You", text: `sent ${gift.icon} ${gift.name}!` }]);
         setShowGifts(false);
       };
 
       return (
-        <div className="space-y-4">
-          <div className="flex justify-between items-center bg-dark-card p-3 rounded-xl border border-dark-border">
+        <div>
+          <div className="card" style={{ display: "flex", justifyBetween: "space-between", alignItems: "center" }}>
             <div>
-              <h3 className="font-bold text-sm">{room.title}</h3>
-              <p className="text-xs text-slate-400">ID: {room.id}</p>
+              <strong>{room.title}</strong>
+              <p style={{ fontSize: "11px", color: "#94a3b8" }}>ID: {room.id}</p>
             </div>
-            <button onClick={onLeave} className="bg-red-600/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-lg text-xs font-bold">
-              Leave
-            </button>
+            <button className="btn" style={{ background: "#ef4444", width: "auto" }} onClick={onLeave}>Leave</button>
           </div>
 
-          <!-- 8 MIC SEATS GRID -->
-          <div className="grid grid-cols-4 gap-3 bg-dark-card p-4 rounded-2xl border border-dark-border">
-            {mics.map((userOnMic, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 text-sm font-bold relative">
-                  {i + 1}
-                  <i className="fa-solid fa-microphone text-[10px] absolute bottom-0 right-0 bg-dark-base p-1 rounded-full text-slate-400"></i>
+          <!-- 8 Microphone Seats -->
+          <div className="card">
+            <p style={{ fontSize: "12px", color: "#94a3b8" }}>Microphone Seats</p>
+            <div className="mic-grid">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
+                <div className="mic-seat" key={s}>
+                  <div className="mic-avatar">{s}</div>
+                  <span className="mic-label">Seat {s}</span>
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1">Seat {i + 1}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <!-- ROOM CHAT BOX -->
-          <div className="bg-dark-card p-3 rounded-xl border border-dark-border h-48 overflow-y-auto custom-scrollbar space-y-2">
-            {messages.map((m, idx) => (
-              <p key={idx} className="text-xs">
-                <span className="font-bold text-cyan-400">{m.user}: </span>
-                <span className="text-slate-300">{m.text}</span>
+          <!-- Room Live Messages -->
+          <div className="card" style={{ height: "120px", overflowY: "auto" }}>
+            {messages.map((m, i) => (
+              <p key={i} style={{ fontSize: "12px", marginBottom: "4px" }}>
+                <strong style={{ color: "#38bdf8" }}>{m.user}:</strong> {m.text}
               </p>
             ))}
           </div>
 
-          <!-- ROOM ACTIONS -->
-          <div className="flex gap-2">
-            <button onClick={() => setShowGifts(true)} className="flex-1 bg-amber-600 text-white font-bold py-2 rounded-xl text-xs">
-              🎁 Send Gift
-            </button>
-            <button onClick={() => onOpenGame({ id: "dice", name: "Dice Challenge" })} className="flex-1 bg-purple-600 text-white font-bold py-2 rounded-xl text-xs">
-              🎲 Open Game
-            </button>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button className="btn" style={{ background: "#f59e0b" }} onClick={() => setShowGifts(true)}>🎁 Gifts</button>
+            <button className="btn" style={{ background: "#8b5cf6" }} onClick={onOpenGame}>🎲 Games</button>
           </div>
 
-          <!-- GIFT SELECTOR MODAL -->
           {showGifts && (
-            <div className="fixed inset-0 bg-black/80 flex items-end justify-center z-50 p-4">
-              <div className="bg-dark-card w-full max-w-md rounded-2xl p-4 border border-dark-border space-y-3">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-bold text-sm">Virtual Gift Catalog</h4>
-                  <button onClick={() => setShowGifts(false)} className="text-slate-400 text-sm">✕</button>
+            <div className="modal-overlay">
+              <div className="modal-body">
+                <div style={{ display: "flex", justifyBetween: "space-between", marginBottom: "12px" }}>
+                  <h4>Gift Library</h4>
+                  <span style={{ cursor: "pointer" }} onClick={() => setShowGifts(false)}>✕</span>
                 </div>
-                <div className="grid grid-cols-3 gap-2 max-h-60 overflow-y-auto">
-                  {GIFTS_DATA.map((g) => (
-                    <div 
-                      key={g.id} 
-                      onClick={() => handleSendGift(g)}
-                      className="bg-dark-base p-2 rounded-xl text-center border border-dark-border cursor-pointer hover:border-amber-500/50"
-                    >
-                      <div className="text-2xl">{g.icon}</div>
-                      <p className="text-[10px] font-bold mt-1">{g.name}</p>
-                      <p className="text-[9px] text-amber-400">{g.price.toLocaleString()} MR</p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                  {GIFTS.map((g) => (
+                    <div key={g.id} onClick={() => sendGift(g)} style={{ background: "#0f172a", padding: "8px", borderRadius: "8px", textAlign: "center", cursor: "pointer" }}>
+                      <div style={{ fontSize: "20px" }}>{g.icon}</div>
+                      <p style={{ fontSize: "10px", margin: "4px 0" }}>{g.name}</p>
+                      <p style={{ fontSize: "9px", color: "#f59e0b" }}>{g.price.toLocaleString()} MR</p>
                     </div>
                   ))}
                 </div>
@@ -478,87 +417,48 @@
       );
     };
 
-    // --- MINI GAME MODAL ---
-    const GameModal = ({ game, onClose, mrCoins, setMrCoins }) => {
+    // Dice Game
+    const DiceGame = ({ mrCoins, setMrCoins }) => {
       const [bet, setBet] = useState(10000);
       const [result, setResult] = useState(null);
 
-      const playDice = (pred) => {
-        if (mrCoins < bet) return alert("Not enough coins!");
+      const roll = (choice) => {
+        if (mrCoins < bet) return alert("Not enough MR Coins!");
         const d1 = Math.floor(Math.random() * 6) + 1;
         const d2 = Math.floor(Math.random() * 6) + 1;
         const sum = d1 + d2;
 
-        let won = false;
-        if (pred === "LOW" && sum < 7) won = true;
-        if (pred === "HIGH" && sum > 7) won = true;
+        let win = false;
+        if (choice === "LOW" && sum < 7) win = true;
+        if (choice === "HIGH" && sum > 7) win = true;
 
-        const delta = won ? bet : -bet;
-        setMrCoins((c) => c + delta);
-        setResult({ d1, d2, sum, won });
+        setMrCoins((c) => win ? c + bet : c - bet);
+        setResult({ d1, d2, sum, win });
       };
 
       return (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-dark-card w-full max-w-md rounded-2xl p-4 border border-dark-border space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="font-bold text-sm">🎲 {game.name}</h3>
-              <button onClick={onClose} className="text-slate-400">✕</button>
-            </div>
+        <div>
+          <p style={{ fontSize: "12px", marginBottom: "8px" }}>Select Bet Amount:</p>
+          <select value={bet} onChange={(e) => setBet(Number(e.target.value))} style={{ width: "100%", padding: "8px", background: "#0f172a", color: "white", border: "1px solid #334155", borderRadius: "6px", marginBottom: "12px" }}>
+            <option value={10000}>10,000 MR</option>
+            <option value={100000}>100,000 MR</option>
+            <option value={1000000}>1,000,000 MR</option>
+          </select>
 
-            <div className="space-y-2">
-              <label className="text-xs text-slate-400">Bet Amount (MR):</label>
-              <select 
-                value={bet} 
-                onChange={(e) => setBet(Number(e.target.value))}
-                className="w-full bg-dark-base border border-dark-border p-2 rounded-xl text-xs text-white"
-              >
-                <option value={10000}>10,000 MR</option>
-                <option value={100000}>100,000 MR</option>
-                <option value={1000000}>1,000,000 MR</option>
-              </select>
-            </div>
-
-            <div className="flex gap-2">
-              <button onClick={() => playDice("LOW")} className="flex-1 bg-cyan-600 text-white font-bold py-2 rounded-xl text-xs">
-                LOW (2-6)
-              </button>
-              <button onClick={() => playDice("HIGH")} className="flex-1 bg-blue-600 text-white font-bold py-2 rounded-xl text-xs">
-                HIGH (8-12)
-              </button>
-            </div>
-
-            {result && (
-              <div className={`p-3 rounded-xl text-center text-xs font-bold ${result.won ? "bg-green-950 text-green-400" : "bg-red-950 text-red-400"}`}>
-                Dice Result: [{result.d1}] + [{result.d2}] = {result.sum} <br />
-                {result.won ? `You won +${bet.toLocaleString()} MR!` : `Lost -${bet.toLocaleString()} MR`}
-              </div>
-            )}
+          <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+            <button className="btn" onClick={() => roll("LOW")}>LOW (2-6)</button>
+            <button className="btn" style={{ background: "#38bdf8" }} onClick={() => roll("HIGH")}>HIGH (8-12)</button>
           </div>
+
+          {result && (
+            <div style={{ padding: "8px", borderRadius: "6px", background: result.win ? "#15803d" : "#991b1b", textAlign: "center", fontSize: "12px" }}>
+              Dice: [{result.d1}] + [{result.d2}] = {result.sum} <br />
+              {result.win ? `You Won +${bet.toLocaleString()} MR!` : `Lost -${bet.toLocaleString()} MR`}
+            </div>
+          )}
         </div>
       );
     };
-
-    // --- ADMIN PANEL ---
-    const AdminPanel = ({ onClose }) => (
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="font-bold text-sm text-red-400">🛡️ MrChat Admin Panel</h3>
-          <button onClick={onClose} className="text-xs text-slate-400">Close</button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 text-center">
-          <div className="bg-dark-card p-3 rounded-xl border border-dark-border">
-            <p className="text-[10px] text-slate-400">Total Users</p>
-            <p className="font-bold text-sm">1,248</p>
-          </div>
-          <div className="bg-dark-card p-3 rounded-xl border border-dark-border">
-            <p className="text-[10px] text-slate-400">Active Rooms</p>
-            <p className="font-bold text-sm">14</p>
-          </div>
-        </div>
-      </div>
-    );
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(<App />);
