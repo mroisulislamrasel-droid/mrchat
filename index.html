@@ -1,529 +1,207 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MR Chat</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#f6f7fb;color:#222}
-button{border:0;font-family:inherit;cursor:pointer;outline:none}
-input,textarea{font-family:inherit;outline:none}
-#app{width:100%;height:100%;position:relative;overflow:hidden}
-
-/* PAGES SYSTEM */
-.page{position:absolute;inset:0;background:#f7f8fc;display:none;overflow-y:auto;padding-bottom:82px}
-.page.show{display:block}
-
-/* COMMON BUTTONS */
-.btn3d{
- position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
- box-shadow:0 5px 0 #c8cad3,0 8px 16px rgba(40,45,80,.16),inset 0 1px 1px rgba(255,255,255,.95);
- transition:.15s
-}
-.btn3d:active{transform:translateY(4px) scale(.98);box-shadow:0 1px 0 #c8cad3,0 3px 8px rgba(40,45,80,.15)}
-.btn3d.primary{color:white;background:linear-gradient(145deg,#8066ff,#5036df);box-shadow:0 5px 0 #3824a9,0 9px 18px rgba(88,63,230,.32)}
-
-/* PAGE HEADER */
-.page-header{
- height:60px;background:white;display:flex;align-items:center;justify-content:center;
- font-size:17px;font-weight:900;position:sticky;top:0;z-index:10;
- border-bottom:1px solid #eeeeff;box-shadow:0 3px 10px rgba(0,0,0,.03)
-}
-
-/* HOME NAVBAR */
-.home-top{
- height:64px;background:rgba(255,255,255,.97);display:flex;align-items:center;
- padding:0 9px;gap:7px;position:sticky;top:0;z-index:20;
- border-bottom:1px solid rgba(90,67,233,.08);box-shadow:0 4px 15px rgba(40,35,90,.07)
-}
-.home-tabs{display:flex;align-items:center;gap:5px;height:44px;padding:4px;flex:1;overflow:hidden;background:#f3f2f8;border-radius:17px}
-.home-tab{
- height:36px;padding:0 11px;border-radius:13px;display:flex;align-items:center;
- justify-content:center;font-size:12px;font-weight:800;color:#9998a5;white-space:nowrap;background:transparent
-}
-.home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 3px 9px rgba(70,55,150,.12)}
-.top-action{width:42px;height:42px;min-width:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;font-size:20px;font-weight:800}
-
-/* BANNER & CATEGORIES */
-.event-slider-wrap{padding:10px 10px 4px}
-.event-slider{width:100%;height:140px;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 8px 20px rgba(60,50,120,.22)}
-.event-slide{
- width:100%;height:100%;position:relative;color:white;
- background:linear-gradient(110deg,rgba(65,36,160,.88),rgba(245,74,144,.48)),url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80") center/cover
-}
-.event-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.event-content h2{font-size:22px;margin-bottom:4px}
-.event-content p{font-size:11px;opacity:.9}
-
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:11px 10px}
-.category{min-height:75px;border-radius:19px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;box-shadow:0 5px 0 rgba(40,30,100,.18)}
-.category .icon{font-size:26px;margin-bottom:4px}
-
-.section-title{padding:12px;display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:900}
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{height:170px;border-radius:19px;overflow:hidden;position:relative;background:#ddd;box-shadow:0 6px 15px rgba(30,30,60,.14);cursor:pointer}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.8))}
-.room-info{position:absolute;bottom:9px;left:10px;right:8px;color:white}
-.room-name{font-weight:800;font-size:13px;margin-bottom:3px}
-.room-meta{font-size:10px;display:flex;justify-content:space-between;opacity:.85}
-
-/* GAMES PAGE MAIN UI */
-.game-section-title{font-size:14px;font-weight:800;padding:14px 14px 6px;color:#333}
-.games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:10px 14px}
-.game-card-main{background:white;border-radius:18px;padding:12px 8px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.05);border:1px solid #eee;cursor:pointer}
-.game-thumb{width:100%;height:65px;border-radius:14px;background:#f3f0ff;display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:8px}
-.game-title{font-size:11px;font-weight:800;color:#333}
-
-/* PROFILE PAGE MAIN UI */
-.profile-head{padding:20px 14px 25px;color:white;background:linear-gradient(135deg,#5c43dc,#d74c9b);border-radius:0 0 30px 30px}
-.profile-main{display:flex;align-items:center}
-.profile-avatar{width:75px;height:75px;border-radius:50%;border:3px solid white;object-fit:cover}
-.profile-info{padding-left:12px;flex:1}
-.profile-info h2{font-size:18px}
-.profile-info p{margin-top:4px;font-size:11px;opacity:.85}
-
-.wallet-store-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 12px 0}
-.wallet-card, .store-card{border-radius:18px;padding:14px;color:white;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.wallet-card{background:linear-gradient(135deg,#ff9d6c,#ff617d)}
-.store-card{background:linear-gradient(135deg,#4facfe,#00f2fe)}
-
-.profile-body{padding:12px}
-.profile-section{background:white;border-radius:19px;margin-bottom:10px;border:1px solid #eeeef5;overflow:hidden}
-.profile-row{min-height:50px;padding:8px 13px;display:flex;align-items:center;border-bottom:1px solid #f1f1f3;cursor:pointer;justify-content:space-between}
-.profile-row b{font-size:12px}
-
-/* BOTTOM NAV */
-.bottom-nav{
- position:fixed;left:0;right:0;bottom:0;height:75px;padding:6px;gap:4px;
- background:rgba(255,255,255,.98);backdrop-filter:blur(16px);border-top:1px solid rgba(80,65,150,.08);
- display:flex;z-index:100;box-shadow:0 -7px 24px rgba(35,30,80,.09)
-}
-.nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#a2a1ad;background:transparent;border-radius:16px;font-size:10px;font-weight:700;gap:2px}
-.nav-item .nav-icon{width:40px;height:32px;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:12px}
-.nav-item.active{color:#5d45df}
-.nav-item.active .nav-icon{background:#eeeaff;box-shadow:0 3px 8px rgba(90,65,220,.12)}
-
-/* ROOM SCREEN */
-#roomScreen{
- position:fixed;inset:0;background:radial-gradient(circle at 50% 30%, #a832d2, #3b0764, #18022c);
- z-index:500;display:none;flex-direction:column;color:white;overflow:hidden;
-}
-#roomScreen.show{display:flex}
-
-.room-header{height:60px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;z-index:10}
-.room-owner-pill{background:rgba(0,0,0,.35);padding:4px 10px 4px 4px;border-radius:20px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(5px)}
-.room-owner-pill img{width:34px;height:34px;border-radius:50%;object-fit:cover}
-.owner-info b{font-size:11px;display:block;white-space:nowrap}
-.owner-info small{font-size:9px;color:#d1d5db}
-
-.room-top-actions{display:flex;gap:6px}
-.room-icon-btn{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;backdrop-filter:blur(4px)}
-
-.room-stage{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;padding-top:10px}
-.host-seat-wrap{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:5px}
-.host-avatar-frame{width:82px;height:82px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#ffd700,#ff007f);position:relative;box-shadow:0 0 20px rgba(236,72,153,.5)}
-.host-avatar-frame img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.host-badge-name{background:linear-gradient(90deg,#3b82f6,#ec4899);padding:2px 10px;border-radius:12px;font-size:10px;font-weight:bold;margin-top:-10px;z-index:2;border:1px solid rgba(255,255,255,.5)}
-
-.seats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 25px;width:100%;padding:25px 30px;margin-top:10px}
-.seat-item{display:flex;flex-direction:column;align-items:center}
-.seat-box{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.6)}
-
-/* ROOM CHAT */
-.room-chat-box{height:150px;padding:10px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;justify-content:flex-end}
-.chat-msg{font-size:11px;line-height:1.4;background:rgba(0,0,0,.25);padding:5px 10px;border-radius:10px;width:fit-content;max-width:85%;backdrop-filter:blur(3px)}
-.chat-msg.notice{color:#6ee7b7;border:1px solid rgba(110,231,183,.3)}
-.chat-msg.welcome{color:#fde047}
-
-/* FOOTER CONTROLS */
-.room-bottom-bar{height:65px;padding:0 12px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;background:rgba(0,0,0,.2)}
-.chat-input-btn{flex:1;height:38px;border-radius:19px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:0 12px;font-size:11px;display:flex;align-items:center}
-.room-btns-right{display:flex;align-items:center;gap:6px}
-.circle-tool-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;color:white}
-.gift-btn-main{height:38px;padding:0 14px;border-radius:19px;background:linear-gradient(135deg,#ec4899,#8b5cf6);color:white;font-weight:bold;font-size:11px;display:flex;align-items:center;gap:4px;box-shadow:0 4px 12px rgba(236,72,153,.4)}
-
-/* MODALS & PANELS */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);z-index:1000;display:none;align-items:flex-end}
-.modal.show{display:flex}
-.bottom-panel{width:100%;background:#1e1b2e;border-radius:22px 22px 0 0;padding:16px;color:white;max-height:75vh;overflow-y:auto}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:10px}
-
-.modal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:10px 0}
-.panel-card{background:rgba(255,255,255,.06);border-radius:14px;padding:10px 6px;text-align:center;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:.15s}
-.panel-card:active{transform:scale(.95);background:rgba(255,255,255,.15)}
-.panel-card .card-icon{font-size:32px;margin-bottom:4px}
-.panel-card .card-title{font-size:10px;color:white;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* MENU POPUP FOR EXIT / MINIMIZE */
-.popup-menu{position:absolute;top:55px;right:12px;background:#2a243d;border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:6px;display:none;flex-direction:column;gap:4px;z-index:600;box-shadow:0 10px 25px rgba(0,0,0,.5)}
-.popup-menu.show{display:flex}
-.menu-item{padding:10px 16px;border-radius:8px;font-size:12px;color:white;background:transparent;text-align:left;display:flex;align-items:center;gap:8px}
-.menu-item:hover,.menu-item:active{background:rgba(255,255,255,.1)}
-
-#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:rgba(0,0,0,.85);color:white;padding:9px 16px;border-radius:20px;font-size:11px;opacity:0;pointer-events:none;z-index:2000;transition:.25s}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-@media(min-width:700px){.page,.bottom-nav,#roomScreen{max-width:520px;left:50%;transform:translateX(-50%)}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrChat - Voice Chat Room</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-<div id="app">
 
-<!-- 1. HOME PAGE -->
-<section id="homePage" class="page show">
- <div class="home-top">
-  <div class="home-tabs">
-   <button class="home-tab" onclick="homeTab('following',this)">Following</button>
-   <button class="home-tab active" onclick="homeTab('popular',this)">Popular</button>
-   <button class="home-tab" onclick="homeTab('recent',this)">Recent</button>
-  </div>
-  <button class="top-action btn3d" onclick="showToast('Search')">⌕</button>
-  <button class="top-action btn3d primary" onclick="enterRoom()">＋</button>
- </div>
+    <!-- ১. লগইন স্ক্রিন -->
+    <div id="login-screen" class="screen active">
+        <div class="login-bg-overlay"></div>
+        <div class="login-container">
+            <div class="brand-header">
+                <!-- আপনার দেওয়া MrChat লোগো -->
+                <img src="assets/images/mrchat_logo.png" alt="MrChat Logo" class="app-logo">
+                <h1 class="app-title">MrChat</h1>
+                <p class="app-subtitle">Voice Chat Room</p>
+            </div>
 
- <div class="event-slider-wrap">
-  <div class="event-slider">
-   <div class="event-slide">
-    <div class="event-content">
-     <h2>MR Chat Community</h2>
-     <p>Join live voice rooms and connect with friends world-wide.</p>
+            <div class="login-buttons">
+                <button class="btn btn-facebook" onclick="loginWith('Facebook')">
+                    <i class="fab fa-facebook-f"></i> Continue with Facebook
+                </button>
+                <button class="btn btn-google" onclick="loginWith('Google')">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+                <button class="btn btn-mail" onclick="loginWith('Email')">
+                    <i class="fas fa-envelope"></i>
+                </button>
+            </div>
+
+            <p class="terms-text">
+                By continuing, you agree to <a href="#">Terms of service</a> and <a href="#">Privacy Policy</a>.
+            </p>
+        </div>
     </div>
-   </div>
-  </div>
- </div>
 
- <div class="categories">
-  <button class="category btn3d" onclick="showToast('Leaderboard')"><div class="icon">🏆</div>Rank</button>
-  <button class="category btn3d" onclick="showToast('CP Center')"><div class="icon">💜</div>CP</button>
-  <button class="category btn3d" onclick="showToast('Family Zone')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
- </div>
+    <!-- ২. মেইন মোট অ্যাপ স্ক্রিন -->
+    <div id="app-screen" class="screen">
+        
+        <!-- টপ হেডার (হোম পেজ) -->
+        <header class="app-header">
+            <div class="top-nav-tabs">
+                <span class="tab-item" onclick="switchHomeTab('following')">Following</span>
+                <span class="tab-item active" onclick="switchHomeTab('popular')">Popular</span>
+                <span class="tab-item" onclick="switchHomeTab('recent')">Recent</span>
+            </div>
+            <div class="header-actions">
+                <i class="fas fa-search icon-btn"></i>
+                <i class="fas fa-plus-circle icon-btn add-btn"></i>
+            </div>
+        </header>
 
- <div class="section-title"><b>Voice Rooms</b></div>
+        <!-- মূল কন্টেন্ট এরিয়া -->
+        <main class="main-content">
+            
+            <!-- হোম পেজ ভিউ -->
+            <section id="home-view" class="view-section active">
+                
+                <!-- ব্যানার স্লাইডার -->
+                <div class="banner-card">
+                    <div class="banner-title">WEEKLY STAR</div>
+                </div>
 
- <div class="room-grid">
-  <div class="room-card" onclick="enterRoom()">
-   <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-   <div class="room-overlay"></div>
-   <div class="room-info">
-    <div class="room-name">জিরো প...</div>
-    <div class="room-meta"><span>Live</span><span>1 online</span></div>
-   </div>
-  </div>
-  <div class="room-card" onclick="enterRoom()">
-   <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-   <div class="room-overlay"></div>
-   <div class="room-info">
-    <div class="room-name">Music Lounge</div>
-    <div class="room-meta"><span>Live</span><span>42 online</span></div>
-   </div>
-  </div>
- </div>
-</section>
+                <!-- কুইক মডিউলস (Contribution, Charm, Room) -->
+                <div class="quick-modules">
+                    <div class="module-card contribution" onclick="openRanking('contribution')">
+                        <span>Contribution</span>
+                    </div>
+                    <div class="module-card charm" onclick="openRanking('charm')">
+                        <span>Charm</span>
+                    </div>
+                    <div class="module-card room" onclick="openRanking('room')">
+                        <span>Room</span>
+                    </div>
+                </div>
 
-<!-- 2. GAMES PAGE -->
-<section id="gamesPage" class="page">
- <div class="page-header">Games Center</div>
- 
- <div class="game-section-title">Popular Games</div>
- <div class="games-grid">
-  <div class="game-card-main" onclick="launchGame('Lucky Fruit')">
-   <div class="game-thumb">🍓</div>
-   <div class="game-title">Lucky Fruit</div>
-  </div>
-  <div class="game-card-main" onclick="launchGame('Ludo Star')">
-   <div class="game-thumb">🎲</div>
-   <div class="game-title">Ludo Star</div>
-  </div>
-  <div class="game-card-main" onclick="launchGame('Greedy Box')">
-   <div class="game-thumb">📦</div>
-   <div class="game-title">Greedy Box</div>
-  </div>
-  <div class="game-card-main" onclick="launchGame('Lucky Wheel')">
-   <div class="game-thumb">🎡</div>
-   <div class="game-title">Lucky Wheel</div>
-  </div>
-  <div class="game-card-main" onclick="launchGame('Treasure Hunt')">
-   <div class="game-thumb">🏴‍☠️</div>
-   <div class="game-title">Treasure</div>
-  </div>
-  <div class="game-card-main" onclick="launchGame('Weekly Star')">
-   <div class="game-thumb">🤠</div>
-   <div class="game-title">Weekly Star</div>
-  </div>
- </div>
-</section>
+                <!-- ভয়েস রুম গ্রিড -->
+                <div class="room-grid">
+                    <!-- ব্ল্যাঙ্ক ডাইনামিক রুম কার্ড ১ -->
+                    <div class="room-card">
+                        <div class="room-cover">
+                            <span class="badge-online"><i class="fas fa-signal"></i> 0</span>
+                            <div class="room-tag">নতুন রুম</div>
+                        </div>
+                        <div class="room-info">
+                            <h4 class="room-title">Voice Room Title</h4>
+                            <p class="room-host"><i class="fas fa-mars"></i> User Name</p>
+                        </div>
+                    </div>
+                    <!-- ব্ল্যাঙ্ক ডাইনামিক রুম কার্ড ২ -->
+                    <div class="room-card">
+                        <div class="room-cover">
+                            <span class="badge-online"><i class="fas fa-signal"></i> 0</span>
+                        </div>
+                        <div class="room-info">
+                            <h4 class="room-title">Welcome to MrChat</h4>
+                            <p class="room-host"><i class="fas fa-venus"></i> Host Name</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- 3. MOMENTS PAGE -->
-<section id="momentPage" class="page">
- <div class="page-header">Moment</div>
- <div style="text-align:center;padding:60px 20px;color:#999">No Moments Shared Yet</div>
-</section>
+            <!-- সেলিব্রিটি র‍্যাঙ্কিং ভিউ -->
+            <section id="ranking-view" class="view-section">
+                <div class="ranking-header">
+                    <i class="fas fa-chevron-left back-btn" onclick="showHome()"></i>
+                    <h2>Celebrity Ranking</h2>
+                </div>
 
-<!-- 4. MESSAGES PAGE -->
-<section id="messagePage" class="page">
- <div class="page-header">Message</div>
- <div style="padding:15px">
-  <div style="background:white;padding:14px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 10px rgba(0,0,0,.03)">
-   <div style="font-size:26px">🎁</div>
-   <div><b style="font-size:13px">System Gift Notices</b><p style="font-size:10px;color:#888;margin-top:2px">Check your latest rewards</p></div>
-  </div>
- </div>
-</section>
+                <div class="ranking-main-tabs">
+                    <span id="tab-contrib" class="r-tab active" onclick="loadRankCategory('contribution')">Contribution</span>
+                    <span id="tab-charm" class="r-tab" onclick="loadRankCategory('charm')">Charm</span>
+                    <span id="tab-room" class="r-tab" onclick="loadRankCategory('room')">Room</span>
+                </div>
 
-<!-- 5. PROFILE PAGE (ME) -->
-<section id="mePage" class="page">
- <div class="profile-head">
-  <div class="profile-main">
-   <img class="profile-avatar" src="https://i.pravatar.cc/200?img=11">
-   <div class="profile-info">
-    <h2>༄Mia🔒Vai༒</h2>
-    <p>Welcome to MR Chat ❤️</p>
-    <small style="font-size:10px">ID: 100927248</small>
-   </div>
-  </div>
- </div>
+                <div class="time-filter-tabs">
+                    <button class="time-btn active">Daily</button>
+                    <button class="time-btn">Weekly</button>
+                    <button class="time-btn">Monthly</button>
+                </div>
 
- <div class="wallet-store-wrap">
-  <div class="wallet-card" onclick="showToast('Wallet Center')">
-   <div><b>Wallet</b><p style="font-size:10px;margin-top:2px">Manage Coins</p></div>
-   <div style="font-size:24px">👛</div>
-  </div>
-  <div class="store-card" onclick="showToast('Props Store')">
-   <div><b>Store</b><p style="font-size:10px;margin-top:2px">Buy Avatar Frames</p></div>
-   <div style="font-size:24px">🏪</div>
-  </div>
- </div>
+                <!-- পেডেস্টাল ট্রফি (Top 3) -->
+                <div class="top-three-container">
+                    <!-- ২য় স্থান -->
+                    <div class="pedestal rank-2">
+                        <div class="avatar-frame">
+                            <div class="avatar-placeholder"></div>
+                            <span class="rank-badge">2</span>
+                        </div>
+                        <p class="user-name">User 2</p>
+                        <p class="score">0</p>
+                    </div>
 
- <div class="profile-body">
-  <div class="profile-section">
-   <div class="profile-row" onclick="showToast('CP Level')"><b>CP Level</b><span>›</span></div>
-   <div class="profile-row" onclick="showToast('Prop Warehouse')"><b>Prop Warehouse</b><span>›</span></div>
-   <div class="profile-row" onclick="showToast('VIP Privileges')"><b>VIP Center</b><span>›</span></div>
-   <div class="profile-row" onclick="showToast('Settings')"><b>Settings</b><span>›</span></div>
-  </div>
- </div>
-</section>
+                    <!-- ১ম স্থান -->
+                    <div class="pedestal rank-1">
+                        <div class="crown">👑</div>
+                        <div class="avatar-frame gold">
+                            <div class="avatar-placeholder"></div>
+                            <span class="rank-badge">NO.1</span>
+                        </div>
+                        <p class="user-name">User 1</p>
+                        <p class="score">0</p>
+                    </div>
 
-<!-- MAIN NAVIGATION BAR -->
-<nav class="bottom-nav">
- <button class="nav-item active" onclick="switchPage('homePage',this)"><div class="nav-icon">🏠</div>Home</button>
- <button class="nav-item" onclick="switchPage('gamesPage',this)"><div class="nav-icon">🎮</div>Games</button>
- <button class="nav-item" onclick="switchPage('momentPage',this)"><div class="nav-icon">📸</div>Moment</button>
- <button class="nav-item" onclick="switchPage('messagePage',this)"><div class="nav-icon">💬</div>Message</button>
- <button class="nav-item" onclick="switchPage('mePage',this)"><div class="nav-icon">👤</div>Me</button>
-</nav>
+                    <!-- ৩য় স্থান -->
+                    <div class="pedestal rank-3">
+                        <div class="avatar-frame">
+                            <div class="avatar-placeholder"></div>
+                            <span class="rank-badge">3</span>
+                        </div>
+                        <p class="user-name">User 3</p>
+                        <p class="score">0</p>
+                    </div>
+                </div>
 
-<!-- VOICE ROOM SCREEN -->
-<div id="roomScreen">
+                <!-- ৪ থেকে পরবর্তী র‍্যাঙ্ক লিস্ট -->
+                <div class="ranking-list">
+                    <div class="rank-item">
+                        <span class="num">4</span>
+                        <div class="avatar-placeholder sm"></div>
+                        <div class="details">
+                            <p class="name">User Name</p>
+                        </div>
+                        <span class="points">0</span>
+                    </div>
+                </div>
 
- <div class="room-header">
-  <div class="room-owner-pill">
-   <img src="https://i.pravatar.cc/150?img=11">
-   <div class="owner-info">
-    <b>জিরো প...</b>
-    <small>ID:349200 · 👤1</small>
-   </div>
-  </div>
+                <!-- নিজস্ব র‍্যাঙ্ক ফিক্সড ফুটার -->
+                <div class="my-rank-bar">
+                    <span class="label">No ranking</span>
+                    <div class="avatar-placeholder sm"></div>
+                    <span class="my-name">My Profile</span>
+                    <span class="my-score">0</span>
+                </div>
+            </section>
 
-  <div class="room-top-actions">
-   <button class="room-icon-btn" onclick="showToast('Room Settings')">⚙️</button>
-   <button class="room-icon-btn" onclick="showToast('Share Room')">🔗</button>
-   <button class="room-icon-btn" onclick="toggleMenu()">✕</button>
-  </div>
- </div>
+        </main>
 
- <!-- EXIT / MINIMIZE MENU -->
- <div id="popupMenu" class="popup-menu">
-  <button class="menu-item" onclick="minimizeRoom()"><span>⏬</span> Minimize</button>
-  <button class="menu-item" onclick="closeRoom()"><span>🚪</span> Exit Room</button>
- </div>
+        <!-- বটম নেভিগেশন বার -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchView('home-view')">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="nav-item center-mic">
+                <i class="fas fa-microphone"></i>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user"></i>
+            </div>
+        </nav>
 
- <!-- ROOM STAGE & SEATS -->
- <div class="room-stage">
-  <div class="host-seat-wrap">
-   <div class="host-avatar-frame">
-    <img src="https://i.pravatar.cc/200?img=11">
-   </div>
-   <div class="host-badge-name">༄Mia🔒Vai༒</div>
-  </div>
+    </div>
 
-  <div class="seats-grid">
-   <div class="seat-item"><div class="seat-box">1</div></div>
-   <div class="seat-item"><div class="seat-box">2</div></div>
-   <div class="seat-item"><div class="seat-box">3</div></div>
-   <div class="seat-item"><div class="seat-box">4</div></div>
-   <div class="seat-item"><div class="seat-box">5</div></div>
-   <div class="seat-item"><div class="seat-box">6</div></div>
-   <div class="seat-item"><div class="seat-box">7</div></div>
-   <div class="seat-item"><div class="seat-box">8</div></div>
-  </div>
- </div>
-
- <!-- CHAT AREA -->
- <div class="room-chat-box">
-  <div class="chat-msg notice">Welcome to MR Chat. Please respect each other and chat in a decent manner.</div>
-  <div class="chat-msg notice">Announcement:<br>আসসালামু আলাইকুম। সততা বজায় রাখুন - ধন্যবাদ</div>
-  <div class="chat-msg welcome">Welcome ༄Mia🔒Vai༒ to the room</div>
- </div>
-
- <!-- ROOM BOTTOM CONTROLS -->
- <div class="room-bottom-bar">
-  <div class="chat-input-btn" onclick="showToast('Open Keyboard')">Say Hi</div>
-  <div class="room-btns-right">
-   <button class="circle-tool-btn" onclick="showToast('Mic Toggled')">🎙️</button>
-   <button class="circle-tool-btn" onclick="showToast('Emojis')">😊</button>
-   <button class="circle-tool-btn" style="background:#7c3aed" onclick="openGamesPanel()">🎮</button>
-   <button class="gift-btn-main" onclick="openGiftPanel()">🎁 Gift</button>
-  </div>
- </div>
-
-</div>
-
-<!-- IN-ROOM GAMES MODAL -->
-<div id="gamesModal" class="modal">
- <div class="bottom-panel">
-  <div class="panel-head">
-   <b>Room Games</b>
-   <button style="background:none;color:white;font-size:18px" onclick="closeGamesPanel()">✕</button>
-  </div>
-  <div class="modal-grid">
-   <div class="panel-card" onclick="launchGame('Lucky Fruit')">
-    <div class="card-icon">🍓</div>
-    <div class="card-title">Lucky Fruit</div>
-   </div>
-   <div class="panel-card" onclick="launchGame('Ludo Star')">
-    <div class="card-icon">🎲</div>
-    <div class="card-title">Ludo Star</div>
-   </div>
-   <div class="panel-card" onclick="launchGame('Greedy Box')">
-    <div class="card-icon">📦</div>
-    <div class="card-title">Greedy Box</div>
-   </div>
-   <div class="panel-card" onclick="launchGame('Lucky Wheel')">
-    <div class="card-icon">🎡</div>
-    <div class="card-title">Lucky Wheel</div>
-   </div>
-   <div class="panel-card" onclick="launchGame('Weekly Star')">
-    <div class="card-icon">🤠</div>
-    <div class="card-title">Weekly Star</div>
-   </div>
-   <div class="panel-card" onclick="launchGame('Treasure Hunt')">
-    <div class="card-icon">🏴‍☠️</div>
-    <div class="card-title">Treasure</div>
-   </div>
-  </div>
- </div>
-</div>
-
-<!-- IN-ROOM GIFT MODAL -->
-<div id="giftModal" class="modal">
- <div class="bottom-panel">
-  <div class="panel-head">
-   <b>Send Gift</b>
-   <button style="background:none;color:white;font-size:18px" onclick="closeGiftPanel()">✕</button>
-  </div>
-  <div class="modal-grid">
-   <div class="panel-card" onclick="sendGift('Castle')">
-    <div class="card-icon">🏰</div>
-    <div class="card-title">Castle</div>
-   </div>
-   <div class="panel-card" onclick="sendGift('Goddess')">
-    <div class="card-icon">🧚‍♀️</div>
-    <div class="card-title">Goddess</div>
-   </div>
-   <div class="panel-card" onclick="sendGift('Sports Car')">
-    <div class="card-icon">🏎️</div>
-    <div class="card-title">Sports Car</div>
-   </div>
-   <div class="panel-card" onclick="sendGift('Crown')">
-    <div class="card-icon">👑</div>
-    <div class="card-title">Crown</div>
-   </div>
-   <div class="panel-card" onclick="sendGift('Rocket')">
-    <div class="card-icon">🚀</div>
-    <div class="card-title">Rocket</div>
-   </div>
-   <div class="panel-card" onclick="sendGift('Ring')">
-    <div class="card-icon">💍</div>
-    <div class="card-title">Diamond Ring</div>
-   </div>
-  </div>
- </div>
-</div>
-
-<div id="toast"></div>
-
-</div>
-
-<script>
-function switchPage(pageId, navBtn){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
- document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
- document.getElementById(pageId).classList.add('show');
- if(navBtn) navBtn.classList.add('active');
-}
-
-function showToast(msg){
- const t=document.getElementById('toast');
- t.innerText=msg;
- t.classList.add('show');
- setTimeout(()=>t.classList.remove('show'),2000);
-}
-
-function enterRoom(){
- document.getElementById('roomScreen').classList.add('show');
- document.getElementById('popupMenu').classList.remove('show');
-}
-
-function toggleMenu(){
- document.getElementById('popupMenu').classList.toggle('show');
-}
-
-function closeRoom(){
- document.getElementById('popupMenu').classList.remove('show');
- document.getElementById('roomScreen').classList.remove('show');
- showToast('Exited Room');
-}
-
-function minimizeRoom(){
- document.getElementById('popupMenu').classList.remove('show');
- document.getElementById('roomScreen').classList.remove('show');
- showToast('Room Minimized');
-}
-
-function openGamesPanel(){
- document.getElementById('gamesModal').classList.add('show');
-}
-function closeGamesPanel(){
- document.getElementById('gamesModal').classList.remove('show');
-}
-
-function openGiftPanel(){
- document.getElementById('giftModal').classList.add('show');
-}
-function closeGiftPanel(){
- document.getElementById('giftModal').classList.remove('show');
-}
-
-function launchGame(gameName){
- closeGamesPanel();
- showToast('Launching '+gameName+'...');
-}
-
-function sendGift(giftName){
- closeGiftPanel();
- showToast('Sent '+giftName+' Gift!');
-}
-
-function homeTab(type, btn){
- document.querySelectorAll('.home-tab').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');
- showToast('Tab: '+type);
-}
-</script>
+    <script src="js/app.js"></script>
 </body>
 </html>
