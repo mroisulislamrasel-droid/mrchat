@@ -1,569 +1,153 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HiChat - Voice Chat Room</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-    <div id="app-screen" class="screen">
-        
-        <!-- ১. স্কয়ার ভিউ -->
-        <section id="square-view" class="view-section">
-            <header class="sub-header">
-                <div class="nav-tabs">
-                    <span class="active">Square</span>
-                    <span>Subscription</span>
-                </div>
-                <div class="right-icons">
-                    <i class="fas fa-bell"></i>
-                    <i class="fas fa-edit"></i>
-                </div>
-            </header>
-            
-            <div class="content-scroll">
-                <div class="post-card">
-                    <div class="post-user">
-                        <img src="https://via.placeholder.com/45" class="avatar">
-                        <div class="user-meta">
-                            <h4>Mia Vai <i class="fas fa-mars gender-m"></i></h4>
-                            <span class="bg-badge">LV.41</span>
-                        </div>
-                        <button class="btn-follow"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <p class="post-text">রাতের আকাশ দেখলে বোঝা যায়, একাকীত্ব কতো সুন্দর....! 😌🤍</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ২. হোম / রুমস ভিউ -->
-        <section id="home-view" class="view-section active">
-            <header class="sub-header">
-                <div class="nav-tabs">
-                    <span>Following</span>
-                    <span class="active">Popular</span>
-                    <span>Recent</span>
-                </div>
-                <div class="right-icons">
-                    <i class="fas fa-search"></i>
-                    <i class="fas fa-plus-circle"></i>
-                </div>
-            </header>
-
-            <div class="content-scroll">
-                <div class="banner-card" onclick="openModal('rocket-event-modal')">🚀 ROCKET KING EVENT</div>
-                <div class="room-grid">
-                    <div class="room-card" onclick="openVoiceRoom()">
-                        <div class="room-cover">
-                            <span class="badge-online"><i class="fas fa-signal"></i> 2</span>
-                        </div>
-                        <div class="room-info">
-                            <h4>জিরো পয়েন্ট</h4>
-                            <p>ID: 349200</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ৩. ইনবক্স ভিউ -->
-        <section id="message-view" class="view-section">
-            <header class="sub-header">
-                <h2>Message</h2>
-                <i class="fas fa-user-friends"></i>
-            </header>
-
-            <div class="content-scroll">
-                <div class="msg-item system">
-                    <div class="msg-icon gift"><i class="fas fa-gift"></i></div>
-                    <div class="msg-text">
-                        <h4>Gift Notice</h4>
-                        <p>System notification for gifts</p>
-                    </div>
-                </div>
-                <div class="msg-item">
-                    <img src="https://via.placeholder.com/40" class="avatar">
-                    <div class="msg-text">
-                        <h4>ফরিদপুর কলিজা</h4>
-                        <p>Tonmoy left the group chat</p>
-                    </div>
-                    <span class="time">19:54</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ৪. প্রোফাইল ভিউ -->
-        <section id="profile-view" class="view-section">
-            <div class="profile-header">
-                <div class="profile-main">
-                    <div class="avatar-container">
-                        <img src="https://via.placeholder.com/80" class="profile-avatar">
-                        <span class="badge-svip-top">SVIP2</span>
-                    </div>
-                    <div class="p-info">
-                        <h3>Mia Vai <i class="fas fa-mars gender-m"></i> <span class="age">35</span></h3>
-                        <p class="id-tag">ID: 100927248</p>
-                        <div class="p-stats">
-                            <span><b>15</b> Follow</span>
-                            <span><b>26</b> Followers</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wallet-store-grid">
-                    <div class="card-wallet" onclick="openModal('wallet-modal')">
-                        <p>Wallet</p>
-                        <h4>💰 3,877</h4>
-                    </div>
-                    <div class="card-store">
-                        <p>Store</p>
-                        <h4>🛍️ Shop</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-sub-tabs">
-                <span class="p-tab active" onclick="switchProfileTab('p-details')">Profile</span>
-                <span class="p-tab" onclick="switchProfileTab('p-intimacy')">Intimacy</span>
-            </div>
-
-            <div id="p-details" class="p-content active">
-                <div class="info-card">
-                    <p class="location">📍 Bangladesh</p>
-                    <p class="bio">আমিই এক মাত্র মানুষ যে জেনে শুনে বার বার ভুল করে 💔</p>
-                    <div class="family-banner">
-                        <span class="fam-name">ফরিদপুর কলিজা</span>
-                        <span class="fam-exp">331/500</span>
-                    </div>
-                </div>
-
-                <div class="section-title">Tags</div>
-                <div class="tags-cloud">
-                    <span>🎲 Ludo</span>
-                    <span>🎤 Sing</span>
-                    <span>🎬 Film</span>
-                    <span>⚽ Football</span>
-                </div>
-            </div>
-
-            <div id="p-intimacy" class="p-content">
-                <div class="couple-card">
-                    <h4>Love Store <button class="btn-go">Go</button></h4>
-                    <div class="couple-box">
-                        <div class="c-user"><img src="https://via.placeholder.com/40" class="avatar"><p>Mia Vai</p></div>
-                        <div class="c-heart">💖 LV.3</div>
-                        <div class="c-user"><img src="https://via.placeholder.com/40" class="avatar"><p>শীতল</p></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ৫. ভয়েস রুম ওভারলে -->
-        <div id="voice-room-overlay" class="overlay-screen">
-            <div class="room-header">
-                <div class="room-title-info">
-                    <h4>জিরো পয়েন্ট</h4>
-                    <p>ID: 349200 | 👤 2</p>
-                </div>
-                <div class="room-actions">
-                    <i class="fas fa-cog" onclick="openModal('room-settings-modal')"></i>
-                    <i class="fas fa-share-alt"></i>
-                    <i class="fas fa-power-off" onclick="openModal('exit-confirm-modal')"></i>
-                </div>
-            </div>
-
-            <div class="mic-grid-12">
-                <div class="mic-seat owner-seat">
-                    <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
-                    <span class="seat-name">Mia Vai</span>
-                </div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>1</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>2</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>3</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>4</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>5</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>6</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>7</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>8</span></div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>9</span></div>
-                <div class="mic-seat user-seat">
-                    <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
-                    <span class="seat-name">DepressiOn</span>
-                    <span class="seat-num">10</span>
-                </div>
-                <div class="mic-seat"><i class="fas fa-lock"></i><span>12</span></div>
-            </div>
-
-            <div class="room-footer">
-                <div class="room-chat">
-                    <p class="sys-msg">Welcome <span>Mia Vai</span> to the room</p>
-                    <p class="chat-msg"><b>@Mia Vai</b> কেমন আছেন প্রিয়</p>
-                </div>
-                
-                <div class="room-controls">
-                    <input type="text" placeholder="Say Hi" class="chat-input">
-                    <i class="fas fa-smile" onclick="openModal('emoji-modal')"></i>
-                    <i class="fas fa-microphone mic-toggle"></i>
-                    <i class="fas fa-th-large" onclick="openModal('props-modal')"></i>
-                    <i class="fas fa-gamepad" onclick="openModal('games-modal')"></i>
-                    <i class="fas fa-gift gift-btn" onclick="openModal('gift-modal')"></i>
-                </div>
-            </div>
+<!-- Store & Love Store Modal Panel -->
+<div id="store-modal" class="overlay-screen store-bg">
+    <div class="store-top-bar">
+        <i class="fas fa-chevron-left" onclick="closeModal('store-modal')"></i>
+        <div class="store-main-tabs">
+            <span class="s-main-tab active" onclick="switchStoreMain('store-content')">Store</span>
+            <span class="s-main-tab" onclick="switchStoreMain('lovestore-content')">Love Store</span>
         </div>
-
-        <!-- মডাল ১: Room Setting Panel -->
-        <div id="room-settings-modal" class="bottom-sheet">
-            <div class="sheet-header">
-                <h3>Room Setting</h3>
-                <i class="fas fa-times" onclick="closeModal('room-settings-modal')"></i>
-            </div>
-            <div class="sheet-content scrollable">
-                <div class="setting-img-box">
-                    <img src="https://via.placeholder.com/80" class="room-edit-img">
-                    <i class="fas fa-camera"></i>
-                </div>
-                <div class="input-group">
-                    <label>Room Name</label>
-                    <input type="text" value="জিরো পয়েন্ট">
-                </div>
-                <div class="input-group">
-                    <label>Room Notice</label>
-                    <textarea>আসসালামু আলাইকুম। ভদ্রতা বজায় রাখুন - ধন্যবাদ</textarea>
-                </div>
-                <ul class="setting-list">
-                    <li><span>Room Welcome Message</span> <i class="fas fa-chevron-right"></i></li>
-                    <li><span>Public screen setting</span> <i class="fas fa-chevron-right"></i></li>
-                    <li><span>Room Type</span> <span class="val">Chat <i class="fas fa-chevron-right"></i></span></li>
-                    <li><span>Mic mode</span> <span class="val">open mode <i class="fas fa-chevron-right"></i></span></li>
-                    <li><span>Wheat mode</span> <span class="val">13 people <i class="fas fa-chevron-right"></i></span></li>
-                    <li><span>Super Mic</span> <i class="fas fa-chevron-right"></i></li>
-                    <li><span>Effect switch</span> <i class="fas fa-chevron-right"></i></li>
-                </ul>
-                <div class="setting-bottom-actions">
-                    <div><i class="fas fa-broom"></i> Clear screen</div>
-                    <div><i class="fas fa-image"></i> Theme</div>
-                    <div><i class="fas fa-music"></i> Music</div>
-                    <div><i class="fas fa-lock"></i> Lock</div>
-                    <div><i class="fas fa-user-shield"></i> Administration</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- মডাল ২: Exit Confirm Popup -->
-        <div id="exit-confirm-modal" class="center-popup">
-            <div class="popup-box">
-                <div class="popup-actions">
-                    <button class="btn-minimize" onclick="minimizeRoom()"><i class="fas fa-compress-arrows-alt"></i> Minimize</button>
-                    <button class="btn-exit" onclick="closeVoiceRoom()"><i class="fas fa-power-off"></i> Exit Room</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- মডাল ৩: Gift Store -->
-        <div id="gift-modal" class="bottom-sheet">
-            <div class="sheet-tabs">
-                <span class="active">Gift</span>
-                <span>Aristocracy</span>
-                <span>Exclusive</span>
-                <span>Customize</span>
-            </div>
-            <div class="gift-grid">
-                <div class="gift-card">
-                    <div class="gift-icon">🏰</div>
-                    <p>Castle Guardian</p>
-                    <span class="price">💰 10000000</span>
-                </div>
-                <div class="gift-card">
-                    <div class="gift-icon">☀️</div>
-                    <p>Sun Goddess</p>
-                    <span class="price">💰 10000000</span>
-                </div>
-                <div class="gift-card">
-                    <div class="gift-icon">🐅</div>
-                    <p>Flame Tiger</p>
-                    <span class="price">💰 20000000</span>
-                </div>
-            </div>
-            <div class="gift-footer">
-                <span class="balance">💰 3,877</span>
-                <button class="btn-send">Send</button>
-            </div>
-        </div>
-
-        <!-- মডাল ৪: Games Center -->
-        <div id="games-modal" class="bottom-sheet">
-            <div class="sheet-header">
-                <h3>Casual Games</h3>
-                <span class="coins-balance">💰 180.7K</span>
-            </div>
-            <div class="games-grid scrollable">
-                <div class="game-item">🎲 Ludo</div>
-                <div class="game-item">👥 Ludo Team</div>
-                <div class="game-item">⚪ Carrom</div>
-                <div class="game-item">🎴 UMO</div>
-                <div class="game-item">🀄 Domino</div>
-                <div class="game-item">🃏 Jackaroo</div>
-            </div>
-            <h4 class="sub-title">Lucky Game</h4>
-            <div class="lucky-grid">
-                <div class="lucky-item" onclick="openGameOverlay('lucky-fruit-modal')">🍎 Lucky fruit</div>
-                <div class="lucky-item" onclick="openGameOverlay('greedy-pro-modal')">🎰 Greedy Pro</div>
-                <div class="lucky-item" onclick="openGameOverlay('jackpot-slots-modal')">💎 Jackpot</div>
-                <div class="lucky-item" onclick="openGameOverlay('lucky-pro-modal')">🍒 Lucky Pro</div>
-                <div class="lucky-item">🐉 Dragon Tiger</div>
-                <div class="lucky-item">🎡 Roulette</div>
-            </div>
-        </div>
-
-        <!-- মডাল ৫: Props Store & Party -->
-        <div id="props-modal" class="bottom-sheet">
-            <h4>Props Store</h4>
-            <div class="props-grid">
-                <div class="p-item">🏬 Store</div>
-                <div class="p-item">💖 Love Store</div>
-                <div class="p-item">🎒 Prop Warehouse</div>
-            </div>
-            <h4>Party</h4>
-            <div class="props-grid">
-                <div class="p-item">🛍️ Lucky bag</div>
-                <div class="p-item">⚔️ Mic pk</div>
-                <div class="p-item">🤺 PK</div>
-                <div class="p-item">🍀 Lucky number</div>
-            </div>
-        </div>
-
-        <!-- মডাল ৬: Emoji Panel -->
-        <div id="emoji-modal" class="bottom-sheet">
-            <div class="emoji-grid">
-                <span>👏 Guess</span>
-                <span>🎲 Hey</span>
-                <span>🎰 Cool</span>
-                <span>😄 Smile</span>
-                <span>😭 Cry</span>
-                <span>✋ Raise hand</span>
-                <span>👍 Like</span>
-                <span>👋 Bye</span>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ৭: Rocket King Event Overlay -->
-        <div id="rocket-event-modal" class="overlay-screen game-bg">
-            <div class="game-header">
-                <span>🚀 Rocket King</span>
-                <i class="fas fa-times" onclick="closeModal('rocket-event-modal')"></i>
-            </div>
-            <div class="rocket-container">
-                <div class="rocket-graphic">🚀</div>
-                <div class="rocket-badge">LV.1</div>
-            </div>
-            <div class="reward-section">
-                <h4>My Reward</h4>
-                <div class="reward-tabs">
-                    <span class="active">Top1</span>
-                    <span>Top2</span>
-                    <span>Top3</span>
-                    <span>In Room</span>
-                </div>
-                <div class="reward-cards">
-                    <div class="r-card">✈️</div>
-                    <div class="r-card">Exp</div>
-                    <div class="r-card">💰</div>
-                </div>
-            </div>
-            <div class="king-footer">
-                <span>Rocket king last / this week</span>
-                <div class="top-users">
-                    <span>👑 1. UserA</span>
-                    <span>👑 2. UserB</span>
-                    <span>👑 3. UserC</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ৮: Lucky Fruit Game -->
-        <div id="lucky-fruit-modal" class="overlay-screen game-bg">
-            <div class="game-header">
-                <h3>Lucky Fruit</h3>
-                <i class="fas fa-times" onclick="closeModal('lucky-fruit-modal')"></i>
-            </div>
-            <div class="grid-game-box">
-                <div class="fruit-cell">🍊 Win 5x</div>
-                <div class="fruit-cell highlight">🍋 Win 5x</div>
-                <div class="fruit-cell">🍇 Win 5x</div>
-                <div class="fruit-cell">🍒 Win 5x</div>
-                <div class="timer-cell">8</div>
-                <div class="fruit-cell">🍏 Win 10x</div>
-                <div class="fruit-cell">🍉 Win 15x</div>
-                <div class="fruit-cell">🥭 Win 25x</div>
-                <div class="fruit-cell">🍓 Win 45x</div>
-            </div>
-            <div class="bet-controls">
-                <p>Select amount of golds</p>
-                <div class="bet-btns">
-                    <button class="active">100</button>
-                    <button>1K</button>
-                    <button>10K</button>
-                    <button>50K</button>
-                </div>
-            </div>
-            <div class="game-balance-bar">
-                <span>Balance: 💰 3,877</span>
-                <span>Today's Winnings: 0</span>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ৯: Greedy Pro Game -->
-        <div id="greedy-pro-modal" class="overlay-screen game-bg">
-            <div class="game-header">
-                <h3>Greedy Pro</h3>
-                <i class="fas fa-times" onclick="closeModal('greedy-pro-modal')"></i>
-            </div>
-            <div class="greedy-wheel-container">
-                <div class="chef-center">👨‍🍳<br><small>12s</small></div>
-                <div class="food-item pos-1">🍅 x5</div>
-                <div class="food-item pos-2">🥬 x5</div>
-                <div class="food-item pos-3">🌽 x5</div>
-                <div class="food-item pos-4">🥕 x5</div>
-                <div class="food-item pos-5">🌭 x10</div>
-                <div class="food-item pos-6">🥩 x45</div>
-            </div>
-            <div class="bet-controls">
-                <div class="bet-btns">
-                    <button>100</button>
-                    <button class="active">1K</button>
-                    <button>10K</button>
-                    <button>50K</button>
-                    <button>100K</button>
-                </div>
-            </div>
-            <div class="game-balance-bar">
-                <span>Remaining coins: 💰 3,877</span>
-                <span>I won today: 0</span>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ১০: Jackpot Slots Game -->
-        <div id="jackpot-slots-modal" class="overlay-screen game-bg">
-            <div class="game-header">
-                <h3>JACKPOT SLOTS</h3>
-                <i class="fas fa-times" onclick="closeModal('jackpot-slots-modal')"></i>
-            </div>
-            <div class="jackpot-pool">🏆 2,002,375,061</div>
-            <div class="slot-machine-grid">
-                <div class="slot-item">🐅</div>
-                <div class="slot-item">🦅</div>
-                <div class="slot-item wild">🦁 WILD</div>
-                <div class="slot-item">🅰️</div>
-                <div class="slot-item">🦅</div>
-                <div class="slot-item wild">🦁 WILD</div>
-                <div class="slot-item">📦</div>
-                <div class="slot-item">🐅</div>
-                <div class="slot-item wild">🦁 WILD</div>
-            </div>
-            <div class="slot-stats">
-                <div><span>Spin Line</span><p>27</p></div>
-                <div><span>Total Spin Coins</span><p>540</p></div>
-                <div><span>Win</span><p>0</p></div>
-            </div>
-            <div class="slot-actions">
-                <button class="btn-auto">AUTO</button>
-                <button class="btn-spin">SPIN</button>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ১১: Lucky Pro Game -->
-        <div id="lucky-pro-modal" class="overlay-screen game-bg">
-            <div class="game-header">
-                <h3>Lucky Pro</h3>
-                <i class="fas fa-times" onclick="closeModal('lucky-pro-modal')"></i>
-            </div>
-            <div class="grid-game-box">
-                <div class="fruit-cell">🍊 5 times</div>
-                <div class="fruit-cell">🍋 5 times</div>
-                <div class="fruit-cell">🍇 5 times</div>
-                <div class="fruit-cell">🍒 5 times</div>
-                <div class="timer-cell red-timer">02</div>
-                <div class="fruit-cell">🍏 10 times</div>
-                <div class="fruit-cell">🍉 15 times</div>
-                <div class="fruit-cell">🥭 25 times</div>
-                <div class="fruit-cell">🍓 45 times</div>
-            </div>
-            <div class="bet-controls">
-                <div class="bet-btns">
-                    <button class="active">100</button>
-                    <button>1K</button>
-                    <button>10K</button>
-                    <button>50K</button>
-                </div>
-            </div>
-            <div class="game-balance-bar">
-                <span>Balance: 💰 3,877</span>
-                <span>Today's Winnings: 125500000</span>
-            </div>
-        </div>
-
-        <!-- নতুন মডাল ১২: Wallet & Exchange Page -->
-        <div id="wallet-modal" class="bottom-sheet">
-            <div class="wallet-nav-tabs">
-                <span class="w-tab active" onclick="switchWalletTab('w-coin')">Coin</span>
-                <span class="w-tab" onclick="switchWalletTab('w-diamond')">Diamond</span>
-            </div>
-
-            <!-- Coin Tab Content -->
-            <div id="w-coin" class="w-content active">
-                <div class="coin-balance-card">
-                    <p>My Coin</p>
-                    <h2>💰 3,877</h2>
-                </div>
-                <div class="recharge-banner">🎁 RECHARGE BENEFITS</div>
-                <div class="recharge-methods">
-                    <h4>Recharge by <span>📍 Bangladesh</span></h4>
-                    <div class="method-item">💳 Visa/Master Card <i class="fas fa-chevron-right"></i></div>
-                    <div class="method-item">👤 Merchant ship <i class="fas fa-chevron-right"></i></div>
-                    <div class="method-item">🌐 Google Wallet <i class="fas fa-chevron-right"></i></div>
-                </div>
-            </div>
-
-            <!-- Diamond Tab Content -->
-            <div id="w-diamond" class="w-content">
-                <div class="diamond-balance-card">
-                    <p>My Diamond</p>
-                    <h2>💎 23,599</h2>
-                </div>
-                <h4>Exchange</h4>
-                <div class="exchange-list">
-                    <div class="ex-item"><span>💰 3,300</span> <button>💎 10,000</button></div>
-                    <div class="ex-item"><span>💰 33,000</span> <button>💎 100,000</button></div>
-                    <div class="ex-item"><span>💰 99,000</span> <button>💎 300,000</button></div>
-                    <div class="ex-item"><span>💰 330,000</span> <button>💎 1,000,000</button></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- বটম নেভিগেশন বার -->
-        <nav class="bottom-nav">
-            <div class="nav-btn" onclick="switchTab('home-view', this)">
-                <i class="fas fa-home"></i>
-            </div>
-            <div class="nav-btn" onclick="switchTab('square-view', this)">
-                <i class="fas fa-globe"></i>
-            </div>
-            <div class="nav-btn mic-btn" onclick="openVoiceRoom()">
-                <i class="fas fa-microphone"></i>
-            </div>
-            <div class="nav-btn" onclick="switchTab('message-view', this)">
-                <i class="fas fa-comment-dots"></i>
-            </div>
-            <div class="nav-btn active" onclick="switchTab('profile-view', this)">
-                <i class="fas fa-user"></i>
-            </div>
-        </nav>
-
     </div>
 
-    <script src="js/app.js"></script>
-</body>
-</html>
+    <!-- Main Store Section -->
+    <div id="store-content" class="store-page active">
+        <div class="store-sub-tabs">
+            <span class="s-sub-tab active" onclick="switchStoreSub('s-vehicles')">Vehicles</span>
+            <span class="s-sub-tab" onclick="switchStoreSub('s-frames')">Frames</span>
+            <span class="s-sub-tab" onclick="switchStoreSub('s-themes')">Themes</span>
+            <span class="s-sub-tab" onclick="switchStoreSub('s-id')">ID</span>
+        </div>
+
+        <div class="store-body scrollable">
+            <!-- Vehicles Tab -->
+            <div id="s-vehicles" class="s-tab-content active">
+                <div class="store-grid">
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test drive</span></div>
+                        <div class="item-img"><img src="https://via.placeholder.com/120" alt="Sci-Fi Spacecraft"></div>
+                        <div class="item-price">💰 3000000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test drive</span></div>
+                        <div class="item-img"><img src="https://via.placeholder.com/120" alt="Phoenix Bird"></div>
+                        <div class="item-price">💰 3200000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frames Tab -->
+            <div id="s-frames" class="s-tab-content">
+                <div class="store-grid">
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 3 days <span class="test-btn">Test wear</span></div>
+                        <div class="frame-preview"><div class="circle-frame border-gold"></div></div>
+                        <div class="item-price">💰 35000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test wear</span></div>
+                        <div class="frame-preview"><div class="circle-frame border-dice"></div></div>
+                        <div class="item-price">💰 5000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test wear</span></div>
+                        <div class="frame-preview"><div class="circle-frame border-fish"></div></div>
+                        <div class="item-price">💰 50000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test wear</span></div>
+                        <div class="frame-preview"><div class="circle-frame border-rose"></div></div>
+                        <div class="item-price">💰 40000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Themes Tab -->
+            <div id="s-themes" class="s-tab-content">
+                <div class="store-grid">
+                    <div class="theme-card">
+                        <span class="card-badge">⏱️ 7 days</span>
+                        <div class="theme-preview bg-palace"></div>
+                        <div class="item-price">💰 3000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                    <div class="theme-card">
+                        <span class="card-badge">⏱️ 7 days</span>
+                        <div class="theme-preview bg-ramadan"></div>
+                        <div class="item-price">💰 30000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom ID Tab -->
+            <div id="s-id" class="s-tab-content">
+                <div class="custom-id-box">
+                    <h3>Custom ID</h3>
+                    <input type="text" placeholder="Enter your ID you want to customiz">
+                    <button class="btn-customize">Customize</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Love Store Section -->
+    <div id="lovestore-content" class="store-page">
+        <div class="store-sub-tabs">
+            <span class="ls-sub-tab active" onclick="switchLoveSub('ls-vehicles')">Vehicles</span>
+            <span class="ls-sub-tab" onclick="switchLoveSub('ls-frames')">Frames</span>
+            <span class="ls-sub-tab" onclick="switchLoveSub('ls-ring')">Ring</span>
+        </div>
+
+        <div class="store-body scrollable">
+            <div id="ls-vehicles" class="ls-tab-content active">
+                <div class="store-grid">
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test drive</span></div>
+                        <div class="item-img"><img src="https://via.placeholder.com/120" alt="CP Sports Cars"></div>
+                        <div class="item-price">💰 4000000</div>
+                        <button class="btn-buy full-btn">Buy</button>
+                        <span class="cp-exclusive">Exclusive to CP</span>
+                    </div>
+                    <div class="store-card">
+                        <div class="card-badge">⏱️ 7 days <span class="test-btn">Test drive</span></div>
+                        <div class="item-img"><img src="https://via.placeholder.com/120" alt="Unicorn"></div>
+                        <div class="item-price">💰 4000000</div>
+                        <div class="item-actions">
+                            <button class="btn-send">Send</button>
+                            <button class="btn-buy">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
