@@ -25,11 +25,27 @@ function switchProfileTab(tabId) {
     document.getElementById(tabId).classList.add('active');
 }
 
-// ৩. ভয়েস রুম স্ক্রিন অন/অফ
+// ৩. ভয়েস রুম অন/অফ
 function openVoiceRoom() {
     document.getElementById('voice-room-overlay').classList.add('active');
 }
 
 function closeVoiceRoom() {
     document.getElementById('voice-room-overlay').classList.remove('active');
+    closeModal('exit-confirm-modal');
+}
+
+function minimizeRoom() {
+    closeModal('exit-confirm-modal');
+    document.getElementById('voice-room-overlay').classList.remove('active');
+    alert("Room Minimized");
+}
+
+// ৪. ডাইনামিক মডাল / পপআপ হ্যান্ডলিং
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
 }
