@@ -54,7 +54,7 @@
             </header>
 
             <div class="content-scroll">
-                <div class="banner-card">WEEKLY STAR</div>
+                <div class="banner-card" onclick="openModal('rocket-event-modal')">🚀 ROCKET KING EVENT</div>
                 <div class="room-grid">
                     <div class="room-card" onclick="openVoiceRoom()">
                         <div class="room-cover">
@@ -114,9 +114,9 @@
                 </div>
 
                 <div class="wallet-store-grid">
-                    <div class="card-wallet">
+                    <div class="card-wallet" onclick="openModal('wallet-modal')">
                         <p>Wallet</p>
-                        <h4>💰 3877</h4>
+                        <h4>💰 3,877</h4>
                     </div>
                     <div class="card-store">
                         <p>Store</p>
@@ -163,7 +163,6 @@
 
         <!-- ৫. ভয়েস রুম ওভারলে -->
         <div id="voice-room-overlay" class="overlay-screen">
-            <!-- টপ বার -->
             <div class="room-header">
                 <div class="room-title-info">
                     <h4>জিরো পয়েন্ট</h4>
@@ -176,7 +175,6 @@
                 </div>
             </div>
 
-            <!-- ১২টি সিট গ্রিড -->
             <div class="mic-grid-12">
                 <div class="mic-seat owner-seat">
                     <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
@@ -199,7 +197,6 @@
                 <div class="mic-seat"><i class="fas fa-lock"></i><span>12</span></div>
             </div>
 
-            <!-- রুম চ্যাট ও একশন কন্ট্রোল -->
             <div class="room-footer">
                 <div class="room-chat">
                     <p class="sys-msg">Welcome <span>Mia Vai</span> to the room</p>
@@ -255,7 +252,7 @@
             </div>
         </div>
 
-        <!-- মডাল ২: Exit / Minimize Modal -->
+        <!-- মডাল ২: Exit Confirm Popup -->
         <div id="exit-confirm-modal" class="center-popup">
             <div class="popup-box">
                 <div class="popup-actions">
@@ -265,7 +262,7 @@
             </div>
         </div>
 
-        <!-- মডাল ৩: Gift Store Bottom Sheet -->
+        <!-- মডাল ৩: Gift Store -->
         <div id="gift-modal" class="bottom-sheet">
             <div class="sheet-tabs">
                 <span class="active">Gift</span>
@@ -291,12 +288,12 @@
                 </div>
             </div>
             <div class="gift-footer">
-                <span class="balance">💰 3877</span>
+                <span class="balance">💰 3,877</span>
                 <button class="btn-send">Send</button>
             </div>
         </div>
 
-        <!-- মডাল ৪: Games Center Modal -->
+        <!-- মডাল ৪: Games Center -->
         <div id="games-modal" class="bottom-sheet">
             <div class="sheet-header">
                 <h3>Casual Games</h3>
@@ -312,16 +309,16 @@
             </div>
             <h4 class="sub-title">Lucky Game</h4>
             <div class="lucky-grid">
-                <div class="lucky-item">🍎 Lucky fruit</div>
-                <div class="lucky-item">🎰 Greedy Pro</div>
-                <div class="lucky-item">💎 Jackpot</div>
-                <div class="lucky-item">🃏 Teen Patti</div>
+                <div class="lucky-item" onclick="openGameOverlay('lucky-fruit-modal')">🍎 Lucky fruit</div>
+                <div class="lucky-item" onclick="openGameOverlay('greedy-pro-modal')">🎰 Greedy Pro</div>
+                <div class="lucky-item" onclick="openGameOverlay('jackpot-slots-modal')">💎 Jackpot</div>
+                <div class="lucky-item" onclick="openGameOverlay('lucky-pro-modal')">🍒 Lucky Pro</div>
                 <div class="lucky-item">🐉 Dragon Tiger</div>
                 <div class="lucky-item">🎡 Roulette</div>
             </div>
         </div>
 
-        <!-- মডাল ৫: Props Store & Party Tools -->
+        <!-- মডাল ৫: Props Store & Party -->
         <div id="props-modal" class="bottom-sheet">
             <h4>Props Store</h4>
             <div class="props-grid">
@@ -338,7 +335,7 @@
             </div>
         </div>
 
-        <!-- মডাল ৬: Emoji / Reaction Panel -->
+        <!-- মডাল ৬: Emoji Panel -->
         <div id="emoji-modal" class="bottom-sheet">
             <div class="emoji-grid">
                 <span>👏 Guess</span>
@@ -349,6 +346,200 @@
                 <span>✋ Raise hand</span>
                 <span>👍 Like</span>
                 <span>👋 Bye</span>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ৭: Rocket King Event Overlay -->
+        <div id="rocket-event-modal" class="overlay-screen game-bg">
+            <div class="game-header">
+                <span>🚀 Rocket King</span>
+                <i class="fas fa-times" onclick="closeModal('rocket-event-modal')"></i>
+            </div>
+            <div class="rocket-container">
+                <div class="rocket-graphic">🚀</div>
+                <div class="rocket-badge">LV.1</div>
+            </div>
+            <div class="reward-section">
+                <h4>My Reward</h4>
+                <div class="reward-tabs">
+                    <span class="active">Top1</span>
+                    <span>Top2</span>
+                    <span>Top3</span>
+                    <span>In Room</span>
+                </div>
+                <div class="reward-cards">
+                    <div class="r-card">✈️</div>
+                    <div class="r-card">Exp</div>
+                    <div class="r-card">💰</div>
+                </div>
+            </div>
+            <div class="king-footer">
+                <span>Rocket king last / this week</span>
+                <div class="top-users">
+                    <span>👑 1. UserA</span>
+                    <span>👑 2. UserB</span>
+                    <span>👑 3. UserC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ৮: Lucky Fruit Game -->
+        <div id="lucky-fruit-modal" class="overlay-screen game-bg">
+            <div class="game-header">
+                <h3>Lucky Fruit</h3>
+                <i class="fas fa-times" onclick="closeModal('lucky-fruit-modal')"></i>
+            </div>
+            <div class="grid-game-box">
+                <div class="fruit-cell">🍊 Win 5x</div>
+                <div class="fruit-cell highlight">🍋 Win 5x</div>
+                <div class="fruit-cell">🍇 Win 5x</div>
+                <div class="fruit-cell">🍒 Win 5x</div>
+                <div class="timer-cell">8</div>
+                <div class="fruit-cell">🍏 Win 10x</div>
+                <div class="fruit-cell">🍉 Win 15x</div>
+                <div class="fruit-cell">🥭 Win 25x</div>
+                <div class="fruit-cell">🍓 Win 45x</div>
+            </div>
+            <div class="bet-controls">
+                <p>Select amount of golds</p>
+                <div class="bet-btns">
+                    <button class="active">100</button>
+                    <button>1K</button>
+                    <button>10K</button>
+                    <button>50K</button>
+                </div>
+            </div>
+            <div class="game-balance-bar">
+                <span>Balance: 💰 3,877</span>
+                <span>Today's Winnings: 0</span>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ৯: Greedy Pro Game -->
+        <div id="greedy-pro-modal" class="overlay-screen game-bg">
+            <div class="game-header">
+                <h3>Greedy Pro</h3>
+                <i class="fas fa-times" onclick="closeModal('greedy-pro-modal')"></i>
+            </div>
+            <div class="greedy-wheel-container">
+                <div class="chef-center">👨‍🍳<br><small>12s</small></div>
+                <div class="food-item pos-1">🍅 x5</div>
+                <div class="food-item pos-2">🥬 x5</div>
+                <div class="food-item pos-3">🌽 x5</div>
+                <div class="food-item pos-4">🥕 x5</div>
+                <div class="food-item pos-5">🌭 x10</div>
+                <div class="food-item pos-6">🥩 x45</div>
+            </div>
+            <div class="bet-controls">
+                <div class="bet-btns">
+                    <button>100</button>
+                    <button class="active">1K</button>
+                    <button>10K</button>
+                    <button>50K</button>
+                    <button>100K</button>
+                </div>
+            </div>
+            <div class="game-balance-bar">
+                <span>Remaining coins: 💰 3,877</span>
+                <span>I won today: 0</span>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ১০: Jackpot Slots Game -->
+        <div id="jackpot-slots-modal" class="overlay-screen game-bg">
+            <div class="game-header">
+                <h3>JACKPOT SLOTS</h3>
+                <i class="fas fa-times" onclick="closeModal('jackpot-slots-modal')"></i>
+            </div>
+            <div class="jackpot-pool">🏆 2,002,375,061</div>
+            <div class="slot-machine-grid">
+                <div class="slot-item">🐅</div>
+                <div class="slot-item">🦅</div>
+                <div class="slot-item wild">🦁 WILD</div>
+                <div class="slot-item">🅰️</div>
+                <div class="slot-item">🦅</div>
+                <div class="slot-item wild">🦁 WILD</div>
+                <div class="slot-item">📦</div>
+                <div class="slot-item">🐅</div>
+                <div class="slot-item wild">🦁 WILD</div>
+            </div>
+            <div class="slot-stats">
+                <div><span>Spin Line</span><p>27</p></div>
+                <div><span>Total Spin Coins</span><p>540</p></div>
+                <div><span>Win</span><p>0</p></div>
+            </div>
+            <div class="slot-actions">
+                <button class="btn-auto">AUTO</button>
+                <button class="btn-spin">SPIN</button>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ১১: Lucky Pro Game -->
+        <div id="lucky-pro-modal" class="overlay-screen game-bg">
+            <div class="game-header">
+                <h3>Lucky Pro</h3>
+                <i class="fas fa-times" onclick="closeModal('lucky-pro-modal')"></i>
+            </div>
+            <div class="grid-game-box">
+                <div class="fruit-cell">🍊 5 times</div>
+                <div class="fruit-cell">🍋 5 times</div>
+                <div class="fruit-cell">🍇 5 times</div>
+                <div class="fruit-cell">🍒 5 times</div>
+                <div class="timer-cell red-timer">02</div>
+                <div class="fruit-cell">🍏 10 times</div>
+                <div class="fruit-cell">🍉 15 times</div>
+                <div class="fruit-cell">🥭 25 times</div>
+                <div class="fruit-cell">🍓 45 times</div>
+            </div>
+            <div class="bet-controls">
+                <div class="bet-btns">
+                    <button class="active">100</button>
+                    <button>1K</button>
+                    <button>10K</button>
+                    <button>50K</button>
+                </div>
+            </div>
+            <div class="game-balance-bar">
+                <span>Balance: 💰 3,877</span>
+                <span>Today's Winnings: 125500000</span>
+            </div>
+        </div>
+
+        <!-- নতুন মডাল ১২: Wallet & Exchange Page -->
+        <div id="wallet-modal" class="bottom-sheet">
+            <div class="wallet-nav-tabs">
+                <span class="w-tab active" onclick="switchWalletTab('w-coin')">Coin</span>
+                <span class="w-tab" onclick="switchWalletTab('w-diamond')">Diamond</span>
+            </div>
+
+            <!-- Coin Tab Content -->
+            <div id="w-coin" class="w-content active">
+                <div class="coin-balance-card">
+                    <p>My Coin</p>
+                    <h2>💰 3,877</h2>
+                </div>
+                <div class="recharge-banner">🎁 RECHARGE BENEFITS</div>
+                <div class="recharge-methods">
+                    <h4>Recharge by <span>📍 Bangladesh</span></h4>
+                    <div class="method-item">💳 Visa/Master Card <i class="fas fa-chevron-right"></i></div>
+                    <div class="method-item">👤 Merchant ship <i class="fas fa-chevron-right"></i></div>
+                    <div class="method-item">🌐 Google Wallet <i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+
+            <!-- Diamond Tab Content -->
+            <div id="w-diamond" class="w-content">
+                <div class="diamond-balance-card">
+                    <p>My Diamond</p>
+                    <h2>💎 23,599</h2>
+                </div>
+                <h4>Exchange</h4>
+                <div class="exchange-list">
+                    <div class="ex-item"><span>💰 3,300</span> <button>💎 10,000</button></div>
+                    <div class="ex-item"><span>💰 33,000</span> <button>💎 100,000</button></div>
+                    <div class="ex-item"><span>💰 99,000</span> <button>💎 300,000</button></div>
+                    <div class="ex-item"><span>💰 330,000</span> <button>💎 1,000,000</button></div>
+                </div>
             </div>
         </div>
 
