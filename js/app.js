@@ -41,11 +41,29 @@ function minimizeRoom() {
     alert("Room Minimized");
 }
 
-// ৪. ডাইনামিক মডাল / পপআপ হ্যান্ডলিং
+// ৪. সাধারণ মডাল / পপআপ হ্যান্ডলিং
 function openModal(modalId) {
     document.getElementById(modalId).classList.add('active');
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
+}
+
+// ৫. গেম ইন্টারফেস খোলা
+function openGameOverlay(gameModalId) {
+    closeModal('games-modal');
+    openModal(gameModalId);
+}
+
+// ৬. ওয়ালেট ট্যাব সুইচিং (Coin / Diamond)
+function switchWalletTab(walletTabId) {
+    let wTabs = document.querySelectorAll('.w-tab');
+    wTabs.forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+
+    let wContents = document.querySelectorAll('.w-content');
+    wContents.forEach(content => content.classList.remove('active'));
+
+    document.getElementById(walletTabId).classList.add('active');
 }
