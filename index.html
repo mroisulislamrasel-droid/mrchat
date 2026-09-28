@@ -11,7 +11,7 @@
 
     <div id="app-screen" class="screen active">
         
-        <!-- ১. স্কয়ার / ডিসকভার ভিউ -->
+        <!-- ১. স্কয়ার ভিউ -->
         <section id="square-view" class="view-section">
             <header class="sub-header">
                 <div class="nav-tabs">
@@ -25,31 +25,21 @@
             </header>
             
             <div class="content-scroll">
-                <!-- পোস্ট ১ -->
                 <div class="post-card">
                     <div class="post-user">
-                        <div class="avatar-box">
-                            <img src="https://via.placeholder.com/45" class="avatar">
-                        </div>
+                        <img src="https://via.placeholder.com/45" class="avatar">
                         <div class="user-meta">
                             <h4>Mia Vai <i class="fas fa-mars gender-m"></i></h4>
-                            <div class="badges"><span class="bg-badge">LV.41</span></div>
+                            <span class="bg-badge">LV.41</span>
                         </div>
                         <button class="btn-follow"><i class="fas fa-plus"></i></button>
                     </div>
-                    <div class="post-content">
-                        <p>রাতের আকাশ দেখলে বোঝা যায়, একাকীত্ব কতো সুন্দর....! 😌🤍</p>
-                    </div>
-                    <div class="post-actions">
-                        <span><i class="far fa-heart"></i> 0</span>
-                        <span><i class="far fa-comment"></i> 0</span>
-                        <span><i class="fas fa-share"></i> 0</span>
-                    </div>
+                    <p class="post-text">রাতের আকাশ দেখলে বোঝা যায়, একাকীত্ব কতো সুন্দর....! 😌🤍</p>
                 </div>
             </div>
         </section>
 
-        <!-- ২. হোম / ভয়েস রুম ভিউ -->
+        <!-- ২. হোম / রুমস ভিউ -->
         <section id="home-view" class="view-section active">
             <header class="sub-header">
                 <div class="nav-tabs">
@@ -66,18 +56,20 @@
             <div class="content-scroll">
                 <div class="banner-card">WEEKLY STAR</div>
                 <div class="room-grid">
-                    <div class="room-card">
-                        <div class="room-cover"><span class="badge-online"><i class="fas fa-signal"></i> 12</span></div>
+                    <div class="room-card" onclick="openVoiceRoom()">
+                        <div class="room-cover">
+                            <span class="badge-online"><i class="fas fa-signal"></i> 12</span>
+                        </div>
                         <div class="room-info">
-                            <h4>MrChat Official</h4>
-                            <p>Host Name</p>
+                            <h4>জিরো প...</h4>
+                            <p>ID: 349200</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ৩. ইনবক্স / মেসেজ ভিউ -->
+        <!-- ৩. ইনবক্স ভিউ -->
         <section id="message-view" class="view-section">
             <header class="sub-header">
                 <h2>Message</h2>
@@ -92,13 +84,6 @@
                         <p>System notification for gifts</p>
                     </div>
                 </div>
-                <div class="msg-item system">
-                    <div class="msg-icon reward"><i class="fas fa-award"></i></div>
-                    <div class="msg-text">
-                        <h4>MrChat Reward</h4>
-                        <p>Claim your daily active bonus!</p>
-                    </div>
-                </div>
                 <div class="msg-item">
                     <img src="https://via.placeholder.com/40" class="avatar">
                     <div class="msg-text">
@@ -110,11 +95,14 @@
             </div>
         </section>
 
-        <!-- ৪. মি / প্রোফাইল ভিউ -->
+        <!-- ৪. প্রোফাইল ভিউ (User Profile Details) -->
         <section id="profile-view" class="view-section">
             <div class="profile-header">
                 <div class="profile-main">
-                    <img src="https://via.placeholder.com/80" class="profile-avatar">
+                    <div class="avatar-container">
+                        <img src="https://via.placeholder.com/80" class="profile-avatar">
+                        <span class="badge-svip-top">SVIP2</span>
+                    </div>
                     <div class="p-info">
                         <h3>Mia Vai <i class="fas fa-mars gender-m"></i> <span class="age">35</span></h3>
                         <p class="id-tag">ID: 100927248</p>
@@ -125,6 +113,7 @@
                     </div>
                 </div>
 
+                <!-- প্রোফাইল সার্ভিস কারাউসেল -->
                 <div class="wallet-store-grid">
                     <div class="card-wallet">
                         <p>Wallet</p>
@@ -137,17 +126,100 @@
                 </div>
             </div>
 
-            <div class="menu-list">
-                <div class="menu-item"><i class="fas fa-coins text-gold"></i> Invite get coins <i class="fas fa-chevron-right arrow"></i></div>
-                <div class="menu-item"><i class="fas fa-heart text-pink"></i> Love House <i class="fas fa-chevron-right arrow"></i></div>
-                <div class="menu-item"><i class="fas fa-gem text-purple"></i> SVIP <span class="badge-svip">SVIP 2</span> <i class="fas fa-chevron-right arrow"></i></div>
-                <div class="menu-item"><i class="fas fa-shield-alt text-blue"></i> Prop Warehouse <i class="fas fa-chevron-right arrow"></i></div>
-                <div class="menu-item"><i class="fas fa-medal text-orange"></i> Medal <i class="fas fa-chevron-right arrow"></i></div>
-                <div class="menu-item"><i class="fas fa-cog"></i> Settings <i class="fas fa-chevron-right arrow"></i></div>
+            <!-- প্রোফাইল ট্যাব (Profile / Intimacy) -->
+            <div class="profile-sub-tabs">
+                <span class="p-tab active" onclick="switchProfileTab('p-details')">Profile</span>
+                <span class="p-tab" onclick="switchProfileTab('p-intimacy')">Intimacy</span>
+            </div>
+
+            <div id="p-details" class="p-content active">
+                <div class="info-card">
+                    <p class="location">📍 Bangladesh</p>
+                    <p class="bio">আমিই এক মাত্র মানুষ যে জেনে শুনে বার বার ভুল করে 💔</p>
+                    <div class="family-banner" onclick="openFamilyPage()">
+                        <span class="fam-name">ফরিদপুর কলিজা</span>
+                        <span class="fam-exp">331/500</span>
+                    </div>
+                </div>
+
+                <div class="section-title">Tags</div>
+                <div class="tags-cloud">
+                    <span>🎲 Ludo</span>
+                    <span>🎤 Sing</span>
+                    <span>🎬 Film</span>
+                    <span>⚽ Football</span>
+                </div>
+
+                <div class="section-title">Vehicles & Frames</div>
+                <div class="items-mini-grid">
+                    <div class="mini-item">Permanent Using</div>
+                    <div class="mini-item">Rose Frame (5d)</div>
+                </div>
+            </div>
+
+            <div id="p-intimacy" class="p-content">
+                <div class="couple-card">
+                    <h4>Love Store <button class="btn-go">Go</button></h4>
+                    <div class="couple-box">
+                        <div class="c-user"><img src="https://via.placeholder.com/40" class="avatar"><p>Mia Vai</p></div>
+                        <div class="c-heart">💖 LV.3</div>
+                        <div class="c-user"><img src="https://via.placeholder.com/40" class="avatar"><p>শীতল</p></div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- ৫. মূল বটম নেভিগেশন বার -->
+        <!-- ৫. ডাইনামিক ভয়েস রুম ওভারলে (Voice Room Screen) -->
+        <div id="voice-room-overlay" class="overlay-screen">
+            <div class="room-header">
+                <div class="room-title-info">
+                    <h4>জিরো প...</h4>
+                    <p>ID: 349200 | 👥 2</p>
+                </div>
+                <div class="room-actions">
+                    <i class="fas fa-share-alt"></i>
+                    <i class="fas fa-power-off" onclick="closeVoiceRoom()"></i>
+                </div>
+            </div>
+
+            <!-- ১২টি সিট গ্রিড -->
+            <div class="mic-grid-12">
+                <div class="mic-seat owner-seat">
+                    <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
+                    <span class="seat-name">Mia Vai</span>
+                </div>
+                <!-- ১ থেকে ১২ নম্বর সিট -->
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>1</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>2</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>3</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>4</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>5</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>6</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>7</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>8</span></div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>9</span></div>
+                <div class="mic-seat user-seat">
+                    <div class="seat-avatar"><img src="https://via.placeholder.com/50"></div>
+                    <span class="seat-name">DepressiOn</span>
+                    <span class="seat-num">10</span>
+                </div>
+                <div class="mic-seat"><i class="fas fa-lock"></i><span>12</span></div>
+            </div>
+
+            <!-- রুম চ্যাট ও গেম আইকন -->
+            <div class="room-footer">
+                <div class="room-chat">
+                    <p class="sys-msg">Welcome Mia Vai to the room</p>
+                </div>
+                <div class="room-controls">
+                    <input type="text" placeholder="Say Hi" class="chat-input">
+                    <i class="fas fa-microphone mic-toggle"></i>
+                    <i class="fas fa-gift gift-btn"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- বটম নেভিগেশন বার -->
         <nav class="bottom-nav">
             <div class="nav-btn" onclick="switchTab('home-view', this)">
                 <i class="fas fa-home"></i>
@@ -155,7 +227,7 @@
             <div class="nav-btn" onclick="switchTab('square-view', this)">
                 <i class="fas fa-globe"></i>
             </div>
-            <div class="nav-btn mic-btn">
+            <div class="nav-btn mic-btn" onclick="openVoiceRoom()">
                 <i class="fas fa-microphone"></i>
             </div>
             <div class="nav-btn" onclick="switchTab('message-view', this)">
