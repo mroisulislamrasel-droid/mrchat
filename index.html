@@ -3,280 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice Chat App - Complete Project</title>
+    <title>Voice App Complete</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #0b0f19; color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+        /* Top Header */
+        .top-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #131b2e; border-bottom: 1px solid #1e293b; }
+        .app-logo { font-size: 18px; font-weight: bold; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        .top-icons i { font-size: 18px; margin-left: 15px; color: #94a3b8; }
+
+        /* Scrollable Main Area */
+        .main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 70px; }
+        .page-sec { display: none; }
+        .page-sec.active { display: block; }
+
+        /* Home View Styles */
+        .section-title { font-size: 16px; margin: 15px 0 10px 0; color: #f8fafc; font-weight: 600; }
+        .room-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .room-card { background: #131b2e; border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
+        .room-img { height: 110px; background: linear-gradient(135deg, #1e293b, #334155); position: relative; display: flex; align-items: center; justify-content: center; }
+        .live-tag { position: absolute; top: 8px; left: 8px; background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .room-info { padding: 10px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+        .game-banner { background: linear-gradient(90deg, #8b5cf6, #ec4899); padding: 16px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 15px; margin-top: 10px; cursor: pointer; }
+
+        /* Profile View Styles */
+        .profile-card { background: #131b2e; padding: 15px; border-radius: 14px; display: flex; align-items: center; gap: 15px; border: 1px solid #1e293b; margin-bottom: 15px; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; background: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
+        .profile-info h3 { font-size: 16px; color: #fff; }
+        .profile-info p { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        
+        .menu-list { display: flex; flex-direction: column; gap: 10px; }
+        .menu-item { background: #131b2e; padding: 14px 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border: 1px solid #1e293b; cursor: pointer; }
+        .menu-item i { color: #64748b; }
+
+        /* Bottom Fixed Navigation Bar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #131b2e; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; align-items: center; z-index: 999; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; font-size: 11px; gap: 4px; cursor: pointer; }
+        .nav-item i { font-size: 18px; }
+        .nav-item.active { color: #38bdf8; }
+
+        /* Full Overlay Screen Modals */
+        .modal-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b0f19; z-index: 1000; display: none; flex-direction: column; }
+        .modal-screen.active { display: flex; }
+        .modal-header { height: 50px; background: #131b2e; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #1e293b; }
+        .modal-body { flex: 1; padding: 16px; overflow-y: auto; }
+        .light-theme { background: #f8fafc; color: #0f172a; }
+        .light-theme .modal-header { background: #fff; color: #0f172a; border-bottom: 1px solid #e2e8f0; }
+
+        /* Prop Warehouse Styling */
+        .wh-tabs { display: flex; gap: 10px; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 10px; overflow-x: auto; }
+        .wh-tab-btn { padding: 6px 12px; border-radius: 16px; background: #e2e8f0; font-size: 12px; font-weight: 600; color: #475569; }
+        .wh-tab-btn.active { background: #0284c7; color: #fff; }
+        .wh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .wh-item { background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; }
+        .wh-item-btn { margin-top: 8px; width: 100%; background: #0284c7; color: #fff; border: none; padding: 6px; border-radius: 6px; font-size: 12px; }
+
+        /* Love House Styling */
+        .lh-bg { background: linear-gradient(180deg, #ec4899, #8b5cf6); color: #fff; }
+        .cp-box { display: flex; justify-content: space-around; align-items: center; margin: 30px 0; }
+        .cp-user { text-align: center; }
+        .cp-avatar { width: 65px; height: 65px; border-radius: 50%; background: #fff; margin-bottom: 6px; }
+
+        /* Input / Button UI */
+        .fb-input { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 10px; }
+        .btn-submit { width: 100%; background: #0284c7; color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: bold; margin-top: 15px; }
+    </style>
 </head>
 <body>
 
-    <!-- Main App Dashboard / Bottom Navigation (সব পেজে প্রবেশের জন্য) -->
-    <div id="main-app">
-        <!-- Main Top Bar -->
-        <div class="top-header">
-            <span class="app-logo">👑 Voice App</span>
-            <div class="top-icons">
-                <i class="fas fa-search"></i>
-                <i class="fas fa-bell"></i>
-            </div>
-        </div>
-
-        <!-- Main Content View Container -->
-        <div class="main-content scrollable">
-            <!-- Home / Voice Room List -->
-            <div id="page-home" class="page-sec active">
-                <h3>🎙️ Live Voice Rooms</h3>
-                <div class="room-grid">
-                    <div class="room-card" onclick="openModal('voice-room-modal')">
-                        <div class="room-img"><span class="live-tag">LIVE</span></div>
-                        <div class="room-info">
-                            <span class="room-title">Party Room #1</span>
-                            <span class="room-users">🔥 1.2k</span>
-                        </div>
-                    </div>
-                    <div class="room-card" onclick="openModal('voice-room-modal')">
-                        <div class="room-img"><span class="live-tag">LIVE</span></div>
-                        <div class="room-info">
-                            <span class="room-title">Music & Adda</span>
-                            <span class="room-users">🔥 850</span>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>🎮 Games Center</h3>
-                <div class="game-banner" onclick="openModal('game-center-modal')">
-                    <span>🎰 Ludo & Greedy Slots Games</span>
-                </div>
-            </div>
-
-            <!-- Profile Page -->
-            <div id="page-profile" class="page-sec">
-                <div class="profile-header-card">
-                    <div class="p-avatar-box">
-                        <img src="https://via.placeholder.com/80" alt="Avatar">
-                        <span class="vip-badge">VIP 5</span>
-                    </div>
-                    <div class="p-details">
-                        <h2>༄Mia࿐✿Vai࿐</h2>
-                        <p>ID: 88741205</p>
-                    </div>
-                </div>
-
-                <!-- All Features Menu Items -->
-                <div class="feature-menu-list">
-                    <div class="f-item" onclick="openModal('warehouse-modal')">
-                        <span>📦 Prop Warehouse / Inventory</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('love-house-modal')">
-                        <span>🏠 Love House & Intimacy</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('cp-level-modal')">
-                        <span>👑 CP Level Privileges</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('invite-gold-modal')">
-                        <span>💰 Invite Get Gold</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('language-modal')">
-                        <span>🌐 Language Settings</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('settings-modal')">
-                        <span>⚙️ Settings</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="f-item" onclick="openModal('feedback-modal')">
-                        <span>💬 Feedback & Help</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Tab Navigation Bar -->
-        <div class="bottom-nav">
-            <div class="nav-tab active" onclick="switchMainTab('page-home', this)">
-                <i class="fas fa-comments"></i>
-                <span>Rooms</span>
-            </div>
-            <div class="nav-tab" onclick="openModal('game-center-modal')">
-                <i class="fas fa-gamepad"></i>
-                <span>Games</span>
-            </div>
-            <div class="nav-tab" onclick="switchMainTab('page-profile', this)">
-                <i class="fas fa-user"></i>
-                <span>Profile</span>
-            </div>
+    <!-- Header -->
+    <div class="top-header">
+        <span class="app-logo"><i class="fas fa-crown"></i> Voice App</span>
+        <div class="top-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
         </div>
     </div>
 
-    <!-- ================= ALL MODAL SCREENS (আপনার দেওয়া স্ক্রিনশটসমূহ) ================= -->
+    <!-- Main View Area -->
+    <div class="main-content">
+        
+        <!-- PAGE 1: ROOMS & GAMES -->
+        <div id="page-home" class="page-sec active">
+            <div class="section-title"><i class="fas fa-microphone"></i> Live Voice Rooms</div>
+            <div class="room-grid">
+                <div class="room-card" onclick="openModal('modal-room')">
+                    <div class="room-img"><span class="live-tag">LIVE</span><i class="fas fa-users fa-2x"></i></div>
+                    <div class="room-info"><span>Party Room #1</span><span style="color:#f59e0b;">🔥 1.2k</span></div>
+                </div>
+                <div class="room-card" onclick="openModal('modal-room')">
+                    <div class="room-img"><span class="live-tag">LIVE</span><i class="fas fa-music fa-2x"></i></div>
+                    <div class="room-info"><span>Music & Adda</span><span style="color:#f59e0b;">🔥 850</span></div>
+                </div>
+            </div>
 
-    <!-- 1. Voice Room Modal -->
-    <div id="voice-room-modal" class="overlay-screen bg-dark">
-        <div class="room-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('voice-room-modal')"></i>
+            <div class="section-title"><i class="fas fa-gamepad"></i> Games Center</div>
+            <div class="game-banner" onclick="openModal('modal-games')">
+                🎰 Ludo & Greedy Slots Games
+            </div>
+        </div>
+
+        <!-- PAGE 2: PROFILE & ALL FEATURES MENU -->
+        <div id="page-profile" class="page-sec">
+            <div class="profile-card">
+                <div class="avatar">M</div>
+                <div class="profile-info">
+                    <h3>༄Mia࿐✿Vai࿐</h3>
+                    <p>ID: 88741205 | VIP 5 👑</p>
+                </div>
+            </div>
+
+            <div class="menu-list">
+                <div class="menu-item" onclick="openModal('modal-warehouse')">
+                    <span>📦 Prop Warehouse / Inventory</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-lovehouse')">
+                    <span>🏠 Love House & Intimacy</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-cplevel')">
+                    <span>👑 CP Level Privileges</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-invite')">
+                    <span>💰 Invite Get Gold</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-language')">
+                    <span>🌐 Language Settings</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-settings')">
+                    <span>⚙️ Settings</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="openModal('modal-feedback')">
+                    <span>💬 Feedback & Help</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar (এখন সবসময় স্ক্রিনের নিচে থাকবে) -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('page-home', this)">
+            <i class="fas fa-comments"></i>
+            <span>Rooms</span>
+        </div>
+        <div class="nav-item" onclick="openModal('modal-games')">
+            <i class="fas fa-gamepad"></i>
+            <span>Games</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('page-profile', this)">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </div>
+    </div>
+
+    <!-- ================= ALL FEATURE POPUP MODALS ================= -->
+
+    <!-- Voice Room Screen -->
+    <div id="modal-room" class="modal-screen">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-room')"></i>
             <span>Party Voice Room</span>
             <i class="fas fa-share-alt"></i>
         </div>
-        <div class="mic-seats-grid">
-            <div class="mic-seat"><div class="avatar-circle">Seat 1</div></div>
-            <div class="mic-seat"><div class="avatar-circle">Seat 2</div></div>
-            <div class="mic-seat"><div class="avatar-circle">Seat 3</div></div>
-            <div class="mic-seat"><div class="avatar-circle">Seat 4</div></div>
-        </div>
-        <div class="room-bottom-controls">
-            <input type="text" placeholder="Say something..." class="chat-input">
-            <i class="fas fa-gift gift-btn"></i>
+        <div class="modal-body" style="text-align: center; padding-top: 50px;">
+            <h3>🎙️ Voice Mic Seats</h3>
+            <p style="color:#94a3b8; margin-top:10px;">[আপনার স্ক্রিনশটের ভয়েস রুমের ডিজাইন]</p>
         </div>
     </div>
 
-    <!-- 2. Games Center Modal -->
-    <div id="game-center-modal" class="overlay-screen bg-dark">
-        <div class="top-nav-bar transparent">
-            <i class="fas fa-chevron-left" onclick="closeModal('game-center-modal')"></i>
-            <span class="nav-title">Game Center</span>
+    <!-- Games Center Screen -->
+    <div id="modal-games" class="modal-screen">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-games')"></i>
+            <span>Game Center</span>
+            <div></div>
         </div>
-        <div class="game-list p-15">
-            <div class="game-card-item">🎲 Ludo Quick Game</div>
-            <div class="game-card-item">🎰 Greedy Fruits Slot</div>
-            <div class="game-card-item">🏎️ Car Racing Game</div>
+        <div class="modal-body">
+            <div class="menu-item" style="margin-bottom:10px;">🎲 Ludo Quick Game</div>
+            <div class="menu-item" style="margin-bottom:10px;">🎰 Greedy Slots</div>
+            <div class="menu-item">🏎️ Car Racing</div>
         </div>
     </div>
 
-    <!-- 3. Prop Warehouse Modal -->
-    <div id="warehouse-modal" class="overlay-screen bg-light">
-        <div class="top-nav-bar">
-            <i class="fas fa-chevron-left" onclick="closeModal('warehouse-modal')"></i>
-            <div class="nav-center-tabs">
-                <span class="tab-toggle active" id="tab-btn-warehouse" onclick="switchWarehouseTab('warehouse')">Warehouse</span>
-                <span class="tab-toggle" id="tab-btn-using" onclick="switchWarehouseTab('using')">Using</span>
+    <!-- Prop Warehouse Screen -->
+    <div id="modal-warehouse" class="modal-screen light-theme">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-warehouse')"></i>
+            <span>Prop Warehouse</span>
+            <span style="font-size:12px; color:#0284c7; font-weight:bold;">Select</span>
+        </div>
+        <div class="modal-body">
+            <div class="wh-tabs">
+                <span class="wh-tab-btn active">All</span>
+                <span class="wh-tab-btn">Frame</span>
+                <span class="wh-tab-btn">Vehicle</span>
+                <span class="wh-tab-btn">Theme</span>
+                <span class="wh-tab-btn">Ring</span>
             </div>
-            <button class="btn-select-top">Select</button>
-        </div>
-        <div class="sub-nav-tabs horizontal-scroll">
-            <span class="p-tab active" onclick="filterCategory('all', this)">All</span>
-            <span class="p-tab" onclick="filterCategory('frame', this)">Frame</span>
-            <span class="p-tab" onclick="filterCategory('vehicle', this)">Vehicle</span>
-            <span class="p-tab" onclick="filterCategory('theme', this)">Theme</span>
-            <span class="p-tab" onclick="filterCategory('custom_id', this)">Custom ID</span>
-            <span class="p-tab" onclick="filterCategory('ring', this)">Ring</span>
-            <span class="p-tab" onclick="filterCategory('enter_effect', this)">Enter Effect</span>
-            <span class="p-tab" onclick="filterCategory('bubble', this)">Bubble</span>
-        </div>
-        <div id="warehouse-view" class="warehouse-body scrollable">
-            <div class="prop-grid" id="warehouse-grid">
-                <div class="prop-card">
-                    <div class="prop-header"><span>⏱️ 3 days</span><span class="item-count">x17</span></div>
-                    <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Vehicle" alt="Lion"></div>
-                    <div class="prop-actions"><button class="btn-p-send">Send</button><button class="btn-p-use">Use</button></div>
+            <div class="wh-grid">
+                <div class="wh-item">
+                    <p style="font-size:11px; color:#64748b;">⏱️ 3 Days (x17)</p>
+                    <p style="font-size:24px; margin:8px 0;">🦁</p>
+                    <button class="wh-item-btn">Use</button>
                 </div>
-                <div class="prop-card">
-                    <div class="prop-header"><span>⏱️ 7 days</span><span class="item-count">x36</span></div>
-                    <div class="prop-img-box"><div class="badge-custom-id">ID<br><small>7/8 DIGITS</small></div></div>
-                    <div class="prop-actions"><button class="btn-p-send">Send</button><button class="btn-p-use">Use</button></div>
-                </div>
-            </div>
-        </div>
-        <div id="using-view" class="warehouse-body scrollable d-none">
-            <div class="prop-grid">
-                <div class="prop-card">
-                    <div class="prop-header"><span>⏱️ 5 days</span><span class="status-using-text">Using</span></div>
-                    <div class="prop-img-box"><div class="frame-circle">🌸 Frame</div></div>
-                    <button class="btn-p-using-active" disabled>Using</button>
+                <div class="wh-item">
+                    <p style="font-size:11px; color:#64748b;">⏱️ 7 Days (x36)</p>
+                    <p style="font-size:24px; margin:8px 0;">🆔</p>
+                    <button class="wh-item-btn">Use</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. Love House Modal -->
-    <div id="love-house-modal" class="overlay-screen love-house-bg">
-        <div class="lh-header">
-            <i class="fas fa-chevron-left" onclick="closeModal('love-house-modal')"></i>
-            <h2>Love House</h2>
-            <i class="fas fa-bars"></i>
+    <!-- Love House Screen -->
+    <div id="modal-lovehouse" class="modal-screen lh-bg">
+        <div class="modal-header" style="background:transparent; border:none; color:#fff;">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-lovehouse')"></i>
+            <span>Love House</span>
+            <i class="fas fa-ellipsis-v"></i>
         </div>
-        <div class="lh-body scrollable">
-            <div class="time-together"><span class="days-num">21</span> Days Together</div>
-            <div class="cp-profiles">
-                <div class="cp-user"><img src="https://via.placeholder.com/70" alt="Partner 1"><p>Mia</p></div>
-                <div class="cp-badge-box" onclick="openModal('cp-level-modal')"><div class="badge-wing">LV.3</div></div>
-                <div class="cp-user"><img src="https://via.placeholder.com/70" alt="Partner 2"><p>Sheetal</p></div>
+        <div class="modal-body" style="text-align: center;">
+            <h2>21 Days Together 💕</h2>
+            <div class="cp-box">
+                <div class="cp-user"><div class="cp-avatar"></div><p>Mia</p></div>
+                <span style="background:rgba(255,255,255,0.2); padding:5px 12px; border-radius:12px;">LV.3</span>
+                <div class="cp-user"><div class="cp-avatar"></div><p>Sheetal</p></div>
             </div>
-            <button class="btn-proposal">Proposal</button>
+            <button style="background:#fff; color:#ec4899; padding:10px 25px; border:none; border-radius:20px; font-weight:bold;">Proposal</button>
         </div>
     </div>
 
-    <!-- 5. CP Level Privileges Modal -->
-    <div id="cp-level-modal" class="overlay-screen cp-level-bg">
-        <div class="top-nav-bar transparent">
-            <i class="fas fa-chevron-left" onclick="closeModal('cp-level-modal')"></i>
-            <span class="nav-title">CP Level</span>
+    <!-- CP Level Screen -->
+    <div id="modal-cplevel" class="modal-screen lh-bg">
+        <div class="modal-header" style="background:transparent; border:none; color:#fff;">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-cplevel')"></i>
+            <span>CP Level Privileges</span>
+            <div></div>
         </div>
-        <div class="cp-level-body scrollable">
-            <div class="lv-crown">LV.3</div>
-            <div class="privilege-grid">
-                <div class="priv-card"><span>CP Card</span></div>
-                <div class="priv-card"><span>Online Effect</span></div>
-            </div>
+        <div class="modal-body" style="text-align:center;">
+            <h1>👑 LV.3 Privileges</h1>
         </div>
     </div>
 
-    <!-- 6. Invite Get Gold Modal -->
-    <div id="invite-gold-modal" class="overlay-screen invite-gold-bg">
-        <div class="top-nav-bar transparent">
-            <i class="fas fa-chevron-left" onclick="closeModal('invite-gold-modal')"></i>
-            <span class="nav-title">Invite Get Gold</span>
+    <!-- Invite Gold Screen -->
+    <div id="modal-invite" class="modal-screen">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-invite')"></i>
+            <span>Invite Get Gold</span>
+            <div></div>
         </div>
-        <div class="invite-body scrollable">
-            <h1>Invite Get Gold</h1>
-            <button class="btn-get-coins">Get Coins</button>
-        </div>
-    </div>
-
-    <!-- 7. Language Selection Modal -->
-    <div id="language-modal" class="overlay-screen bg-light">
-        <div class="top-nav-bar">
-            <i class="fas fa-chevron-left" onclick="closeModal('language-modal')"></i>
-            <span class="nav-title">Language</span>
-            <span class="nav-right text-cyan font-bold" onclick="closeModal('language-modal')">Save</span>
-        </div>
-        <div class="language-list scrollable">
-            <div class="lang-item active">English</div>
-            <div class="lang-item">हिन्दी</div>
-            <div class="lang-item">বাংলা</div>
-            <div class="lang-item">العربية</div>
+        <div class="modal-body" style="text-align:center;">
+            <h2>💰 Invite Friends & Win Gold</h2>
         </div>
     </div>
 
-    <!-- 8. Settings Modal -->
-    <div id="settings-modal" class="overlay-screen bg-light">
-        <div class="top-nav-bar">
-            <i class="fas fa-chevron-left" onclick="closeModal('settings-modal')"></i>
-            <span class="nav-title">Settings</span>
+    <!-- Language Screen -->
+    <div id="modal-language" class="modal-screen light-theme">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-language')"></i>
+            <span>Language</span>
+            <span style="color:#0284c7; font-weight:bold;" onclick="closeModal('modal-language')">Save</span>
         </div>
-        <div class="settings-list">
-            <div class="setting-item"><span>Account Binding</span><i class="fas fa-chevron-right"></i></div>
-            <div class="setting-item" onclick="alert('Cache Cleared!')"><span>Clear Cache (49MB)</span><i class="fas fa-chevron-right"></i></div>
-            <div class="setting-item"><span>Current Version (3.8.2)</span></div>
-        </div>
-    </div>
-
-    <!-- 9. Feedback Modal -->
-    <div id="feedback-modal" class="overlay-screen bg-light">
-        <div class="top-nav-bar">
-            <i class="fas fa-chevron-left" onclick="closeModal('feedback-modal')"></i>
-            <span class="nav-title">Feedback</span>
-        </div>
-        <div class="feedback-body scrollable p-15">
-            <label>Problem Description</label>
-            <textarea class="fb-textarea" placeholder="Enter problem details here"></textarea>
-            <button class="btn-complete-gradient" onclick="alert('Submitted!'); closeModal('feedback-modal');">Complete</button>
+        <div class="modal-body">
+            <div class="menu-item" style="color:#0284c7; margin-bottom:8px;">English ✔</div>
+            <div class="menu-item" style="margin-bottom:8px;">বাংলা</div>
+            <div class="menu-item">हिन्दी</div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <!-- Settings Screen -->
+    <div id="modal-settings" class="modal-screen light-theme">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-settings')"></i>
+            <span>Settings</span>
+            <div></div>
+        </div>
+        <div class="modal-body">
+            <div class="menu-item" style="margin-bottom:8px;">Account Binding</div>
+            <div class="menu-item" style="margin-bottom:8px;" onclick="alert('Cache Cleared!')">Clear Cache (49MB)</div>
+            <div class="menu-item">Current Version (3.8.2)</div>
+        </div>
+    </div>
+
+    <!-- Feedback Screen -->
+    <div id="modal-feedback" class="modal-screen light-theme">
+        <div class="modal-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('modal-feedback')"></i>
+            <span>Feedback</span>
+            <div></div>
+        </div>
+        <div class="modal-body">
+            <label style="font-size:14px; font-weight:bold;">Problem Description</label>
+            <textarea class="fb-input" placeholder="Enter problem details here..."></textarea>
+            <button class="btn-submit" onclick="alert('Submitted!'); closeModal('modal-feedback');">Complete</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function switchTab(pageId, element) {
+            document.querySelectorAll('.page-sec').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+    </script>
 </body>
 </html>
