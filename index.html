@@ -5,197 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MrChat - Voice Chat Room</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- ১. লগইন স্ক্রিন -->
-    <div id="login-screen" class="screen active">
-        <div class="login-bg-overlay"></div>
-        <div class="login-container">
-            <div class="brand-header">
-                <!-- আপনার দেওয়া MrChat লোগো -->
-                <img src="assets/images/mrchat_logo.png" alt="MrChat Logo" class="app-logo">
-                <h1 class="app-title">MrChat</h1>
-                <p class="app-subtitle">Voice Chat Room</p>
-            </div>
-
-            <div class="login-buttons">
-                <button class="btn btn-facebook" onclick="loginWith('Facebook')">
-                    <i class="fab fa-facebook-f"></i> Continue with Facebook
-                </button>
-                <button class="btn btn-google" onclick="loginWith('Google')">
-                    <i class="fab fa-google"></i> Continue with Google
-                </button>
-                <button class="btn btn-mail" onclick="loginWith('Email')">
-                    <i class="fas fa-envelope"></i>
-                </button>
-            </div>
-
-            <p class="terms-text">
-                By continuing, you agree to <a href="#">Terms of service</a> and <a href="#">Privacy Policy</a>.
-            </p>
-        </div>
-    </div>
-
-    <!-- ২. মেইন মোট অ্যাপ স্ক্রিন -->
-    <div id="app-screen" class="screen">
+    <div id="app-screen" class="screen active">
         
-        <!-- টপ হেডার (হোম পেজ) -->
-        <header class="app-header">
-            <div class="top-nav-tabs">
-                <span class="tab-item" onclick="switchHomeTab('following')">Following</span>
-                <span class="tab-item active" onclick="switchHomeTab('popular')">Popular</span>
-                <span class="tab-item" onclick="switchHomeTab('recent')">Recent</span>
-            </div>
-            <div class="header-actions">
-                <i class="fas fa-search icon-btn"></i>
-                <i class="fas fa-plus-circle icon-btn add-btn"></i>
-            </div>
-        </header>
-
-        <!-- মূল কন্টেন্ট এরিয়া -->
-        <main class="main-content">
+        <!-- ১. স্কয়ার / ডিসকভার ভিউ -->
+        <section id="square-view" class="view-section">
+            <header class="sub-header">
+                <div class="nav-tabs">
+                    <span class="active">Square</span>
+                    <span>Subscription</span>
+                </div>
+                <div class="right-icons">
+                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-edit"></i>
+                </div>
+            </header>
             
-            <!-- হোম পেজ ভিউ -->
-            <section id="home-view" class="view-section active">
-                
-                <!-- ব্যানার স্লাইডার -->
-                <div class="banner-card">
-                    <div class="banner-title">WEEKLY STAR</div>
+            <div class="content-scroll">
+                <!-- পোস্ট ১ -->
+                <div class="post-card">
+                    <div class="post-user">
+                        <div class="avatar-box">
+                            <img src="https://via.placeholder.com/45" class="avatar">
+                        </div>
+                        <div class="user-meta">
+                            <h4>Mia Vai <i class="fas fa-mars gender-m"></i></h4>
+                            <div class="badges"><span class="bg-badge">LV.41</span></div>
+                        </div>
+                        <button class="btn-follow"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="post-content">
+                        <p>রাতের আকাশ দেখলে বোঝা যায়, একাকীত্ব কতো সুন্দর....! 😌🤍</p>
+                    </div>
+                    <div class="post-actions">
+                        <span><i class="far fa-heart"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span><i class="fas fa-share"></i> 0</span>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- কুইক মডিউলস (Contribution, Charm, Room) -->
-                <div class="quick-modules">
-                    <div class="module-card contribution" onclick="openRanking('contribution')">
-                        <span>Contribution</span>
-                    </div>
-                    <div class="module-card charm" onclick="openRanking('charm')">
-                        <span>Charm</span>
-                    </div>
-                    <div class="module-card room" onclick="openRanking('room')">
-                        <span>Room</span>
-                    </div>
+        <!-- ২. হোম / ভয়েস রুম ভিউ -->
+        <section id="home-view" class="view-section active">
+            <header class="sub-header">
+                <div class="nav-tabs">
+                    <span>Following</span>
+                    <span class="active">Popular</span>
+                    <span>Recent</span>
                 </div>
+                <div class="right-icons">
+                    <i class="fas fa-search"></i>
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            </header>
 
-                <!-- ভয়েস রুম গ্রিড -->
+            <div class="content-scroll">
+                <div class="banner-card">WEEKLY STAR</div>
                 <div class="room-grid">
-                    <!-- ব্ল্যাঙ্ক ডাইনামিক রুম কার্ড ১ -->
                     <div class="room-card">
-                        <div class="room-cover">
-                            <span class="badge-online"><i class="fas fa-signal"></i> 0</span>
-                            <div class="room-tag">নতুন রুম</div>
-                        </div>
+                        <div class="room-cover"><span class="badge-online"><i class="fas fa-signal"></i> 12</span></div>
                         <div class="room-info">
-                            <h4 class="room-title">Voice Room Title</h4>
-                            <p class="room-host"><i class="fas fa-mars"></i> User Name</p>
-                        </div>
-                    </div>
-                    <!-- ব্ল্যাঙ্ক ডাইনামিক রুম কার্ড ২ -->
-                    <div class="room-card">
-                        <div class="room-cover">
-                            <span class="badge-online"><i class="fas fa-signal"></i> 0</span>
-                        </div>
-                        <div class="room-info">
-                            <h4 class="room-title">Welcome to MrChat</h4>
-                            <p class="room-host"><i class="fas fa-venus"></i> Host Name</p>
+                            <h4>MrChat Official</h4>
+                            <p>Host Name</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- সেলিব্রিটি র‍্যাঙ্কিং ভিউ -->
-            <section id="ranking-view" class="view-section">
-                <div class="ranking-header">
-                    <i class="fas fa-chevron-left back-btn" onclick="showHome()"></i>
-                    <h2>Celebrity Ranking</h2>
-                </div>
+        <!-- ৩. ইনবক্স / মেসেজ ভিউ -->
+        <section id="message-view" class="view-section">
+            <header class="sub-header">
+                <h2>Message</h2>
+                <i class="fas fa-user-friends"></i>
+            </header>
 
-                <div class="ranking-main-tabs">
-                    <span id="tab-contrib" class="r-tab active" onclick="loadRankCategory('contribution')">Contribution</span>
-                    <span id="tab-charm" class="r-tab" onclick="loadRankCategory('charm')">Charm</span>
-                    <span id="tab-room" class="r-tab" onclick="loadRankCategory('room')">Room</span>
-                </div>
-
-                <div class="time-filter-tabs">
-                    <button class="time-btn active">Daily</button>
-                    <button class="time-btn">Weekly</button>
-                    <button class="time-btn">Monthly</button>
-                </div>
-
-                <!-- পেডেস্টাল ট্রফি (Top 3) -->
-                <div class="top-three-container">
-                    <!-- ২য় স্থান -->
-                    <div class="pedestal rank-2">
-                        <div class="avatar-frame">
-                            <div class="avatar-placeholder"></div>
-                            <span class="rank-badge">2</span>
-                        </div>
-                        <p class="user-name">User 2</p>
-                        <p class="score">0</p>
+            <div class="content-scroll">
+                <div class="msg-item system">
+                    <div class="msg-icon gift"><i class="fas fa-gift"></i></div>
+                    <div class="msg-text">
+                        <h4>Gift Notice</h4>
+                        <p>System notification for gifts</p>
                     </div>
-
-                    <!-- ১ম স্থান -->
-                    <div class="pedestal rank-1">
-                        <div class="crown">👑</div>
-                        <div class="avatar-frame gold">
-                            <div class="avatar-placeholder"></div>
-                            <span class="rank-badge">NO.1</span>
-                        </div>
-                        <p class="user-name">User 1</p>
-                        <p class="score">0</p>
+                </div>
+                <div class="msg-item system">
+                    <div class="msg-icon reward"><i class="fas fa-award"></i></div>
+                    <div class="msg-text">
+                        <h4>MrChat Reward</h4>
+                        <p>Claim your daily active bonus!</p>
                     </div>
+                </div>
+                <div class="msg-item">
+                    <img src="https://via.placeholder.com/40" class="avatar">
+                    <div class="msg-text">
+                        <h4>ফরিদপুর কলিজা</h4>
+                        <p>Tonmoy left the group chat</p>
+                    </div>
+                    <span class="time">19:54</span>
+                </div>
+            </div>
+        </section>
 
-                    <!-- ৩য় স্থান -->
-                    <div class="pedestal rank-3">
-                        <div class="avatar-frame">
-                            <div class="avatar-placeholder"></div>
-                            <span class="rank-badge">3</span>
+        <!-- ৪. মি / প্রোফাইল ভিউ -->
+        <section id="profile-view" class="view-section">
+            <div class="profile-header">
+                <div class="profile-main">
+                    <img src="https://via.placeholder.com/80" class="profile-avatar">
+                    <div class="p-info">
+                        <h3>Mia Vai <i class="fas fa-mars gender-m"></i> <span class="age">35</span></h3>
+                        <p class="id-tag">ID: 100927248</p>
+                        <div class="p-stats">
+                            <span><b>15</b> Follow</span>
+                            <span><b>26</b> Fans</span>
                         </div>
-                        <p class="user-name">User 3</p>
-                        <p class="score">0</p>
                     </div>
                 </div>
 
-                <!-- ৪ থেকে পরবর্তী র‍্যাঙ্ক লিস্ট -->
-                <div class="ranking-list">
-                    <div class="rank-item">
-                        <span class="num">4</span>
-                        <div class="avatar-placeholder sm"></div>
-                        <div class="details">
-                            <p class="name">User Name</p>
-                        </div>
-                        <span class="points">0</span>
+                <div class="wallet-store-grid">
+                    <div class="card-wallet">
+                        <p>Wallet</p>
+                        <h4>💰 3877</h4>
+                    </div>
+                    <div class="card-store">
+                        <p>Store</p>
+                        <h4>🛍️ Shop</h4>
                     </div>
                 </div>
+            </div>
 
-                <!-- নিজস্ব র‍্যাঙ্ক ফিক্সড ফুটার -->
-                <div class="my-rank-bar">
-                    <span class="label">No ranking</span>
-                    <div class="avatar-placeholder sm"></div>
-                    <span class="my-name">My Profile</span>
-                    <span class="my-score">0</span>
-                </div>
-            </section>
+            <div class="menu-list">
+                <div class="menu-item"><i class="fas fa-coins text-gold"></i> Invite get coins <i class="fas fa-chevron-right arrow"></i></div>
+                <div class="menu-item"><i class="fas fa-heart text-pink"></i> Love House <i class="fas fa-chevron-right arrow"></i></div>
+                <div class="menu-item"><i class="fas fa-gem text-purple"></i> SVIP <span class="badge-svip">SVIP 2</span> <i class="fas fa-chevron-right arrow"></i></div>
+                <div class="menu-item"><i class="fas fa-shield-alt text-blue"></i> Prop Warehouse <i class="fas fa-chevron-right arrow"></i></div>
+                <div class="menu-item"><i class="fas fa-medal text-orange"></i> Medal <i class="fas fa-chevron-right arrow"></i></div>
+                <div class="menu-item"><i class="fas fa-cog"></i> Settings <i class="fas fa-chevron-right arrow"></i></div>
+            </div>
+        </section>
 
-        </main>
-
-        <!-- বটম নেভিগেশন বার -->
+        <!-- ৫. মূল বটম নেভিগেশন বার -->
         <nav class="bottom-nav">
-            <div class="nav-item active" onclick="switchView('home-view')">
+            <div class="nav-btn" onclick="switchTab('home-view', this)">
                 <i class="fas fa-home"></i>
             </div>
-            <div class="nav-item">
+            <div class="nav-btn" onclick="switchTab('square-view', this)">
                 <i class="fas fa-globe"></i>
             </div>
-            <div class="nav-item center-mic">
+            <div class="nav-btn mic-btn">
                 <i class="fas fa-microphone"></i>
             </div>
-            <div class="nav-item">
+            <div class="nav-btn" onclick="switchTab('message-view', this)">
                 <i class="fas fa-comment-dots"></i>
             </div>
-            <div class="nav-item">
+            <div class="nav-btn active" onclick="switchTab('profile-view', this)">
                 <i class="fas fa-user"></i>
             </div>
         </nav>
