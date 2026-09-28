@@ -1,521 +1,231 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MRChat Complete UI with Premium Game Panel & Lucky Fruit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MrChat - Social Voice Chat</title>
+  
+  <!-- React & Babel CDNs -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-<!-- PWA Manifest Link -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f0823">
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#0f0823;color:#fff}
-button{border:0;font-family:inherit;cursor:pointer;outline:none}
-
-#app{width:100%;height:100%;position:relative;overflow:hidden;background:#f6f7fb;color:#222}
-
-/* PAGE CONTAINERS */
-.page{
-  position:absolute;inset:0;background:#f7f8fc;display:none;
-  overflow-y:auto;padding-bottom:80px;z-index:1;
-}
-.page.show{display:block}
-
-/* 3D BUTTONS */
-.btn3d{
-  position:relative;border-radius:15px;background:linear-gradient(145deg,#fff,#e8eaf1);
-  box-shadow:0 4px 0 #c8cad3,0 6px 12px rgba(40,45,80,.12);transition:.1s
-}
-.btn3d:active{transform:translateY(3px);box-shadow:0 1px 0 #c8cad3}
-.btn3d.primary{
-  color:white;background:linear-gradient(145deg,#8066ff,#5036df);
-  box-shadow:0 4px 0 #3824a9
-}
-
-/* TOP BAR */
-.home-top{
-  height:60px;background:#fff;display:flex;align-items:center;
-  padding:0 10px;gap:8px;position:sticky;top:0;z-index:20;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05)
-}
-.home-tabs{
-  display:flex;align-items:center;gap:4px;height:40px;padding:3px;flex:1;
-  background:#f0eff6;border-radius:14px
-}
-.home-tab{
-  height:34px;padding:0 8px;border-radius:11px;display:flex;
-  align-items:center;justify-content:center;font-size:12px;font-weight:800;
-  color:#888;white-space:nowrap;background:transparent;flex:1;
-}
-.home-tab.active{color:#5a43e9;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-
-.top-action{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:18px;font-weight:bold}
-
-/* SLIDER */
-.event-slider-wrap{padding:10px 10px 4px}
-.event-slider{
-  width:100%;height:130px;border-radius:16px;overflow:hidden;position:relative;
-  box-shadow:0 6px 16px rgba(0,0,0,0.15)
-}
-.slider-container{display:flex;width:100%;height:100%;transition:transform 0.5s ease-in-out}
-.event-slide{min-width:100%;height:100%;position:relative;color:white;flex-shrink:0}
-.event-content{position:absolute;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:center;background:rgba(0,0,0,0.2)}
-.event-content h2{font-size:15px;margin-bottom:2px}
-.event-content p{font-size:11px;opacity:0.9}
-.event-btn{height:26px;padding:0 10px;margin-top:6px;border-radius:10px;background:#fff;color:#5b42df;font-weight:bold;font-size:10px;width:fit-content}
-
-/* CATEGORIES */
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px}
-.category{height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
-.category .icon{font-size:24px;margin-bottom:2px}
-
-/* ROOM GRID */
-.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px}
-.room-card{height:160px;border-radius:16px;overflow:hidden;position:relative;background:#ccc;cursor:pointer}
-.room-card img{width:100%;height:100%;object-fit:cover}
-.room-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.8))}
-.room-info{position:absolute;bottom:8px;left:8px;right:8px;color:#fff;font-size:11px;font-weight:bold}
-
-/* BOTTOM NAVIGATION */
-.bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;height:65px;background:#fff;
-  border-top:1px solid #eee;display:flex;z-index:100;box-shadow:0 -4px 15px rgba(0,0,0,0.05)
-}
-.nav-item{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:transparent;font-size:10px;font-weight:bold}
-.nav-item.active{color:#8b5cf6}
-.nav-item.active .nav-icon{background:linear-gradient(135deg,#e0e7ff,#c7d2fe);width:40px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.2)}
-.nav-item .nav-icon{font-size:18px;margin-bottom:2px;transition:0.2s}
-
-/* MODAL SCREENS */
-.modal-screen {
-  position: fixed; inset: 0; z-index: 500; display: none;
-  flex-direction: column; overflow: hidden; background: #0f0823; color: white;
-}
-.modal-screen.show { display: flex; }
-
-/* RANK SCREEN */
-.rank-bg { background: linear-gradient(180deg, #1f0842 0%, #080214 100%); }
-.modal-header { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; font-weight: bold; font-size: 15px; background: rgba(255,255,255,0.05); }
-
-/* CP ZONE & FAMILY */
-.cp-bg { background: linear-gradient(180deg, #3b0029 0%, #10000b 100%); }
-.family-bg { background: linear-gradient(180deg, #0a192f 0%, #020c1b 100%); }
-
-/* ME / PROFILE PAGE DESIGN */
-.profile-bg {
-  background: linear-gradient(180deg, #e4f7ff 0%, #f6f7fb 25%);
-  min-height: 100%; padding: 15px; color: #222;
-}
-.profile-header { display: flex; align-items: center; gap: 15px; position: relative; margin-top: 15px; }
-.profile-avatar { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
-.profile-name { font-size: 20px; font-weight: bold; color: #111; letter-spacing: -0.5px; }
-.profile-id { font-size: 13px; color: #888; margin-top: 3px; }
-
-.profile-stats-row { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-right: 15px; }
-.stats-left { display: flex; gap: 35px; margin-left: 20px; text-align: center; }
-.stat-value { font-size: 18px; font-weight: bold; color: #111; }
-.stat-label { font-size: 13px; color: #aaa; margin-top: 2px; }
-.family-shield { text-align: center; cursor: pointer; }
-.family-shield-icon { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(255,215,0,0.4)); }
-.family-shield-text { font-size: 10px; font-weight: bold; color: #92400e; margin-top: -5px; }
-
-.profile-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-.pr-card { border-radius: 14px; padding: 15px; color: #fff; position: relative; overflow: hidden; height: 85px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; }
-.pr-card.wallet { background: linear-gradient(135deg, #ff8a65, #ffcc80); }
-.pr-card.store { background: linear-gradient(135deg, #4fc3f7, #81d4fa); }
-.pr-card-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; z-index: 2; }
-.pr-card-sub { font-size: 14px; font-weight: bold; z-index: 2; display: flex; align-items: center; gap: 4px; }
-.pr-card-icon { position: absolute; right: -5px; bottom: -10px; font-size: 50px; opacity: 0.9; }
-
-.pr-list-group { background: #fff; border-radius: 16px; margin-top: 15px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); padding: 5px 0; }
-.pr-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; border-bottom: 1px solid #f6f6f6; font-size: 15px; color: #333; cursor: pointer; }
-.pr-list-item:last-child { border-bottom: none; }
-.pr-list-left { display: flex; align-items: center; gap: 15px; }
-.pr-list-icon { font-size: 20px; width: 24px; text-align: center; }
-.pr-list-right { display: flex; align-items: center; gap: 10px; color: #ccc; }
-.badge-pill { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; font-style: italic; border: 1px solid gold; display: flex; align-items: center; gap: 4px; color: #fff; }
-.badge-lv { background: linear-gradient(90deg, #6b21a8, #d946ef); }
-.badge-svip { background: linear-gradient(90deg, #065f46, #10b981); color: gold; }
-
-/* ROOM STYLES */
-#roomScreen {
-  position: fixed; inset: 0; z-index: 600; display: none; flex-direction: column; justify-content: space-between;
-  background: radial-gradient(circle at 50% 30%, #a21caf 0%, #6b21a8 45%, #2e1065 100%);
-  color: #fff; overflow: hidden;
-}
-#roomScreen.show { display: flex; }
-
-.v-room-top {
-  padding: 35px 10px 8px; display: flex; align-items: center; justify-content: space-between;
-  background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
-}
-.v-room-info { display: flex; align-items: center; gap: 8px; }
-.v-room-avatar { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #fff; object-fit: cover; }
-.v-room-meta { display: flex; flex-direction: column; }
-.v-room-title { font-size: 13px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; }
-.v-room-id { font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
-
-.v-top-actions { display: flex; align-items: center; gap: 8px; }
-.v-icon-circle { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; cursor: pointer; }
-
-.v-seats-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 5px; padding: 20px 15px; margin-top: 10px;
-}
-.v-seat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
-.v-seat-circle {
-  width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.12);
-  border: 1.5px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-}
-.v-seat-num { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; font-weight: bold; }
-
-.v-floating-banners { position: absolute; right: 10px; top: 35%; display: flex; flex-direction: column; gap: 12px; z-index: 10; }
-.v-float-card {
-  width: 55px; height: 55px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; text-align: center; cursor: pointer;
-}
-
-.v-room-body { padding: 0 15px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; margin-top: auto; margin-bottom: 5px; }
-
-/* ROOM BOTTOM BAR */
-.v-room-bottom {
-  padding: 10px 12px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
-  display: flex; align-items: center; justify-content: space-between; gap: 6px;
-}
-.v-bottom-icon {
-  width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-  display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; cursor: pointer; transition: 0.2s;
-}
-.v-gift-btn {
-  width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #a855f7);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 12px rgba(168,85,247,0.6); cursor: pointer;
-}
-
-/* GIFT & GAME MODALS */
-#giftModal, #gameModal, #luckyFruitModal {
-  position: fixed; inset: 0; z-index: 700; display: none;
-  background: rgba(0,0,0,0.75); align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(8px);
-}
-#giftModal.show, #gameModal.show, #luckyFruitModal.show { display: flex; }
-
-.gift-panel, .game-panel {
-  width: 100%; max-width: 480px; background: rgba(15, 8, 35, 0.95);
-  border-top-left-radius: 24px; border-top-right-radius: 24px;
-  padding: 15px; color: #fff; border-top: 1px solid rgba(255,255,255,0.1);
-  animation: slideUp 0.3s ease-out;
-}
-
-.casual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.casual-card {
-  background: rgba(255,255,255,0.06); border-radius: 18px; padding: 12px;
-  display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* LUCKY FRUIT MODAL */
-#luckyFruitModal { align-items: center; }
-.lf-panel {
-  width: 95%; max-width: 400px; background: #1f0b02; border-radius: 20px; border: 2px solid #fbbf24; padding: 15px; color: #fff; text-align: center;
-}
-.lf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-.lf-cell { background: #3b1807; border: 1px solid #d97706; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; }
-
-#toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; z-index: 2000; }
-#toast.show { opacity: 1; }
-@media(min-width: 700px) { .page, .bottom-nav, .modal-screen, #roomScreen { max-width: 480px; left: 50%; transform: translateX(-50%); } }
-</style>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: #ffffff;
+      padding-bottom: 70px;
+    }
+    .app-header {
+      background: #1e293b;
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+    .app-header h1 {
+      color: #38bdf8;
+      font-size: 22px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #334155;
+    }
+    .btn {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn:disabled {
+      background: #475569;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: #1e293b;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #334155;
+      z-index: 1000;
+    }
+    .nav-item {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .nav-item.active {
+      color: #38bdf8;
+    }
+  </style>
 </head>
-
 <body>
-<div id="app">
 
-  <!-- HOME PAGE -->
-  <section id="homePage" class="page show">
-    <div class="home-top">
-      <div class="home-tabs">
-        <button class="home-tab" onclick="switchHomeTab('following')">Following</button>
-        <button class="home-tab active" onclick="switchHomeTab('popular')">Popular</button>
-        <button class="home-tab" onclick="switchHomeTab('recent')">Recent</button>
-      </div>
-      <button class="top-action btn3d" onclick="showToast('Search Clicked')">⌕</button>
-      <button class="top-action btn3d primary" onclick="enterRoom('জিরো পয়েন্ট', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80')">＋</button>
-    </div>
+  <div id="root"></div>
 
-    <div id="popularContent">
-      <div class="event-slider-wrap">
-        <div class="event-slider">
-          <div class="slider-container" id="eventSlider">
-            <div class="event-slide" style="background:linear-gradient(110deg,#4124a0,#f54a90)"><div class="event-content"><h2>🎉 MRChat Grand Opening</h2><p>Join live voice party rooms!</p><button class="event-btn">Explore</button></div></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Mini Dice Game Component
+    const DiceGame = ({ balance, setBalance }) => {
+      const [betAmount, setBetAmount] = useState(10000);
+      const [prediction, setPrediction] = useState("HIGH");
+      const [result, setResult] = useState(null);
+
+      const handleRoll = () => {
+        if (balance < betAmount) {
+          alert("পর্যাপ্ত MR Coins নেই!");
+          return;
+        }
+
+        const dice1 = Math.floor(Math.random() * 6) + 1;
+        const dice2 = Math.floor(Math.random() * 6) + 1;
+        const sum = dice1 + dice2;
+
+        let won = false;
+        if (prediction === "LOW" && sum >= 2 && sum <= 6) won = true;
+        if (prediction === "SEVEN" && sum === 7) won = true;
+        if (prediction === "HIGH" && sum >= 8 && sum <= 12) won = true;
+
+        const payout = won ? (prediction === "SEVEN" ? betAmount * 5 : betAmount * 2) : 0;
+        const newBalance = won ? balance + payout : balance - betAmount;
+
+        setBalance(newBalance);
+        setResult({ dice1, dice2, sum, won, payout });
+      };
+
+      return (
+        <div className="card">
+          <h3>🎲 Dice Challenge Game</h3>
+          <p style={{ margin: "8px 0" }}>ব্যালেন্স: <strong>{balance.toLocaleString()} MR</strong></p>
+          
+          <div style={{ margin: "12px 0" }}>
+            <label>বাজির পরিমাণ: </label>
+            <select 
+              value={betAmount} 
+              onChange={(e) => setBetAmount(Number(e.target.value))}
+              style={{ padding: "6px", borderRadius: "4px", background: "#334155", color: "#fff", border: "none" }}
+            >
+              <option value={10000}>10,000 MR</option>
+              <option value={100000}>100,000 MR</option>
+              <option value={1000000}>1,000,000 MR</option>
+            </select>
           </div>
-        </div>
-      </div>
 
-      <div class="categories">
-        <button class="category btn3d" onclick="openModal('rankModal')"><div class="icon">🏆</div>Rank</button>
-        <button class="category btn3d" onclick="openModal('cpModal')"><div class="icon">💖</div>CP Zone</button>
-        <button class="category btn3d" onclick="openModal('familyModal')"><div class="icon">👨‍👩‍👧‍👦</div>Family</button>
-      </div>
+          <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+            <button 
+              onClick={() => setPrediction("LOW")} 
+              style={{ flex: 1, padding: "8px", background: prediction === "LOW" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
+            >
+              LOW (2-6)
+            </button>
+            <button 
+              onClick={() => setPrediction("SEVEN")} 
+              style={{ flex: 1, padding: "8px", background: prediction === "SEVEN" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
+            >
+              SEVEN (7)
+            </button>
+            <button 
+              onClick={() => setPrediction("HIGH")} 
+              style={{ flex: 1, padding: "8px", background: prediction === "HIGH" ? "#38bdf8" : "#334155", color: "#fff", border: "none", borderRadius: "6px" }}
+            >
+              HIGH (8-12)
+            </button>
+          </div>
 
-      <div style="padding:10px; font-weight:bold; font-size:14px">Live Voice Rooms</div>
-      <div class="room-grid">
-        <div class="room-card" onclick="enterRoom('জিরো পয়েন্ট 🇧🇩', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">জিরো পয়েন্ট 🇧🇩</div>
-        </div>
-        <div class="room-card" onclick="enterRoom('Music & Songs 🎵', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80')">
-          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80">
-          <div class="room-overlay"></div>
-          <div class="room-info">Music & Songs 🎵</div>
-        </div>
-      </div>
-    </div>
-    
-    <div id="followingContent" style="display:none; padding:15px">
-      <div style="background:#fff; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
-        <div style="display:flex; gap:10px; align-items:center">
-          <img src="https://i.pravatar.cc/150?img=32" style="width:40px; height:40px; border-radius:50%">
-          <div><b>সাদিয়া রহমান</b><br><small style="color:#777">ID: 100823</small></div>
-        </div>
-        <button class="btn3d primary" style="padding:6px 12px; font-size:11px" onclick="enterRoom('সাদিয়ার রুম', 'https://i.pravatar.cc/150?img=32')">Enter</button>
-      </div>
-    </div>
-    
-    <div id="recentContent" style="display:none; padding:15px">
-      <div id="recentList" style="text-align:center; color:#888; font-size:12px; margin-top:20px">সম্প্রতি কোনো রুমে যাওয়া হয়নি।</div>
-    </div>
-  </section>
+          <button className="btn" onClick={handleRoll}>ROLL DICE</button>
 
-  <!-- DISCOVER PAGE -->
-  <section id="discoverPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Discover Page</div></section>
-  
-  <!-- MOMENTS PAGE -->
-  <section id="momentPage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Moments Page</div></section>
-  
-  <!-- MESSAGES PAGE -->
-  <section id="messagePage" class="page"><div style="padding:15px; font-weight:bold; font-size:16px; background:#fff">Messages Page</div></section>
+          {result && (
+            <div style={{ marginTop: "12px", padding: "10px", background: result.won ? "#15803d" : "#991b1b", borderRadius: "6px" }}>
+              ডাইস: [{result.dice1}] + [{result.dice2}] = মোট {result.sum} <br />
+              {result.won ? `আপনি জিতেছেন +${result.payout.toLocaleString()} MR!` : "আবার চেষ্টা করুন!"}
+            </div>
+          )}
+        </div>
+      );
+    };
 
-  <!-- ME / PROFILE PAGE -->
-  <section id="mePage" class="page">
-    <div class="profile-bg">
-      <div class="profile-header">
-        <img id="userAvatarMain" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" class="profile-avatar">
+    // Main App Component
+    const App = () => {
+      const [activeTab, setActiveTab] = useState("Home");
+      const [balance, setBalance] = useState(20000000); // 20 Million MR Coins Initial
+
+      return (
         <div>
-          <div id="userNameMain" class="profile-name">Mia Vai</div>
-          <div class="profile-id">ID:100927248</div>
+          <header className="app-header">
+            <h1>MrChat</h1>
+            <p style={{ fontSize: "12px", color: "#94a3b8" }}>Real-Time Social Voice Room Platform</p>
+          </header>
+
+          <div className="container">
+            <div className="card" style={{ background: "linear-gradient(135deg, #1e293b, #0f172a)", borderColor: "#38bdf8" }}>
+              <h2>💰 My MR Coins</h2>
+              <h1 style={{ color: "#38bdf8", margin: "10px 0" }}>{balance.toLocaleString()} MR</h1>
+              <p style={{ fontSize: "12px", color: "#94a3b8" }}>প্রতি ১ ঘণ্টায় স্বয়ংক্রিয়ভাবে +২০,০০০,০০০ MR যোগ হবে।</p>
+            </div>
+
+            {activeTab === "Home" && (
+              <div>
+                <div className="card">
+                  <h3>🎙️ রিয়েল-টাইম ভয়েস রুম</h3>
+                  <p style={{ margin: "8px 0", color: "#94a3b8" }}>জনপ্রিয় ভয়েস রুমে যোগ দিন বা নিজের রুম তৈরি করুন।</p>
+                  <button className="btn">নতুন রুম তৈরি করুন</button>
+                </div>
+                <DiceGame balance={balance} setBalance={setBalance} />
+              </div>
+            )}
+
+            {activeTab === "Live" && <div className="card"><h3>📡 Live Stream & Rooms</h3><p>লাইভ রুমের তালিকা এখানে দেখাবে...</p></div>}
+            {activeTab === "Room" && <div className="card"><h3>🎙️ Voice Room</h3><p>আপনার ভয়েস চ্যানেল নিয়ন্ত্রণের প্যানেল...</p></div>}
+            {activeTab === "Message" && <div className="card"><h3>💬 Messages</h3><p>প্রাইভেট মেসেজ ও চ্যাট...</p></div>}
+            {activeTab === "Profile" && (
+              <div className="card">
+                <h3>👤 Profile Overview</h3>
+                <p>User ID: 88471029</p>
+                <p>Level: LV 1</p>
+                <p>VIP Status: NONE</p>
+              </div>
+            )}
+          </div>
+
+          <nav className="bottom-nav">
+            <div className={`nav-item ${activeTab === 'Home' ? 'active' : ''}`} onClick={() => setActiveTab('Home')}>🏠<br/>Home</div>
+            <div className={`nav-item ${activeTab === 'Live' ? 'active' : ''}`} onClick={() => setActiveTab('Live')}>📡<br/>Live</div>
+            <div className={`nav-item ${activeTab === 'Room' ? 'active' : ''}`} onClick={() => setActiveTab('Room')}>🎙️<br/>Room</div>
+            <div className={`nav-item ${activeTab === 'Message' ? 'active' : ''}`} onClick={() => setActiveTab('Message')}>💬<br/>Message</div>
+            <div className={`nav-item ${activeTab === 'Profile' ? 'active' : ''}`} onClick={() => setActiveTab('Profile')}>👤<br/>Profile</div>
+          </nav>
         </div>
-      </div>
+      );
+    };
 
-      <div class="profile-stats-row">
-        <div class="stats-left">
-          <div><div class="stat-value">15</div><div class="stat-label">Follow</div></div>
-          <div><div class="stat-value">26</div><div class="stat-label">Fans</div></div>
-        </div>
-        <div class="family-shield" onclick="openModal('familyModal')">
-          <div class="family-shield-icon">🏰</div>
-          <div class="family-shield-text">FAMILY</div>
-        </div>
-      </div>
-
-      <div class="profile-cards-grid">
-        <div class="pr-card wallet" onclick="showToast('Wallet: 8,458 Coins')">
-          <div class="pr-card-title">Wallet</div>
-          <div class="pr-card-sub">Ⓗ <span id="profileCoinVal">8458</span></div>
-          <div class="pr-card-icon">👛</div>
-        </div>
-        <div class="pr-card store" onclick="showToast('Store Menu')">
-          <div class="pr-card-title">Store</div>
-          <div class="pr-card-icon">🏪</div>
-        </div>
-      </div>
-
-      <div class="pr-list-group">
-        <div class="pr-list-item" onclick="openModal('cpModal')"><div class="pr-list-left"><span class="pr-list-icon">💖</span> CP Zone</div><div class="pr-list-right">&gt;</div></div>
-        <div class="pr-list-item" onclick="showToast('Level LV.41')"><div class="pr-list-left"><span class="pr-list-icon">🛡️</span> Level</div><div class="pr-list-right"><div class="badge-pill badge-lv">⭐ LV.41</div>&gt;</div></div>
-        <div class="pr-list-item" onclick="showToast('SVIP Level')"><div class="pr-list-left"><span class="pr-list-icon">👑</span> SVIP</div><div class="pr-list-right"><div class="badge-pill badge-svip">👑 SVIP 1</div>&gt;</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BOTTOM NAVIGATION BAR -->
-  <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchPage('homePage', this)">
-      <div class="nav-icon">🏠</div> Home
-    </button>
-    <button class="nav-item" onclick="switchPage('discoverPage', this)">
-      <div class="nav-icon">🔍</div> Discover
-    </button>
-    <button class="nav-item" onclick="switchPage('momentPage', this)">
-      <div class="nav-icon">✨</div> Moments
-    </button>
-    <button class="nav-item" onclick="switchPage('messagePage', this)">
-      <div class="nav-icon">💬</div> Messages
-    </button>
-    <button class="nav-item" onclick="switchPage('mePage', this)">
-      <div class="nav-icon">👤</div> Me
-    </button>
-  </div>
-
-  <!-- VOICE ROOM SCREEN -->
-  <div id="roomScreen">
-    <div class="v-room-top">
-      <div class="v-room-info">
-        <img id="activeRoomImg" src="" class="v-room-avatar">
-        <div class="v-room-meta">
-          <div id="activeRoomTitle" class="v-room-title">Voice Room</div>
-          <div class="v-room-id">ID: 998822</div>
-        </div>
-      </div>
-      <div class="v-top-actions">
-        <div class="v-icon-circle" onclick="closeRoom()">✕</div>
-      </div>
-    </div>
-
-    <!-- ROOM SEATS -->
-    <div class="v-seats-grid">
-      <div class="v-seat-item"><div class="v-seat-circle">🎙️</div><div class="v-seat-num">Host</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">1</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">2</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">3</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">4</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">5</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">6</div></div>
-      <div class="v-seat-item"><div class="v-seat-circle">🪑</div><div class="v-seat-num">7</div></div>
-    </div>
-
-    <div class="v-floating-banners">
-      <div class="v-float-card" onclick="openModal('gameModal')">🎮<br>Games</div>
-    </div>
-
-    <div class="v-room-body">
-      <div style="color:#38bdf8">Welcome to Voice Party Room!</div>
-    </div>
-
-    <div class="v-room-bottom">
-      <div class="v-bottom-icon" onclick="showToast('Mic Toggled')">🎙️</div>
-      <div class="v-bottom-icon" onclick="openModal('gameModal')">🎮</div>
-      <div class="v-gift-btn" onclick="openModal('giftModal')">🎁</div>
-    </div>
-  </div>
-
-  <!-- GIFT MODAL -->
-  <div id="giftModal">
-    <div class="gift-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b>Send Gifts</b>
-        <span style="cursor:pointer;" onclick="closeModal('giftModal')">✕</span>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin:20px 0;">
-        <div class="casual-card" onclick="showToast('Gift Sent: Rose 🌹')">🌹<br>Rose (10 🪙)</div>
-        <div class="casual-card" onclick="showToast('Gift Sent: Crown 👑')">👑<br>Crown (100 🪙)</div>
-        <div class="casual-card" onclick="showToast('Gift Sent: Rocket 🚀')">🚀<br>Rocket (500 🪙)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GAME PANEL MODAL -->
-  <div id="gameModal">
-    <div class="game-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b>Game Center</b>
-        <span style="cursor:pointer;" onclick="closeModal('gameModal')">✕</span>
-      </div>
-      <div class="casual-grid" style="margin-top:15px;">
-        <div class="casual-card" onclick="openModal('luckyFruitModal')">
-          <span style="font-size:30px;">🍎</span>
-          <b>Lucky Fruit</b>
-        </div>
-        <div class="casual-card" onclick="showToast('Greedy game coming soon!')">
-          <span style="font-size:30px;">🎲</span>
-          <b>Greedy</b>
-        </div>
-        <div class="casual-card" onclick="showToast('Ludo coming soon!')">
-          <span style="font-size:30px;">🎯</span>
-          <b>Ludo</b>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LUCKY FRUIT BOARD MODAL -->
-  <div id="luckyFruitModal">
-    <div class="lf-panel">
-      <div style="display:flex; justify-content:space-between; width:100%;">
-        <b>🍎 Lucky Fruit Game</b>
-        <span style="cursor:pointer;" onclick="closeModal('luckyFruitModal')">✕</span>
-      </div>
-      <div class="lf-grid">
-        <div class="lf-cell" onclick="showToast('Bet placed on Apple')">🍎<br>Apple</div>
-        <div class="lf-cell" onclick="showToast('Bet placed on Watermelon')">🍉<br>Melon</div>
-        <div class="lf-cell" onclick="showToast('Bet placed on Orange')">🍊<br>Orange</div>
-      </div>
-      <button class="btn3d primary" style="width:100%; padding:10px;" onclick="showToast('Spinning Wheel...')">START SPIN</button>
-    </div>
-  </div>
-
-  <!-- OTHER MODALS -->
-  <div id="rankModal" class="modal-screen rank-bg">
-    <div class="modal-header"><span>🏆 Ranking Board</span><span onclick="closeModal('rankModal')">✕</span></div>
-    <div style="padding:20px; text-align:center;">Top ranking list goes here!</div>
-  </div>
-
-  <div id="cpModal" class="modal-screen cp-bg">
-    <div class="modal-header"><span>💖 CP Zone</span><span onclick="closeModal('cpModal')">✕</span></div>
-    <div style="padding:20px; text-align:center;">CP Ranking & Pairs</div>
-  </div>
-
-  <div id="familyModal" class="modal-screen family-bg">
-    <div class="modal-header"><span>🏰 Family Zone</span><span onclick="closeModal('familyModal')">✕</span></div>
-    <div style="padding:20px; text-align:center;">Family information</div>
-  </div>
-
-</div>
-
-<div id="toast">Message</div>
-
-<!-- JAVASCRIPT FOR INTERACTIVITY -->
-<script>
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-function switchPage(pageId, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.getElementById(pageId).classList.add('show');
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-}
-
-function switchHomeTab(tab) {
-  document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('popularContent').style.display = tab === 'popular' ? 'block' : 'none';
-  document.getElementById('followingContent').style.display = tab === 'following' ? 'block' : 'none';
-  document.getElementById('recentContent').style.display = tab === 'recent' ? 'block' : 'none';
-}
-
-function enterRoom(name, img) {
-  document.getElementById('activeRoomTitle').innerText = name;
-  document.getElementById('activeRoomImg').src = img;
-  document.getElementById('roomScreen').classList.add('show');
-}
-
-function closeRoom() {
-  document.getElementById('roomScreen').classList.remove('show');
-}
-
-function openModal(id) {
-  document.getElementById(id).classList.add('show');
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-}
-</script>
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
 </body>
 </html>
