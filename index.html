@@ -1,149 +1,282 @@
-<!-- Language Selection Modal -->
-<div id="language-modal" class="overlay-screen bg-light">
-    <div class="top-nav-bar">
-        <i class="fas fa-chevron-left" onclick="closeModal('language-modal')"></i>
-        <span class="nav-title">Language</span>
-        <span class="nav-right text-cyan font-bold" onclick="saveLanguage()">Save</span>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Chat App - Complete Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <!-- Main App Dashboard / Bottom Navigation (সব পেজে প্রবেশের জন্য) -->
+    <div id="main-app">
+        <!-- Main Top Bar -->
+        <div class="top-header">
+            <span class="app-logo">👑 Voice App</span>
+            <div class="top-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-bell"></i>
+            </div>
+        </div>
+
+        <!-- Main Content View Container -->
+        <div class="main-content scrollable">
+            <!-- Home / Voice Room List -->
+            <div id="page-home" class="page-sec active">
+                <h3>🎙️ Live Voice Rooms</h3>
+                <div class="room-grid">
+                    <div class="room-card" onclick="openModal('voice-room-modal')">
+                        <div class="room-img"><span class="live-tag">LIVE</span></div>
+                        <div class="room-info">
+                            <span class="room-title">Party Room #1</span>
+                            <span class="room-users">🔥 1.2k</span>
+                        </div>
+                    </div>
+                    <div class="room-card" onclick="openModal('voice-room-modal')">
+                        <div class="room-img"><span class="live-tag">LIVE</span></div>
+                        <div class="room-info">
+                            <span class="room-title">Music & Adda</span>
+                            <span class="room-users">🔥 850</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🎮 Games Center</h3>
+                <div class="game-banner" onclick="openModal('game-center-modal')">
+                    <span>🎰 Ludo & Greedy Slots Games</span>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="page-profile" class="page-sec">
+                <div class="profile-header-card">
+                    <div class="p-avatar-box">
+                        <img src="https://via.placeholder.com/80" alt="Avatar">
+                        <span class="vip-badge">VIP 5</span>
+                    </div>
+                    <div class="p-details">
+                        <h2>༄Mia࿐✿Vai࿐</h2>
+                        <p>ID: 88741205</p>
+                    </div>
+                </div>
+
+                <!-- All Features Menu Items -->
+                <div class="feature-menu-list">
+                    <div class="f-item" onclick="openModal('warehouse-modal')">
+                        <span>📦 Prop Warehouse / Inventory</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('love-house-modal')">
+                        <span>🏠 Love House & Intimacy</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('cp-level-modal')">
+                        <span>👑 CP Level Privileges</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('invite-gold-modal')">
+                        <span>💰 Invite Get Gold</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('language-modal')">
+                        <span>🌐 Language Settings</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('settings-modal')">
+                        <span>⚙️ Settings</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="f-item" onclick="openModal('feedback-modal')">
+                        <span>💬 Feedback & Help</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Tab Navigation Bar -->
+        <div class="bottom-nav">
+            <div class="nav-tab active" onclick="switchMainTab('page-home', this)">
+                <i class="fas fa-comments"></i>
+                <span>Rooms</span>
+            </div>
+            <div class="nav-tab" onclick="openModal('game-center-modal')">
+                <i class="fas fa-gamepad"></i>
+                <span>Games</span>
+            </div>
+            <div class="nav-tab" onclick="switchMainTab('page-profile', this)">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
     </div>
 
-    <div class="language-list scrollable">
-        <div class="lang-item active" onclick="selectLanguage(this)">English</div>
-        <div class="lang-item" onclick="selectLanguage(this)">हिन्दी</div>
-        <div class="lang-item" onclick="selectLanguage(this)">বাংলা</div>
-        <div class="lang-item" onclick="selectLanguage(this)">ਪੰਜਾਬੀ</div>
-        <div class="lang-item" onclick="selectLanguage(this)">தமிழ்</div>
-        <div class="lang-item" onclick="selectLanguage(this)">తెలుగు</div>
-        <div class="lang-item" onclick="selectLanguage(this)">اردو</div>
-        <div class="lang-item" onclick="selectLanguage(this)">العربية</div>
-        <div class="lang-item" onclick="selectLanguage(this)">Türkçe</div>
-        <div class="lang-item" onclick="selectLanguage(this)">ไทย</div>
-        <div class="lang-item" onclick="selectLanguage(this)">Tiếng Việt</div>
-        <div class="lang-item" onclick="selectLanguage(this)">Malay</div>
-        <div class="lang-item" onclick="selectLanguage(this)">Português</div>
-    </div>
-</div>
+    <!-- ================= ALL MODAL SCREENS (আপনার দেওয়া স্ক্রিনশটসমূহ) ================= -->
 
-<!-- Settings Modal -->
-<div id="settings-modal" class="overlay-screen bg-light">
-    <div class="top-nav-bar">
-        <i class="fas fa-chevron-left" onclick="closeModal('settings-modal')"></i>
-        <span class="nav-title">Settings</span>
+    <!-- 1. Voice Room Modal -->
+    <div id="voice-room-modal" class="overlay-screen bg-dark">
+        <div class="room-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('voice-room-modal')"></i>
+            <span>Party Voice Room</span>
+            <i class="fas fa-share-alt"></i>
+        </div>
+        <div class="mic-seats-grid">
+            <div class="mic-seat"><div class="avatar-circle">Seat 1</div></div>
+            <div class="mic-seat"><div class="avatar-circle">Seat 2</div></div>
+            <div class="mic-seat"><div class="avatar-circle">Seat 3</div></div>
+            <div class="mic-seat"><div class="avatar-circle">Seat 4</div></div>
+        </div>
+        <div class="room-bottom-controls">
+            <input type="text" placeholder="Say something..." class="chat-input">
+            <i class="fas fa-gift gift-btn"></i>
+        </div>
     </div>
 
-    <div class="settings-list">
-        <div class="setting-item" onclick="openModal('account-binding-modal')">
-            <div class="setting-left">
-                <i class="far fa-check-circle"></i>
-                <span>Account Binding</span>
+    <!-- 2. Games Center Modal -->
+    <div id="game-center-modal" class="overlay-screen bg-dark">
+        <div class="top-nav-bar transparent">
+            <i class="fas fa-chevron-left" onclick="closeModal('game-center-modal')"></i>
+            <span class="nav-title">Game Center</span>
+        </div>
+        <div class="game-list p-15">
+            <div class="game-card-item">🎲 Ludo Quick Game</div>
+            <div class="game-card-item">🎰 Greedy Fruits Slot</div>
+            <div class="game-card-item">🏎️ Car Racing Game</div>
+        </div>
+    </div>
+
+    <!-- 3. Prop Warehouse Modal -->
+    <div id="warehouse-modal" class="overlay-screen bg-light">
+        <div class="top-nav-bar">
+            <i class="fas fa-chevron-left" onclick="closeModal('warehouse-modal')"></i>
+            <div class="nav-center-tabs">
+                <span class="tab-toggle active" id="tab-btn-warehouse" onclick="switchWarehouseTab('warehouse')">Warehouse</span>
+                <span class="tab-toggle" id="tab-btn-using" onclick="switchWarehouseTab('using')">Using</span>
             </div>
-            <div class="setting-right">
-                <i class="fas fa-exclamation-circle text-red"></i>
-                <i class="fas fa-chevron-right"></i>
+            <button class="btn-select-top">Select</button>
+        </div>
+        <div class="sub-nav-tabs horizontal-scroll">
+            <span class="p-tab active" onclick="filterCategory('all', this)">All</span>
+            <span class="p-tab" onclick="filterCategory('frame', this)">Frame</span>
+            <span class="p-tab" onclick="filterCategory('vehicle', this)">Vehicle</span>
+            <span class="p-tab" onclick="filterCategory('theme', this)">Theme</span>
+            <span class="p-tab" onclick="filterCategory('custom_id', this)">Custom ID</span>
+            <span class="p-tab" onclick="filterCategory('ring', this)">Ring</span>
+            <span class="p-tab" onclick="filterCategory('enter_effect', this)">Enter Effect</span>
+            <span class="p-tab" onclick="filterCategory('bubble', this)">Bubble</span>
+        </div>
+        <div id="warehouse-view" class="warehouse-body scrollable">
+            <div class="prop-grid" id="warehouse-grid">
+                <div class="prop-card">
+                    <div class="prop-header"><span>⏱️ 3 days</span><span class="item-count">x17</span></div>
+                    <div class="prop-img-box"><img src="https://via.placeholder.com/100?text=Vehicle" alt="Lion"></div>
+                    <div class="prop-actions"><button class="btn-p-send">Send</button><button class="btn-p-use">Use</button></div>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-header"><span>⏱️ 7 days</span><span class="item-count">x36</span></div>
+                    <div class="prop-img-box"><div class="badge-custom-id">ID<br><small>7/8 DIGITS</small></div></div>
+                    <div class="prop-actions"><button class="btn-p-send">Send</button><button class="btn-p-use">Use</button></div>
+                </div>
             </div>
         </div>
-
-        <div class="setting-item" onclick="clearCache()">
-            <div class="setting-left">
-                <i class="fas fa-trash-alt"></i>
-                <span>Clear Cache</span>
-            </div>
-            <div class="setting-right">
-                <span class="text-gray" id="cache-size">49MB</span>
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-
-        <div class="setting-item" onclick="openModal('blacklist-modal')">
-            <div class="setting-left">
-                <i class="fas fa-user-slash"></i>
-                <span>Blacklist</span>
-            </div>
-            <div class="setting-right">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-
-        <div class="setting-item" onclick="openModal('policy-modal')">
-            <div class="setting-left">
-                <i class="far fa-list-alt"></i>
-                <span>APP POLICY</span>
-            </div>
-            <div class="setting-right">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-
-        <div class="setting-item">
-            <div class="setting-left">
-                <i class="fas fa-exclamation-circle"></i>
-                <span>Current Version</span>
-            </div>
-            <div class="setting-right">
-                <span class="text-gray">3.8.2</span>
-            </div>
-        </div>
-
-        <div class="setting-item" onclick="openModal('other-modal')">
-            <div class="setting-left">
-                <i class="fas fa-ellipsis-h"></i>
-                <span>Other</span>
-            </div>
-            <div class="setting-right">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-
-        <div class="setting-item" onclick="uploadLog()">
-            <div class="setting-left">
-                <i class="fas fa-upload"></i>
-                <span>Upload Log</span>
-            </div>
-            <div class="setting-right">
-                <i class="fas fa-chevron-right"></i>
+        <div id="using-view" class="warehouse-body scrollable d-none">
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <div class="prop-header"><span>⏱️ 5 days</span><span class="status-using-text">Using</span></div>
+                    <div class="prop-img-box"><div class="frame-circle">🌸 Frame</div></div>
+                    <button class="btn-p-using-active" disabled>Using</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Action Floating Buttons -->
-    <div class="settings-bottom-actions">
-        <div class="profile-avatar-mini">
-            <img src="https://via.placeholder.com/40" alt="Profile">
-            <span class="online-indicator">✓</span>
+    <!-- 4. Love House Modal -->
+    <div id="love-house-modal" class="overlay-screen love-house-bg">
+        <div class="lh-header">
+            <i class="fas fa-chevron-left" onclick="closeModal('love-house-modal')"></i>
+            <h2>Love House</h2>
+            <i class="fas fa-bars"></i>
         </div>
-        <div class="btn-add-account">+</div>
-        <div class="btn-logout-power"><i class="fas fa-power-off"></i></div>
-    </div>
-</div>
-
-<!-- Feedback Modal -->
-<div id="feedback-modal" class="overlay-screen bg-light">
-    <div class="top-nav-bar">
-        <i class="fas fa-chevron-left" onclick="closeModal('feedback-modal')"></i>
-        <span class="nav-title">Feedback</span>
-    </div>
-
-    <div class="feedback-body scrollable">
-        <label class="fb-label">Choose a type</label>
-        <div class="type-grid">
-            <button class="fb-type-btn active" onclick="selectFeedbackType(this)">App error</button>
-            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Recharge/Wallet</button>
-            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Suggestion</button>
-            <button class="fb-type-btn" onclick="selectFeedbackType(this)">Account Appeal</button>
+        <div class="lh-body scrollable">
+            <div class="time-together"><span class="days-num">21</span> Days Together</div>
+            <div class="cp-profiles">
+                <div class="cp-user"><img src="https://via.placeholder.com/70" alt="Partner 1"><p>Mia</p></div>
+                <div class="cp-badge-box" onclick="openModal('cp-level-modal')"><div class="badge-wing">LV.3</div></div>
+                <div class="cp-user"><img src="https://via.placeholder.com/70" alt="Partner 2"><p>Sheetal</p></div>
+            </div>
+            <button class="btn-proposal">Proposal</button>
         </div>
-
-        <label class="fb-label">Problem Description</label>
-        <textarea class="fb-textarea" placeholder="Enter problem details here"></textarea>
-
-        <label class="fb-label">Upload Screenshot <small>(Optional)</small></label>
-        <div class="upload-box">
-            <input type="file" id="fb-screenshot" hidden accept="image/*" onchange="previewScreenshot(event)">
-            <div class="upload-btn" onclick="document.getElementById('fb-screenshot').click()">+</div>
-            <div id="screenshot-preview" class="screenshot-preview d-none"></div>
-        </div>
-
-        <label class="fb-label">Contact <small>(Optional)</small></label>
-        <input type="text" class="fb-input" placeholder="Mobile phone or Email address">
-
-        <button class="btn-complete-gradient" onclick="submitFeedback()">Complete</button>
     </div>
-</div>
+
+    <!-- 5. CP Level Privileges Modal -->
+    <div id="cp-level-modal" class="overlay-screen cp-level-bg">
+        <div class="top-nav-bar transparent">
+            <i class="fas fa-chevron-left" onclick="closeModal('cp-level-modal')"></i>
+            <span class="nav-title">CP Level</span>
+        </div>
+        <div class="cp-level-body scrollable">
+            <div class="lv-crown">LV.3</div>
+            <div class="privilege-grid">
+                <div class="priv-card"><span>CP Card</span></div>
+                <div class="priv-card"><span>Online Effect</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Invite Get Gold Modal -->
+    <div id="invite-gold-modal" class="overlay-screen invite-gold-bg">
+        <div class="top-nav-bar transparent">
+            <i class="fas fa-chevron-left" onclick="closeModal('invite-gold-modal')"></i>
+            <span class="nav-title">Invite Get Gold</span>
+        </div>
+        <div class="invite-body scrollable">
+            <h1>Invite Get Gold</h1>
+            <button class="btn-get-coins">Get Coins</button>
+        </div>
+    </div>
+
+    <!-- 7. Language Selection Modal -->
+    <div id="language-modal" class="overlay-screen bg-light">
+        <div class="top-nav-bar">
+            <i class="fas fa-chevron-left" onclick="closeModal('language-modal')"></i>
+            <span class="nav-title">Language</span>
+            <span class="nav-right text-cyan font-bold" onclick="closeModal('language-modal')">Save</span>
+        </div>
+        <div class="language-list scrollable">
+            <div class="lang-item active">English</div>
+            <div class="lang-item">हिन्दी</div>
+            <div class="lang-item">বাংলা</div>
+            <div class="lang-item">العربية</div>
+        </div>
+    </div>
+
+    <!-- 8. Settings Modal -->
+    <div id="settings-modal" class="overlay-screen bg-light">
+        <div class="top-nav-bar">
+            <i class="fas fa-chevron-left" onclick="closeModal('settings-modal')"></i>
+            <span class="nav-title">Settings</span>
+        </div>
+        <div class="settings-list">
+            <div class="setting-item"><span>Account Binding</span><i class="fas fa-chevron-right"></i></div>
+            <div class="setting-item" onclick="alert('Cache Cleared!')"><span>Clear Cache (49MB)</span><i class="fas fa-chevron-right"></i></div>
+            <div class="setting-item"><span>Current Version (3.8.2)</span></div>
+        </div>
+    </div>
+
+    <!-- 9. Feedback Modal -->
+    <div id="feedback-modal" class="overlay-screen bg-light">
+        <div class="top-nav-bar">
+            <i class="fas fa-chevron-left" onclick="closeModal('feedback-modal')"></i>
+            <span class="nav-title">Feedback</span>
+        </div>
+        <div class="feedback-body scrollable p-15">
+            <label>Problem Description</label>
+            <textarea class="fb-textarea" placeholder="Enter problem details here"></textarea>
+            <button class="btn-complete-gradient" onclick="alert('Submitted!'); closeModal('feedback-modal');">Complete</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
